@@ -16,12 +16,36 @@ We generated the data:
 
 **boolODE_Sep13**
 
-TODO: Describe the data name and the generation details (how the graph changed). Here I only keep the 1to2 relationship.
+Initial Grpah:
+- nodes = 18 (12 TFs, 6 Target genes)
+- edges = 18 (TF regulates (1 or 2) TFs/Target genes, '1to2' topology)
 
-* `continue_gt_adj_1to2.npy` and `continue_sorted_exp_1to2.npy`:
-  
-* `discrete_gt_adj_1to2.npy` and `discrete_sorted_exp_1to2.npy`:
+Graph Evolving/Perturb rules:
+- Total time points = 7,500
+- Continuous change = Every 5 time points, 2 interactions are randomly exchanged
+- Discrete change = Every 1,500 time points, 10 interactions are randomly exchanged
+
+Data: 
+- '*_sorted_exp_1to2.npy' = Gene expression data 
+- '*_gt_adj_1to2.npy' = Ground-Truth adjacency matrix (Boolean)
+
+* `continue_gt_adj_1to2.npy`(7500, 18, 18) and `continue_sorted_exp_1to2.npy`(7500, 18) 
+* `discrete_gt_adj_1to2.npy`(7500, 18, 18) and `discrete_sorted_exp_1to2.npy`(7500, 18) 
 
 **linearODE_Sep13**
 
-Please add data
+Initial Grpah:
+- nodes = 18 (12 TFs, 6 Target genes)
+- edges = 18 (TF regulates (non-TF) Target genes)
+
+Graph Evolving/Perturb rules:
+- Total time points = 7,500
+- Continuous change = Every 5 time points, 2 interactions are randomly exchanged
+- Discrete change = Every 1,500 time points, 10 interactions are randomly exchanged
+
+Data: 
+- '*_exp_linear_sim.npy' = Gene expression data 
+- '*_gt_adj_linear_sim.npy' = Ground-Truth adjacency matrix (Boolean)
+
+* `continue_gt_adj_linear_sim.npy`(7500, 18, 18) and `continue_exp_linear_sim.npy`(7500, 18) 
+* `discrete_gt_adj_linear_sim.npy`(7500, 18, 18) and `discrete_exp_linear_sim.npy`(7500, 18) 
