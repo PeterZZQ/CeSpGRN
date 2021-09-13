@@ -12,108 +12,6 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 torch_sqrtm = MatrixSquareRoot.apply
 
-
-# vanilla gradient descent
-class G_grad():
-    def __init__(self, X, K, lr = 1e-3, seed = 0, theta_init = None):
-        super(G_grad, self).__init__()
-        # set random seed
-        if seed is not None:
-            torch.manual_seed(seed)
-
-        # shape (ntimes, nsamples, ngenes)
-        self.X = torch.FloatTensor(X).to(device)
-        self.ntimes, self.nsamples, self.ngenes = self.X.shape
-
-        # TODO: consider the mean for variance calculation
-        # shape (ntimes, nsamples, ngenes)
-        self.epir_mean = self.X.mean(dim = 1, keepdim = True).expand(self.ntimes, self.nsamples, self.ngenes)
-        X = self.X - self.epir_mean
-        # (ntimes * nsamples, ngenes, ngenes)
-        self.empir_cov = torch.bmm(X.reshape((self.ntimes * self.nsamples, self.ngenes, 1)), X.reshape((self.ntimes * self.nsamples, 1, self.ngenes)))
-        # (ntimes, ngenes, ngenes)
-        self.empir_cov = torch.sum(self.empir_cov.reshape((self.ntimes, self.nsamples, self.ngenes, self.ngenes)), dim = 1)/(self.nsamples - 1)
-
-        self.lr = lr
-
-        self.diag_mask = torch.eye(self.ngenes).to(device)
-
-        # shape (ngenes, ngenes) 
-        if theta_init is None:   
-            theta = (1 - self.diag_mask) * torch.randn(self.ngenes, self.ngenes).to(device)
-            # make symmetric
-            theta = (theta + theta.t()) * 0.5
-            self.theta = nn.Parameter(theta)
-        else:
-            self.theta = nn.Parameter(torch.FloatTensor(theta_init))
-
-        # make PD
-        ll = torch.cholesky(self.theta)
-        self.theta = torch.matmul(ll, ll.transpose(-1, -2)).to(device)        
-        self.opt = Adam(self.parameters(), lr = self.lr)
-
-        # shape (ntimes, ntimes)
-        self.weights = torch.FloatTensor(K).to(device)
-        self.best_loss = 1e6
-
-    @staticmethod
-    def neg_lkl_loss(theta, S):
-        """\
-        Description:
-        --------------
-            The negative log likelihood function
-        Parameters:
-        --------------
-            theta:
-                The estimated theta
-            S:
-                The empirical covariance matrix
-        Return:
-        --------------
-            The negative log likelihood value
-        """
-        t1 = -1*torch.logdet(theta)
-        t2 = torch.trace(torch.matmul(S, theta))
-        return t1 + t2
-
-    def train(self, t, n_iter = 5000, n_intervals = 1000, lamb = 2.1e-4):
-        count = 0
-        w = self.weights[t,:][:,None]
-        assert (w.sum() - 1).abs() < 1e-6
-
-        for it in range(n_iter):  
-            self.opt.zero_grad()
-            loss1 = (w * self.neg_lkl_loss()).sum()
-            loss2 = lamb * (self.theta - self.diag_mask * self.theta).abs().sum()
-            loss = loss1 + loss2
-            loss.backward()
-            self.opt.step()
-
-            # Validation
-            if (it + 1) % n_intervals == 0:
-                with torch.no_grad():
-                    loss1 = self.neg_lkl_loss(self.theta, torch.sum(w * self.empir_cov, dim = 0))
-                    loss2 = lamb * (self.theta - self.diag_mask * self.theta).abs().sum()
-                    valid_loss = loss1 + loss2
-                print("n_iter: {}, loss: {:.8f}".format(it+1, valid_loss.item()))
-                
-                info = [
-                    'negative log lkl: {:.5f}'.format(loss1.item()),
-                    'sparsity loss: {:.5f}'.format(loss2.item())
-                ]
-                for i in info:
-                    print("\t", i)
-                
-                if valid_loss.item() >= self.best_loss:
-                    count += 1
-                    if count % 10 == 0:
-                        self.optimizer.param_groups[0]['lr'] *= 0.5
-                        print('Epoch: {}, shrink lr to {:.4f}'.format(t + 1, self.optimizer.param_groups[0]['lr']))
-                        if self.optimizer.param_groups[0]['lr'] < 1e-6:
-                            break
-        return self.theta
-
-
 # GLAD
 class G_glad():
     def __init__(self, X, K, TF = None, seed = 0, theta_init = None, pre_cov = None):
@@ -126,7 +24,7 @@ class G_glad():
         self.X = torch.FloatTensor(X).to(device)
         self.ntimes, self.nsamples, self.ngenes = self.X.shape
 
-        # TODO: consider the mean for variance calculation
+        # Calculate the time series empirical covariance matrix
         if pre_cov is None:
             # shape (ntimes, nsamples, ngenes)
             self.epir_mean = self.X.mean(dim = 1, keepdim = True).expand(self.ntimes, self.nsamples, self.ngenes)
@@ -337,11 +235,11 @@ class G_glad_batch():
         return (self.thetas * (1 - self.diag_mask)).data.cpu().numpy()
         # return self.theta.data.cpu().numpy()
 
-"""
-# ISTA
-class G_ista():
+
+# vanilla gradient descent
+class G_glad_grad():
     def __init__(self, X, K, lr = 1e-3, seed = 0, theta_init = None):
-        super(G_ista, self).__init__()
+        super(G_glad_grad, self).__init__()
         # set random seed
         if seed is not None:
             torch.manual_seed(seed)
@@ -349,9 +247,15 @@ class G_ista():
         # shape (ntimes, nsamples, ngenes)
         self.X = torch.FloatTensor(X).to(device)
         self.ntimes, self.nsamples, self.ngenes = self.X.shape
-        self.empir_cov = torch.bmm(self.X.reshape((self.ntimes * self.nsamples, self.ngenes, 1)), self.X.reshape((self.ntimes * self.nsamples, 1, self.ngenes)))
-        # shape (ntimes, ngenes, ngenes)
-        self.empir_cov = torch.mean(self.empir_cov.reshape((self.ntimes, self.nsamples, self.ngenes, self.ngenes)), dim = 1)
+
+        # TODO: consider the mean for variance calculation
+        # shape (ntimes, nsamples, ngenes)
+        self.epir_mean = self.X.mean(dim = 1, keepdim = True).expand(self.ntimes, self.nsamples, self.ngenes)
+        X = self.X - self.epir_mean
+        # (ntimes * nsamples, ngenes, ngenes)
+        self.empir_cov = torch.bmm(X.reshape((self.ntimes * self.nsamples, self.ngenes, 1)), X.reshape((self.ntimes * self.nsamples, 1, self.ngenes)))
+        # (ntimes, ngenes, ngenes)
+        self.empir_cov = torch.sum(self.empir_cov.reshape((self.ntimes, self.nsamples, self.ngenes, self.ngenes)), dim = 1)/(self.nsamples - 1)
 
         self.lr = lr
 
@@ -366,38 +270,52 @@ class G_ista():
         else:
             self.theta = nn.Parameter(torch.FloatTensor(theta_init))
 
+        # make PD
+        ll = torch.cholesky(self.theta)
+        self.theta = torch.matmul(ll, ll.transpose(-1, -2)).to(device)        
         self.opt = Adam(self.parameters(), lr = self.lr)
 
         # shape (ntimes, ntimes)
-        self.kernel = ((np.ones(X.shape[0])/X.shape[0])*K)/np.sum(K,axis=0)
-        self.kernel = torch.FloatTensor(self.kernel).to(device)
-        
+        self.weights = torch.FloatTensor(K).to(device)
         self.best_loss = 1e6
 
-    def neg_lkl_loss(self):
-        neg_lkl = - self.ntimes/2 * torch.logdet(self.theta) + self.ntimes/2 * torch.trace(torch.bmm(self.empir_cov, self.theta[None,:,:]))
-        assert neg_lkl.shape[0] == self.ntimes
-        # shape (ntimes)
-        return neg_lkl
+    @staticmethod
+    def neg_lkl_loss(theta, S):
+        """\
+        Description:
+        --------------
+            The negative log likelihood function
+        Parameters:
+        --------------
+            theta:
+                The estimated theta
+            S:
+                The empirical covariance matrix
+        Return:
+        --------------
+            The negative log likelihood value
+        """
+        t1 = -1*torch.logdet(theta)
+        t2 = torch.trace(torch.matmul(S, theta))
+        return t1 + t2
 
     def train(self, t, n_iter = 5000, n_intervals = 1000, lamb = 2.1e-4):
         count = 0
-        k = self.kernel[t,:][:,None]
+        w = self.weights[t,:][:,None]
+        assert (w.sum() - 1).abs() < 1e-6
 
         for it in range(n_iter):  
             self.opt.zero_grad()
-            loss1 = (k * self.neg_lkl_loss()).sum()
-            loss1.backward()
+            loss1 = (w * self.neg_lkl_loss()).sum()
+            loss2 = lamb * (self.theta - self.diag_mask * self.theta).abs().sum()
+            loss = loss1 + loss2
+            loss.backward()
             self.opt.step()
-
-            # soft-thresholding
-            with torch.no_grad():
-                self.theta.data = (self.theta >= lamb * self.lr) * (self.theta - lamb * self.lr) + (self.theta <= - lamb * self.lr) * (self.theta + lamb * self.lr)
 
             # Validation
             if (it + 1) % n_intervals == 0:
                 with torch.no_grad():
-                    loss1 = (k * self.neg_lkl_loss()).sum()
+                    loss1 = self.neg_lkl_loss(self.theta, torch.sum(w * self.empir_cov, dim = 0))
                     loss2 = lamb * (self.theta - self.diag_mask * self.theta).abs().sum()
                     valid_loss = loss1 + loss2
                 print("n_iter: {}, loss: {:.8f}".format(it+1, valid_loss.item()))
@@ -416,6 +334,5 @@ class G_ista():
                         print('Epoch: {}, shrink lr to {:.4f}'.format(t + 1, self.optimizer.param_groups[0]['lr']))
                         if self.optimizer.param_groups[0]['lr'] < 1e-6:
                             break
-            
         return self.theta
-"""
+
