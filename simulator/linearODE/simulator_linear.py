@@ -86,11 +86,12 @@ def dyn_GRN(setting = {}):
             #     print(Gt[del_idx])
 
             # delete, reduce to 0
-            del_idx = np.random.choice(np.where(Gt != 0)[0], nchanges, replace = False)
+            del_candid = np.array(list(set(np.where(Gt != 0)[0]).intersection(set(active_area.reshape(-1)))))
+            del_idx = np.random.choice(del_candid, nchanges, replace = False)
             # add, increase to
 
-            candidates = np.array(list(set(np.where(Gt == 0)[0]).intersection(set(active_area.reshape(-1)))))
-            add_idx = np.random.choice(candidates, nchanges, replace = False)
+            add_candid = np.array(list(set(np.where(Gt == 0)[0]).intersection(set(active_area.reshape(-1)))))
+            add_idx = np.random.choice(add_candid, nchanges, replace = False)
             # add_value = np.random.normal(loc = 0, scale = 1, size = nchanges) / change_stepsize
 
             ### "Change" ###
