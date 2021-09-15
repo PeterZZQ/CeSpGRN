@@ -51,8 +51,8 @@ def kernel_band(bandwidth, ntimes, truncate = False):
 # In[1] read in data
 path = "../../data/boolODE_Sep13/"
 result_dir = "./continuous/"
-sorted_exp = np.load(path + "continue_sorted_exp_1to2.npy")[:, :1500]
-gt_adj = np.load(path + "continue_gt_adj_1to2.npy")[:1500, :, :]
+sorted_exp = np.load(path + "continue_sorted_exp_1to2.npy")[:, :150]
+gt_adj = np.load(path + "continue_gt_adj_1to2.npy")[:150, :, :]
 
 # preprocessing
 X = preprocess(sorted_exp.T)
@@ -103,14 +103,13 @@ for bandwidth in [0.01, 0.1, 1, 10]:
             #     # TODO: the dual residual keep exploding, maybe check the def of dual residual and tune the parameter (in this case, reducing rh), in addition, include the mode of varying dual residual.
             #     gadmm_single = g_admm.G_admm(X = X[:,None,:], K = K, pre_cov = empir_cov)
             #     # setting from the paper over-relaxation model
-            #     thetas_weighted[time] = gadmm_single.train(t = time, max_iters = max_iters, n_intervals = 10, lamb = lamb , alpha = 2, rho = 1.7, theta_init_offset = 0.1)
+            #     thetas_weighted[time] = gadmm_single.train(t = time, max_iters = max_iters, n_intervals = 100, lamb = lamb , alpha = 2, rho = 1.7, theta_init_offset = 0.1)
             #     # adaptive rho
             #     # thetas_weighted[time] = gadmm_single.train(t = time, max_iters = max_iters, n_intervals = 10, lamb = lamb , alpha = 1, rho = None, theta_init_offset = 0.1)
             #     break
-            # break
-
+            
             gadmm_batch = g_admm.G_admm_batch(X = X[:,None,:], K = K, pre_cov = empir_cov)
-            glad_thetas_weighted = gadmm_batch.train(max_iters = max_iters, n_intervals = 1, alpha = 2, lamb = lamb , rho = 1.7, theta_init_offset = 0.1)
+            glad_thetas_weighted = gadmm_batch.train(max_iters = max_iters, n_intervals = 100, alpha = 2, lamb = lamb , rho = 1.7, theta_init_offset = 0.1)
             # np.save(file = result_dir + "glad_thetas_weighted_" + str(bandwidth) + "_" + str(lamb) + "_" + str(rho) + ".npy", arr = glad_thetas_weighted)  
 
 
