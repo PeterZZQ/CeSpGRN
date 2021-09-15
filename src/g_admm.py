@@ -70,7 +70,7 @@ class G_admm():
         return t1 + t2
 
 
-    def train(self, t, max_iters = 50, n_intervals = 1, lamb = 2.1e-4, rho = None, beta = 0, theta_init_offset = 0.1):
+    def train(self, t, max_iters = 50, n_intervals = 1, lamb = 2.1e-4, alpha = 1, rho = None, beta = 0, theta_init_offset = 0.1):
         # kernel function
         w = self.weights[t,:][:,None, None]
         assert (w.sum() - 1).abs() < 1e-6
@@ -99,17 +99,20 @@ class G_admm():
             Y = U - Z + empir_cov_ave/rho # (ngenes, ngenes)
             theta = - 0.5 * Y + torch_sqrtm(Y.t() @ Y * 0.25 + I/rho)
             Z_pre = Z.detach().clone()
+            # over-relaxation
+            theta = alpha * theta + (1 - alpha) * Z_pre
             Z = torch.sign(theta + U) * torch.max((rho * (theta + U).abs() - lamb)/(rho + beta * self.mask), zero)
             assert Z.shape == (self.ngenes, self.ngenes)
 
             # Dual
             U = U + theta - Z
 
+            # calculate residual
+            primal_residual = torch.sqrt((theta - Z).pow(2).sum())
+            dual_residual = rho * torch.sqrt((Z - Z_pre).pow(2).sum())
+            
             # updating rho
             if updating_rho:
-                # calculate residual to adjust for rho, can also be used as stopping criteria
-                primal_residual = torch.sqrt((theta - Z).pow(2).sum())
-                dual_residual = rho * torch.sqrt((Z - Z_pre).pow(2).sum())
                 if primal_residual > 10 * dual_residual:
                     rho =  rho * 2
                 elif dual_residual > 10 * primal_residual:
@@ -128,16 +131,18 @@ class G_admm():
                 duality_gap = rho * torch.trace(U.T @ (Z - theta))
                 print("n_iter: {}, duality gap: {:.4e}, primal residual: {:.4e}, dual residual: {:4e}".format(it+1, duality_gap.item(), primal_residual.item(), dual_residual.item()))
                 # duality gap is reducing extremely fast, and even duality gap reduce sometime, dual residual may explod
-                if duality_gap.abs() < 1e-12:
-                    break
+                # if duality_gap.abs() < 1e-8:
+                #     break
 
                 # epsilon_abs = 1e-4
                 # epsilon_rel = 1e-4
                 # primal_eps = np.sqrt(theta.shape[0]) * epsilon_abs + epsilon_rel * max(theta.pow(2).sum().sqrt(), Z.pow(2).sum().sqrt())
                 # dual_eps = np.sqrt(theta.shape[0]) * epsilon_abs + epsilon_rel * U.pow(2).sum().sqrt()
                 # print("primal_eps: {:.4e}, dual_eps: {:.4e}".format(primal_eps, dual_eps))
-                # if (primal_residual < primal_eps) and (dual_residual < dual_eps):
-                #     break
+                primal_eps = 1e-6
+                dual_eps = 1e-6
+                if (primal_residual < primal_eps) and (dual_residual < dual_eps):
+                    break
 
             it += 1
         
@@ -225,7 +230,7 @@ class G_admm_batch():
         return t1 + t2
 
 
-    def train(self, max_iters = 50, n_intervals = 1, lamb = 2.1e-4, rho = 1, beta = 0, theta_init_offset = 0.1):
+    def train(self, max_iters = 50, n_intervals = 1, lamb = 2.1e-4, alpha = 1, rho = 1, beta = 0, theta_init_offset = 0.1):
         
        # initialize
         Z = torch.diag_embed(1/(torch.diagonal(self.w_empir_cov, offset=0, dim1=-2, dim2=-1) + theta_init_offset))
@@ -248,24 +253,22 @@ class G_admm_batch():
             # Primal 
             Y = U - Z + self.w_empir_cov/rho    # (ntimes, ngenes, ngenes)
             thetas = - 0.5 * Y + torch.stack([torch_sqrtm(mat) for mat in (torch.transpose(Y,1,2) @ Y * 0.25 + I/rho)])
-            Z_pre = Z.detach().clone()            
+            Z_pre = Z.detach().clone()
+            # over-relaxation
+            thetas = alpha * thetas + (1 - alpha) * Z_pre            
             Z = torch.sign(thetas + U) * torch.max((rho * (thetas + U).abs() - lamb)/(rho + beta * self.mask), torch.Tensor([0]).to(device))
             assert Z.shape == (self.ntimes, self.ngenes, self.ngenes)
 
             # Dual
             U = U + thetas - Z
 
+            # calculate residual
+            # primal_residual and dual_residual of the shape (ntimes, 1, 1)
+            primal_residual = torch.sqrt((thetas - Z).pow(2).sum(1).sum(1))
+            dual_residual = rho.squeeze() * torch.sqrt((Z - Z_pre).pow(2).sum(1).sum(1))
+
             # updating rho, rho should be of shape (ntimes, 1, 1)
             if updating_rho:
-                # calculate residual to adjust for rho, can also be used as stopping criteria
-                # primal_residual and dual_residual of the shape (ntimes, 1, 1)
-                primal_residual = torch.sqrt((thetas - Z).pow(2).sum(1).sum(1))
-                # print(Z.shape)
-                # print(Z_pre.shape)
-                # print(rho.shape)
-                dual_residual = rho.squeeze() * torch.sqrt((Z - Z_pre).pow(2).sum(1).sum(1))
-                # print(primal_residual.shape)
-                # print(dual_residual.shape)
                 mask_inc = (primal_residual > 10 * dual_residual)
                 rho[mask_inc, :, :] = rho[mask_inc, :, :] * 2
                 mask_dec = (dual_residual > 10 * primal_residual)
@@ -285,10 +288,14 @@ class G_admm_batch():
                 # simplify sum of all duality gap
                 duality_gap = rho * torch.stack([torch.trace(mat) for mat in torch.bmm(U.permute(0,2,1), Z - thetas)])
                 duality_gap = duality_gap.sum()
-                print("n_iter: {}, duality gap: {:.8f}".format(it+1, duality_gap.item()))
+                print("n_iter: {}, duality gap: {:.4e}, primal residual: {:.4e}, dual residual: {:4e}".format(it+1, duality_gap.item(), primal_residual.sum().item(), dual_residual.sum().item()))
                 
-                if duality_gap < 1e-9:
-                    break
+                # if duality_gap < 1e-8:
+                #     break
+                primal_eps = 1e-6
+                dual_eps = 1e-6
+                if (primal_residual.sum() < primal_eps) and (dual_residual.sum() < dual_eps):
+                    break                
             it += 1
 
         loss1 = self.neg_lkl_loss(Z, self.w_empir_cov).sum()

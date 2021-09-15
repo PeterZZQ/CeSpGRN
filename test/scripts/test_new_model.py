@@ -66,6 +66,9 @@ ntimes, ngenes = X.shape
 tf = list(set(np.nonzero(gt_adj[0])[1]))
 
 # In[2] Model
+import importlib
+importlib.reload(g_admm)
+
 sample = torch.FloatTensor(X)
 max_iters = 1000
 
@@ -99,8 +102,12 @@ for bandwidth in [0.01, 0.1, 1, 10]:
                 rho = 0.1
                 # TODO: the dual residual keep exploding, maybe check the def of dual residual and tune the parameter (in this case, reducing rh), in addition, include the mode of varying dual residual.
                 gadmm_single = g_admm.G_admm(X = X[:,None,:], K = K, pre_cov = empir_cov)
-                thetas_weighted[time] = gadmm_single.train(t = time, max_iters = max_iters, n_intervals = 10, lamb = lamb , rho = None, theta_init_offset = 0.1)
-
+                # setting from the paper over-relaxation model
+                thetas_weighted[time] = gadmm_single.train(t = time, max_iters = max_iters, n_intervals = 10, lamb = lamb , alpha = 2, rho = 1.7, theta_init_offset = 0.1)
+                # adaptive rho
+                # thetas_weighted[time] = gadmm_single.train(t = time, max_iters = max_iters, n_intervals = 10, lamb = lamb , alpha = 1, rho = None, theta_init_offset = 0.1)
+                break
+            break
 
             # gadmm_batch = g_admm.G_admm_batch(X = X[:,None,:], K = K, pre_cov = empir_cov)
             # glad_thetas_weighted = gadmm_batch.train(max_iters = max_iters, n_intervals = 1, lamb = lamb , rho = 1, theta_init_offset = 0.1)
