@@ -1,7 +1,9 @@
 import numpy as np
 import pandas as pd
 import csv
-
+import copy
+from itertools import combinations
+import parsing_fnc as fnc
 
 # Load initial graph - SERGIO
 def load_sergio(grn_init):
@@ -231,3 +233,111 @@ def graph_perturbation_gen(activate_dict, inactivate_dict, all_regul, gen_num):
             all_regul.append([target,regul,0])
     
     return activate_dict, inactivate_dict, all_regul
+
+def model_generate(df, settings, withRules, inputs, par, genelist, proteinlist, varspecs):
+    boolodespace = {}
+    par_each = copy.deepcopy(par)
+    
+    for node in withRules:
+        # Initialize species to 0
+        tempStr = node + " = 0"  
+        exec(tempStr, boolodespace)
+
+    # Basal expression: Execute the rule to figure out the value of alpha_0 or omega_0
+    for i,row in df.iterrows():
+        exec('booleval = ' + row['Rule'], boolodespace)
+        if settings['modeltype'] == 'hill':
+            par_each['alpha_'+row['Gene']] = int(boolodespace['booleval'])
+        elif settings['modeltype'] == 'heaviside':
+            par_each['omega_' + row['Gene']] = (1 if int(boolodespace['booleval']) == 1 else -1)
+
+    for i,row in df.iterrows():
+        ## Parse Boolean rule to get list of regulators
+        allreg, regSpecies, regInputs = fnc.getRegulatorsInRule(row['Rule'],withRules,inputs)
+
+        # Basal expression term
+        currgene = row['Gene']
+        if settings['modeltype'] == 'hill':
+            num = '( alpha_' + currgene
+            den = '( 1'
+        elif settings['modeltype'] == 'heaviside':
+            exponent = '- sigmaH_' + currgene +'*( omega_' + currgene
+
+        # Loop over combinations of regulators        
+        for i in range(1,len(allreg) + 1):
+            for combinationOfRegulators in combinations(allreg,i):
+                regulatorExpression = fnc.createRegulatoryTerms(currgene, combinationOfRegulators, regSpecies, settings)
+
+                if settings['modeltype'] == 'hill':
+                    # Create Numerator and Denominator
+                    den += ' +' +  regulatorExpression
+                    num += ' + a_' + currgene +'_'  + '_'.join(list(combinationOfRegulators)) + '*' + regulatorExpression
+                elif settings['modeltype'] == 'heaviside':
+                    exponent += ' + w_' + currgene + '_' + '_'.join(list(combinationOfRegulators)) +'*' + regulatorExpression
+
+                # evaluate rule to assign values to parameters
+                ##################################################
+                for node in withRules:                 #
+                    exec(node + ' = 0', boolodespace)  #                        
+                # Set each regulator to ON, evaluate rule. we are looping over all such combinations of regulators
+                for geneInList in combinationOfRegulators:     #
+                    exec(geneInList + ' = 1', boolodespace)    #
+                                                               #
+                exec('boolval = ' + row['Rule'], boolodespace) #
+                ##################################################
+
+                if settings['modeltype'] == 'hill':
+                    par_each['a_' + currgene +'_'  + '_'.join(list(combinationOfRegulators))] = int(boolodespace['boolval'])
+                elif settings['modeltype'] == 'heaviside':
+                    par_each['w_' + currgene +'_'  + '_'.join(list(combinationOfRegulators))] = \
+                        kineticParameterDefaults['heavisideOmega']*(1 if int(boolodespace['boolval']) == 1 else -1)          
+
+        # Close expressions
+        if settings['modeltype'] == 'hill':
+            num += ' )'
+            den += ' )'
+            f = '(' + num + '/' + den + ')'
+        elif settings['modeltype'] == 'heaviside':
+            # In the case of heaviside expressions, to prevent
+            # numerical blowup, we trucate the magnitude of the
+            # regulatory terms
+            exponent += ')'
+            maxexp = '10.' # '100'
+            f = '(1./(1. + np.exp(np.sign('+exponent+')*min(' +maxexp +',abs(' + exponent+ ')))))'
+
+        if currgene in proteinlist:
+            Production =  f
+            Degradation = 'p_' + currgene
+            varspecs['p_' + currgene] = 'signalingtimescale*(y_max*' + Production \
+                                       + '-' + Degradation + ')'
+        else:
+            Production = 'm_'+ currgene + '*' + f
+            Degradation = 'l_x_'  + currgene + '*x_' + currgene
+            varspecs['x_' + currgene] =  Production + '-' + Degradation
+            # Create the corresponding translated protein equation
+            varspecs['p_' + currgene] = 'r_'+currgene+'*'+'x_' +currgene + '- l_p_'+currgene+'*'+'p_' + currgene
+
+    ##########################################################
+    # Initialize variables between 0 and 1, Doesn't matter.
+    xvals = [1. for _ in range(len(genelist))]
+    pvals = [20. for _ in range(len(proteinlist))]    
+    ics = {}
+
+    for node, xv in zip(genelist, xvals):
+        ics['x_' + node] = xv
+        ics['p_' + node] = 0
+    for node, pv in zip(proteinlist, pvals):
+        ics['p_' + node] = pv
+
+    ModelSpec = dict()
+    varmapper = dict()
+    parmapper = dict()
+
+    ModelSpec['varspecs'] = varspecs
+    ModelSpec['pars'] = par_each
+    ModelSpec['ics'] = ics
+
+    varmapper = {i:var for i,var in enumerate(ModelSpec['varspecs'].keys())}
+    parmapper = {i:par for i,par in enumerate(ModelSpec['pars'].keys())}
+
+    return ModelSpec, varmapper, parmapper
