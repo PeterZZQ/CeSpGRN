@@ -288,15 +288,20 @@ class G_admm_batch():
                 # duality_gap = primal_val - dual_val
 
                 # simplify min of all duality gap
-                duality_gap = rho * torch.stack([torch.trace(mat) for mat in torch.bmm(U.permute(0,2,1), Z - thetas)])
-                duality_gap = duality_gap.abs().min()
-                print("n_iter: {}, duality gap: {:.4e}, primal residual: {:.4e}, dual residual: {:4e}".format(it+1, duality_gap.item(), primal_residual.min().item(), dual_residual.min().item()))
+                duality_gap = rho.squeeze() * torch.stack([torch.trace(mat) for mat in torch.bmm(U.permute(0,2,1), Z - thetas)])
+                duality_gap = duality_gap.abs()
+                # print(primal_residual.shape)
+                # print(dual_residual.shape)
+                # print(duality_gap.shape)
+                print("n_iter: {}, duality gap: {:.4e}, primal residual: {:.4e}, dual residual: {:4e}".format(it+1, duality_gap[0].item(), primal_residual[0].item(), dual_residual[0].item()))
+                print("n_iter: {}, duality gap: {:.4e}, primal residual: {:.4e}, dual residual: {:4e}".format(it+1, duality_gap.max().item(), primal_residual.max().item(), dual_residual.max().item()))
+                print()
                 
                 # if duality_gap < 1e-8:
                 #     break
                 primal_eps = 1e-6
                 dual_eps = 1e-6
-                if (primal_residual.min() < primal_eps) and (dual_residual.min() < dual_eps):
+                if (primal_residual.max() < primal_eps) and (dual_residual.max() < dual_eps):
                     break                
             it += 1
 

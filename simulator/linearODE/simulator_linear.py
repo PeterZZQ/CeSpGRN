@@ -350,11 +350,12 @@ def run_simulator(ncells, ngenes=18,ntfs=12,tmax=75, mode = "TF-TF&target", ncha
     # Generate ground truth GRNs, ntimes, ngenes (TF), ngenes (Target)
     GRNs = dyn_GRN(setting = {"ngenes": ngenes, "ntfs": ntfs, "ntimes": argdict["tspan"].shape[0], \
         "mode": mode, "nchanges": nchanges, "change_stepsize": change_stepsize})
+    argdict["GRN"] = GRNs
     
-    # using the same graph
-    argdict["GRN"] = GRNs[0:1,:,:].repeat(GRNs.shape[0], axis = 0)
-    print(argdict["GRN"].shape)
-    print(GRNs.shape)
+    # # using the same graph
+    # argdict["GRN"] = GRNs[0:1,:,:].repeat(GRNs.shape[0], axis = 0)
+    # print(argdict["GRN"].shape)
+    # print(GRNs.shape)
 
     # make sure the time span is the same
     assert argdict["tspan"].shape[0] == argdict["GRN"].shape[0]
