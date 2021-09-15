@@ -90,7 +90,7 @@ class G_admm():
         it = 0
         if rho is None:
             updating_rho = True
-            rho = 1
+            rho = 1.7
         else:
             updating_rho = False
           
@@ -245,8 +245,9 @@ class G_admm_batch():
         if rho is None:
             updating_rho = True
             # rho of the shape (ntimes, 1, 1)
-            rho = torch.ones((Z.shape[0], 1, 1))
+            rho = torch.ones((Z.shape[0], 1, 1)) * 1.7
         else:
+            rho = torch.FloatTensor([rho] * Z.shape[0])[:, None, None]
             updating_rho = False
 
         while(it < max_iters): 
@@ -273,7 +274,8 @@ class G_admm_batch():
                 rho[mask_inc, :, :] = rho[mask_inc, :, :] * 2
                 mask_dec = (dual_residual > 10 * primal_residual)
                 rho[mask_dec, :, :] = rho[mask_dec, :, :] / 2
-
+            
+            # print(rho.squeeze())
             # free-up memory
             del Z_pre
             
@@ -285,16 +287,16 @@ class G_admm_batch():
                 # dual_val = loss + rho/2 * (thetas - Z + U).pow(2).sum() - rho/2 * U.pow(2).sum()
                 # duality_gap = primal_val - dual_val
 
-                # simplify sum of all duality gap
+                # simplify min of all duality gap
                 duality_gap = rho * torch.stack([torch.trace(mat) for mat in torch.bmm(U.permute(0,2,1), Z - thetas)])
-                duality_gap = duality_gap.sum()
-                print("n_iter: {}, duality gap: {:.4e}, primal residual: {:.4e}, dual residual: {:4e}".format(it+1, duality_gap.item(), primal_residual.sum().item(), dual_residual.sum().item()))
+                duality_gap = duality_gap.abs().min()
+                print("n_iter: {}, duality gap: {:.4e}, primal residual: {:.4e}, dual residual: {:4e}".format(it+1, duality_gap.item(), primal_residual.min().item(), dual_residual.min().item()))
                 
                 # if duality_gap < 1e-8:
                 #     break
                 primal_eps = 1e-6
                 dual_eps = 1e-6
-                if (primal_residual.sum() < primal_eps) and (dual_residual.sum() < dual_eps):
+                if (primal_residual.min() < primal_eps) and (dual_residual.min() < dual_eps):
                     break                
             it += 1
 
