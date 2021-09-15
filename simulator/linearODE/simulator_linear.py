@@ -172,8 +172,8 @@ def eulersde(argdict, alp = 0.1, bet = 0.05, dW=None):
     # span of pseudotime [0, step, ..., tmax]
     tspan = argdict['tspan']
     ntimes = len(tspan)
-    # dt is the time interval
-    dt = (tspan[ntimes-1] - tspan[0])/(ntimes - 1)
+    # dt is the time interval, the same as intergration stepsize
+    dt = (tspan[ntimes - 1] - tspan[0])/(ntimes - 1)
     # ground truth GRN, of the shape (ntimes, ngenes, ngenes)
     Gs = argdict["GRN"]
     y0 = argdict["init"]
@@ -339,24 +339,28 @@ def kendalltau(pt_pred, pt_true):
 
 # In[1]
 # initial setting
-def run_simulator(ngenes=18,ntfs=12,tmax=75, mode = "TF-TF&target", nchanges=10,change_stepsize=1500, alp = 0.1, bet = 0.05):
-    tmax = tmax
-    integration_step_size = 0.01
+def run_simulator(ncells, ngenes=18,ntfs=12,tmax=75, mode = "TF-TF&target", nchanges=10,change_stepsize=1500, alp = 0.1, bet = 0.05, integration_step_size = 0.01):
+    # simulation steps != ncells (ncells << simulation steps)
+
 
     argdict = dict()
     # range of pseudotime
     argdict["tspan"] = np.linspace(0, tmax, int(tmax/integration_step_size))
 
     # Generate ground truth GRNs, ntimes, ngenes (TF), ngenes (Target)
-    argdict["GRN"] = dyn_GRN(setting = {"ngenes": ngenes, "ntfs": ntfs, "ntimes": argdict["tspan"].shape[0], \
+    GRNs = dyn_GRN(setting = {"ngenes": ngenes, "ntfs": ntfs, "ntimes": argdict["tspan"].shape[0], \
         "mode": mode, "nchanges": nchanges, "change_stepsize": change_stepsize})
+    
+    # using the same graph
+    argdict["GRN"] = GRNs[0:1,:,:].repeat(GRNs.shape[0], axis = 0)
+    print(argdict["GRN"].shape)
+    print(GRNs.shape)
 
     # make sure the time span is the same
     assert argdict["tspan"].shape[0] == argdict["GRN"].shape[0]
 
     ntimes = argdict["GRN"].shape[0]
     ngenes = argdict["GRN"].shape[1]
-    ncells = 100
     # (ncells, ngenes, ntimes)
     Ps = []
     # initial gene expressions
