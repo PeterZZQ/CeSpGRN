@@ -39,7 +39,7 @@ def getRegulatorsInRule(rule, species, inputs):
 
 def createRegulatoryTerms(currgene, combinationOfRegulators, regSpecies, settings):
 
-    strengthSpecified = False
+    strengthSeepecified = False
 
     if settings['modeltype'] == 'hill':
         # Create the hill function terms for each regulator
