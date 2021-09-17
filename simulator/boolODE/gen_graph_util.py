@@ -240,12 +240,17 @@ def model_generate(df, settings, withRules, inputs, par, genelist, proteinlist, 
     
     for node in withRules:
         # Initialize species to 0
+        # create a runable script, first give g0, g1,...gn = 0, for all nodes with rules
         tempStr = node + " = 0"  
         exec(tempStr, boolodespace)
 
     # Basal expression: Execute the rule to figure out the value of alpha_0 or omega_0
     for i,row in df.iterrows():
+        # then calculate the booleval using the bool function and the intialized value above
+        # self-regulating genes, the value for alpha is 0
         exec('booleval = ' + row['Rule'], boolodespace)
+        # print('alpha_'+row['Gene'] + ": " + str(boolodespace['booleval']))
+        # here we usually use the hill function, 
         if settings['modeltype'] == 'hill':
             par_each['alpha_'+row['Gene']] = int(boolodespace['booleval'])
         elif settings['modeltype'] == 'heaviside':
@@ -266,8 +271,9 @@ def model_generate(df, settings, withRules, inputs, par, genelist, proteinlist, 
         # Loop over combinations of regulators        
         for i in range(1,len(allreg) + 1):
             for combinationOfRegulators in combinations(allreg,i):
+                print(combinationOfRegulators)
                 regulatorExpression = fnc.createRegulatoryTerms(currgene, combinationOfRegulators, regSpecies, settings)
-
+                print(regulatorExpression)
                 if settings['modeltype'] == 'hill':
                     # Create Numerator and Denominator
                     den += ' +' +  regulatorExpression
@@ -275,17 +281,18 @@ def model_generate(df, settings, withRules, inputs, par, genelist, proteinlist, 
                 elif settings['modeltype'] == 'heaviside':
                     exponent += ' + w_' + currgene + '_' + '_'.join(list(combinationOfRegulators)) +'*' + regulatorExpression
 
-                # evaluate rule to assign values to parameters
+                # evaluate rule to assign values to parameters, set the target gene to be 0,
                 ##################################################
                 for node in withRules:                 #
                     exec(node + ' = 0', boolodespace)  #                        
                 # Set each regulator to ON, evaluate rule. we are looping over all such combinations of regulators
+                # loop through all combination of regulators for current gene, and set them to be 1
                 for geneInList in combinationOfRegulators:     #
                     exec(geneInList + ' = 1', boolodespace)    #
                                                                #
                 exec('boolval = ' + row['Rule'], boolodespace) #
                 ##################################################
-
+                # calculate the value for a_gi_gj
                 if settings['modeltype'] == 'hill':
                     par_each['a_' + currgene +'_'  + '_'.join(list(combinationOfRegulators))] = int(boolodespace['boolval'])
                 elif settings['modeltype'] == 'heaviside':
