@@ -7,6 +7,41 @@ from itertools import product, permutations, combinations, combinations_with_rep
 from sklearn.metrics import precision_recall_curve, PrecisionRecallDisplay,roc_curve,auc,RocCurveDisplay, average_precision_score, roc_auc_score
 
 
+def NMSE(G_inf, G_true):
+    """\
+    Description:
+    ------------
+        Normalized Mean Square Error, in GLAD paper, used for two real value matrices
+    """
+    return ((G_inf - G_true) ** 2).sum()/(G_true ** 2).sum()
+
+def PS(G_inf, G_true):
+    """\
+    Description:
+    ------------
+        Probability of success, sign match, from GLAD paper
+    """
+    return int(np.all(np.sign(G_inf)==np.sign(G_true)))
+
+def pearson(G_inf, G_true):
+    """\
+    Description:
+    ------------
+        Pearson Correlation
+    """
+    import scipy.stats as stats
+    return stats.pearsonr(G_inf.reshape(-1), G_true.reshape(-1))
+
+def cossim(G_inf, G_true):
+    """\
+    Description:
+    ------------
+        Cosine similarity
+    """
+    G_inf_norm = np.sqrt((G_inf.reshape(-1) ** 2).sum())
+    G_true_norm = np.sqrt((G_true.reshape(-1) ** 2).sum())
+    return np.sum(G_inf.reshape(-1) * G_true.reshape(-1))/G_inf_norm/G_true_norm
+
 def compute_auc(estm_adj, gt_adj, directed = False):
     """\
     Description:
@@ -25,7 +60,7 @@ def compute_auc(estm_adj, gt_adj, directed = False):
         tpr: true positive rate
         AUPRC, AUROC
     """
-    # make symmetric
+    # make absolute and within (0,1)
     estm_norm_adj = np.abs(estm_adj)/np.max(np.abs(estm_adj) + 1e-12)
     
     if np.max(estm_norm_adj) == 0:

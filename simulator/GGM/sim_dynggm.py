@@ -1,7 +1,7 @@
+# In[0]
 # (main) simulate the GGM graph using diagonal domiance, following the glad implementation
 # (optional) simulate the GGM graph using partial orthogonal, following the paper On generating random Gaussian graphical models, seems to have certain advantages??
 # The key is to make the graph Symm+Positive definite
-# In[0]
 import numpy as np
 from scipy.linalg import eigh
 
@@ -24,7 +24,8 @@ def make_PD(G, bias = 0.1):
     """
 
     smallest_eigval = np.min(np.linalg.eigvals(G))
-    if smallest_eigval <= 0:
+    # if make 0, then the smallest eigenvalue might be negative after inverse (numerical issue)
+    if smallest_eigval <= 0.0:
         precision_mat = G + np.eye(G.shape[0])*(np.abs(smallest_eigval)+ bias)
     else:
         precision_mat = G
@@ -32,8 +33,9 @@ def make_PD(G, bias = 0.1):
 
 def isPSD(A, tol=1e-7):
     E,V = eigh(A)
-    print('min_eig = ', np.min(E) , 'max_eig = ', np.max(E), ' min_diag = ', np.min(np.diag(A)))
-    return np.all(E > -tol)
+    # print('min_eig = ', np.min(E) , 'max_eig = ', np.max(E), ' min_diag = ', np.min(np.diag(A)))
+    # make sure symmetric positive definite
+    return np.all(E > -tol) & np.allclose(A, A.T, atol = tol)
 
 
 def dyn_GRN(setting = {}):
@@ -57,9 +59,13 @@ def dyn_GRN(setting = {}):
     ntimes = _setting["ntimes"]
     # mode, include: "TF-target" (only edges between TFs and targets), "TF-TF&target" (edges between TFs or edges between TFs and targets)
     mode = _setting["mode"]
+    # ntfs: number of tfs
     ntfs = _setting["ntfs"]
+    # nchanges: how many edges to permute every ``change_stepsize'' steps
     nchanges = _setting["nchanges"]
+    # change_stepsize: permute edges every ``change_stepsize'' steps
     change_stepsize = _setting["change_stepsize"]
+    # connected_acyclic: if the graph include cycles, under development
     connected_acyclic = _setting["connected_acyclic"]
 
     np.random.seed(_setting["seed"])
@@ -77,21 +83,12 @@ def dyn_GRN(setting = {}):
     M = (np.abs(G0) > threshold).astype(np.int)
     if mode ==  "TF-target":
         # assume the first ntfs are tf
-        # M = np.zeros_like(G0)
         M[:ntfs,:ntfs] = 0
-        M[ntfs:,:] = 0
+        M[ntfs:,ntfs:] = 0
     elif mode == "TF-TF&target":
-        # M = np.zeros_like(G0)
-        M[ntfs:,:] = 0
-        M[np.tril_indices(ntfs)] = 0
-        # M[:,ntfs:] = 0
-        # # make sure connected acyclic? mimum spanning tree
-        # if connected_acyclic:
-        #     graph = nx.from_numpy_matrix(G0[:ntfs, :ntfs])
-        #     # check connectivity, if not, restart with different seed
-        #     assert nx.is_connected(graph)
-        #     tree = nx.minimum_spanning_tree(graph)
-        #     M[:ntfs, :ntfs] = (nx.to_numpy_array(tree) != 0)
+        # make sure no interaction between target and target
+        M[ntfs:,ntfs:] = 0
+    
     G0 = G0 * M
 
     not_regulated = np.where(np.sum(G0, axis = 0) == 0)[0]
@@ -112,13 +109,13 @@ def dyn_GRN(setting = {}):
 
     if mode == "TF-TF&target":
         active_area = np.arange(ngenes**2).reshape(ngenes,ngenes)
-        active_area[ntfs:,:] = -1
+        active_area[ntfs:,ntfs:] = -1
         active_area[np.tril_indices(ntfs)] = -1
     
     elif mode == "TF-target":
         active_area = np.arange(ngenes**2).reshape(ngenes,ngenes)
-        active_area[ntfs:,:] = -1
-        active_area[:ntfs,:][:,:ntfs] = -1
+        active_area[ntfs:,ntfs:] = -1
+        active_area[:ntfs,:ntfs] = -1
 
     # graph changes
     for time in range(1, ntimes):
@@ -131,22 +128,39 @@ def dyn_GRN(setting = {}):
             # delete, reduce to 0
             del_candid = np.array(list(set(np.where(Gt != 0)[0]).intersection(set(active_area.reshape(-1)))))
             del_idx = np.random.choice(del_candid, nchanges, replace = False)
+            assert len(del_idx) == nchanges
             # add, increase to
-
             add_candid = np.array(list(set(np.where(Gt == 0)[0]).intersection(set(active_area.reshape(-1)))))
             add_idx = np.random.choice(add_candid, nchanges, replace = False)
-            # add_value = np.random.normal(loc = 0, scale = 1, size = nchanges) / change_stepsize
+            assert len(add_idx) == nchanges
 
-            ### "Change" ###
-            add_value = np.random.uniform(low = -1, high = 1, size = nchanges) / change_stepsize
-            del_value = Gt[del_idx] / change_stepsize
+            # make del_idx and add_idx symm
+            del_mask = np.zeros_like(Gt)
+            del_mask[del_idx] = 1
+            add_mask = np.zeros_like(Gt)
+            add_mask[add_idx] = np.random.uniform(low = -2, high = 2, size = nchanges) / change_stepsize
+            Gt = Gt.reshape((ngenes, ngenes))
+            del_mask = del_mask.reshape((ngenes, ngenes))
+            add_mask = add_mask.reshape((ngenes, ngenes))
+            del_mask = del_mask + del_mask.T
+            del_mask = Gt * del_mask / change_stepsize
+            assert np.allclose(del_mask, del_mask.T, atol = 1e-7)
+            print(Gt)
+            print()
+
+            print(del_mask)
+            print()
+
+            add_mask = add_mask + add_mask.T
+            assert np.allclose(add_mask, add_mask.T, atol = 1e-7)
+            print(add_mask)
+            print()
         else:
-            Gt = Gs[time - 1, :, :].reshape(-1)
+            Gt = Gs[time - 1, :, :]
 
         # update values
-        Gt[add_idx] = Gt[add_idx] + add_value
-        Gt[del_idx] = Gt[del_idx] - del_value
-        Gt = Gt.reshape((ngenes, ngenes))
+        Gt = Gt + add_mask
+        Gt = Gt - del_mask
 
         # make sure the genes that are not regulated by any genes are self-regulating
         not_regulated = np.where(np.sum(Gt, axis = 0) == 0)[0]
@@ -161,11 +175,12 @@ def dyn_GRN(setting = {}):
         Covs[time, :, :] = covt
 
         # check symm positive definite
+        # print(time)
         assert isPSD(Gt)
-
-        Gt = Gt.reshape(-1)
+        assert isPSD(covt)
 
     return Gs, Covs
+
 
 def gen_samples(Covs, nsamples = 1, seed = 0):
     """\
@@ -188,8 +203,9 @@ def gen_samples(Covs, nsamples = 1, seed = 0):
     datas = []
     for t in range(ntimes):
         cov = Covs[t, :, :]
+        assert isPSD(cov)
         data = np.random.multivariate_normal(mean = np.zeros(ngenes), cov = cov, size = nsamples)
-        print(data.shape)
+
         datas.append(data[None, :, :])
     
     # datas of the shape ntimes, nsamples, ngenes
@@ -199,8 +215,17 @@ def gen_samples(Covs, nsamples = 1, seed = 0):
 
     return datas
 
+
 # In[1]
-Gs, Covs = dyn_GRN(setting = {"ntimes": 100})
+ngenes = 20
+ntfs = 5
+ntimes = 1000
+interval = 200
+nchanges = 2
+Gs, Covs = dyn_GRN(setting = {"ngenes": ngenes, "ntimes": ntimes, "mode": "TF-TF&target", "ntfs": ntfs, "nchanges": nchanges, "change_stepsize": interval, "connected_acyclic": False, "seed": 0})
 samples = gen_samples(Covs, nsamples = 1, seed = 0)
+
+np.save(file = "../../data/GGM/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "/Gs.npy", arr = Gs)
+np.save(file = "../../data/GGM/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "/expr.npy", arr = samples)
 
 # %%
