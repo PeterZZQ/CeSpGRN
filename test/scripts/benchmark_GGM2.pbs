@@ -1,0 +1,13 @@
+#PBS -N benchmark_GGM2
+#PBS -q hive-himem
+#PBS -l nodes=1:ppn=4
+#PBS -l walltime=36:20:00
+#PBS -j oe
+#PBS -o benchmark_GGM2.out
+#PBS -m abe                            
+#PBS -M zzhang834@gatech.edu  
+
+cd $PBS_O_WORKDIR
+module load anaconda3
+conda activate myenv
+python benchmark_GGM2.py
