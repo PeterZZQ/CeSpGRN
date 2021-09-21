@@ -50,6 +50,8 @@ def kernel_band(bandwidth, ntimes, truncate = False):
 
     return K/np.sum(K,axis=1)[:,None]
 
+# In[1] read in data and preprocessing
+
 path = "../../data/GGM/"
 result_dir = "../results/GGM/"
 ntimes = 3000
@@ -68,12 +70,14 @@ ntfs = 5
 
 
 # In[2] Model
-import importlib
-importlib.reload(g_admm)
-
 sample = torch.FloatTensor(X).to(device)
 max_iters = 2000
-"""
+###############################################
+#
+# test without TF information
+#
+###############################################
+
 for bandwidth in [0.01, 0.1, 1, 10]:
 
     empir_cov = torch.zeros(ntimes, ngenes, ngenes).to(device)
@@ -96,19 +100,19 @@ for bandwidth in [0.01, 0.1, 1, 10]:
     for lamb in [0.01, 0.1, 1]:
         # test model without TF
         thetas = np.zeros((ntimes,ngenes,ngenes))
-
-        # setting from the paper over-relaxation model
-        # rho = 1.7
-        # gadmm_batch = g_admm.G_admm_batch(X = X[:,None,:], K = K, pre_cov = empir_cov)
-        # thetas = gadmm_batch.train(max_iters = max_iters, n_intervals = 100, alpha = 2, lamb = lamb , rho = rho, theta_init_offset = 0.1)
-        # np.save(file = result_dir + "thetas_" + str(bandwidth) + "_" + str(alpha) + "_" + str(lamb) + "_" + str(rho) + ".npy", arr = thetas) 
 
         # adaptive rho
         alpha = 1
         gadmm_batch = g_admm.G_admm_batch(X = X[:,None,:], K = K, pre_cov = empir_cov)
         thetas = gadmm_batch.train(max_iters = max_iters, n_intervals = 100, alpha = alpha, lamb = lamb , rho = None, theta_init_offset = 0.1)
         np.save(file = result_dir + "thetas_" + str(bandwidth) + "_" + str(alpha) + "_" + str(lamb) + "_adaptive_nomean.npy", arr = thetas) 
-"""
+
+###############################################
+#
+# test with TF information
+#
+###############################################
+
 for bandwidth in [0.01, 0.1, 1, 10]:
 
     empir_cov = torch.zeros(ntimes, ngenes, ngenes).to(device)
@@ -131,12 +135,6 @@ for bandwidth in [0.01, 0.1, 1, 10]:
     for lamb in [0.01, 0.1, 1]:
         # test model without TF
         thetas = np.zeros((ntimes,ngenes,ngenes))
-
-        # setting from the paper over-relaxation model
-        # rho = 1.7
-        # gadmm_batch = g_admm.G_admm_batch(X = X[:,None,:], K = K, pre_cov = empir_cov)
-        # thetas = gadmm_batch.train(max_iters = max_iters, n_intervals = 100, alpha = 2, lamb = lamb , rho = rho, theta_init_offset = 0.1)
-        # np.save(file = result_dir + "thetas_" + str(bandwidth) + "_" + str(alpha) + "_" + str(lamb) + "_" + str(rho) + ".npy", arr = thetas) 
 
         # adaptive rho
         alpha = 1
