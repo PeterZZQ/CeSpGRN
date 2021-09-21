@@ -52,10 +52,10 @@ def kernel_band(bandwidth, ntimes, truncate = False):
 
 # In[1] read in data and preprocessing
 
-path = "../../data/GGM/"
-result_dir = "../results/GGM/"
 ntimes = 3000
 interval = 200
+path = "../../data/GGM/"
+result_dir = "../results/GGM_" + str(ntimes) + "_" + str(interval) + "/"
 
 # the data smapled from GGM is zero-mean
 X = np.load(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "/expr.npy")
