@@ -30,9 +30,10 @@ def kernel_band(bandwidth, ntimes, truncate = False):
 
     return K/np.sum(K,axis=1)[:,None]
 
-
-data_dir = "../../data/GGM/ntimes_3000_interval_200/"
-result_dir = "../results/GGM/"
+ntimes = 3000
+interval = 200
+data_dir = "../../data/GGM/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "/"
+result_dir = "../results/GGM_" + str(ntimes) + "_" + str(interval) + "/"
 
 gt_adj = np.load(data_dir + "Gs.npy")
 gt_adj = np.concatenate([(x.T + x - np.diag(x))[None, :, :] for x in gt_adj], axis = 0)
