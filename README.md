@@ -5,10 +5,11 @@ Dynamical Gene Regulatory Network Inference.
 
 * `src` stores the inference algorithms.
 * `test` stores the `scripts` (testing scripts) and `results` (testing results).
-* `simulator` stores the simulation code, include two simulators: `boolODE` and `linearODE`
+* `simulator` stores the simulation code, include two simulators: `boolODE`, `linearODE` and `GGM`.
 * `data` stores the generated data
-  * `boolODE_Sep13` stores the data that we used to comprehensively test the model on Sep. 13th.
-
+  * `boolODE_Sep13` stores the bool ODE data that we used to comprehensively test the model on Sep. 13th.
+  * `linearODE_Sep13` stores the linear ODE data that we used to comprehensively test the model on Sep. 13th.
+  * `GGM` stores the Gaussian Graphical Model data that we used to test the model.
 
 
 ## Data
@@ -49,3 +50,11 @@ Data:
 
 * `continue_gt_adj_linear_sim.npy`(7500, 18, 18) and `continue_exp_linear_sim.npy`(7500, 18) 
 * `discrete_gt_adj_linear_sim.npy`(7500, 18, 18) and `discrete_exp_linear_sim.npy`(7500, 18) 
+
+
+**GGM**
+
+* `ntimes_1000_interval_200`: Gaussian graphical model with 1000 time points and 200 intervals for each edge permutation
+* `ntimes_3000_interval_200`: Gaussian graphical model with 3000 time points and 200 intervals for each edge permutation
+
+
