@@ -54,7 +54,16 @@ Data:
 
 **GGM**
 
-* `ntimes_1000_interval_200`: Gaussian graphical model with 1000 time points and 200 intervals for each edge permutation
-* `ntimes_3000_interval_200`: Gaussian graphical model with 3000 time points and 200 intervals for each edge permutation
+* `ntimes_1000_interval_200`: Gaussian graphical model with 1000 time points and 200 intervals for each edge permutation.
+* `ntimes_3000_interval_200`: Gaussian graphical model with 3000 time points and 200 intervals for each edge permutation.
 
+
+## Result
+**Test on GGM data**
+
+*Simulation parameter:* ntimes = 3000, interval = 200, ngenes = 20, ntfs = 5
+
+*Model hyper-parameters:* ADMM model, adaptive rho/fix rho, different alpha, bandwidth, lambda, using mean/not using mean for covariance calculation.
+
+*Best:* bandwidth = 0.01, lambda = 0.01, fix rho = 1.7, alpha = 1/2
 
