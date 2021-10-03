@@ -1,21 +1,23 @@
 # In[0]
-import g_admm
-import genie3
-import bmk_beeline as bmk
-from scipy.spatial.distance import pdist, squareform
 import pandas as pd
 import numpy as np
 import torch
 import torch.nn
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
-import sys
-import os
+import sys, os
 sys.path.append('../../src/')
+
+import matplotlib.pyplot as plt
+from scipy.spatial.distance import pdist, squareform
+
+import bmk_beeline as bmk
+import genie3, g_admm
 import kernel
 import time
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = torch.device("cpu")
 
 
 def preprocess(counts):
@@ -92,16 +94,16 @@ for interval in [100]:
             K, K_trun = kernel.kernel_band(bandwidth, ntimes, truncate = True)
 
             # building weighted covariance matrix, output is empir_cov of the shape (ntimes, ngenes, ngenes)
-            for time in range(ntimes):
-                weight = torch.FloatTensor(K_trun[time, :]).to(device)
+            for t in range(ntimes):
+                weight = torch.FloatTensor(K_trun[t, :]).to(device)
                 # assert torch.sum(weight) == 1
 
-                bin_weight = torch.FloatTensor((K_trun[time, :] > 0).astype(np.int))
+                bin_weight = torch.FloatTensor((K_trun[t, :] > 0).astype(np.int))
                 sample_mean = torch.sum(sample * weight[:, None], dim=0)
                 # sample_mean = torch.sum(sample * (bin_weight/torch.sum(bin_weight))[:, None], dim = 0)
 
                 norm_sample = sample - sample_mean[None, :]
-                empir_cov[time] = torch.sum(torch.bmm(norm_sample[:, :, None], norm_sample[:, None, :]) * weight[:, None, None], dim=0)
+                empir_cov[t] = torch.sum(torch.bmm(norm_sample[:, :, None], norm_sample[:, None, :]) * weight[:, None, None], dim=0)
             print("time calculating the kernel function: {:.2f} sec".format(time.time() - start_time))
 
             start_time = time.time()   
@@ -129,16 +131,16 @@ for interval in [100]:
             K, K_trun = kernel.kernel_band(bandwidth, ntimes, truncate = True)
 
             # building weighted covariance matrix, output is empir_cov of the shape (ntimes, ngenes, ngenes)
-            for time in range(ntimes):
-                weight = torch.FloatTensor(K_trun[time, :]).to(device)
+            for t in range(ntimes):
+                weight = torch.FloatTensor(K_trun[t, :]).to(device)
                 # assert torch.sum(weight) == 1
 
-                bin_weight = torch.FloatTensor((K_trun[time, :] > 0).astype(np.int))
+                bin_weight = torch.FloatTensor((K_trun[t, :] > 0).astype(np.int))
                 sample_mean = torch.sum(sample * weight[:, None], dim=0)
                 # sample_mean = torch.sum(sample * (bin_weight/torch.sum(bin_weight))[:, None], dim = 0)
 
                 norm_sample = sample - sample_mean[None, :]
-                empir_cov[time] = torch.sum(torch.bmm(norm_sample[:, :, None], norm_sample[:, None, :]) * weight[:, None, None], dim=0)
+                empir_cov[t] = torch.sum(torch.bmm(norm_sample[:, :, None], norm_sample[:, None, :]) * weight[:, None, None], dim=0)
             print("time calculating the kernel function: {:.2f} sec".format(time.time() - start_time))
 
             start_time = time.time() 
