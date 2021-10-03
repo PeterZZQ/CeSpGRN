@@ -29,9 +29,8 @@ def kernel_band(bandwidth, ntimes, truncate=False):
     if truncate == True:
         cutoff = mdis * 1.5
         mask = (squareform(D) < cutoff).astype(np.int)
-        K = K * mask
-
-    return K/np.sum(K, axis=1)[:, None]
+        K_trun = K * mask
+    return K/np.sum(K, axis=1)[:, None], K_trun/np.sum(K_trun, axis = 1)[:, None]
 
 def calc_kernel(X, k = 10, bandwidth = 1, truncate = False):
     """\
