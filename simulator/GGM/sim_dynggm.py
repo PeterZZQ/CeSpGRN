@@ -4,6 +4,7 @@
 # The key is to make the graph Symm+Positive definite
 import numpy as np
 from scipy.linalg import eigh
+import os
 
 
 def make_PD(G, bias = 0.1):
@@ -145,16 +146,16 @@ def dyn_GRN(setting = {}):
             del_mask = del_mask + del_mask.T
             del_mask = Gt * del_mask / change_stepsize
             assert np.allclose(del_mask, del_mask.T, atol = 1e-7)
-            print(Gt)
-            print()
+            # print(Gt)
+            # print()
 
-            print(del_mask)
-            print()
+            # print(del_mask)
+            # print()
 
             add_mask = add_mask + add_mask.T
             assert np.allclose(add_mask, add_mask.T, atol = 1e-7)
-            print(add_mask)
-            print()
+            # print(add_mask)
+            # print()
         else:
             Gt = Gs[time - 1, :, :]
 
@@ -217,15 +218,20 @@ def gen_samples(Covs, nsamples = 1, seed = 0):
 
 
 # In[1]
-ngenes = 20
-ntfs = 5
-ntimes = 1000
-interval = 200
-nchanges = 2
-Gs, Covs = dyn_GRN(setting = {"ngenes": ngenes, "ntimes": ntimes, "mode": "TF-TF&target", "ntfs": ntfs, "nchanges": nchanges, "change_stepsize": interval, "connected_acyclic": False, "seed": 0})
-samples = gen_samples(Covs, nsamples = 1, seed = 0)
+for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20), (100, 50)]:
+    # ngenes = 100
+    # ntfs = 5
+    ntimes = 3000
+    interval = 50
+    nchanges = 2
+    Gs, Covs = dyn_GRN(setting = {"ngenes": ngenes, "ntimes": ntimes, "mode": "TF-TF&target", "ntfs": ntfs, "nchanges": nchanges, "change_stepsize": interval, "connected_acyclic": False, "seed": 0})
+    samples = gen_samples(Covs, nsamples = 1, seed = 0)
 
-np.save(file = "../../data/GGM/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "/Gs.npy", arr = Gs)
-np.save(file = "../../data/GGM/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "/expr.npy", arr = samples)
+    if not os.path.exists("../../data/GGM/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/"):
+        os.makedirs("../../data/GGM/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/")
+
+    np.save(file = "../../data/GGM/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/Gs.npy", arr = Gs)
+    np.save(file = "../../data/GGM/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/expr.npy", arr = samples)
 
 # %%
+

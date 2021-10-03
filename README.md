@@ -65,5 +65,5 @@ Data:
 
 *Model hyper-parameters:* ADMM model, adaptive rho/fix rho, different alpha, bandwidth, lambda, using mean/not using mean for covariance calculation.
 
-*Best:* bandwidth = 0.01, lambda = 0.01, fix rho = 1.7, alpha = 1/2
+*Best:* bandwidth = 0.1, lambda = 0.01, fix rho = 1.7, alpha = 1/2
 
