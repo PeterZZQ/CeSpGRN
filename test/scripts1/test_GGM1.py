@@ -64,8 +64,12 @@ gt_adj = np.load(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) +
 print("Raw TimePoints: {}, no.Genes: {}".format(X.shape[0],X.shape[1]))
 # X = StandardScaler().fit_transform(X)
 
-ntimes, ngenes = X.shape
-ntfs = 5
+# make sure the dimensions are correct
+assert X.shape[0] == ntimes
+assert X.shape[1] == ngenes
+assert gt_adj.shape[0] == ntimes
+assert gt_adj.shape[1] == ngenes
+assert gt_adj.shape[2] == ngenes
 
 # In[2] Model
 sample = torch.FloatTensor(X).to(device)
