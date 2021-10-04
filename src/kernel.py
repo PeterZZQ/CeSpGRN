@@ -32,7 +32,7 @@ def kernel_band(bandwidth, ntimes, truncate=False):
         K_trun = K * mask
     return K/np.sum(K, axis=1)[:, None], K_trun/np.sum(K_trun, axis = 1)[:, None]
 
-def calc_kernel(X, k = 10, bandwidth = 1, truncate = False):
+def calc_kernel(X, k = 5, bandwidth = 1, truncate = False):
     """\
     Description:
     ------------
