@@ -1,31 +1,34 @@
+# In[0]
 import numpy as np
 
-def dyn_GRN(setting = {}):
-    # set parameters
-    _setting = {"ngenes": 20, "ntimes": 1000, "mode": "TF-TF&target", "ntfs": 5, "nchanges": 5, "change_stepsize": 10, "density": 0.1, \
-        "connected_acyclic": False, "seed": 0}
-    _setting.update(setting)
+def dyn_GRN(**argdict):
+    # set parameters for simulator
+    _argdict = {"ngenes": 20, # number of genes 
+                "ntimes": 1000, # number of time steps
+                "mode": "TF-TF&target", # mode of the simulation, `TF-TF&target' or `TF-target'
+                "ntfs": 5,  # number of TFs
+                "nchanges": 5, # number of changing edges for each interval
+                "change_stepsize": 10, # number of stepsizes for each change
+                "density": 0.1, # number of edges
+                "seed": 0 # random seed
+                }
+    _argdict.update(argdict)
     
-    # number of genes, number of TFs, number of time steps
-    ngenes, ntfs, ntimes = _setting["ngenes"], _setting["ntfs"], _setting["ntimes"]
-    # mode, include: "TF-target" (only edges between TFs and targets), "TF-TF&target" (edges between TFs or edges between TFs and targets)
-    mode = _setting["mode"]
-    # number of change, change interval
-    nchanges, change_stepsize = _setting["nchanges"], _setting["change_stepsize"]
-    connected_acyclic = _setting["connected_acyclic"]
-    np.random.seed(_setting["seed"])
+    # set random seed
+    np.random.seed(_argdict["seed"])
+
+    # set parameter values
+    ngenes, ntfs, ntimes, mode, nchanges, change_stepsize = _argdict["ngenes"], _argdict["ntfs"], \
+        _argdict["ntimes"], _argdict["mode"], _argdict["nchanges"], _argdict["change_stepsize"]
     
     Gs = np.zeros((ntimes, ngenes, ngenes))
-
     # initialization: only consider activator & set edge strength: [0,1]
     # G0 = np.random.uniform(low = 0, high = 1, size = (ngenes, ngenes))
     G0 = np.zeros((ngenes,ngenes))
-    nedges = int((ngenes**2)*_setting["density"])
+    nedges = int((ngenes**2)*_argdict["density"])
 
-    tf_list = np.arange(ntfs)
-    target_list = np.arange(ngenes)
-
-    if mode ==  "TF-target": # TF is always self-regulated
+    if mode ==  "TF-target": 
+        # TF is always self-regulated
         for tf_in in range(ntfs):
             G0[tf_in,tf_in] = np.random.uniform(low=0, high=1, size=1)
             
@@ -56,7 +59,7 @@ def dyn_GRN(setting = {}):
     #     M[np.tril_indices(ntfs,-1)] = 0
 
     # G0 = G0 * M
-    print(len(np.nonzero(G0)[0]))
+    print("number of non-zero values in the network: {:d}".format(len(np.nonzero(G0)[0])))
     Gs[0,:,:] = G0
 
     # make sure the genes that are not regulated by any genes are self-regulating
@@ -149,7 +152,7 @@ def noise(x,t):
     c = 10.#4.
     return (c*np.sqrt(abs(x)))
 
-def soft_boolODE(G, xt, argdict):
+def soft_boolODE(G, xt, **argdict):
     """\
     Description:
     -------------
@@ -171,14 +174,14 @@ def soft_boolODE(G, xt, argdict):
         regul = np.nonzero(G[:,idx])[0]
 
         H_prod = np.prod(H[regul])
-        alpha_1 = np.sum(G[:,idx][regul])/argdict["tf_size"]
-#         alpha_1 = np.sum(G[:,idx][regul])/len(regul)
+        alpha_1 = np.sum(G[:,idx][regul])/argdict["ntfs"]
+        # alpha_1 = np.sum(G[:,idx][regul])/len(regul)
         alpha_0 = 1- alpha_1
         dx[idx] = argdict["m_gene"][idx]*(alpha_0+alpha_1*H_prod)/(1+H_prod) - argdict["l_gene"][idx]*xt[idx]
         
     return dx
 
-def eulersde(argdict, dW=None):
+def eulersde(**argdict):
     """\
     Description:
     ------------
@@ -187,38 +190,40 @@ def eulersde(argdict, dW=None):
     Parameters:
     ------------
         argdict: the arguments
-        y0: the initial value
         dW: the noise term, can be set to 0 by given a (time, gene) zero matrix
     """
-    # span of pseudotime [0, step, ..., tmax]
-    tspan = argdict['tspan']
-    ntimes = len(tspan)
-    # dt is the time interval, the same as intergration stepsize
-    dt = (tspan[ntimes - 1] - tspan[0])/(ntimes - 1)
-    # ground truth GRN, of the shape (ntimes, ngenes, ngenes)
-    Gs = argdict["GRN"]
-    y0 = argdict["init"]
-    ngenes = len(y0)
+    _argdict = {"dW": None}
+    _argdict.update(argdict)
 
+    # simulation time: [0, step, ..., tmax]
+    tspan = _argdict['tspan']
+    # ground truth GRN, of the shape (ntimes, ngenes, ngenes)
+    Gs = _argdict["GRN"]
+    # initial gene expression
+    y0 = _argdict["init"]
+    ntimes = len(tspan)
+    ngenes = len(y0)
+    # dt is the time interval = intergration stepsize
+    dt = (tspan[ntimes - 1] - tspan[0])/(ntimes - 1)
     # allocate space for result, (ntimes, ngenes)
     y = np.zeros((ntimes + 1, ngenes), dtype=type(y0[0]))
-    y[0] = argdict["init"]
+    y[0] = y0
 
-    if dW is None:
-        # pre-generate Wiener increments (for d independent Wiener processes):
+    if _argdict["dW"] is None:
+        # noise, pre-generate Wiener increments (for d independent Wiener processes)
         dW = deltaW(ntimes, ngenes, dt)
+    else:
+        dW = deltaW(ntimes, ngenes, _argdict["dW"])
         
     # simulation process
     for time, p_time in enumerate(tspan):
-        # iterate through all steps
+        # noise
         dWn = dW[time,:]
-        
-        y[time + 1] = y[time] + soft_boolODE(Gs[time, :, :], y[time], argdict) * dt + np.multiply(noise(y[time], p_time), dWn)
-
+        # differential equation
+        y[time + 1] = y[time] + soft_boolODE(Gs[time, :, :], y[time], **_argdict) * dt + np.multiply(noise(y[time], p_time), dWn)
         # make sure y is always above 0
         indice = np.where(y[time + 1] < 0)
         y[time + 1][indice] = y[time][indice]
-
     # drop the first data point
     y = y[1:, :]
 
@@ -320,93 +325,128 @@ def convert_to_UMIcounts_dynamics (Expr):
 
     return np.random.poisson(Expr)
 
-def run_simulator(ncells=1, ngenes=18,ntfs=12,tmax=75, mode = "TF-TF&target", nchanges=10, change_stepsize=1500,  density = 0.1, integration_step_size = 0.01):
+def run_simulator(**setting):
 
-    argdict = dict()
-    # range of pseudotime
-    argdict["tspan"] = np.linspace(0, tmax, int(tmax/integration_step_size))
-
-    # Generate ground truth GRNs, ntimes, ngenes (TF), ngenes (Target)
-    GRNs = dyn_GRN(setting = {"ngenes": ngenes, "ntfs": ntfs, "ntimes": argdict["tspan"].shape[0], \
-        "mode": mode, "nchanges": nchanges, "change_stepsize": change_stepsize, "density": density})
-    argdict["GRN"] = GRNs
-    argdict["tf_size"] = ntfs
+    # Basic setting
+    _setting = {"ncells": 1, # number of cells
+                "tmax": 75, # time length for euler simulation
+                "integration_step_size": 0.01, # stepsize for each euler step
+                # parameter for dyn_GRN
+                "ngenes": 18, # number of genes 
+                "mode": "TF-TF&target", # mode of the simulation, `TF-TF&target' or `TF-target'
+                "ntfs": 12,  # number of TFs
+                "nchanges": 10, # number of changing edges for each interval
+                "change_stepsize": 1500, # number of stepsizes for each change
+                "density": 0.1, # number of edges
+                "seed": 0 # random seed
+                }
+    _setting.update(setting)
+    # simulation time
+    _setting["ntimes"] = int(_setting["tmax"]/_setting["integration_step_size"])
+    # linspace include both beginning (0) and ending (tmax)
+    _setting["tspan"] = np.linspace(0, _setting["tmax"], _setting["ntimes"] + 1)[1:]
     
-    # make sure the time span is the same
-    assert argdict["tspan"].shape[0] == argdict["GRN"].shape[0]
+    # generate GRN
+    GRNs = dyn_GRN(**_setting)
+    _setting["GRN"] = GRNs
+    assert GRNs.shape[0] == _setting["ntimes"]
+    assert GRNs.shape[1] == _setting["ngenes"]
+    
+    # initial gene expressions, and kinetic parameters
+    _setting["init"] = np.random.uniform(low = 0, high = 50, size = _setting["ngenes"])
+    _setting["m_gene"] = {gene:20. for gene in np.arange(_setting["ngenes"])}
+    _setting["l_gene"] = {gene:10. for gene in np.arange(_setting["ngenes"])}
+    _setting["k_gene"] = {gene:10. for gene in np.arange(_setting["ngenes"])}
+    _setting["n_gene"] = {gene:10. for gene in np.arange(_setting["ngenes"])}
 
-    (ntimes, ngenes, _) = argdict["GRN"].shape
-
-    # (ncells, ngenes, ntimes)
+   # simulate gene expression dynamics for cells
     Ps = []
-    
-    # initial gene expressions
-    argdict["init"] = np.random.uniform(low = 0, high = 50, size = ngenes)
-    
-    # kinetic hyper-parameter
-    argdict["m_gene"] = {gene:20. for gene in np.arange(ngenes)}
-    argdict["l_gene"] = {gene:10. for gene in np.arange(ngenes)}
-    argdict["k_gene"] = {gene:10. for gene in np.arange(ngenes)}
-    argdict["n_gene"] = {gene:10. for gene in np.arange(ngenes)}
-
-    # One cell differentiation process
-    count = 0
-    for cell in range(ncells):
-        # set random seed
-        seed = count
-        np.random.seed(seed)
-
-        # Given parameters and initial expression y0_exp (ngenes,), simulate P of the dimension (ntimes, ngenes)
-        P = eulersde(argdict)
-        # (ngenes, ntimes)
+    for cell in range(_setting["ncells"]):
+        # set random seed 
+        np.random.seed(cell)
+        # euler method (differential equation)
+        P = eulersde(**_setting)
+        # obtained gene expression matrix (one experiment)
         P = P.T
-        count += 1
-            
         Ps.append(P)
 
-    # Pseudotime, ntimes should be larger than ncells (ncells,)
-    pseudotime_index = np.random.choice(np.arange(ntimes), ncells, replace = False)
-    pseudotime = argdict["tspan"][pseudotime_index]
-    assert pseudotime.shape[0] == ncells
-
-    # True Expression, (ngenes, ncells)
-    Expr = np.concatenate([Ps[cell][:,pseudotime_index[cell]:(pseudotime_index[cell] + 1)] for cell in range(ncells)], axis = 1)
-    assert Expr.shape[1] == ncells
+    # Sampling pseudotime for cells, and generate true gene expression data
+    # seed is set to original value
+    np.random.seed(_setting["seed"])
+    pseudotime_index = np.random.choice(np.arange(_setting["ntimes"]), _setting["ncells"], replace = False)
+    # pseudotime, (ncells,)
+    pseudotime = _setting["tspan"][pseudotime_index]
+    assert pseudotime.shape[0] == _setting["ncells"]
+    # Generate true Expression, (ngenes, ncells)
+    Expr = np.concatenate([Ps[cell][:,pseudotime_index[cell]:(pseudotime_index[cell] + 1)] for cell in range(_setting["ncells"])], axis = 1)
+    assert Expr.shape[1] == _setting["ncells"]
+    # sort pseudotime and true expression data from early to late
+    Expr = Expr[:, np.argsort(pseudotime)]
+    pseudotime = pseudotime[np.argsort(pseudotime)]
 
     # Include technical effect, from Sergio
     # no outlier genes
     # Expr = outlier_effect_dynamics(Expr, outlier_prob = 0.01, mean = 0.8, scale = 1)
-
     # library size effect
-    # libFactor, Expr_obs = lib_size_effect_dynamics(Expr, mean = 4.6, scale = 0.4)
-    libFactor, ps_Expr_obs = lib_size_effect_dynamics(Ps[0], mean = 4.6, scale = 0.4)
-
+    _, Expr_obs = lib_size_effect_dynamics(Expr, mean = 4.6, scale = 0.4)
     # add dropout
     # binary_ind = dropout_indicator_dynamics(Expr_obs, shape = 6.5, percentile = 82)
     # Expr_obs = np.multiply(binary_ind, Expr_obs)
-
     # convert to UMI (ngenes, ncells)
     # Expr_obs = convert_to_UMIcounts_dynamics(Expr_obs)
     # ps_Expr_obs = convert_to_UMIcounts_dynamics(ps_Expr_obs)
 
-    pseudotime = pseudotime[np.argsort(pseudotime)]
-    Expr = Expr[:, np.argsort(pseudotime)]
-    # Expr_obs = Expr_obs[:, np.argsort(pseudotime)]
+    results = {"true count": Expr, 
+               "observed count": Expr_obs, 
+               "pseudotime": pseudotime, 
+               "experiment": Ps,
+               "GRNs": _setting["GRN"]
+               }
 
+    return results
 
-    # In[2] Sanity check
-    # import matplotlib.pyplot as plt
-    # raw count, alpha and beta should be adjusted in case of value eplosion
-    # _ = plt.hist(np.sum(Expr, axis = 0), bins = 20)
-    # transformed count
-    # _ = plt.hist(np.sum(Expr_obs, axis = 0), bins = 20)
+# In[1]
+if __name__ == "__main__":
+    simu_setting = {"ncells": 1, # number of cells
+                    "tmax": 20, # time length for euler simulation
+                    "integration_step_size": 0.01, # stepsize for each euler step
+                    # parameter for dyn_GRN
+                    "ngenes": 18, # number of genes 
+                    "mode": "TF-TF&target", # mode of the simulation, `TF-TF&target' or `TF-target'
+                    "ntfs": 12,  # number of TFs
+                    "nchanges": 2, # number of changing edges for each interval
+                    "change_stepsize": 100, # number of stepsizes for each change
+                    "density": 0.1, # number of edges
+                    "seed": 0, # random seed
+                    "dW": 0
+                    }
+    results = run_simulator(**simu_setting)
 
-    # In[3]
-    # np.save("GT_graphs.npy",argdict["GRN"])
-    # np.save("Single_Exp.npy", ps_Expr_obs)
+    def preprocess(counts):
+        """\
+        Input:
+        counts = (ntimes, ngenes)
 
-    # np.save("Expr_true.npy", Expr)
-    # np.save("Expr_obs.npy", Expr_obs)
-    # np.save("pseudotime.npy", pseudotime)
+        Description:
+        ------------
+        Preprocess the dataset
+        """
+        # normalize according to the library size
 
-    return ps_Expr_obs, argdict["GRN"]
+        libsize = np.median(np.sum(counts, axis=1))
+        counts = counts / np.sum(counts, axis=1)[:, None] * libsize
+
+        counts = np.log1p(counts)
+        return counts
+    import matplotlib.pyplot as plt
+    from umap import UMAP
+    X = results["experiment"][0].T
+    # _, X = lib_size_effect_dynamics(X, mean = 4.6, scale = 0.4)
+    X = preprocess(X)
+    umap_op = UMAP(n_components = 2)
+    X_umap = umap_op.fit_transform(X)
+    fig = plt.figure(figsize = (10, 7))
+    ax = fig.add_subplot()
+    ax.scatter(X_umap[:, 0], X_umap[:, 1], c = np.arange(X_umap.shape[0]))
+
+# %%
