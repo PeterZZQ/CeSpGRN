@@ -60,13 +60,14 @@ def kernel_band(bandwidth, ntimes, truncate=False):
 ntimes = 3000
 path = "../../data/GGM/"
 for interval in [100]:
-    for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20), (100, 50)]:
+    # for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20), (100, 50)]:
+    for (ngenes, ntfs) in [(50, 20), (100, 50)]:
         result_dir = "../results/GGM_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "/"
         if not os.path.exists(result_dir):
             os.makedirs(result_dir)
         # the data smapled from GGM is zero-mean
         X = np.load(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/expr.npy")
-        gt_adj = np.load(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/Gs.npy")
+        # gt_adj = np.load(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/Gs.npy")
 
         # sort the genes
         print("Raw TimePoints: {}, no.Genes: {}".format(X.shape[0], X.shape[1]))
@@ -75,9 +76,6 @@ for interval in [100]:
         # make sure the dimensions are correct
         assert X.shape[0] == ntimes
         assert X.shape[1] == ngenes
-        assert gt_adj.shape[0] == ntimes
-        assert gt_adj.shape[1] == ngenes
-        assert gt_adj.shape[2] == ngenes
 
         sample = torch.FloatTensor(X).to(device)
         max_iters = 2000
@@ -118,7 +116,7 @@ for interval in [100]:
                 gadmm_batch = g_admm.G_admm_batch(X=X[:, None, :], K=K, pre_cov=empir_cov)
                 thetas = gadmm_batch.train(max_iters=max_iters, n_intervals=100, alpha=alpha, lamb=lamb, rho=rho, theta_init_offset=0.1)
                 np.save(file=result_dir + "thetas_" + str(bandwidth) + "_" + str(alpha) + "_" + str(lamb) + "_" + str(rho) + ".npy", arr=thetas)
-
+            del thetas
         ###############################################
         #
         # test with TF information
@@ -156,6 +154,6 @@ for interval in [100]:
                 thetas = gadmm_batch.train(max_iters=max_iters, n_intervals=100, alpha=alpha, lamb=lamb, rho=rho, beta=100, theta_init_offset=0.1)
                 np.save(file=result_dir + "thetas_" + str(bandwidth) + "_" + str(alpha) + "_" + str(lamb) + "_" + str(rho) + "_tfs.npy", arr=thetas)
                 print("time calculating thetas: {:.2f} sec".format(time.time() - start_time))
-
+            del thetas
 
 # %%

@@ -54,18 +54,18 @@ bandwidth = 1
 # gt_adj = np.load(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/Gs.npy")[:500, :, :]
 
 
-# path = "../../data/boolODE_Sep13/"
-# # the data smapled from GGM is zero-mean
-# X = np.load(path + "continue_sorted_exp_1to2.npy").T[:500, :]
-# gt_adj = np.load(path + "continue_gt_adj_1to2.npy").T[:500, :, :]
-# X = preprocess(X)
-
-# continuousODE
-path = "../../data/continuousODE/node_20_dyn_2_step_200_re/"
+path = "../../data/boolODE_Sep13/"
 # the data smapled from GGM is zero-mean
-X = np.load(path + "gene_exp_20_42_2_200.npy").T[:500, :]
-gt_adj = np.load(path + "gt_graph_20_42_2_200.npy").T[:500, :, :]
+X = np.load(path + "continue_sorted_exp_1to2.npy").T[:500, :]
+gt_adj = np.load(path + "continue_gt_adj_1to2.npy").T[:500, :, :]
 X = preprocess(X)
+
+# # continuousODE
+# path = "../../data/continuousODE/node_20_dyn_2_step_200_re/"
+# # the data smapled from GGM is zero-mean
+# X = np.load(path + "gene_exp_20_42_2_200.npy").T[:500, :]
+# gt_adj = np.load(path + "gt_graph_20_42_2_200.npy").T[:500, :, :]
+# X = preprocess(X)
 
 
 # sort the genes
@@ -93,22 +93,22 @@ for bandwidth in [0.01, 0.1, 0.5, 1, 10, 100]:
     ax.set_title("shortest path, bandwidth = {:.2f}".format(bandwidth), fontsize = 20)
 
 # In[]
-import importlib
-importlib.reload(kernel)
-start_time = time.time()
-for bandwidth in [0.01, 0.1, 1, 10, 100]:
-    for diff_t in [1, 5, 10]: 
-        M, K_diff, K_diff_trun = kernel.calc_diffu_kernel(X, k = 5, bandwidth = bandwidth, t = diff_t, n_eign = None, truncate = True)
-        # K_diff, K_diff_trun = kernel.calc_diffu_kernel2(X, k = 10, bandwidth = bandwidth, truncate = True)
-        print("time cost: {:.3f} sec".format(time.time() - start_time))
-        t = 1
-        Kt = K_diff[t, :]
-        fig = plt.figure(figsize = (10, 5))
-        ax = fig.add_subplot()
-        ax.plot(Kt)
-        ax.set_xlabel("time", fontsize = 20)
-        ax.set_ylabel("weight", fontsize = 20)
-        ax.set_title("diffusion, bandwidth = {:.2f}, t = {:d}".format(bandwidth, diff_t), fontsize = 20)
+# import importlib
+# importlib.reload(kernel)
+# start_time = time.time()
+# for bandwidth in [0.01, 0.1, 1, 10, 100]:
+#     for diff_t in [1, 5, 10]: 
+#         M, K_diff, K_diff_trun = kernel.calc_diffu_kernel(X, k = 5, bandwidth = bandwidth, t = diff_t, n_eign = None, truncate = True)
+#         # K_diff, K_diff_trun = kernel.calc_diffu_kernel2(X, k = 10, bandwidth = bandwidth, truncate = True)
+#         print("time cost: {:.3f} sec".format(time.time() - start_time))
+#         t = 1
+#         Kt = K_diff[t, :]
+#         fig = plt.figure(figsize = (10, 5))
+#         ax = fig.add_subplot()
+#         ax.plot(Kt)
+#         ax.set_xlabel("time", fontsize = 20)
+#         ax.set_ylabel("weight", fontsize = 20)
+#         ax.set_title("diffusion, bandwidth = {:.2f}, t = {:d}".format(bandwidth, diff_t), fontsize = 20)
 
 
 # In[2]
