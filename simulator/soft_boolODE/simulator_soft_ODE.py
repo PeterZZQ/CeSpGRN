@@ -359,8 +359,9 @@ def run_simulator(**setting):
     _setting["k_gene"] = {gene:10. for gene in np.arange(_setting["ngenes"])}
     _setting["n_gene"] = {gene:10. for gene in np.arange(_setting["ngenes"])}
 
-   # simulate gene expression dynamics for cells
+    # simulate gene expression dynamics for cells
     Ps = []
+    # TODO: parallel the for loop: https://stackoverflow.com/questions/9786102/how-do-i-parallelize-a-simple-python-loop 
     for cell in range(_setting["ncells"]):
         # set random seed 
         np.random.seed(cell)
@@ -407,18 +408,25 @@ def run_simulator(**setting):
 
 # In[1]
 if __name__ == "__main__":
-    simu_setting = {"ncells": 1, # number of cells
-                    "tmax": 20, # time length for euler simulation
-                    "integration_step_size": 0.01, # stepsize for each euler step
+    stepsize = 0.001
+    simu_setting = {"ncells": 1000, # number of cells
+                    "tmax": int(stepsize * 1000), # time length for euler simulation
+                    "integration_step_size": stepsize, # stepsize for each euler step
                     # parameter for dyn_GRN
                     "ngenes": 18, # number of genes 
                     "mode": "TF-TF&target", # mode of the simulation, `TF-TF&target' or `TF-target'
                     "ntfs": 12,  # number of TFs
+
+                    # nchanges also drive the trajectory, if nchanges is larger than 0, then there is trajectory.
                     "nchanges": 2, # number of changing edges for each interval
                     "change_stepsize": 100, # number of stepsizes for each change
                     "density": 0.1, # number of edges
                     "seed": 0, # random seed
-                    "dW": 0
+
+                    # dW and integration_step_size jointly affect the trajectory continuity, 
+                    # dW would be too noisy under "integration_step_size": 0.01, 
+                    # the test shows that "integration_step_size" around 0.0005~0.002 produce good result.
+                    "dW": None
                     }
     results = run_simulator(**simu_setting)
 
@@ -440,11 +448,14 @@ if __name__ == "__main__":
         return counts
     import matplotlib.pyplot as plt
     from umap import UMAP
-    X = results["experiment"][0].T
+    from sklearn.decomposition import PCA
+    # X = results["experiment"][0].T
+    X = results["true count"].T
     # _, X = lib_size_effect_dynamics(X, mean = 4.6, scale = 0.4)
     X = preprocess(X)
     umap_op = UMAP(n_components = 2)
-    X_umap = umap_op.fit_transform(X)
+    pca_op = PCA(n_components = 2)
+    X_umap = pca_op.fit_transform(X)
     fig = plt.figure(figsize = (10, 7))
     ax = fig.add_subplot()
     ax.scatter(X_umap[:, 0], X_umap[:, 1], c = np.arange(X_umap.shape[0]))
