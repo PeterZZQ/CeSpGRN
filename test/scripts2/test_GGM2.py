@@ -59,9 +59,9 @@ def kernel_band(bandwidth, ntimes, truncate=False):
 # In[1] read in data and preprocessing
 ntimes = 3000
 path = "../../data/GGM/"
-for interval in [100]:
+for interval in [50, 100, 200]:
     # for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20), (100, 50)]:
-    for (ngenes, ntfs) in [(50, 20), (100, 50)]:
+    for (ngenes, ntfs) in [(100, 50)]:
         result_dir = "../results/GGM_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "/"
         if not os.path.exists(result_dir):
             os.makedirs(result_dir)
