@@ -479,4 +479,52 @@ if __name__ == "__main__":
         fig.legend()
         fig.savefig("experiments_plot.png", bbox_inches = "tight")
 
+# In[1] Generate simulation data for multiple cells
+    stepsize = 0.0005
+    simu_setting = {"ncells": 1000, # number of cells
+                    "tmax": int(stepsize * 2000), # time length for euler simulation
+                    "integration_step_size": stepsize, # stepsize for each euler step
+                    # parameter for dyn_GRN
+                    "ngenes": 18, # number of genes 
+                    "mode": "TF-TF&target", # mode of the simulation, `TF-TF&target' or `TF-target'
+                    "ntfs": 12,  # number of TFs
+
+                    # nchanges also drive the trajectory, if nchanges is larger than 0, then there is trajectory.
+                    "nchanges": 2, # number of changing edges for each interval
+                    "change_stepsize": 100, # number of stepsizes for each change
+                    "density": 0.1, # number of edges
+                    "seed": 0, # random seed
+
+                    # dW and integration_step_size jointly affect the trajectory continuity, 
+                    # dW would be too noisy under "integration_step_size": 0.01, 
+                    # the test shows that "integration_step_size" around 0.0005~0.002 produce good result.
+                    "dW": None
+                    }
+    results = run_simulator(**simu_setting)
+
+    fig = plt.figure(figsize = (10, 7))
+    ax = fig.add_subplot()
+    umap_op = UMAP(n_components = 2)
+    pca_op = PCA(n_components = 2)
+
+    X = results["true count"].T
+    pt = results["pseudotime"]
+    X = preprocess(X)
+    X_umap = pca_op.fit_transform(X)
+    ax.scatter(X_umap[:, 0], X_umap[:, 1], s = 5, c = pt)
+    fig.savefig("true_count_plot.png", bbox_inches = "tight")
+
+    fig = plt.figure(figsize = (10, 7))
+    ax = fig.add_subplot()
+    X = results["observed count"].T
+    pt = results["pseudotime"]
+    X = preprocess(X)
+    X_umap = pca_op.fit_transform(X)
+    ax.scatter(X_umap[:, 0], X_umap[:, 1], s = 5, c = pt)
+    fig.savefig("observed_count_plot.png", bbox_inches = "tight")
+
+    np.save("true_count.npy", results["true count"].T)
+    np.save("obs_count.npy", results["observed count"].T)
+    np.save("pseudotime.npy", results["pseudotime"])
+
 # %%
