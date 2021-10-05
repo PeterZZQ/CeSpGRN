@@ -1,7 +1,8 @@
 # In[0]
 import numpy as np
+from multiprocessing import Pool, freeze_support, cpu_count
 
-def dyn_GRN(**argdict):
+def dyn_GRN(argdict):
     # set parameters for simulator
     _argdict = {"ngenes": 20, # number of genes 
                 "ntimes": 1000, # number of time steps
@@ -152,7 +153,7 @@ def noise(x,t):
     c = 10.#4.
     return (c*np.sqrt(abs(x)))
 
-def soft_boolODE(G, xt, **argdict):
+def soft_boolODE(G, xt, argdict):
     """\
     Description:
     -------------
@@ -181,7 +182,7 @@ def soft_boolODE(G, xt, **argdict):
         
     return dx
 
-def eulersde(**argdict):
+def eulersde(argdict):
     """\
     Description:
     ------------
@@ -194,6 +195,9 @@ def eulersde(**argdict):
     """
     _argdict = {"dW": None}
     _argdict.update(argdict)
+    # set differnt random seed for different cell
+    np.random.seed(_argdict["cell_idx"])
+    print("cell id: " + str(_argdict["cell_idx"]))
 
     # simulation time: [0, step, ..., tmax]
     tspan = _argdict['tspan']
@@ -220,14 +224,14 @@ def eulersde(**argdict):
         # noise
         dWn = dW[time,:]
         # differential equation
-        y[time + 1] = y[time] + soft_boolODE(Gs[time, :, :], y[time], **_argdict) * dt + np.multiply(noise(y[time], p_time), dWn)
+        y[time + 1] = y[time] + soft_boolODE(Gs[time, :, :], y[time], _argdict) * dt + np.multiply(noise(y[time], p_time), dWn)
         # make sure y is always above 0
         indice = np.where(y[time + 1] < 0)
         y[time + 1][indice] = y[time][indice]
     # drop the first data point
     y = y[1:, :]
 
-    return y
+    return y.T
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" This part is to add technical noise to dynamics data
@@ -347,7 +351,7 @@ def run_simulator(**setting):
     _setting["tspan"] = np.linspace(0, _setting["tmax"], _setting["ntimes"] + 1)[1:]
     
     # generate GRN
-    GRNs = dyn_GRN(**_setting)
+    GRNs = dyn_GRN(_setting)
     _setting["GRN"] = GRNs
     assert GRNs.shape[0] == _setting["ntimes"]
     assert GRNs.shape[1] == _setting["ngenes"]
@@ -360,16 +364,23 @@ def run_simulator(**setting):
     _setting["n_gene"] = {gene:10. for gene in np.arange(_setting["ngenes"])}
 
     # simulate gene expression dynamics for cells
-    Ps = []
-    # TODO: parallel the for loop: https://stackoverflow.com/questions/9786102/how-do-i-parallelize-a-simple-python-loop 
+    # setting for each cells simulation
+    setting_euler = []
     for cell in range(_setting["ncells"]):
-        # set random seed 
-        np.random.seed(cell)
-        # euler method (differential equation)
-        P = eulersde(**_setting)
-        # obtained gene expression matrix (one experiment)
-        P = P.T
-        Ps.append(P)
+        setting_euler.append(_setting.copy())
+        setting_euler[-1]["cell_idx"] = cell
+
+    # MULTI-THREADING, use machine core count for parallel calculation
+    pool = Pool(cpu_count()) 
+    Ps = pool.map(eulersde, [x for x in setting_euler])      
+    
+    # SINGLE-THREADING
+    # Ps = []
+    # for cell in range(_setting["ncells"]):
+    #     # euler method (differential equation)
+    #     P = eulersde(setting_euler[cell])
+    #     # obtained gene expression matrix (one experiment)
+    #     Ps.append(P)
 
     # Sampling pseudotime for cells, and generate true gene expression data
     # seed is set to original value
@@ -406,11 +417,15 @@ def run_simulator(**setting):
 
     return results
 
-# In[1]
+# In[1] Check experiments (each experiments should return different results)
 if __name__ == "__main__":
-    stepsize = 0.001
-    simu_setting = {"ncells": 1000, # number of cells
-                    "tmax": int(stepsize * 1000), # time length for euler simulation
+    import matplotlib.pyplot as plt
+    from umap import UMAP
+    from sklearn.decomposition import PCA
+    plt.rcParams["font.size"] = 20
+    stepsize = 0.0005
+    simu_setting = {"ncells": 4, # number of cells
+                    "tmax": int(stepsize * 2000), # time length for euler simulation
                     "integration_step_size": stepsize, # stepsize for each euler step
                     # parameter for dyn_GRN
                     "ngenes": 18, # number of genes 
@@ -446,18 +461,22 @@ if __name__ == "__main__":
 
         counts = np.log1p(counts)
         return counts
-    import matplotlib.pyplot as plt
-    from umap import UMAP
-    from sklearn.decomposition import PCA
-    # X = results["experiment"][0].T
-    X = results["true count"].T
-    # _, X = lib_size_effect_dynamics(X, mean = 4.6, scale = 0.4)
-    X = preprocess(X)
-    umap_op = UMAP(n_components = 2)
-    pca_op = PCA(n_components = 2)
-    X_umap = pca_op.fit_transform(X)
+
     fig = plt.figure(figsize = (10, 7))
     ax = fig.add_subplot()
-    ax.scatter(X_umap[:, 0], X_umap[:, 1], c = np.arange(X_umap.shape[0]))
+    umap_op = UMAP(n_components = 2)
+    pca_op = PCA(n_components = 2)
+
+    for i in range(len(results["experiment"])):
+        X = results["experiment"][i].T
+        X = preprocess(X)
+        if i == 0:
+            X_umap = pca_op.fit_transform(X)
+        else:
+            X_umap = pca_op.transform(X)
+
+        ax.scatter(X_umap[:, 0], X_umap[:, 1], label = "cell (experiment run) " + str(i), s = 5)
+        fig.legend()
+        fig.savefig("experiments_plot.png", bbox_inches = "tight")
 
 # %%
