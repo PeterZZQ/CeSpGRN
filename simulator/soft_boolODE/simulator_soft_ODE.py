@@ -358,7 +358,7 @@ def run_simulator(**setting):
     
     # initial gene expressions, and kinetic parameters
     _setting["init"] = np.random.uniform(low = 0, high = 50, size = _setting["ngenes"])
-    _setting["m_gene"] = {gene:20. for gene in np.arange(_setting["ngenes"])}
+    _setting["m_gene"] = {gene:200. for gene in np.arange(_setting["ngenes"])}
     _setting["l_gene"] = {gene:10. for gene in np.arange(_setting["ngenes"])}
     _setting["k_gene"] = {gene:10. for gene in np.arange(_setting["ngenes"])}
     _setting["n_gene"] = {gene:10. for gene in np.arange(_setting["ngenes"])}
@@ -417,7 +417,7 @@ def run_simulator(**setting):
 
     return results
 
-# In[1] Check experiments (each experiments should return different results)
+# In[0] Check experiments (each experiments should return different results)
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
     from umap import UMAP
@@ -431,16 +431,11 @@ if __name__ == "__main__":
                     "ngenes": 18, # number of genes 
                     "mode": "TF-TF&target", # mode of the simulation, `TF-TF&target' or `TF-target'
                     "ntfs": 12,  # number of TFs
-
-                    # nchanges also drive the trajectory, if nchanges is larger than 0, then there is trajectory.
-                    "nchanges": 2, # number of changing edges for each interval
+                    # nchanges also drive the trajectory, but even if don't change nchanges, there is still linear trajectory
+                    "nchanges": 0, # number of changing edges for each interval
                     "change_stepsize": 100, # number of stepsizes for each change
                     "density": 0.1, # number of edges
                     "seed": 0, # random seed
-
-                    # dW and integration_step_size jointly affect the trajectory continuity, 
-                    # dW would be too noisy under "integration_step_size": 0.01, 
-                    # the test shows that "integration_step_size" around 0.0005~0.002 produce good result.
                     "dW": None
                     }
     results = run_simulator(**simu_setting)
@@ -476,10 +471,68 @@ if __name__ == "__main__":
             X_umap = pca_op.transform(X)
 
         ax.scatter(X_umap[:, 0], X_umap[:, 1], label = "cell (experiment run) " + str(i), s = 5)
-        fig.legend()
-        fig.savefig("experiments_plot.png", bbox_inches = "tight")
+    fig.legend()
+    fig.savefig("experiments_plot.png", bbox_inches = "tight")
+
+# In[1] Check simulation-parameters
+if __name__ == "__main__":
+    stepsize = 0.0005
+    simu_setting = {"ncells": 1, # number of cells
+                    "tmax": int(stepsize * 2000), # time length for euler simulation
+                    "integration_step_size": stepsize, # stepsize for each euler step
+                    # parameter for dyn_GRN
+                    "ngenes": 18, # number of genes 
+                    "mode": "TF-TF&target", # mode of the simulation, `TF-TF&target' or `TF-target'
+                    "ntfs": 12,  # number of TFs
+
+                    # nchanges also drive the trajectory, 
+                    # but even if don't change nchanges, there is still linear trajectory, 
+                    # which also make sense according to the differential equation
+                    "nchanges": 0, # number of changing edges for each interval
+                    "change_stepsize": 100, # number of stepsizes for each change
+                    "density": 0.1, # number of edges
+                    "seed": 0, # random seed
+
+                    # dW and integration_step_size jointly affect the trajectory continuity, 
+                    # dW would be too noisy under "integration_step_size": 0.01, 
+                    # the test shows that "integration_step_size" around 0.0005~0.002 produce good result.
+                    "dW": None
+                    }
+    results = run_simulator(**simu_setting)
+    fig = plt.figure(figsize = (10, 7))
+    ax = fig.add_subplot()
+    for i in range(len(results["experiment"])):
+        X = results["experiment"][i].T
+        X = preprocess(X)
+        X_umap = pca_op.fit_transform(X)
+        ax.scatter(X_umap[:, 0], X_umap[:, 1], label = "changes: " + str(simu_setting["nchanges"]), s = 5, c = np.arange(X_umap.shape[0]))
+    fig.legend()
+    stepsize = 0.0005
+    simu_setting = {"ncells": 1, # number of cells
+                    "tmax": int(stepsize * 2000), # time length for euler simulation
+                    "integration_step_size": stepsize, # stepsize for each euler step
+                    # parameter for dyn_GRN
+                    "ngenes": 18, # number of genes 
+                    "mode": "TF-TF&target", # mode of the simulation, `TF-TF&target' or `TF-target'
+                    "ntfs": 12,  # number of TFs
+                    "nchanges": 10, # number of changing edges for each interval
+                    "change_stepsize": 100, # number of stepsizes for each change
+                    "density": 0.1, # number of edges
+                    "seed": 0, # random seed
+                    "dW": None
+                    }
+    results = run_simulator(**simu_setting)
+    fig = plt.figure(figsize = (10, 7))
+    ax = fig.add_subplot()
+    for i in range(len(results["experiment"])):
+        X = results["experiment"][i].T
+        X = preprocess(X)
+        X_umap = pca_op.fit_transform(X)
+        ax.scatter(X_umap[:, 0], X_umap[:, 1], label = "changes: " + str(simu_setting["nchanges"]), s = 5, c = np.arange(X_umap.shape[0]))
+    fig.legend()
 
 # In[1] Generate simulation data for multiple cells
+if __name__ == "__main__":    
     stepsize = 0.0005
     simu_setting = {"ncells": 1000, # number of cells
                     "tmax": int(stepsize * 2000), # time length for euler simulation
@@ -527,4 +580,58 @@ if __name__ == "__main__":
     np.save("obs_count.npy", results["observed count"].T)
     np.save("pseudotime.npy", results["pseudotime"])
 
+
+# In[2] check the grn signal strength
+if __name__ == "__main__":
+    from scipy.stats import spearmanr, pearsonr
+    import seaborn as sns
+    stepsize = 0.0005
+    simu_setting = {"ncells": 1, # number of cells
+                    "tmax": int(stepsize * 2000), # time length for euler simulation
+                    "integration_step_size": stepsize, # stepsize for each euler step
+                    # parameter for dyn_GRN
+                    "ngenes": 18, # number of genes 
+                    "mode": "TF-target", # mode of the simulation, `TF-TF&target' or `TF-target'
+                    "ntfs": 12,  # number of TFs
+
+                    # nchanges also drive the trajectory, if nchanges is larger than 0, then there is trajectory.
+                    "nchanges": 0, # number of changing edges for each interval
+                    "change_stepsize": 500, # number of stepsizes for each change
+                    "density": 0.1, # number of edges
+                    "seed": 0, # random seed
+
+                    # dW and integration_step_size jointly affect the trajectory continuity, 
+                    # dW would be too noisy under "integration_step_size": 0.01, 
+                    # the test shows that "integration_step_size" around 0.0005~0.002 produce good result.
+                    "dW": None
+                    }
+    results = run_simulator(**simu_setting)
+
+    fig = plt.figure(figsize = (10, 7))
+    ax = fig.add_subplot()
+    umap_op = UMAP(n_components = 2)
+    pca_op = PCA(n_components = 2)
+
+    for i in range(len(results["experiment"])):
+        X = results["experiment"][i].T
+        X = preprocess(X)
+        if i == 0:
+            X_umap = pca_op.fit_transform(X)
+        else:
+            X_umap = pca_op.transform(X)
+
+        ax.scatter(X_umap[:, 0], X_umap[:, 1], label = "changes: " + str(simu_setting["nchanges"]), s = 5, c = np.arange(X_umap.shape[0]))
+    fig.legend()
+
+    # clustermap
+    X_mean = np.mean(X, axis = 0)
+    corr = (X - X_mean).T @ (X - X_mean)
+    TF = np.array(['b'] * simu_setting["ngenes"])
+    TF[:simu_setting["ntfs"]] = 'r'
+    sns.clustermap(corr, row_colors = TF, col_colors = TF, row_cluster = False, col_cluster = False)
+    ave_GRN = np.mean(results["GRNs"] + results["GRNs"], axis = 0)
+    ave_GRN = ave_GRN + ave_GRN.T
+    sns.clustermap(ave_GRN, row_colors = TF, col_colors = TF, row_cluster = False, col_cluster = False)
+    score, p_val = pearsonr(corr.reshape(-1), ave_GRN.reshape(-1))
+    print("pearson between correlationship and ground truth: {:.4f}".format(score))
 # %%

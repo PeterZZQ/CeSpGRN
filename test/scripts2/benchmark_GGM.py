@@ -17,6 +17,23 @@ warnings.filterwarnings("ignore")
 
 import matplotlib.pyplot as plt
 import seaborn as sns
+import genie3
+
+# In[] Test Genie3
+ntimes = 3000
+path = "../../data/GGM/"
+for interval in [50, 100, 200]:
+    for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20)]:
+        result_dir = "../results/GGM_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "/"
+        # the data smapled from GGM is zero-mean
+        X = np.load(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/expr.npy")
+        gt_adj = np.load(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/Gs.npy")
+
+        X_genie = X.reshape(ntimes, ngenes)
+        # genie_theta of the shape (ntimes, ngenes, ngenes)
+        genie_theta = genie3.GENIE3(X_genie, gene_names=None, regulators='all',tree_method='RF',K='sqrt',ntrees=1000,nthreads=1)
+        genie_theta = np.repeat(genie_theta[None, :, :],ntimes,axis=0)
+        np.save(file = result_dir + "genie_theta.npy", arr = genie_theta)
 
 # In[]
 ntimes = 3000

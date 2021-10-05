@@ -48,24 +48,35 @@ ntfs = 5
 bandwidth = 1
 
 # GGM data don't have trajectory, according to visualization
-# path = "../../data/GGM/"
-# # the data smapled from GGM is zero-mean
-# X = np.load(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/expr.npy")[:500, :]
-# gt_adj = np.load(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/Gs.npy")[:500, :, :]
-
-
-path = "../../data/boolODE_Sep13/"
+path = "../../data/GGM/"
 # the data smapled from GGM is zero-mean
-X = np.load(path + "continue_sorted_exp_1to2.npy").T[:500, :]
-gt_adj = np.load(path + "continue_gt_adj_1to2.npy").T[:500, :, :]
-X = preprocess(X)
+X = np.load(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/expr.npy")[:500, :]
+gt_adj = np.load(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/Gs.npy")[:500, :, :]
+
+
+# path = "../../data/boolODE_Sep13/"
+# # the data smapled from GGM is zero-mean
+# X = np.load(path + "continue_sorted_exp_1to2.npy").T[:500, :]
+# gt_adj = np.load(path + "continue_gt_adj_1to2.npy").T[:500, :, :]
+# X = preprocess(X)
 
 # # continuousODE
-# path = "../../data/continuousODE/node_20_dyn_2_step_200_re/"
+# path = "../../simulator/soft_boolODE/"
 # # the data smapled from GGM is zero-mean
-# X = np.load(path + "gene_exp_20_42_2_200.npy").T[:500, :]
-# gt_adj = np.load(path + "gt_graph_20_42_2_200.npy").T[:500, :, :]
+# X = np.load(path + "obs_count.npy")
 # X = preprocess(X)
+
+fig = plt.figure(figsize = (10, 7))
+ax = fig.add_subplot()
+umap_op = UMAP(n_components = 2)
+pca_op = PCA(n_components = 2)
+
+
+X_umap = umap_op.fit_transform(X)
+
+
+ax.scatter(X_umap[:, 0], X_umap[:, 1], s = 5, c = np.arange(X_umap.shape[0]))
+
 
 
 # sort the genes
