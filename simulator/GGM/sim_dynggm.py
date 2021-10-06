@@ -216,8 +216,75 @@ def gen_samples(Covs, nsamples = 1, seed = 0):
 
     return datas
 
+def gen_samples_dynmean(Covs, nsamples = 1, seed =0, change_interval = 1):
+    """\
+    Description:
+    ------------
+        Generate samples from Gaussian Graphical Model using Covariance matrices, instead of zero-mean, mean is changing with time.
+    Parameters:
+    ------------
+        Covs:
+            Sample covariance matrix, of the shape (ntimes, ngenes, ngenes)
+    Return:
+    ------------
+        Generated samples
 
-# In[1]
+    """
+    if seed != None:
+        np.random.seed(seed)
+
+    ntimes, ngenes, ngenes = Covs.shape
+    datas = []
+    for t in range(ntimes):
+        if t == 0:
+            mean_expr = np.zeros(ngenes)
+        else:
+            mean_expr = np.mean(datas[-change_interval], axis = 1).squeeze()
+        cov = Covs[t, :, :]
+        assert isPSD(cov)
+        data = np.random.multivariate_normal(mean = mean_expr, cov = cov, size = nsamples)
+
+        datas.append(data[None, :, :])
+    
+    # datas of the shape ntimes, nsamples, ngenes
+    datas = np.concatenate(datas, axis = 0)
+    if nsamples == 1:
+        datas = datas.squeeze()
+
+    return datas    
+
+# In[0] generate data with changing mean
+import matplotlib.pyplot as plt
+from umap import UMAP
+from sklearn.decomposition import PCA
+plt.rcParams["font.size"] = 20
+
+umap_op = UMAP(n_components = 2, min_dist = 0.5)
+pca_op = PCA(n_components = 2)
+
+for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20), (100, 50)]:
+    ntimes = 1000
+    interval = 200
+    nchanges = 2
+
+    Gs, Covs = dyn_GRN(setting = {"ngenes": ngenes, "ntimes": ntimes, "mode": "TF-TF&target", "ntfs": ntfs, "nchanges": nchanges, "change_stepsize": interval, "connected_acyclic": False, "seed": 0})
+    samples = gen_samples_dynmean(Covs, nsamples = 1, seed = 0)
+    X_umap = umap_op.fit_transform(samples.reshape(-1, ngenes))
+    fig = plt.figure(figsize = (10, 7))
+    ax = fig.add_subplot()
+    ax.scatter(X_umap[:, 0], X_umap[:, 1], c = np.arange(X_umap.shape[0]), s = 5)
+    ax.set_xlabel("UMAP 1")
+    ax.set_ylabel("UMAP 2")
+    ax.set_title("UMAP plot")
+    if not os.path.exists("../../data/GGM_changing_mean/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/"):
+        os.makedirs("../../data/GGM_changing_mean/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/")
+
+    np.save(file = "../../data/GGM_changing_mean/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/Gs.npy", arr = Gs)
+    np.save(file = "../../data/GGM_changing_mean/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/expr.npy", arr = samples)
+    fig.savefig("../../data/GGM_changing_mean/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/umap.png", bbox_inches = "tight")
+
+# In[1] generate data with zero mean
+"""
 for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20), (100, 50)]:
     # ngenes = 100
     # ntfs = 5
@@ -232,6 +299,6 @@ for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20), (100, 50)]:
 
     np.save(file = "../../data/GGM/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/Gs.npy", arr = Gs)
     np.save(file = "../../data/GGM/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/expr.npy", arr = samples)
-
+"""
 # %%
 

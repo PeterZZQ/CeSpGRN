@@ -181,7 +181,9 @@ def deltaW(N, m, h):
         h: standard deviation
         seed: seed  
     """
-    return np.random.normal(0.0, h, (N, m))
+    # scale affect the noise level
+    scale = 5
+    return np.random.normal(0.0, scale * h, (N, m))
 
 def noise(x):
     c = 10.#4.
@@ -231,7 +233,7 @@ def eulersde(argdict):
     _argdict.update(argdict)
     # set differnt random seed for different cell
     np.random.seed(_argdict["cell_idx"])
-    print("cell id: " + str(_argdict["cell_idx"]))
+    # print("cell id: " + str(_argdict["cell_idx"]))
 
     # dt is the time interval = intergration stepsize
     # dt = (_argdict["tspan"][_argdict["ntimes"] - 1] - _argdict["tspan"][0])/(_argdict["ntimes"] - 1)

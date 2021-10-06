@@ -8,6 +8,8 @@ from sklearn.decomposition import PCA
 import numpy as np
 
 # In[] bifurcating
+import importlib
+importlib.reload(simulator)
 def preprocess(counts):
     """\
     Input:
@@ -25,6 +27,8 @@ def preprocess(counts):
     return counts
 
 plt.rcParams["font.size"] = 20
+# the larger the stepsize, the noisier the trajectory is
+# the smaller the m_gene is, the noisier the trajectory is
 stepsize = 0.0001
 simu_setting = {"ncells": 1000, # number of cells
                 "ntimes": 1000, # time length for euler simulation

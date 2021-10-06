@@ -246,7 +246,7 @@ class G_admm_batch():
             # rho of the shape (ntimes, 1, 1)
             rho = 1.7 * torch.ones((Z.shape[0], 1, 1)).to(device) 
         else:
-            rho = torch.FloatTensor([rho] * Z.shape[0], device = device)[:, None, None]
+            rho = torch.FloatTensor([rho] * Z.shape[0])[:, None, None].to(device)
             updating_rho = False
 
         while(it < max_iters): 
@@ -289,12 +289,7 @@ class G_admm_batch():
                 # simplify min of all duality gap
                 duality_gap = rho.squeeze() * torch.stack([torch.trace(mat) for mat in torch.bmm(U.permute(0,2,1), Z - thetas)])
                 duality_gap = duality_gap.abs()
-                # print(primal_residual.shape)
-                # print(dual_residual.shape)
-                # print(duality_gap.shape)
-                print("n_iter: {}, duality gap: {:.4e}, primal residual: {:.4e}, dual residual: {:4e}".format(it+1, duality_gap[0].item(), primal_residual[0].item(), dual_residual[0].item()))
                 print("n_iter: {}, duality gap: {:.4e}, primal residual: {:.4e}, dual residual: {:4e}".format(it+1, duality_gap.max().item(), primal_residual.max().item(), dual_residual.max().item()))
-                print()
                 
                 # if duality_gap < 1e-8:
                 #     break
@@ -459,12 +454,7 @@ class G_admm_minibatch():
                     # simplify min of all duality gap
                     duality_gap = b_rho.squeeze() * torch.stack([torch.trace(mat) for mat in torch.bmm(U.permute(0,2,1), Z - thetas)])
                     duality_gap = duality_gap.abs()
-                    # print(primal_residual.shape)
-                    # print(dual_residual.shape)
-                    # print(duality_gap.shape)
-                    print("n_iter: {}, duality gap: {:.4e}, primal residual: {:.4e}, dual residual: {:4e}".format(it+1, duality_gap[0].item(), primal_residual[0].item(), dual_residual[0].item()))
                     print("n_iter: {}, duality gap: {:.4e}, primal residual: {:.4e}, dual residual: {:4e}".format(it+1, duality_gap.max().item(), primal_residual.max().item(), dual_residual.max().item()))
-                    print()
                     
                     # if duality_gap < 1e-8:
                     #     break
@@ -477,12 +467,12 @@ class G_admm_minibatch():
             loss1 = self.neg_lkl_loss(Z, w_empir_cov).sum()
             loss2 = Z.abs().sum()
             loss3 = (mask * Z).pow(2).sum()
-            print("Batche loss: loss1: {:.5f}, loss2: {:.5f}, loss3: {:.5f}".format(loss1.item(), loss2.item(), loss3.item()))  
+            print("Batch loss: loss1: {:.5f}, loss2: {:.5f}, loss3: {:.5f}".format(loss1.item(), loss2.item(), loss3.item()))  
             # store values
             if batch < n_batches - 1:
-                self.thetas[start_idx:end_idx] = Z.detach().numpy()
+                self.thetas[start_idx:end_idx] = Z.detach().cpu().numpy()
             else:
-                self.thetas[start_idx:] = Z.detach().numpy()
+                self.thetas[start_idx:] = Z.detach().cpu().numpy()
             del thetas, U, I, Y, ll, Z
 
 
