@@ -105,6 +105,7 @@ def dyn_GRN(argdict):
     while len(branches) != 0:
         # select the first branch within the branches
         branch = branches[0]
+        branch_times = np.where(_argdict["backbone"] == branch)[0]
         start_node, end_node = branch.split("_")
         if Gs[node_times[start_node]] is not None:
             # remove branch from branches
@@ -472,12 +473,12 @@ if __name__ == "__main__":
                     "mode": "TF-TF&target", # mode of the simulation, `TF-TF&target' or `TF-target'
                     "ntfs": 12,  # number of TFs
                     # nchanges also drive the trajectory, but even if don't change nchanges, there is still linear trajectory
-                    "nchanges": 0, # number of changing edges for each interval
+                    "nchanges": 10, # number of changing edges for each interval
                     "change_stepsize": 100, # number of stepsizes for each change
                     "density": 0.1, # number of edges
                     "seed": 0, # random seed
                     "dW": None,
-                    "backbone": np.array(["0_1"] * 2000)
+                    "backbone": np.array(["0_1"] * 600 + ["1_2"] * 700 + ["1_3"] * 700)
                     }
     results = run_simulator(**simu_setting)
 
