@@ -2,7 +2,7 @@ import numpy as np
 from scipy.spatial.distance import pdist, squareform
 import networkx as nx
 
-def calc_kernel(X, k = 5, bandwidth = 1, truncate = False):
+def calc_kernel(X, k = 5, bandwidth = 1, truncate = False, truncate_param = 5):
     """\
     Description:
     ------------
@@ -53,7 +53,7 @@ def calc_kernel(X, k = 5, bandwidth = 1, truncate = False):
     K = np.exp(-(D ** 2)/mdis) # + np.identity(D.shape[0])
     # if truncate the function
     if truncate == True:
-        cutoff = mdis * 1.5
+        cutoff = mdis * truncate_param
         mask = (D < cutoff).astype(np.int)
         K_trun = K * mask
     else:
@@ -63,7 +63,7 @@ def calc_kernel(X, k = 5, bandwidth = 1, truncate = False):
     return K/np.sum(K, axis = 1, keepdims = True), K_trun/np.sum(K_trun, axis = 1, keepdims = True)
 
 
-'''
+
 def kernel_band(bandwidth, ntimes, truncate=False):
     """\
     Description:
@@ -94,6 +94,7 @@ def kernel_band(bandwidth, ntimes, truncate=False):
         K_trun = K * mask
     return K/np.sum(K, axis=1)[:, None], K_trun/np.sum(K_trun, axis = 1)[:, None]
 
+'''
 def calc_diffu_kernel(X, t = 10, k = 10, n_eign = None, bandwidth = 1, truncate = False):
     """\
     Description:
