@@ -160,7 +160,6 @@ def dyn_GRN(argdict):
                 not_regulated = np.where(np.sum(Gs[time], axis = 0) == 0)[0]
                 assert len(not_regulated) == 0
     Gs = np.concatenate([G[None, :, :] for G in Gs], axis = 0)
-    print(Gs.shape)
     return Gs
 
 def deltaW(N, m, h):
@@ -464,9 +463,9 @@ if __name__ == "__main__":
     from umap import UMAP
     from sklearn.decomposition import PCA
     plt.rcParams["font.size"] = 20
-    stepsize = 0.0005
+    stepsize = 0.0001
     simu_setting = {"ncells": 4, # number of cells
-                    "ntimes": 2000, # time length for euler simulation
+                    "ntimes": 1000, # time length for euler simulation
                     "integration_step_size": stepsize, # stepsize for each euler step
                     # parameter for dyn_GRN
                     "ngenes": 18, # number of genes 
@@ -478,7 +477,7 @@ if __name__ == "__main__":
                     "density": 0.1, # number of edges
                     "seed": 0, # random seed
                     "dW": None,
-                    "backbone": np.array(["0_1"] * 600 + ["1_2"] * 700 + ["1_3"] * 700)
+                    "backbone": np.array(["0_1"] * 300 + ["1_2"] * 350 + ["1_3"] * 350)
                     }
     results = run_simulator(**simu_setting)
 
