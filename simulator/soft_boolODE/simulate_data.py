@@ -69,3 +69,5 @@ np.save("bifur/true_count.npy", results["true count"].T)
 np.save("bifur/obs_count.npy", results["observed count"].T)
 np.save("bifur/pseudotime.npy", results["pseudotime"])
 
+
+# %%

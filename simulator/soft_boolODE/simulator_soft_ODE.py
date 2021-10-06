@@ -104,12 +104,16 @@ def dyn_GRN(argdict):
 
     while len(branches) != 0:
         # select the first branch within the branches
-        branch = branches[0]
+        for branch in branches:
+            start_node, end_node = branch.split("_")
+            if Gs[node_times[start_node]] is not None:
+                # remove branch from branches
+                branches.remove(branch)
+                # use the corresponding branch
+                break
+        
         branch_times = np.where(_argdict["backbone"] == branch)[0]
-        start_node, end_node = branch.split("_")
         if Gs[node_times[start_node]] is not None:
-            # remove branch from branches
-            branches.remove(branch)
             # initial graph in the branch, G0 will be updated this way.
             pre_G = Gs[node_times[start_node]]
             for i, time in enumerate(branch_times):
@@ -159,6 +163,8 @@ def dyn_GRN(argdict):
                 # make sure no isolated gene
                 not_regulated = np.where(np.sum(Gs[time], axis = 0) == 0)[0]
                 assert len(not_regulated) == 0
+        else:
+            raise ValueError("no branch with initial grn assigned")
     Gs = np.concatenate([G[None, :, :] for G in Gs], axis = 0)
     return Gs
 
@@ -250,12 +256,15 @@ def eulersde(argdict):
     node_expr = {}
     node_expr["0"] = _argdict["init"]
     while len(branches) != 0:
-        # select the first branch within the branches
-        branch = branches[0]
-        start_node, end_node = branch.split("_")
+        for branch in branches:
+            start_node, end_node = branch.split("_")
+            if start_node in node_expr.keys():
+                # remove branch from branches
+                branches.remove(branch)
+                # use the corresponding branch
+                break
+
         if start_node in node_expr.keys():
-            # remove branch from branches
-            branches.remove(branch)
             # find branching time of current branch, end nodes are unique in tree
             branch_idx = np.where(_argdict["backbone"] == branch)[0]
             # simulation time for the branch
@@ -270,7 +279,8 @@ def eulersde(argdict):
                 pre_expr = expr
             # the last expression data
             node_expr[end_node] = pre_expr         
-
+        else:
+            raise ValueError("no initial expression assigned")
     return y.T
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -391,6 +401,7 @@ def run_simulator(**setting):
     
     # generate GRN
     GRNs = dyn_GRN(_setting)
+    print("GRN generated.")
     _setting["GRN"] = GRNs
     assert GRNs.shape[0] == _setting["ntimes"]
     assert GRNs.shape[1] == _setting["ngenes"]
@@ -410,6 +421,7 @@ def run_simulator(**setting):
         setting_euler.append(_setting.copy())
         setting_euler[-1]["cell_idx"] = cell
 
+    print("conduct experiment")
     # MULTI-THREADING, use machine core count for parallel calculation
     pool = Pool(cpu_count()) 
     Ps = pool.map(eulersde, [x for x in setting_euler])      
