@@ -183,7 +183,7 @@ def deltaW(N, m, h):
     """
     return np.random.normal(0.0, h, (N, m))
 
-def noise(x,t):
+def noise(x):
     c = 10.#4.
     return (c*np.sqrt(abs(x)))
 
@@ -233,28 +233,25 @@ def eulersde(argdict):
     np.random.seed(_argdict["cell_idx"])
     print("cell id: " + str(_argdict["cell_idx"]))
 
-    # simulation time: [0, step, ..., tmax]
-    tspan = _argdict["tspan"]
-    # ground truth GRN, of the shape (ntimes, ngenes, ngenes)
-    Gs = _argdict["GRN"]
-    # initial gene expression
-    y0 = _argdict["init"]
-    ntimes = len(tspan)
-    ngenes = len(y0)
     # dt is the time interval = intergration stepsize
-    dt = (tspan[ntimes - 1] - tspan[0])/(ntimes - 1)
-    # allocate space for result, (ntimes, ngenes)
-    y = np.zeros((ntimes, ngenes), dtype=type(y0[0]))
+    # dt = (_argdict["tspan"][_argdict["ntimes"] - 1] - _argdict["tspan"][0])/(_argdict["ntimes"] - 1)
+    dt = _argdict["integration_step_size"]
+    # allocate space for gene expression (ntimes, ngenes)
+    y = np.zeros((_argdict["ntimes"], _argdict["ngenes"]), dtype=_argdict["init"].dtype)
+    # allocate space for simulation time
+    sim_time = np.zeros((_argdict["ntimes"],))
 
     if _argdict["dW"] is None:
         # noise, pre-generate Wiener increments (for d independent Wiener processes), sampled from normal distribution
-        dW = deltaW(ntimes, ngenes, dt)
+        dW = deltaW(_argdict["ntimes"], _argdict["ngenes"], dt)
     else:
-        dW = deltaW(ntimes, ngenes, _argdict["dW"])
+        dW = deltaW(_argdict["ntimes"], _argdict["ngenes"], _argdict["dW"])
     
     branches = list(set(_argdict["backbone"]))
     node_expr = {}
+    node_time = {}
     node_expr["0"] = _argdict["init"]
+    node_time["0"] = 0
     while len(branches) != 0:
         for branch in branches:
             start_node, end_node = branch.split("_")
@@ -268,20 +265,25 @@ def eulersde(argdict):
             # find branching time of current branch, end nodes are unique in tree
             branch_idx = np.where(_argdict["backbone"] == branch)[0]
             # simulation time for the branch
-            tspan_branch = _argdict["tspan"][branch_idx]
             pre_expr = node_expr[start_node]
-            for i, time in enumerate(tspan_branch):
-                dWn = dW[branch_idx[i],:]
-                expr = pre_expr + soft_boolODE(Gs[branch_idx[i], :, :], pre_expr, _argdict) * dt + np.multiply(noise(pre_expr, time), dWn)
+            pre_time = node_time[start_node]
+            for idx in branch_idx:
+                dWn = dW[idx,:]
+                expr = pre_expr + soft_boolODE(_argdict["GRN"][idx, :, :], pre_expr, _argdict) * dt + np.multiply(noise(pre_expr), dWn)
+                time = pre_time + dt
                 indice = np.where(expr < 0)
                 expr[indice] = pre_expr[indice]
-                y[branch_idx[i]] = expr
+                y[idx] = expr
+                sim_time[idx] = time
                 pre_expr = expr
+                pre_time = time
             # the last expression data
-            node_expr[end_node] = pre_expr         
+            node_expr[end_node] = pre_expr
+            node_time[end_node] = pre_time
+
         else:
             raise ValueError("no initial expression assigned")
-    return y.T
+    return y.T, sim_time
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" This part is to add technical noise to dynamics data
@@ -424,22 +426,26 @@ def run_simulator(**setting):
     print("conduct experiment")
     # MULTI-THREADING, use machine core count for parallel calculation
     pool = Pool(cpu_count()) 
-    Ps = pool.map(eulersde, [x for x in setting_euler])      
+    Ps, sim_times = zip(*pool.map(eulersde, [x for x in setting_euler]))   
     
-    # SINGLE-THREADING
+    # # SINGLE-THREADING
     # Ps = []
+    # sim_times = []
     # for cell in range(_setting["ncells"]):
     #     # euler method (differential equation)
-    #     P = eulersde(setting_euler[cell])
+    #     P, sim_time = eulersde(setting_euler[cell])
     #     # obtained gene expression matrix (one experiment)
     #     Ps.append(P)
-
+    #     sim_times.append(sim_time)
+    assert sim_times[0].shape[0] == _setting["ntimes"]
+    assert Ps[0].shape[1] == _setting["ntimes"]
+    assert Ps[0].shape[0] == _setting["ngenes"]
     # Sampling pseudotime for cells, and generate true gene expression data
     # seed is set to original value
     np.random.seed(_setting["seed"])
     pseudotime_index = np.random.choice(np.arange(_setting["ntimes"]), _setting["ncells"], replace = False)
     # pseudotime, (ncells,)
-    pseudotime = _setting["tspan"][pseudotime_index]
+    pseudotime = sim_times[0][pseudotime_index]
     assert pseudotime.shape[0] == _setting["ncells"]
     # Generate true Expression, (ngenes, ncells)
     Expr = np.concatenate([Ps[cell][:,pseudotime_index[cell]:(pseudotime_index[cell] + 1)] for cell in range(_setting["ncells"])], axis = 1)
@@ -516,7 +522,7 @@ if __name__ == "__main__":
 
     for i in range(len(results["experiment"])):
         X = results["experiment"][i].T
-        X = preprocess(X)
+        # X = preprocess(X)
         if i == 0:
             X_umap = pca_op.fit_transform(X)
         else:
@@ -524,7 +530,7 @@ if __name__ == "__main__":
 
         ax.scatter(X_umap[:, 0], X_umap[:, 1], label = "cell (experiment run) " + str(i), s = 5)
     fig.legend()
-    fig.savefig("experiments_plot.png", bbox_inches = "tight")
+    # fig.savefig("experiments_plot.png", bbox_inches = "tight")
 
 
 # In[1] Check simulation-parameters

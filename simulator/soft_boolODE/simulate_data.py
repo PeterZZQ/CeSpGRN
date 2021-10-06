@@ -25,9 +25,9 @@ def preprocess(counts):
     return counts
 
 plt.rcParams["font.size"] = 20
-stepsize = 0.00005
+stepsize = 0.0001
 simu_setting = {"ncells": 1000, # number of cells
-                "ntimes": 2000, # time length for euler simulation
+                "ntimes": 1000, # time length for euler simulation
                 "integration_step_size": stepsize, # stepsize for each euler step
                 # parameter for dyn_GRN
                 "ngenes": 18, # number of genes 
@@ -39,7 +39,7 @@ simu_setting = {"ncells": 1000, # number of cells
                 "density": 0.1, # number of edges
                 "seed": 0, # random seed
                 "dW": None,
-                "backbone": np.array(["0_1"] * 600 + ["1_2"] * 700 + ["1_3"] * 700)
+                "backbone": np.array(["0_1"] * 300 + ["1_2"] * 350 + ["1_3"] * 350)
                 }
 
 results = simulator.run_simulator(**simu_setting)
@@ -69,5 +69,7 @@ np.save("bifur/true_count.npy", results["true count"].T)
 np.save("bifur/obs_count.npy", results["observed count"].T)
 np.save("bifur/pseudotime.npy", results["pseudotime"])
 
+
+# %%
 
 # %%
