@@ -11,7 +11,8 @@ def dyn_GRN(argdict):
                 "nchanges": 5, # number of changing edges for each interval
                 "change_stepsize": 10, # number of stepsizes for each change
                 "density": 0.1, # number of edges
-                "seed": 0 # random seed
+                "seed": 0, # random seed
+                "backbone": np.array(["0_1"] * 1000) # the backbone branch belonging of each cell, of the form "A_B", where A and B are node ids starting from 0
                 }
     _argdict.update(argdict)
     
@@ -22,7 +23,7 @@ def dyn_GRN(argdict):
     ngenes, ntfs, ntimes, mode, nchanges, change_stepsize = _argdict["ngenes"], _argdict["ntfs"], \
         _argdict["ntimes"], _argdict["mode"], _argdict["nchanges"], _argdict["change_stepsize"]
     
-    Gs = np.zeros((ntimes, ngenes, ngenes))
+    Gs = [None] * ntimes
     # initialization: only consider activator & set edge strength: [0,1]
     # G0 = np.random.uniform(low = 0, high = 1, size = (ngenes, ngenes))
     G0 = np.zeros((ngenes,ngenes))
@@ -61,16 +62,16 @@ def dyn_GRN(argdict):
 
     # G0 = G0 * M
     print("number of non-zero values in the network: {:d}".format(len(np.nonzero(G0)[0])))
-    Gs[0,:,:] = G0
+    Gs[0] = G0
 
     # make sure the genes that are not regulated by any genes are self-regulating
-    not_regulated = np.where(np.sum(Gs[0, :, :], axis = 0) == 0)[0]
+    not_regulated = np.where(np.sum(Gs[0], axis = 0) == 0)[0]
     for i in not_regulated:
         if i < ntfs:
-            Gs[0, i, i] = np.random.uniform(low = 0, high = 1, size = 1)
+            Gs[0][i, i] = np.random.uniform(low = 0, high = 1, size = 1)
         else:
             tf = np.random.choice(ntfs)
-            Gs[0, tf, i] = np.random.uniform(low = 0, high = 1, size = 1)
+            Gs[0][tf, i] = np.random.uniform(low = 0, high = 1, size = 1)
 
     # active (index, 1d) & non-active (-1) area
     if mode == "TF-target":
@@ -84,54 +85,81 @@ def dyn_GRN(argdict):
         active_area[ntfs:,:] = -1
         active_area[np.tril_indices(ntfs, -1)] = -1
 
-    # graph changes
-    for time in range(1, ntimes):
-        # graph change point
-        if (time - 1)%change_stepsize == 0:
-
-            # some values are not exactly 0, numerical issue
-            Gs[time - 1, :, :] = np.where(Gs[time - 1, :, :] < 1e-6, 0, Gs[time - 1, :, :])
-            Gt = Gs[time - 1, :, :].reshape(-1)
-
-            # delete, decrease to 0 # avoid isolated gene
-            edge_cnt = np.sum((Gs[time-1, :, :]>0), axis = 0)
-            rm_target = np.where(edge_cnt > 1)[0]
-
-            removable = np.arange(ngenes**2).reshape(ngenes,ngenes)
-            rm_matrix = removable[:ntfs,rm_target]
-            removable = set(rm_matrix.reshape(-1))
-
-            del_candid = set(np.where(Gt != 0)[0]).intersection(set(active_area.reshape(-1)))
-            del_candid = del_candid.intersection(removable)
-
-            for idx,max_count in enumerate(edge_cnt[rm_target]):
-                idx_candid = del_candid.intersection(set(rm_matrix[:,idx]))
-
-                while len(idx_candid) >= max_count:
-                    del_candid = del_candid - set([np.random.choice(list(idx_candid))])        
-                    idx_candid = del_candid.intersection(set(rm_matrix[:,idx]))
-
-            del_idx = np.random.choice(list(del_candid), nchanges, replace = False)
-
-            # add, increase to [0,1]
-            add_candid = np.array(list(set(np.where(Gt == 0)[0]).intersection(set(active_area.reshape(-1)))))
-            add_idx = np.random.choice(add_candid, nchanges, replace = False)
-
-            add_value = np.random.uniform(low = 0, high = 1, size = nchanges) / change_stepsize
-            del_value = Gt[del_idx] / change_stepsize
-
-        else:
-            Gt = Gs[time - 1, :, :].reshape(-1)
-
-        # update values
-        Gt[add_idx] = Gt[add_idx] + add_value
-        Gt[del_idx] = Gt[del_idx] - del_value
-        Gs[time, :, :] = Gt.reshape((ngenes, ngenes))
-
-        # make sure no isolated gene
-        not_regulated = np.where(np.sum(Gs[time, :, :], axis = 0) == 0)[0]
-        assert len(not_regulated) == 0
+    # backbone, find all possible branches
+    branches = list(set(_argdict["backbone"]))
+    node_times = {}
+    # root node
+    node_times["0"] = 0
+    for branch in branches:
+        try:
+            start_node, end_node = branch.split("_")
+        except:
+            raise ValueError("backbone should be of the form A_B, where A is the start node, and B is the end node")
         
+        # find branching time of current branch, end nodes are unique in tree
+        branch_times = np.where(_argdict["backbone"] == branch)[0]
+        # assign branching time for the end_node
+        if end_node not in node_times.keys():
+            node_times[end_node] = np.max(branch_times)
+
+    while len(branches) != 0:
+        # select the first branch within the branches
+        branch = branches[0]
+        start_node, end_node = branch.split("_")
+        if Gs[node_times[start_node]] is not None:
+            # remove branch from branches
+            branches.remove(branch)
+            # initial graph in the branch, G0 will be updated this way.
+            pre_G = Gs[node_times[start_node]]
+            for i, time in enumerate(branch_times):
+                # graph change point
+                if i%change_stepsize == 0:
+                    # some values are not exactly 0, numerical issue
+                    pre_G = np.where(pre_G < 1e-6, 0, pre_G)
+                    Gt = pre_G.reshape(-1)
+
+                    # delete, decrease to 0 # avoid isolated gene
+                    edge_cnt = np.sum((pre_G>0), axis = 0)
+                    rm_target = np.where(edge_cnt > 1)[0]
+
+                    removable = np.arange(ngenes**2).reshape(ngenes,ngenes)
+                    rm_matrix = removable[:ntfs,rm_target]
+                    removable = set(rm_matrix.reshape(-1))
+
+                    del_candid = set(np.where(Gt != 0)[0]).intersection(set(active_area.reshape(-1)))
+                    del_candid = del_candid.intersection(removable)
+
+                    for idx,max_count in enumerate(edge_cnt[rm_target]):
+                        idx_candid = del_candid.intersection(set(rm_matrix[:,idx]))
+
+                        while len(idx_candid) >= max_count:
+                            del_candid = del_candid - set([np.random.choice(list(idx_candid))])        
+                            idx_candid = del_candid.intersection(set(rm_matrix[:,idx]))
+
+                    del_idx = np.random.choice(list(del_candid), nchanges, replace = False)
+
+                    # add, increase to [0,1]
+                    add_candid = np.array(list(set(np.where(Gt == 0)[0]).intersection(set(active_area.reshape(-1)))))
+                    add_idx = np.random.choice(add_candid, nchanges, replace = False)
+
+                    add_value = np.random.uniform(low = 0, high = 1, size = nchanges) / change_stepsize
+                    del_value = Gt[del_idx] / change_stepsize
+
+                else:
+                    Gt = pre_G.reshape(-1)
+
+                # update values
+                Gt[add_idx] = Gt[add_idx] + add_value
+                Gt[del_idx] = Gt[del_idx] - del_value
+                Gs[time] = Gt.reshape((ngenes, ngenes))
+                # give the next pre_G
+                pre_G = Gs[time]
+
+                # make sure no isolated gene
+                not_regulated = np.where(np.sum(Gs[time], axis = 0) == 0)[0]
+                assert len(not_regulated) == 0
+    Gs = np.concatenate([G[None, :, :] for G in Gs], axis = 0)
+    print(Gs.shape)
     return Gs
 
 def deltaW(N, m, h):
@@ -200,7 +228,7 @@ def eulersde(argdict):
     print("cell id: " + str(_argdict["cell_idx"]))
 
     # simulation time: [0, step, ..., tmax]
-    tspan = _argdict['tspan']
+    tspan = _argdict["tspan"]
     # ground truth GRN, of the shape (ntimes, ngenes, ngenes)
     Gs = _argdict["GRN"]
     # initial gene expression
@@ -210,26 +238,38 @@ def eulersde(argdict):
     # dt is the time interval = intergration stepsize
     dt = (tspan[ntimes - 1] - tspan[0])/(ntimes - 1)
     # allocate space for result, (ntimes, ngenes)
-    y = np.zeros((ntimes + 1, ngenes), dtype=type(y0[0]))
-    y[0] = y0
+    y = np.zeros((ntimes, ngenes), dtype=type(y0[0]))
 
     if _argdict["dW"] is None:
-        # noise, pre-generate Wiener increments (for d independent Wiener processes)
+        # noise, pre-generate Wiener increments (for d independent Wiener processes), sampled from normal distribution
         dW = deltaW(ntimes, ngenes, dt)
     else:
         dW = deltaW(ntimes, ngenes, _argdict["dW"])
-        
-    # simulation process
-    for time, p_time in enumerate(tspan):
-        # noise
-        dWn = dW[time,:]
-        # differential equation
-        y[time + 1] = y[time] + soft_boolODE(Gs[time, :, :], y[time], _argdict) * dt + np.multiply(noise(y[time], p_time), dWn)
-        # make sure y is always above 0
-        indice = np.where(y[time + 1] < 0)
-        y[time + 1][indice] = y[time][indice]
-    # drop the first data point
-    y = y[1:, :]
+    
+    branches = list(set(_argdict["backbone"]))
+    node_expr = {}
+    node_expr["0"] = _argdict["init"]
+    while len(branches) != 0:
+        # select the first branch within the branches
+        branch = branches[0]
+        start_node, end_node = branch.split("_")
+        if start_node in node_expr.keys():
+            # remove branch from branches
+            branches.remove(branch)
+            # find branching time of current branch, end nodes are unique in tree
+            branch_idx = np.where(_argdict["backbone"] == branch)[0]
+            # simulation time for the branch
+            tspan_branch = _argdict["tspan"][branch_idx]
+            pre_expr = node_expr[start_node]
+            for i, time in enumerate(tspan_branch):
+                dWn = dW[branch_idx[i],:]
+                expr = pre_expr + soft_boolODE(Gs[branch_idx[i], :, :], pre_expr, _argdict) * dt + np.multiply(noise(pre_expr, time), dWn)
+                indice = np.where(expr < 0)
+                expr[indice] = pre_expr[indice]
+                y[branch_idx[i]] = expr
+                pre_expr = expr
+            # the last expression data
+            node_expr[end_node] = pre_expr         
 
     return y.T
 
@@ -333,7 +373,7 @@ def run_simulator(**setting):
 
     # Basic setting
     _setting = {"ncells": 1, # number of cells
-                "tmax": 75, # time length for euler simulation
+                "ntimes": 2000, # time length for euler simulation
                 "integration_step_size": 0.01, # stepsize for each euler step
                 # parameter for dyn_GRN
                 "ngenes": 18, # number of genes 
@@ -342,13 +382,12 @@ def run_simulator(**setting):
                 "nchanges": 10, # number of changing edges for each interval
                 "change_stepsize": 1500, # number of stepsizes for each change
                 "density": 0.1, # number of edges
-                "seed": 0 # random seed
+                "seed": 0, # random seed
+                "backbone": np.array(["0_1"] * 2000)
                 }
     _setting.update(setting)
     # simulation time
-    _setting["ntimes"] = int(_setting["tmax"]/_setting["integration_step_size"])
-    # linspace include both beginning (0) and ending (tmax)
-    _setting["tspan"] = np.linspace(0, _setting["tmax"], _setting["ntimes"] + 1)[1:]
+    _setting["tspan"] = np.array([_setting["integration_step_size"] * x for x in range(1, _setting["ntimes"] + 1)])
     
     # generate GRN
     GRNs = dyn_GRN(_setting)
@@ -358,6 +397,7 @@ def run_simulator(**setting):
     
     # initial gene expressions, and kinetic parameters
     _setting["init"] = np.random.uniform(low = 0, high = 50, size = _setting["ngenes"])
+    # original: 20, affect the trajectory a lot.
     _setting["m_gene"] = {gene:200. for gene in np.arange(_setting["ngenes"])}
     _setting["l_gene"] = {gene:10. for gene in np.arange(_setting["ngenes"])}
     _setting["k_gene"] = {gene:10. for gene in np.arange(_setting["ngenes"])}
@@ -425,7 +465,7 @@ if __name__ == "__main__":
     plt.rcParams["font.size"] = 20
     stepsize = 0.0005
     simu_setting = {"ncells": 4, # number of cells
-                    "tmax": int(stepsize * 2000), # time length for euler simulation
+                    "ntimes": 2000, # time length for euler simulation
                     "integration_step_size": stepsize, # stepsize for each euler step
                     # parameter for dyn_GRN
                     "ngenes": 18, # number of genes 
@@ -436,7 +476,8 @@ if __name__ == "__main__":
                     "change_stepsize": 100, # number of stepsizes for each change
                     "density": 0.1, # number of edges
                     "seed": 0, # random seed
-                    "dW": None
+                    "dW": None,
+                    "backbone": np.array(["0_1"] * 2000)
                     }
     results = run_simulator(**simu_setting)
 
@@ -453,7 +494,6 @@ if __name__ == "__main__":
 
         libsize = np.median(np.sum(counts, axis=1))
         counts = counts / np.sum(counts, axis=1)[:, None] * libsize
-
         counts = np.log1p(counts)
         return counts
 
@@ -473,6 +513,7 @@ if __name__ == "__main__":
         ax.scatter(X_umap[:, 0], X_umap[:, 1], label = "cell (experiment run) " + str(i), s = 5)
     fig.legend()
     fig.savefig("experiments_plot.png", bbox_inches = "tight")
+
 
 # In[1] Check simulation-parameters
 if __name__ == "__main__":
