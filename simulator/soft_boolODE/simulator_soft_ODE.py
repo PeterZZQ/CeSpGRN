@@ -447,6 +447,7 @@ def run_simulator(**setting):
     np.random.seed(_setting["seed"])
     pseudotime_index = np.random.choice(np.arange(_setting["ntimes"]), _setting["ncells"], replace = False)
     # pseudotime, (ncells,)
+    GRNs = _setting["GRN"][pseudotime_index, :, :]
     pseudotime = sim_times[0][pseudotime_index]
     assert pseudotime.shape[0] == _setting["ncells"]
     # Generate true Expression, (ngenes, ncells)
@@ -454,6 +455,7 @@ def run_simulator(**setting):
     assert Expr.shape[1] == _setting["ncells"]
     # sort pseudotime and true expression data from early to late
     Expr = Expr[:, np.argsort(pseudotime)]
+    GRNs = GRNs[np.argsort(pseudotime), :, :]
     pseudotime = pseudotime[np.argsort(pseudotime)]
 
     # Include technical effect, from Sergio
@@ -472,7 +474,7 @@ def run_simulator(**setting):
                "observed count": Expr_obs, 
                "pseudotime": pseudotime, 
                "experiment": Ps,
-               "GRNs": _setting["GRN"]
+               "GRNs": GRNs
                }
 
     return results
