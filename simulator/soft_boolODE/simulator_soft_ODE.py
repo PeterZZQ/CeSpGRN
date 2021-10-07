@@ -94,6 +94,10 @@ def dyn_GRN_degree(argdict):
         
         # find branching time of current branch, end nodes are unique in tree
         branch_times = np.where(_argdict["backbone"] == branch)[0]
+        try:
+            assert branch_times.shape[0] % change_stepsize == 0
+        except:
+            raise ValueError("the backbone length should be divided exactly by the stepsize")
         # assign branching time for the end_node
         if end_node not in node_times.keys():
             node_times[end_node] = np.max(branch_times)
@@ -110,7 +114,8 @@ def dyn_GRN_degree(argdict):
         
         branch_times = np.where(_argdict["backbone"] == branch)[0]
         if Gs[node_times[start_node]] is not None:
-            # initial graph in the branch, G0 will be updated this way.
+            # initial graph in the branch, G0 will be updated this way. 
+            # This node node_times[start_node] must be divided exactly by change_stepsize.
             pre_G = Gs[node_times[start_node]]
             for i, time in enumerate(branch_times):
                 # graph change point
@@ -381,7 +386,7 @@ def deltaW(N, m, h):
         seed: seed  
     """
     # scale affect the noise level
-    scale = 2
+    scale = 1
     return np.random.normal(0.0, scale * h, (N, m))
 
 def noise(x):
@@ -687,7 +692,7 @@ if __name__ == "__main__":
     from umap import UMAP
     from sklearn.decomposition import PCA
     plt.rcParams["font.size"] = 20
-    stepsize = 0.0001
+    stepsize = 0.0002
     simu_setting = {"ncells": 4, # number of cells
                     "ntimes": 1000, # time length for euler simulation
                     "integration_step_size": stepsize, # stepsize for each euler step
@@ -701,7 +706,8 @@ if __name__ == "__main__":
                     "density": 0.1, # number of edges
                     "seed": 0, # random seed
                     "dW": None,
-                    "backbone": np.array(["0_1"] * 300 + ["1_2"] * 350 + ["1_3"] * 350),
+                    # the changing point must be divided exactly by the change_stepsize, or there will be issue.
+                    "backbone": np.array(["0_1"] * 200 + ["1_2"] * 400 + ["1_3"] * 400),
                     "keep_degree": True,
                     "G0": None
                     }
