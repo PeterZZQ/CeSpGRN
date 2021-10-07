@@ -77,9 +77,9 @@ np.save("bifur/obs_count.npy", results["observed count"].T)
 np.save("bifur/pseudotime.npy", results["pseudotime"])
 '''
 # In[1] simulate bifurcating data where the graph in/out degrees kept
-path = "../data/continuousODE/bifur_sample_keep_deg/"
-stepsize = 0.0001
-simu_setting = {"ncells": 1000, # number of cells
+path = "../../data/continuousODE/bifur_sample_keep_deg/"
+stepsize = 0.0002
+simu_setting = {"ncells": 4, # number of cells
                 "ntimes": 1000, # time length for euler simulation
                 "integration_step_size": stepsize, # stepsize for each euler step
                 # parameter for dyn_GRN
@@ -92,10 +92,12 @@ simu_setting = {"ncells": 1000, # number of cells
                 "density": 0.1, # number of edges
                 "seed": 0, # random seed
                 "dW": None,
-                "backbone": np.array(["0_1"] * 300 + ["1_2"] * 350 + ["1_3"] * 350),
+                # the changing point must be divided exactly by the change_stepsize, or there will be issue.
+                "backbone": np.array(["0_1"] * 200 + ["1_2"] * 400 + ["1_3"] * 400),
                 "keep_degree": True,
                 "G0": None
                 }
+
 results = simulator.run_simulator(**simu_setting)
 
 fig = plt.figure(figsize = (10, 7))
