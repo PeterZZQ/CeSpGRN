@@ -2,7 +2,189 @@
 import numpy as np
 from multiprocessing import Pool, freeze_support, cpu_count
 
+def dyn_GRN_degree(argdict):
+    # Keep the indegree and outdegree
+    # set parameters for simulator
+    _argdict = {"ngenes": 20, # number of genes 
+                "ntimes": 1000, # number of time steps
+                "mode": "TF-TF&target", # mode of the simulation, `TF-TF&target' or `TF-target'
+                "ntfs": 5,  # number of TFs
+                "nchanges": 5, # number of changing edges for each interval
+                "change_stepsize": 10, # number of stepsizes for each change
+                "density": 0.1, # number of edges
+                "seed": 0, # random seed
+                "backbone": np.array(["0_1"] * 1000) # the backbone branch belonging of each cell, of the form "A_B", where A and B are node ids starting from 0
+                }
+    _argdict.update(argdict)
+
+    # set random seed
+    np.random.seed(_argdict["seed"])
+
+    # set parameter values
+    ngenes, ntfs, ntimes, mode, nchanges, change_stepsize = _argdict["ngenes"], _argdict["ntfs"], \
+        _argdict["ntimes"], _argdict["mode"], _argdict["nchanges"], _argdict["change_stepsize"]
+    
+    Gs = [None] * ntimes
+    # initialization: only consider activator & set edge strength: [0,1]
+    # G0 = np.random.uniform(low = 0, high = 1, size = (ngenes, ngenes))
+    G0 = np.zeros((ngenes,ngenes))
+    nedges = int((ngenes**2)*_argdict["density"])
+
+    if mode ==  "TF-target": 
+        # TF is always self-regulated
+        for tf_in in range(ntfs):
+            G0[tf_in,tf_in] = np.random.uniform(low=0, high=1, size=1)
+            
+    elif mode ==  "TF-TF&target":
+        for tf_in in range(ntfs):
+            tf_out = np.random.choice(tf_in+1)
+            G0[tf_out,tf_in] = np.random.uniform(low=0, high=1, size=1)
+    
+    idx = 0
+    while len(np.nonzero(G0)[0]) < nedges:
+        target = idx%(ngenes-ntfs) + ntfs
+        tf = np.random.choice(ntfs)
+        G0[tf,target] = np.random.uniform(low=0, high=1, size=1)
+        idx += 1
+    
+    # ref: LL sparsity: 95%
+
+    # M = (np.abs(G0) > threshold).astype(int)
+
+    # # direction of regulate: (tf, target): tf -> target
+    # if mode ==  "TF-target":
+    #     # assume the first ntfs are tf. [Top-Right] has non-zero value
+    #     M[:ntfs,:ntfs] = 0
+    #     M[ntfs:,:] = 0
+    # elif mode == "TF-TF&target":
+    #     # assume the first ntfs are tf. Upper triangular of [Top-Left] & [Top-Right] has non-zero value
+    #     M[ntfs:,:] = 0
+    #     M[np.tril_indices(ntfs,-1)] = 0
+
+    # G0 = G0 * M
+    print("number of non-zero values in the network: {:d}".format(len(np.nonzero(G0)[0])))
+    Gs[0] = G0
+
+    # make sure the genes that are not regulated by any genes are self-regulating
+    not_regulated = np.where(np.sum(Gs[0], axis = 0) == 0)[0]
+    for i in not_regulated:
+        if i < ntfs:
+            Gs[0][i, i] = np.random.uniform(low = 0, high = 1, size = 1)
+        else:
+            tf = np.random.choice(ntfs)
+            Gs[0][tf, i] = np.random.uniform(low = 0, high = 1, size = 1)
+
+    # active (index, 1d) & non-active (-1) area
+    if mode == "TF-target":
+        active_area = np.arange(ngenes**2).reshape(ngenes,ngenes)
+        active_area[ntfs:,:] = -1
+        active_area[np.triu_indices(ntfs,1)] = -1
+        active_area[np.tril_indices(ntfs,-1)] = -1
+
+    elif mode == "TF-TF&target":
+        active_area = np.arange(ngenes**2).reshape(ngenes,ngenes)
+        active_area[ntfs:,:] = -1
+        active_area[np.tril_indices(ntfs, -1)] = -1
+
+    # backbone, find all possible branches
+    branches = list(set(_argdict["backbone"]))
+    node_times = {}
+    # root node
+    node_times["0"] = 0
+    for branch in branches:
+        try:
+            start_node, end_node = branch.split("_")
+        except:
+            raise ValueError("backbone should be of the form A_B, where A is the start node, and B is the end node")
+        
+        # find branching time of current branch, end nodes are unique in tree
+        branch_times = np.where(_argdict["backbone"] == branch)[0]
+        # assign branching time for the end_node
+        if end_node not in node_times.keys():
+            node_times[end_node] = np.max(branch_times)
+
+    while len(branches) != 0:
+        # select the first branch within the branches
+        for branch in branches:
+            start_node, end_node = branch.split("_")
+            if Gs[node_times[start_node]] is not None:
+                # remove branch from branches
+                branches.remove(branch)
+                # use the corresponding branch
+                break
+        
+        branch_times = np.where(_argdict["backbone"] == branch)[0]
+        if Gs[node_times[start_node]] is not None:
+            # initial graph in the branch, G0 will be updated this way.
+            pre_G = Gs[node_times[start_node]]
+            for i, time in enumerate(branch_times):
+                # graph change point
+                if i%change_stepsize == 0:
+                    # some values are not exactly 0, numerical issue
+                    pre_G = np.where(pre_G < 1e-6, 0, pre_G)
+                    Gt = pre_G.reshape(-1)
+
+                    # delete, decrease to 0 # avoid isolated gene
+                    edge_cnt = np.sum((pre_G>0), axis = 0)
+                    rm_target = np.where(edge_cnt > 1)[0]
+
+                    removable = np.arange(ngenes**2).reshape(ngenes,ngenes)
+                    rm_matrix = removable[:ntfs,rm_target]
+                    removable = set(rm_matrix.reshape(-1))
+
+                    # choose the deleted edges (idx)
+                    del_candid = set(np.where(Gt != 0)[0]).intersection(set(active_area.reshape(-1)))
+                    del_candid = del_candid.intersection(removable)
+
+                    for idx,max_count in enumerate(edge_cnt[rm_target]):
+                        idx_candid = del_candid.intersection(set(rm_matrix[:,idx]))
+
+                        while len(idx_candid) >= max_count:
+                            del_candid = del_candid - set([np.random.choice(list(idx_candid))])        
+                            idx_candid = del_candid.intersection(set(rm_matrix[:,idx]))
+
+                    add_candid = np.array(list(set(np.where(Gt == 0)[0]).intersection(set(active_area.reshape(-1)))))
+                    # print(add_candid)
+                    while True:                    
+                        del_idx = np.random.choice(list(del_candid), nchanges, replace = False)
+                        # updated, make sure the add edges does not change the overall node degree
+                        del_row = del_idx//ngenes
+                        del_col = del_idx%ngenes
+                        add_col = del_col
+                        try:
+                            add_row = np.append(del_row[1:], del_row[0]) 
+                        except:
+                            print(del_row)
+                            assert False
+                        # calculate add_idx
+                        add_idx = [add_row[x] * ngenes + add_col[x] for x in range(len(add_row))]
+                        # print(add_idx)
+                        if set([x for x in add_idx]).issubset(set([x for x in add_candid])):
+                            break                  
+
+                    add_value = np.random.uniform(low = 0, high = 1, size = nchanges) / change_stepsize
+                    del_value = Gt[del_idx] / change_stepsize
+
+                else:
+                    Gt = pre_G.reshape(-1)
+
+                # update values
+                Gt[add_idx] = Gt[add_idx] + add_value
+                Gt[del_idx] = Gt[del_idx] - del_value
+                Gs[time] = Gt.reshape((ngenes, ngenes))
+                # give the next pre_G
+                pre_G = Gs[time]
+
+                # make sure no isolated gene
+                not_regulated = np.where(np.sum(Gs[time], axis = 0) == 0)[0]
+                assert len(not_regulated) == 0
+        else:
+            raise ValueError("no branch with initial grn assigned")
+    Gs = np.concatenate([G[None, :, :] for G in Gs], axis = 0)
+    return Gs
+
 def dyn_GRN(argdict):
+    # randomly delete edges, for each delete edges, generate one edges for the curresponding TFs.
     # set parameters for simulator
     _argdict = {"ngenes": 20, # number of genes 
                 "ntimes": 1000, # number of time steps
@@ -143,7 +325,7 @@ def dyn_GRN(argdict):
 
                     del_idx = np.random.choice(list(del_candid), nchanges, replace = False)
 
-                    # add, increase to [0,1]
+                    # TODO: to be updated. add, increase to [0,1]
                     add_candid = np.array(list(set(np.where(Gt == 0)[0]).intersection(set(active_area.reshape(-1)))))
                     add_idx = np.random.choice(add_candid, nchanges, replace = False)
 
@@ -182,7 +364,7 @@ def deltaW(N, m, h):
         seed: seed  
     """
     # scale affect the noise level
-    scale = 5
+    scale = 2
     return np.random.normal(0.0, scale * h, (N, m))
 
 def noise(x):
@@ -404,7 +586,10 @@ def run_simulator(**setting):
     _setting["tspan"] = np.array([_setting["integration_step_size"] * x for x in range(1, _setting["ntimes"] + 1)])
     
     # generate GRN
-    GRNs = dyn_GRN(_setting)
+    if _setting["keep_degree"]:
+        GRNs = dyn_GRN_degree(_setting)
+    else:
+        GRNs = dyn_GRN(_setting)
     print("GRN generated.")
     _setting["GRN"] = GRNs
     assert GRNs.shape[0] == _setting["ntimes"]
@@ -494,12 +679,13 @@ if __name__ == "__main__":
                     "mode": "TF-TF&target", # mode of the simulation, `TF-TF&target' or `TF-target'
                     "ntfs": 12,  # number of TFs
                     # nchanges also drive the trajectory, but even if don't change nchanges, there is still linear trajectory
-                    "nchanges": 10, # number of changing edges for each interval
+                    "nchanges": 5, # number of changing edges for each interval
                     "change_stepsize": 100, # number of stepsizes for each change
                     "density": 0.1, # number of edges
                     "seed": 0, # random seed
                     "dW": None,
-                    "backbone": np.array(["0_1"] * 300 + ["1_2"] * 350 + ["1_3"] * 350)
+                    "backbone": np.array(["0_1"] * 300 + ["1_2"] * 350 + ["1_3"] * 350),
+                    "keep_degree": True
                     }
     results = run_simulator(**simu_setting)
 
