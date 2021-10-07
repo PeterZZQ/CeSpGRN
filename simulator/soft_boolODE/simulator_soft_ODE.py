@@ -1,6 +1,6 @@
 # In[0]
 import numpy as np
-from multiprocessing import Pool, freeze_support, cpu_count
+from multiprocessing import Pool, cpu_count
 
 def dyn_GRN_degree(argdict):
     # Keep the indegree and outdegree
@@ -13,7 +13,8 @@ def dyn_GRN_degree(argdict):
                 "change_stepsize": 10, # number of stepsizes for each change
                 "density": 0.1, # number of edges
                 "seed": 0, # random seed
-                "backbone": np.array(["0_1"] * 1000) # the backbone branch belonging of each cell, of the form "A_B", where A and B are node ids starting from 0
+                "backbone": np.array(["0_1"] * 1000), # the backbone branch belonging of each cell, of the form "A_B", where A and B are node ids starting from 0
+                "G0": None
                 }
     _argdict.update(argdict)
 
@@ -26,62 +27,56 @@ def dyn_GRN_degree(argdict):
     
     Gs = [None] * ntimes
     # initialization: only consider activator & set edge strength: [0,1]
-    # G0 = np.random.uniform(low = 0, high = 1, size = (ngenes, ngenes))
-    G0 = np.zeros((ngenes,ngenes))
-    nedges = int((ngenes**2)*_argdict["density"])
+    if _argdict["G0"] is None:
+        G0 = np.zeros((ngenes,ngenes))
+        nedges = int((ngenes**2)*_argdict["density"])
 
-    if mode ==  "TF-target": 
-        # TF is always self-regulated
-        for tf_in in range(ntfs):
-            G0[tf_in,tf_in] = np.random.uniform(low=0, high=1, size=1)
-            
-    elif mode ==  "TF-TF&target":
-        for tf_in in range(ntfs):
-            tf_out = np.random.choice(tf_in+1)
-            G0[tf_out,tf_in] = np.random.uniform(low=0, high=1, size=1)
-    
-    idx = 0
-    while len(np.nonzero(G0)[0]) < nedges:
-        target = idx%(ngenes-ntfs) + ntfs
-        tf = np.random.choice(ntfs)
-        G0[tf,target] = np.random.uniform(low=0, high=1, size=1)
-        idx += 1
-    
-    # ref: LL sparsity: 95%
-
-    # M = (np.abs(G0) > threshold).astype(int)
-
-    # # direction of regulate: (tf, target): tf -> target
-    # if mode ==  "TF-target":
-    #     # assume the first ntfs are tf. [Top-Right] has non-zero value
-    #     M[:ntfs,:ntfs] = 0
-    #     M[ntfs:,:] = 0
-    # elif mode == "TF-TF&target":
-    #     # assume the first ntfs are tf. Upper triangular of [Top-Left] & [Top-Right] has non-zero value
-    #     M[ntfs:,:] = 0
-    #     M[np.tril_indices(ntfs,-1)] = 0
-
-    # G0 = G0 * M
-    print("number of non-zero values in the network: {:d}".format(len(np.nonzero(G0)[0])))
-    Gs[0] = G0
-
-    # make sure the genes that are not regulated by any genes are self-regulating
-    not_regulated = np.where(np.sum(Gs[0], axis = 0) == 0)[0]
-    for i in not_regulated:
-        if i < ntfs:
-            Gs[0][i, i] = np.random.uniform(low = 0, high = 1, size = 1)
-        else:
+        if mode ==  "TF-target": 
+            # TF is always self-regulated
+            for tf_in in range(ntfs):
+                G0[tf_in,tf_in] = np.random.uniform(low=0, high=1, size=1)
+                
+        elif mode ==  "TF-TF&target":
+            for tf_in in range(ntfs):
+                tf_out = np.random.choice(tf_in+1)
+                G0[tf_out,tf_in] = np.random.uniform(low=0, high=1, size=1)
+        
+        idx = 0
+        while len(np.nonzero(G0)[0]) < nedges:
+            target = idx%(ngenes-ntfs) + ntfs
             tf = np.random.choice(ntfs)
-            Gs[0][tf, i] = np.random.uniform(low = 0, high = 1, size = 1)
+            G0[tf,target] = np.random.uniform(low=0, high=1, size=1)
+            idx += 1
 
-    # active (index, 1d) & non-active (-1) area
+        print("number of non-zero values in the network: {:d}".format(len(np.nonzero(G0)[0])))
+        Gs[0] = G0
+
+        # make sure the genes that are not regulated by any genes are self-regulating
+        not_regulated = np.where(np.sum(Gs[0], axis = 0) == 0)[0]
+        for i in not_regulated:
+            if i < ntfs:
+                Gs[0][i, i] = np.random.uniform(low = 0, high = 1, size = 1)
+            else:
+                tf = np.random.choice(ntfs)
+                Gs[0][tf, i] = np.random.uniform(low = 0, high = 1, size = 1)
+
+    else:
+        Gs[0] = _argdict["G0"]
+
+    # check initial out degree and in degree of the graph
+    init_outdeg = np.sum((Gs[0] > 0).astype(np.int), axis = 1)
+    init_indeg = np.sum((Gs[0] > 0).astype(np.int), axis = 0) 
+
+    # active (index, 1d) & non-active (-1) area, row is tf and column is target
     if mode == "TF-target":
+        # maker sure no interactions for target -> tf, target -> target, tf -> tf
         active_area = np.arange(ngenes**2).reshape(ngenes,ngenes)
         active_area[ntfs:,:] = -1
         active_area[np.triu_indices(ntfs,1)] = -1
         active_area[np.tril_indices(ntfs,-1)] = -1
 
     elif mode == "TF-TF&target":
+        # maker sure no interactions for target -> tf, target -> target
         active_area = np.arange(ngenes**2).reshape(ngenes,ngenes)
         active_area[ntfs:,:] = -1
         active_area[np.tril_indices(ntfs, -1)] = -1
@@ -103,8 +98,8 @@ def dyn_GRN_degree(argdict):
         if end_node not in node_times.keys():
             node_times[end_node] = np.max(branch_times)
 
+    # loop through all branches
     while len(branches) != 0:
-        # select the first branch within the branches
         for branch in branches:
             start_node, end_node = branch.split("_")
             if Gs[node_times[start_node]] is not None:
@@ -122,12 +117,18 @@ def dyn_GRN_degree(argdict):
                 if i%change_stepsize == 0:
                     # some values are not exactly 0, numerical issue
                     pre_G = np.where(pre_G < 1e-6, 0, pre_G)
+                    
+                    # make sure the out-degree and in-degree of each nodes are kept
+                    outdeg = np.sum((pre_G > 0).astype(np.int), axis = 1)
+                    indeg = np.sum((pre_G > 0).astype(np.int), axis = 0) 
+                    assert np.all((outdeg - init_outdeg == 0))
+                    assert np.all((indeg - init_indeg == 0))
+
                     Gt = pre_G.reshape(-1)
+                    # find the target and TF that is regulated by at least one gene (make sure no isolated target gene is created)
+                    rm_target = np.where(indeg > 1)[0]
 
-                    # delete, decrease to 0 # avoid isolated gene
-                    edge_cnt = np.sum((pre_G>0), axis = 0)
-                    rm_target = np.where(edge_cnt > 1)[0]
-
+                    # the interaction that can be removed, including the TF->TF and TF->Target
                     removable = np.arange(ngenes**2).reshape(ngenes,ngenes)
                     rm_matrix = removable[:ntfs,rm_target]
                     removable = set(rm_matrix.reshape(-1))
@@ -136,7 +137,7 @@ def dyn_GRN_degree(argdict):
                     del_candid = set(np.where(Gt != 0)[0]).intersection(set(active_area.reshape(-1)))
                     del_candid = del_candid.intersection(removable)
 
-                    for idx,max_count in enumerate(edge_cnt[rm_target]):
+                    for idx,max_count in enumerate(indeg[rm_target]):
                         idx_candid = del_candid.intersection(set(rm_matrix[:,idx]))
 
                         while len(idx_candid) >= max_count:
@@ -144,25 +145,36 @@ def dyn_GRN_degree(argdict):
                             idx_candid = del_candid.intersection(set(rm_matrix[:,idx]))
 
                     add_candid = np.array(list(set(np.where(Gt == 0)[0]).intersection(set(active_area.reshape(-1)))))
-                    # print(add_candid)
+                    
+                    # find corresponding add_idx
                     while True:                    
                         del_idx = np.random.choice(list(del_candid), nchanges, replace = False)
-                        # updated, make sure the add edges does not change the overall node degree
+                        
+                        # make sure the add edges does not change the overall node degree
+                        # find the corresponding sources of the deleted edges
                         del_row = del_idx//ngenes
+                        # make sure the sources are all TFs
+                        assert np.all(np.array([x < ntfs for x in del_row]))
+                        # find the corresponding ends for the deleted edges, ends can be both targets and TFs.
                         del_col = del_idx%ngenes
-                        add_col = del_col
-                        try:
-                            add_row = np.append(del_row[1:], del_row[0]) 
-                        except:
-                            print(del_row)
-                            assert False
+                        # set the sources of the add edges to be the sources of the delted edges
+                        # for the TFs where we remove edges, we need to add new edges too.
+                        add_row = del_row
+                        # select the targets for the TFs by permuting the deleted targets
+                        # issue: the edges might already exist, the TF-TF regulation might not be in the active area (should be reverse)
+                        for i in range(len(del_col)):
+                            # in addition, we may have duplicated edges after permutation
+                            add_col = np.append(del_col[i+1:], del_col[:i+1])
+                            edges = [(x,y) for x,y in zip(add_row, add_col)]
+                            # if there are no duplicated edges
+                            if len(edges) == len(set(edges)):
+                                break
                         # calculate add_idx
                         add_idx = [add_row[x] * ngenes + add_col[x] for x in range(len(add_row))]
-                        # print(add_idx)
                         if set([x for x in add_idx]).issubset(set([x for x in add_candid])):
                             break                  
-
-                    add_value = np.random.uniform(low = 0, high = 1, size = nchanges) / change_stepsize
+                    
+                    add_value = np.random.uniform(low = 0.1, high = 1, size = nchanges) / change_stepsize
                     del_value = Gt[del_idx] / change_stepsize
 
                 else:
@@ -194,7 +206,8 @@ def dyn_GRN(argdict):
                 "change_stepsize": 10, # number of stepsizes for each change
                 "density": 0.1, # number of edges
                 "seed": 0, # random seed
-                "backbone": np.array(["0_1"] * 1000) # the backbone branch belonging of each cell, of the form "A_B", where A and B are node ids starting from 0
+                "backbone": np.array(["0_1"] * 1000), # the backbone branch belonging of each cell, of the form "A_B", where A and B are node ids starting from 0
+                "G0": None
                 }
     _argdict.update(argdict)
     
@@ -208,53 +221,57 @@ def dyn_GRN(argdict):
     Gs = [None] * ntimes
     # initialization: only consider activator & set edge strength: [0,1]
     # G0 = np.random.uniform(low = 0, high = 1, size = (ngenes, ngenes))
-    G0 = np.zeros((ngenes,ngenes))
-    nedges = int((ngenes**2)*_argdict["density"])
+    if _argdict["G0"] is None:
+        G0 = np.zeros((ngenes,ngenes))
+        nedges = int((ngenes**2)*_argdict["density"])
 
-    if mode ==  "TF-target": 
-        # TF is always self-regulated
-        for tf_in in range(ntfs):
-            G0[tf_in,tf_in] = np.random.uniform(low=0, high=1, size=1)
-            
-    elif mode ==  "TF-TF&target":
-        for tf_in in range(ntfs):
-            tf_out = np.random.choice(tf_in+1)
-            G0[tf_out,tf_in] = np.random.uniform(low=0, high=1, size=1)
-    
-    idx = 0
-    while len(np.nonzero(G0)[0]) < nedges:
-        target = idx%(ngenes-ntfs) + ntfs
-        tf = np.random.choice(ntfs)
-        G0[tf,target] = np.random.uniform(low=0, high=1, size=1)
-        idx += 1
-    
-    # ref: LL sparsity: 95%
-
-    # M = (np.abs(G0) > threshold).astype(int)
-
-    # # direction of regulate: (tf, target): tf -> target
-    # if mode ==  "TF-target":
-    #     # assume the first ntfs are tf. [Top-Right] has non-zero value
-    #     M[:ntfs,:ntfs] = 0
-    #     M[ntfs:,:] = 0
-    # elif mode == "TF-TF&target":
-    #     # assume the first ntfs are tf. Upper triangular of [Top-Left] & [Top-Right] has non-zero value
-    #     M[ntfs:,:] = 0
-    #     M[np.tril_indices(ntfs,-1)] = 0
-
-    # G0 = G0 * M
-    print("number of non-zero values in the network: {:d}".format(len(np.nonzero(G0)[0])))
-    Gs[0] = G0
-
-    # make sure the genes that are not regulated by any genes are self-regulating
-    not_regulated = np.where(np.sum(Gs[0], axis = 0) == 0)[0]
-    for i in not_regulated:
-        if i < ntfs:
-            Gs[0][i, i] = np.random.uniform(low = 0, high = 1, size = 1)
-        else:
+        if mode ==  "TF-target": 
+            # TF is always self-regulated
+            for tf_in in range(ntfs):
+                G0[tf_in,tf_in] = np.random.uniform(low=0, high=1, size=1)
+                
+        elif mode ==  "TF-TF&target":
+            for tf_in in range(ntfs):
+                tf_out = np.random.choice(tf_in+1)
+                G0[tf_out,tf_in] = np.random.uniform(low=0, high=1, size=1)
+        
+        idx = 0
+        while len(np.nonzero(G0)[0]) < nedges:
+            target = idx%(ngenes-ntfs) + ntfs
             tf = np.random.choice(ntfs)
-            Gs[0][tf, i] = np.random.uniform(low = 0, high = 1, size = 1)
+            G0[tf,target] = np.random.uniform(low=0, high=1, size=1)
+            idx += 1
+        
+        # ref: LL sparsity: 95%
 
+        # M = (np.abs(G0) > threshold).astype(int)
+
+        # # direction of regulate: (tf, target): tf -> target
+        # if mode ==  "TF-target":
+        #     # assume the first ntfs are tf. [Top-Right] has non-zero value
+        #     M[:ntfs,:ntfs] = 0
+        #     M[ntfs:,:] = 0
+        # elif mode == "TF-TF&target":
+        #     # assume the first ntfs are tf. Upper triangular of [Top-Left] & [Top-Right] has non-zero value
+        #     M[ntfs:,:] = 0
+        #     M[np.tril_indices(ntfs,-1)] = 0
+
+        # G0 = G0 * M
+        print("number of non-zero values in the network: {:d}".format(len(np.nonzero(G0)[0])))
+        Gs[0] = G0
+
+        # make sure the genes that are not regulated by any genes are self-regulating
+        not_regulated = np.where(np.sum(Gs[0], axis = 0) == 0)[0]
+        for i in not_regulated:
+            if i < ntfs:
+                Gs[0][i, i] = np.random.uniform(low = 0, high = 1, size = 1)
+            else:
+                tf = np.random.choice(ntfs)
+                Gs[0][tf, i] = np.random.uniform(low = 0, high = 1, size = 1)
+
+    else:
+        Gs[0] = _argdict["G0"]
+    
     # active (index, 1d) & non-active (-1) area
     if mode == "TF-target":
         active_area = np.arange(ngenes**2).reshape(ngenes,ngenes)
@@ -677,7 +694,7 @@ if __name__ == "__main__":
                     # parameter for dyn_GRN
                     "ngenes": 18, # number of genes 
                     "mode": "TF-TF&target", # mode of the simulation, `TF-TF&target' or `TF-target'
-                    "ntfs": 12,  # number of TFs
+                    "ntfs": 5,  # number of TFs
                     # nchanges also drive the trajectory, but even if don't change nchanges, there is still linear trajectory
                     "nchanges": 5, # number of changing edges for each interval
                     "change_stepsize": 100, # number of stepsizes for each change
@@ -685,7 +702,8 @@ if __name__ == "__main__":
                     "seed": 0, # random seed
                     "dW": None,
                     "backbone": np.array(["0_1"] * 300 + ["1_2"] * 350 + ["1_3"] * 350),
-                    "keep_degree": True
+                    "keep_degree": True,
+                    "G0": None
                     }
     results = run_simulator(**simu_setting)
 
