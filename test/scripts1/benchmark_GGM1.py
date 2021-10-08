@@ -98,6 +98,7 @@ for bandwidth in [0.01, 0.1, 1, 10]:
         data = str(bandwidth) + "_" + str(alpha) + "_" + str(lamb) + "_" + rho
         print(data)
         thetas = np.load(file = result_dir + "thetas_" + data + ".npy")
+        thetas = thetas[interval::,:,:] - thetas[:-interval,:,:]
 
         for time in range(0, ntimes):
             np.random.seed(0)
@@ -181,6 +182,7 @@ for bandwidth in [0.01, 0.1, 1, 10]:
         data = str(bandwidth) + "_" + str(alpha) + "_" + str(lamb) + "_" + rho
         print(data)
         thetas = np.load(file = result_dir + "thetas_" + data + "_nomean.npy")
+        thetas = thetas[interval::,:,:] - thetas[:-interval,:,:]
 
         for time in range(0, ntimes):
             np.random.seed(0)
@@ -264,6 +266,7 @@ for bandwidth in [0.01, 0.1, 1, 10]:
         data = str(bandwidth) + "_" + str(alpha) + "_" + str(lamb) + "_" + rho
         print(data)
         thetas = np.load(file = result_dir + "thetas_" + data + "_tfs.npy")
+        thetas = thetas[interval::,:,:] - thetas[:-interval,:,:]
 
         for time in range(0, ntimes):
             np.random.seed(0)
@@ -347,6 +350,7 @@ for bandwidth in [0.01, 0.1, 1, 10]:
         data = str(bandwidth) + "_" + str(alpha) + "_" + str(lamb) + "_" + rho
         print(data)
         thetas = np.load(file = result_dir + "thetas_" + data + "_tfs_nomean.npy")
+        thetas = thetas[interval::,:,:] - thetas[:-interval,:,:]
 
         for time in range(0, ntimes):
             np.random.seed(0)

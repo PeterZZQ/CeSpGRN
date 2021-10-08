@@ -2,37 +2,7 @@ import numpy as np
 from scipy.spatial.distance import pdist, squareform
 import networkx as nx
 
-def kernel_band(bandwidth, ntimes, truncate=False):
-    """\
-    Description:
-    -------------
-        Calculate the similarity kernel using time-series data
-    Parameter:
-    -------------
-        ntimes: number of time points
-        bandwidth: the bandwidth of gaussian kernel function, bandwidth decide the shape (width), no matter the length ntimes
-        truncate: truncate out small values in Gaussian kernel function or not
-    Return:
-    -------------
-        the weighted kernel function, the sum of each row is normalized to 1
-    """
-    # scale the t to be between 0 and 1
-    t = (np.arange(ntimes)/ntimes).reshape(ntimes, 1)
-    # calculate the pairwise-distance between time pointes
-    D = np.square(pdist(t))
-    # calculate the bandwidth used in Gaussian kernel function
-    mdis = 0.5 * bandwidth * np.median(D)
-    # calculate the gaussian kernel function
-    K = squareform(np.exp(-D/mdis))+np.identity(ntimes)
-
-    # if truncate the function
-    if truncate == True:
-        cutoff = mdis * 1.5
-        mask = (squareform(D) < cutoff).astype(np.int)
-        K_trun = K * mask
-    return K/np.sum(K, axis=1)[:, None], K_trun/np.sum(K_trun, axis = 1)[:, None]
-
-def calc_kernel(X, k = 5, bandwidth = 1, truncate = False):
+def calc_kernel(X, k = 5, bandwidth = 1, truncate = False, truncate_param = 5):
     """\
     Description:
     ------------
@@ -83,7 +53,7 @@ def calc_kernel(X, k = 5, bandwidth = 1, truncate = False):
     K = np.exp(-(D ** 2)/mdis) # + np.identity(D.shape[0])
     # if truncate the function
     if truncate == True:
-        cutoff = mdis * 1.5
+        cutoff = mdis * truncate_param
         mask = (D < cutoff).astype(np.int)
         K_trun = K * mask
     else:
@@ -93,6 +63,38 @@ def calc_kernel(X, k = 5, bandwidth = 1, truncate = False):
     return K/np.sum(K, axis = 1, keepdims = True), K_trun/np.sum(K_trun, axis = 1, keepdims = True)
 
 
+
+def kernel_band(bandwidth, ntimes, truncate=False):
+    """\
+    Description:
+    -------------
+        Calculate the similarity kernel using time-series data
+    Parameter:
+    -------------
+        ntimes: number of time points
+        bandwidth: the bandwidth of gaussian kernel function, bandwidth decide the shape (width), no matter the length ntimes
+        truncate: truncate out small values in Gaussian kernel function or not
+    Return:
+    -------------
+        the weighted kernel function, the sum of each row is normalized to 1
+    """
+    # scale the t to be between 0 and 1
+    t = (np.arange(ntimes)/ntimes).reshape(ntimes, 1)
+    # calculate the pairwise-distance between time pointes
+    D = np.square(pdist(t))
+    # calculate the bandwidth used in Gaussian kernel function
+    mdis = 0.5 * bandwidth * np.median(D)
+    # calculate the gaussian kernel function
+    K = squareform(np.exp(-D/mdis))+np.identity(ntimes)
+
+    # if truncate the function
+    if truncate == True:
+        cutoff = mdis * 1.5
+        mask = (squareform(D) < cutoff).astype(np.int)
+        K_trun = K * mask
+    return K/np.sum(K, axis=1)[:, None], K_trun/np.sum(K_trun, axis = 1)[:, None]
+
+'''
 def calc_diffu_kernel(X, t = 10, k = 10, n_eign = None, bandwidth = 1, truncate = False):
     """\
     Description:
@@ -209,5 +211,5 @@ def calc_diffu_kernel2(X, k = 10, bandwidth = 1, truncate = False):
         
     # make the weight on each row sum up to 1
     return K/np.sum(K, axis = 1, keepdims = True), K_trun/np.sum(K_trun, axis = 1, keepdims = True)
-
+'''
 
