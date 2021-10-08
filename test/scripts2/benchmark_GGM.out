@@ -1,0 +1,44 @@
+---------------------------------------
+Begin PBS Prologue Mon Oct  4 14:24:28 EDT 2021
+Job ID:     7024104.sched-hive.pace.gatech.edu
+User ID:    zzhang834
+Job name:   benchmark_GGM
+Queue:      hive-himem
+End PBS Prologue Mon Oct  4 14:24:29 EDT 2021
+---------------------------------------
+Traceback (most recent call last):
+  File "benchmark_GGM.py", line 157, in <module>
+    # benchmark random baseline
+IndexError: index 2900 is out of bounds for axis 0 with size 2900
+---------------------------------------
+Begin PBS Epilogue Mon Oct  4 14:39:16 EDT 2021
+Job ID:     7024104.sched-hive.pace.gatech.edu
+User ID:    zzhang834
+Job name:   benchmark_GGM
+Resources:  nodes=1:ppn=4,walltime=36:20:00,neednodes=1:ppn=4
+Rsrc Used:  cput=00:14:43,vmem=2168684kb,walltime=00:14:48,mem=280284kb,energy_used=0
+Queue:      hive-himem
+Nodes:     
+atl1-1-01-018-35.pace.gatech.edu
+End PBS Epilogue Mon Oct  4 14:39:16 EDT 2021
+---------------------------------------
+---------------------------------------
+Begin PBS Prologue Mon Oct  4 15:36:17 EDT 2021
+Job ID:     7024194.sched-hive.pace.gatech.edu
+User ID:    zzhang834
+Job name:   benchmark_GGM
+Queue:      hive-himem
+End PBS Prologue Mon Oct  4 15:36:17 EDT 2021
+---------------------------------------
+---------------------------------------
+Begin PBS Epilogue Mon Oct  4 15:46:17 EDT 2021
+Job ID:     7024194.sched-hive.pace.gatech.edu
+User ID:    zzhang834
+Job name:   benchmark_GGM
+Resources:  nodes=1:ppn=4,walltime=36:20:00,neednodes=1:ppn=4
+Rsrc Used:  cput=00:09:49,vmem=2176244kb,walltime=00:10:00,mem=286176kb,energy_used=0
+Queue:      hive-himem
+Nodes:     
+atl1-1-01-018-36.pace.gatech.edu
+End PBS Epilogue Mon Oct  4 15:46:17 EDT 2021
+---------------------------------------

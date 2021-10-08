@@ -1,0 +1,42 @@
+---------------------------------------
+Begin PBS Prologue Wed Oct  6 16:56:06 EDT 2021
+Job ID:     7025264.sched-hive.pace.gatech.edu
+User ID:    zzhang834
+Job name:   test_GGM1
+Queue:      hive-gpu-short
+End PBS Prologue Wed Oct  6 16:56:06 EDT 2021
+---------------------------------------
+=>> PBS: job killed: walltime 40828 exceeded limit 40800
+---------------------------------------
+Begin PBS Epilogue Thu Oct  7 04:16:44 EDT 2021
+Job ID:     7025264.sched-hive.pace.gatech.edu
+User ID:    zzhang834
+Job name:   test_GGM1
+Resources:  nodes=1:ppn=4:gpus=1,walltime=11:20:00,neednodes=1:ppn=4:gpus=1
+Rsrc Used:  cput=27:00:09,vmem=10113452kb,walltime=11:20:38,mem=2069592kb,energy_used=0
+Queue:      hive-gpu-short
+Nodes:     
+atl1-1-01-018-31.pace.gatech.edu
+End PBS Epilogue Thu Oct  7 04:16:44 EDT 2021
+---------------------------------------
+---------------------------------------
+Begin PBS Prologue Thu Oct  7 12:06:30 EDT 2021
+Job ID:     7025872.sched-hive.pace.gatech.edu
+User ID:    zzhang834
+Job name:   test_GGM1
+Queue:      hive-gpu-short
+End PBS Prologue Thu Oct  7 12:06:30 EDT 2021
+---------------------------------------
+=>> PBS: job killed: walltime 40858 exceeded limit 40800
+---------------------------------------
+Begin PBS Epilogue Thu Oct  7 23:27:38 EDT 2021
+Job ID:     7025872.sched-hive.pace.gatech.edu
+User ID:    zzhang834
+Job name:   test_GGM1
+Resources:  nodes=1:ppn=4:gpus=1,walltime=11:20:00,neednodes=1:ppn=4:gpus=1
+Rsrc Used:  cput=45:16:25,vmem=10396972kb,walltime=11:21:08,mem=2149176kb,energy_used=0
+Queue:      hive-gpu-short
+Nodes:     
+atl1-1-01-018-33.pace.gatech.edu
+End PBS Epilogue Thu Oct  7 23:27:38 EDT 2021
+---------------------------------------
