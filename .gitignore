@@ -1,3 +1,11 @@
 src/__pycache__
 test/results/
 test/results_softODE/
+test/scripts1/*.out
+test/scripts2/*.out
+test/scripts3/*.out
+test/scripts4_soft_boolODE/*.out
+test/scripts1/*.pbs
+test/scripts2/*.pbs
+test/scripts3/*.pbs
+test/scripts4_soft_boolODE/*.pbs
