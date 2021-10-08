@@ -474,7 +474,6 @@ class G_admm_minibatch():
             else:
                 self.thetas[start_idx:] = Z.detach().cpu().numpy()
             del thetas, U, I, Y, ll, Z
-
             print("Finished running batch {:d}.".format(batch))
 
         return self.thetas

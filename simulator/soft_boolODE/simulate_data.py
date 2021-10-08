@@ -1,5 +1,9 @@
 # In[]
+<<<<<<< HEAD
 import sys, os
+=======
+import sys
+>>>>>>> 7d73d882dab6f680c221d175d720fc2def010f57
 sys.path.append('./')
 import simulator_soft_ODE as simulator
 import matplotlib.pyplot as plt
