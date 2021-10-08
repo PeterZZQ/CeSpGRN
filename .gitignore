@@ -12,3 +12,6 @@ test/scripts2/*.err
 test/scripts3/*.err 
 test/scripts_softODE1/*.pbs
 test/scripts_softODE1/*.err
+test/scripts2/test_GGM1_copy*
+test/scripts2/test_GGM2_copy*
+test/scripts2/test_GGM3_copy*
