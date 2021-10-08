@@ -39,11 +39,11 @@ def preprocess(counts):
 # In[1] test with the first set of hyper-parameters
 ntimes = 1000
 path = "../../data/GGM_changing_mean/"
-max_iters = 2000
+max_iters = 500
 truncate_param = 7
 for interval in [200]:
     # for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20), (100, 50)]:
-    for (ngenes, ntfs) in [(50, 20), (100, 50)]:
+    for (ngenes, ntfs) in [(100, 50)]:
         result_dir = "../results/GGM_changing_mean_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "/"
         if not os.path.exists(result_dir):
             os.makedirs(result_dir)

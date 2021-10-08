@@ -5,6 +5,7 @@ import torch
 from torch_sqrtm import MatrixSquareRoot
 
 from torch.optim import Adam
+import time
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -380,6 +381,8 @@ class G_admm_minibatch():
     def train(self, max_iters = 50, n_intervals = 1, lamb = 2.1e-4, alpha = 1, rho = 1, beta = 0, theta_init_offset = 0.1):
         n_batches = int(np.ceil(self.ntimes/self.batchsize))
         for batch in range(n_batches):
+            print("start running batch " + str(batch))
+            start_time = time.time()
             # select a minibatch, and load to cuda
             start_idx = batch * self.batchsize
             if batch < n_batches - 1:
@@ -474,7 +477,8 @@ class G_admm_minibatch():
             else:
                 self.thetas[start_idx:] = Z.detach().cpu().numpy()
             del thetas, U, I, Y, ll, Z
-            print("Finished running batch {:d}.".format(batch))
+
+            print("Finished running batch {:d}, running time: {:.2f} sec".format(batch, time.time() - start_time))
 
         return self.thetas
 

@@ -9,7 +9,7 @@ sys.path.append('../../src/')
 import bmk_beeline as bmk
 import genie3
 
-plt.rcParams["font.size"] = 20
+plt.rcParams["font.size"] = 16
 
 
 def preprocess(counts): 
@@ -31,12 +31,9 @@ def preprocess(counts):
 
 # In[1] run model
 ntimes = 1000
-interval = 200
-ngenes = 20
 path = "../../data/continuousODE/bifur_sample_keep_deg/"
-
-# for ngenes, ntfs in [(20, 5), (30, 10), (50, 20), (100, 50)]:
-for ngenes, ntfs in [(100, 50)]:
+'''
+for ngenes, ntfs in [(20, 5), (30, 10), (50, 20), (100, 50)]:
     # for interval in [50, 100, 200]:
     for interval in [200]:
         for stepsize in [0.0001, 0.0002]:
@@ -156,12 +153,20 @@ for ngenes, ntfs in [(100, 50)]:
             np.save(file = result_dir + "genie_theta_obs.npy", arr = genie_theta)
             np.save(file = result_dir + "genie_theta_obs_tf.npy", arr = genie_theta_tf)
 
-# In[2] benchmark
-print("\n\ntest results:")
 
+'''
+pass
+# In[2] benchmark
+print("test results:")
+ntimes = 1000
+path = "../../data/continuousODE/bifur_sample_keep_deg/"
 for ngenes, ntfs in [(20, 5), (30, 10), (50, 20), (100, 50)]:
     for interval in [50, 100, 200]:
         for stepsize in [0.0001, 0.0002]:
+            # read in the data
+            X = np.load(path + "ngenes_" + str(ngenes) + "_interval_" + str(interval) + "_stepsize_" + str(stepsize) + "/true_count.npy")
+            gt_adj = np.load(path + "ngenes_" + str(ngenes) + "_interval_" + str(interval) + "_stepsize_" + str(stepsize) + "/GRNs.npy")
+
             score = pd.DataFrame(columns =["model", "nmse","probability of success", "pearson", "cosine similarity", "time"])
             score_rand = pd.DataFrame(columns =["model", "nmse","probability of success", "pearson", "cosine similarity", "time"])
             result_dir = "../results_softODE/results_ngenes_" + str(ngenes) + "_interval_" + str(interval) + "_stepsize_" + str(stepsize) + "/"
@@ -182,7 +187,7 @@ for ngenes, ntfs in [(20, 5), (30, 10), (50, 20), (100, 50)]:
                 nmse_rand = bmk.NMSE(G_inf = thetas_rand, G_true = gt_adj[time])
                 ps_rand = bmk.PS(G_inf = thetas_rand, G_true = gt_adj[time])
 
-                pearson_rand_val = bmk.pearson(G_inf = thetas_rand, G_true = gt_adj[time])
+                pearson_rand_val, pval = bmk.pearson(G_inf = thetas_rand, G_true = gt_adj[time])
                 cosine_sim_rand = bmk.cossim(G_inf = thetas_rand, G_true = gt_adj[time])        
                 score = score.append({"nmse": nmse_rand, "probability of success":ps_rand, "pearson": pearson_rand_val, "cosine similarity": cosine_sim_rand, 
                                       "model":"random", "time":time}, ignore_index=True)
@@ -198,7 +203,7 @@ for ngenes, ntfs in [(20, 5), (30, 10), (50, 20), (100, 50)]:
                 # benchmark genie
                 nmse = bmk.NMSE(G_inf = thetas1[time], G_true = gt_adj[time])
                 ps = bmk.PS(G_inf = thetas1[time], G_true = gt_adj[time])
-                pearson_val = bmk.pearson(G_inf = thetas1[time], G_true = gt_adj[time])
+                pearson_val, pval = bmk.pearson(G_inf = thetas1[time], G_true = gt_adj[time])
                 cosine_sim = bmk.cossim(G_inf = thetas1[time], G_true = gt_adj[time])            
                 score = score.append({"nmse": nmse, "probability of success":ps, "pearson": pearson_val, "cosine similarity": cosine_sim, 
                                     "model":"genie_standardscaler", "time":time}, ignore_index=True)
@@ -213,7 +218,7 @@ for ngenes, ntfs in [(20, 5), (30, 10), (50, 20), (100, 50)]:
             for time in range(0, ntimes):
                 nmse = bmk.NMSE(G_inf = thetas2[time], G_true = gt_adj[time])
                 ps = bmk.PS(G_inf = thetas2[time], G_true = gt_adj[time])
-                pearson_val = bmk.pearson(G_inf = thetas2[time], G_true = gt_adj[time])
+                pearson_val, pval = bmk.pearson(G_inf = thetas2[time], G_true = gt_adj[time])
                 cosine_sim = bmk.cossim(G_inf = thetas2[time], G_true = gt_adj[time])            
                 score = score.append({"nmse": nmse, "probability of success":ps, "pearson": pearson_val, "cosine similarity": cosine_sim, 
                                     "model":"genie_standardscaler_tf", "time":time}, ignore_index=True)
@@ -228,7 +233,7 @@ for ngenes, ntfs in [(20, 5), (30, 10), (50, 20), (100, 50)]:
             for time in range(0, ntimes):
                 nmse = bmk.NMSE(G_inf = thetas3[time], G_true = gt_adj[time])
                 ps = bmk.PS(G_inf = thetas3[time], G_true = gt_adj[time])
-                pearson_val = bmk.pearson(G_inf = thetas3[time], G_true = gt_adj[time])
+                pearson_val, pval = bmk.pearson(G_inf = thetas3[time], G_true = gt_adj[time])
                 cosine_sim = bmk.cossim(G_inf = thetas3[time], G_true = gt_adj[time])            
                 score = score.append({"nmse": nmse, "probability of success":ps, "pearson": pearson_val, "cosine similarity": cosine_sim, 
                                     "model":"genie", "time":time}, ignore_index=True)
@@ -243,7 +248,7 @@ for ngenes, ntfs in [(20, 5), (30, 10), (50, 20), (100, 50)]:
             for time in range(0, ntimes):
                 nmse = bmk.NMSE(G_inf = thetas4[time], G_true = gt_adj[time])
                 ps = bmk.PS(G_inf = thetas4[time], G_true = gt_adj[time])
-                pearson_val = bmk.pearson(G_inf = thetas4[time], G_true = gt_adj[time])
+                pearson_val, pval = bmk.pearson(G_inf = thetas4[time], G_true = gt_adj[time])
                 cosine_sim = bmk.cossim(G_inf = thetas4[time], G_true = gt_adj[time])            
                 score = score.append({"nmse": nmse, "probability of success":ps, "pearson": pearson_val, "cosine similarity": cosine_sim, 
                                     "model":"genie_tf", "time":time}, ignore_index=True)
@@ -258,7 +263,7 @@ for ngenes, ntfs in [(20, 5), (30, 10), (50, 20), (100, 50)]:
             for time in range(0, ntimes):
                 nmse = bmk.NMSE(G_inf = thetas5[time], G_true = gt_adj[time])
                 ps = bmk.PS(G_inf = thetas5[time], G_true = gt_adj[time])
-                pearson_val = bmk.pearson(G_inf = thetas5[time], G_true = gt_adj[time])
+                pearson_val, pval = bmk.pearson(G_inf = thetas5[time], G_true = gt_adj[time])
                 cosine_sim = bmk.cossim(G_inf = thetas5[time], G_true = gt_adj[time])            
                 score = score.append({"nmse": nmse, "probability of success":ps, "pearson": pearson_val, "cosine similarity": cosine_sim, 
                                     "model":"genie_obs", "time":time}, ignore_index=True)
@@ -273,7 +278,7 @@ for ngenes, ntfs in [(20, 5), (30, 10), (50, 20), (100, 50)]:
             for time in range(0, ntimes):
                 nmse = bmk.NMSE(G_inf = thetas6[time], G_true = gt_adj[time])
                 ps = bmk.PS(G_inf = thetas6[time], G_true = gt_adj[time])
-                pearson_val = bmk.pearson(G_inf = thetas6[time], G_true = gt_adj[time])
+                pearson_val, pval = bmk.pearson(G_inf = thetas6[time], G_true = gt_adj[time])
                 cosine_sim = bmk.cossim(G_inf = thetas6[time], G_true = gt_adj[time])            
                 score = score.append({"nmse": nmse, "probability of success":ps, "pearson": pearson_val, "cosine similarity": cosine_sim, 
                                     "model":"genie_obs_tf", "time":time}, ignore_index=True)
@@ -306,3 +311,5 @@ for ngenes, ntfs in [(20, 5), (30, 10), (50, 20), (100, 50)]:
             score.to_csv(result_dir + "score.csv")
 
 
+
+# %%

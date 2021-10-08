@@ -4,8 +4,11 @@ test/results_softODE/
 test/scripts1/*.out
 test/scripts2/*.out
 test/scripts3/*.out
-test/scripts4_soft_boolODE/*.out
 test/scripts1/*.pbs
 test/scripts2/*.pbs
 test/scripts3/*.pbs
-test/scripts4_soft_boolODE/*.pbs
+test/scripts1/*.err
+test/scripts2/*.err
+test/scripts3/*.err 
+test/scripts_softODE1/*.pbs
+test/scripts_softODE1/*.err
