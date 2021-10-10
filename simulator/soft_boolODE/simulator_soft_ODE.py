@@ -686,6 +686,68 @@ def run_simulator(**setting):
 
     return results
 
+
+def load_sub_sergio(grn_init, sub_size, ntfs, seed = 0, init_size = 100, mode = None):
+    import csv
+    np.random.seed(seed)
+    G_init = np.zeros((init_size,init_size))
+    with open(grn_init+".txt","r") as f:
+        reader = csv.reader(f, delimiter=",")
+
+        for row in reader:
+            target = int(float(row[0]))
+            n_tf = int(float(row[1]))
+            
+            # only consider activating regulation
+            for tfId, K in zip(row[2: 2 + n_tf], row[2+n_tf : 2+2*n_tf]):
+                if float(K) > 0:
+                    tf = int(float(tfId))
+                    G_init[tf,target] = float(K)
+
+    tf_list = np.unique((np.nonzero(G_init)[0]))
+    print("Original SERGIO: TF = {}".format(list(tf_list)))
+    G0 = np.zeros((sub_size,sub_size))
+
+    ntfs = ntfs
+    sub_tf = np.random.choice(tf_list, ntfs, replace = False)
+    sub_tf = np.sort(sub_tf)
+
+    # randomly select sub graph from SERGIO initial graph
+    if mode == "random":
+        tf_ids = np.nonzero(G_init[sub_tf])[0]
+        target_candid = np.nonzero(G_init[sub_tf])[1]
+
+        target_genes = np.random.choice(list(set(target_candid)), sub_size-ntfs, replace = False)
+        target_dict = {v:i for i,v in enumerate(np.sort(target_genes))}
+
+        print("Subgraph of SERGIO: TF = {}\tTarget = {}".format(list(sub_tf), list(target_dict.keys())))
+
+        for edge in zip(tf_ids, target_candid):
+            tf_id, target = edge
+            if target in target_dict.keys():
+                G0[tf_id, ntfs+target_dict[target]] = G_init[sub_tf[tf_id],target]
+                
+    # select the most desnse (large number of edges) sub graph from SERGIO initial graph
+    else:
+        target_indegree = np.sum(G_init[sub_tf], axis = 0)
+        target_genes =  np.argsort(target_indegree)[-(sub_size-ntfs):]
+        print("Subgraph of SERGIO: TF = {}\tTarget = {}".format(list(sub_tf), list(np.sort(target_genes))))
+        G0[:ntfs,ntfs:] = G_init[sub_tf][:,np.sort(target_genes)]
+    
+    # tune edge weight between 0 and 1
+    max_val = np.max(G0)
+    G0 = G0/max_val
+            
+    for tf in range(ntfs):
+        G0[tf,tf] = np.random.uniform(low = 0, high = 1)
+
+    n_edges = len(np.nonzero(G0)[0])
+    print("Number of edges: {}, Density: {}".format(n_edges, n_edges/(sub_size**2)))
+            
+    return G0
+
+
+
 # In[0] Check experiments (each experiments should return different results)
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
