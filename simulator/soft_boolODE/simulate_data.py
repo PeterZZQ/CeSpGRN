@@ -85,9 +85,6 @@ for stepsize in [0.0001, 0.0002]:
     for interval in [50, 100, 200]:
         for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20), (100, 50)]:
 
-            # NEED TO KEEP DEGREE IN SERGIO INITIAL GRAPH
-            G0 = simulator.load_sub_sergio(grn_init = sergio_path, sub_size = ngenes, ntfs = ntfs, seed = seed, init_size = 100)
-
             simu_setting = {"ncells": 1000, # number of cells
                             "ntimes": 1000, # time length for euler simulation
                             "integration_step_size": stepsize, # stepsize for each euler step
@@ -104,7 +101,7 @@ for stepsize in [0.0001, 0.0002]:
                             # the changing point must be divided exactly by the change_stepsize, or there will be issue.
                             "backbone": np.array(["0_1"] * 200 + ["1_2"] * 400 + ["1_3"] * 400),
                             "keep_degree": False,
-                            "G0": G0
+                            "G0": None
                             }
 
             data = "ngenes_" + str(simu_setting["ngenes"]) + "_interval_" + str(simu_setting["change_stepsize"]) + "_stepsize_" + str(simu_setting["integration_step_size" ])
