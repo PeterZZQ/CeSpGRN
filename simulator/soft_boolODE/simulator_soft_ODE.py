@@ -355,14 +355,14 @@ def dyn_GRN(argdict):
                     del_value = Gt[del_idx] / change_stepsize
 
                 else:
-                    Gt = pre_G.reshape(-1)
+                    Gt = pre_G.reshape(-1).copy()
 
                 # update values
                 Gt[add_idx] = Gt[add_idx] + add_value
                 Gt[del_idx] = Gt[del_idx] - del_value
-                Gs[time] = Gt.reshape((ngenes, ngenes))
+                Gs[time] = Gt.reshape((ngenes, ngenes)).copy()
                 # give the next pre_G
-                pre_G = Gs[time]
+                pre_G = Gs[time].copy()
 
                 # make sure no isolated gene
                 not_regulated = np.where(np.sum(Gs[time], axis = 0) == 0)[0]

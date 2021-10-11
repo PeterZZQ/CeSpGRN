@@ -13,4 +13,4 @@
 module load anaconda3
 conda activate myenv
 cd /ocean/projects/cis210014p/ziqi/DynGRN/simulator/soft_boolODE
-python simulate_data.py
+python simulate_data_sergio.py

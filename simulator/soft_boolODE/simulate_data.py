@@ -78,7 +78,7 @@ np.save("bifur/obs_count.npy", results["observed count"].T)
 np.save("bifur/pseudotime.npy", results["pseudotime"])
 '''
 # In[1] simulate bifurcating data where the graph in/out degrees kept
-path = "../../data/continuousODE/bifur_sample_keep_deg/"
+path = "../../data/continuousODE/random_init_keep_deg/"
 sergio_path = "./sergio_data/Interaction_cID_8"
 
 for stepsize in [0.0001, 0.0002]:
@@ -140,7 +140,7 @@ for stepsize in [0.0001, 0.0002]:
             X_umap = pca_op.fit_transform(X)
             ax.scatter(X_umap[:, 0], X_umap[:, 1], s = 5, c = pt)
             fig.savefig(path + data + "/observed_count_plot.png", bbox_inches = "tight")
-
+            
             np.save(path + data + "/true_count.npy", results["true count"].T)
             np.save(path + data + "/obs_count.npy", results["observed count"].T)
             np.save(path + data + "/pseudotime.npy", results["pseudotime"])

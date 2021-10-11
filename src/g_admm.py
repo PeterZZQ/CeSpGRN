@@ -140,8 +140,8 @@ class G_admm():
                 # primal_eps = np.sqrt(theta.shape[0]) * epsilon_abs + epsilon_rel * max(theta.pow(2).sum().sqrt(), Z.pow(2).sum().sqrt())
                 # dual_eps = np.sqrt(theta.shape[0]) * epsilon_abs + epsilon_rel * U.pow(2).sum().sqrt()
                 # print("primal_eps: {:.4e}, dual_eps: {:.4e}".format(primal_eps, dual_eps))
-                primal_eps = 1e-6
-                dual_eps = 1e-6
+                primal_eps = 1e-3
+                dual_eps = 1e-3
                 if (primal_residual < primal_eps) and (dual_residual < dual_eps):
                     break
 
@@ -294,8 +294,8 @@ class G_admm_batch():
                 
                 # if duality_gap < 1e-8:
                 #     break
-                primal_eps = 1e-6
-                dual_eps = 1e-6
+                primal_eps = 5e-3
+                dual_eps = 5e-3
                 if (primal_residual.max() < primal_eps) and (dual_residual.max() < dual_eps):
                     break                
             it += 1
@@ -461,8 +461,8 @@ class G_admm_minibatch():
                     
                     # if duality_gap < 1e-8:
                     #     break
-                    primal_eps = 1e-6
-                    dual_eps = 1e-6
+                    primal_eps = 1e-6 # 1e-3
+                    dual_eps = 1e-6 # 1e-3
                     if (primal_residual.max() < primal_eps) and (dual_residual.max() < dual_eps):
                         break                
                 it += 1

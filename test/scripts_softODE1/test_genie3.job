@@ -3,7 +3,7 @@
 #SBATCH -N 1
 #SBATCH -p RM-shared
 #SBATCH --ntasks-per-node=4
-#SBATCH -t 2:00:00
+#SBATCH -t 8:00:00
 #SBATCH -o test_genie3.out 
 #SBATCH -e test_genie3.err
 #SBATCH --mail-user=zzhang834@gatech.edu

@@ -1,6 +1,7 @@
 src/__pycache__
 test/results/
 test/results_softODE/
+test/results_softODE_sergio/
 test/scripts1/*.out
 test/scripts2/*.out
 test/scripts3/*.out
