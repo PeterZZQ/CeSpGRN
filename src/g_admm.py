@@ -461,8 +461,8 @@ class G_admm_minibatch():
                     
                     # if duality_gap < 1e-8:
                     #     break
-                    primal_eps = 1e-6 # 1e-3
-                    dual_eps = 1e-6 # 1e-3
+                    primal_eps = 1e-3 # 1e-6
+                    dual_eps = 1e-3 # 1e-6
                     if (primal_residual.max() < primal_eps) and (dual_residual.max() < dual_eps):
                         break                
                 it += 1

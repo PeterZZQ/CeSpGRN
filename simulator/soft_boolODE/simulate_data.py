@@ -79,7 +79,6 @@ np.save("bifur/pseudotime.npy", results["pseudotime"])
 '''
 # In[1] simulate bifurcating data where the graph in/out degrees kept
 path = "../../data/continuousODE/random_init_keep_deg/"
-sergio_path = "./sergio_data/Interaction_cID_8"
 
 for stepsize in [0.0001, 0.0002]:
     for interval in [50, 100, 200]:
@@ -100,7 +99,7 @@ for stepsize in [0.0001, 0.0002]:
                             "dW": None,
                             # the changing point must be divided exactly by the change_stepsize, or there will be issue.
                             "backbone": np.array(["0_1"] * 200 + ["1_2"] * 400 + ["1_3"] * 400),
-                            "keep_degree": False,
+                            "keep_degree": True,
                             "G0": None
                             }
 
@@ -137,6 +136,14 @@ for stepsize in [0.0001, 0.0002]:
             X_umap = pca_op.fit_transform(X)
             ax.scatter(X_umap[:, 0], X_umap[:, 1], s = 5, c = pt)
             fig.savefig(path + data + "/observed_count_plot.png", bbox_inches = "tight")
+
+            fig = plt.figure(figsize = (10, 7))
+            ax = fig.add_subplot()
+            X = results["GRNs"].reshape(1000, -1)
+            pt = results["pseudotime"]
+            X_umap = pca_op.fit_transform(X)
+            ax.scatter(X_umap[:, 0], X_umap[:, 1], s = 5, c = pt)
+            fig.savefig(path + data + "/grn_plot.png", bbox_inches = "tight")
             
             np.save(path + data + "/true_count.npy", results["true count"].T)
             np.save(path + data + "/obs_count.npy", results["observed count"].T)

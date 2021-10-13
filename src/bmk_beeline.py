@@ -6,7 +6,15 @@ from itertools import product, permutations, combinations, combinations_with_rep
 
 from sklearn.metrics import precision_recall_curve, PrecisionRecallDisplay,roc_curve,auc,RocCurveDisplay, average_precision_score, roc_auc_score
 
-
+def kendalltau(G_inf, G_true):
+    """\
+    Description:
+    ------------
+        Pearson Correlation
+    """
+    import scipy.stats as stats
+    return stats.kendalltau(G_inf.reshape(-1), G_true.reshape(-1))
+    
 def NMSE(G_inf, G_true):
     """\
     Description:

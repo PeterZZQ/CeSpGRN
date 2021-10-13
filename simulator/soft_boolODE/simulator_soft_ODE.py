@@ -652,7 +652,7 @@ def run_simulator(**setting):
     # Sampling pseudotime for cells, and generate true gene expression data
     # seed is set to original value
     np.random.seed(_setting["seed"])
-    pseudotime_index = np.random.choice(np.arange(_setting["ntimes"]), _setting["ncells"], replace = False)
+    pseudotime_index = np.random.choice(np.arange(_setting["ntimes"]), _setting["ncells"], replace = True)
     # pseudotime, (ncells,)
     GRNs = _setting["GRN"][pseudotime_index, :, :]
     pseudotime = sim_times[0][pseudotime_index]
@@ -753,25 +753,31 @@ if __name__ == "__main__":
     import matplotlib.pyplot as plt
     from umap import UMAP
     from sklearn.decomposition import PCA
+    sergio_path = "./sergio_data/Interaction_cID_8"
+    ngenes = 20
+    ntfs = 5
+    seed = 0
+    G0 = load_sub_sergio(grn_init = sergio_path, sub_size = ngenes, ntfs = ntfs, seed = seed, init_size = 100)
+
     plt.rcParams["font.size"] = 20
-    stepsize = 0.0002
+    stepsize = 0.001
     simu_setting = {"ncells": 4, # number of cells
-                    "ntimes": 1000, # time length for euler simulation
+                    "ntimes": 400, # time length for euler simulation
                     "integration_step_size": stepsize, # stepsize for each euler step
                     # parameter for dyn_GRN
-                    "ngenes": 18, # number of genes 
+                    "ngenes": 20, # number of genes 
                     "mode": "TF-TF&target", # mode of the simulation, `TF-TF&target' or `TF-target'
                     "ntfs": 5,  # number of TFs
                     # nchanges also drive the trajectory, but even if don't change nchanges, there is still linear trajectory
-                    "nchanges": 5, # number of changing edges for each interval
-                    "change_stepsize": 100, # number of stepsizes for each change
+                    "nchanges": 10, # number of changing edges for each interval
+                    "change_stepsize": 10, # number of stepsizes for each change
                     "density": 0.1, # number of edges
                     "seed": 0, # random seed
                     "dW": None,
                     # the changing point must be divided exactly by the change_stepsize, or there will be issue.
-                    "backbone": np.array(["0_1"] * 200 + ["1_2"] * 400 + ["1_3"] * 400),
-                    "keep_degree": True,
-                    "G0": None
+                    "backbone": np.array(["0_1"] * 40 + ["1_2"] * 180 + ["1_3"] * 180),
+                    "keep_degree": False,
+                    "G0": G0
                     }
     results = run_simulator(**simu_setting)
 

@@ -2,8 +2,9 @@
 #SBATCH -J simulate_data
 #SBATCH -N 1
 #SBATCH -p RM-shared
-#SBATCH --ntasks-per-node=16
-#SBATCH -t 00:30:00
+#SBATCH --ntasks-per-node=32
+#SBATCH --mem=60GB
+#SBATCH -t 01:00:00
 #SBATCH -o simulate_data.out 
 #SBATCH -e simulate_data.err
 #SBATCH --mail-user=zzhang834@gatech.edu
@@ -13,4 +14,5 @@
 module load anaconda3
 conda activate myenv
 cd /ocean/projects/cis210014p/ziqi/DynGRN/simulator/soft_boolODE
-python simulate_data_sergio.py
+# python simulate_data_sergio.py
+python simulate_data.py
