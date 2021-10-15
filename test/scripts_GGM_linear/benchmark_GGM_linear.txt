@@ -1,0 +1,2694 @@
+------------------------------------------------------------------
+benchmark accuracy
+------------------------------------------------------------------
+ntimes: 1000, interval: 50, ngenes: 20
+Not using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 20.9630, mean pearson: 0.9165, mean kt: 0.4677, mean spearman: 0.5013, mean cosine: 0.9196
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8231, mean pearson: 0.9165, mean kt: 0.4676, mean spearman: 0.5013, mean cosine: 0.9196
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.4119, mean pearson: 0.7999, mean kt: 0.3882, mean spearman: 0.4785, mean cosine: 0.8051
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.6217, mean pearson: 0.8677, mean kt: 0.4093, mean spearman: 0.4846, mean cosine: 0.8723
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.4726, mean pearson: 0.7862, mean kt: 0.3818, mean spearman: 0.4714, mean cosine: 0.7913
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.6724, mean pearson: 0.8524, mean kt: 0.4008, mean spearman: 0.4797, mean cosine: 0.8573
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.1269, mean pearson: 0.9534, mean kt: 0.5327, mean spearman: 0.6211, mean cosine: 0.9550
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.3336, mean pearson: 0.9348, mean kt: 0.6184, mean spearman: 0.6538, mean cosine: 0.9372
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.6777, mean pearson: 0.7654, mean kt: 0.3627, mean spearman: 0.4501, mean cosine: 0.7708
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.7880, mean pearson: 0.8261, mean kt: 0.3841, mean spearman: 0.4684, mean cosine: 0.8313
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.7128, mean pearson: 0.7605, mean kt: 0.3656, mean spearman: 0.4535, mean cosine: 0.7660
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8080, mean pearson: 0.8167, mean kt: 0.3824, mean spearman: 0.4671, mean cosine: 0.8221
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.7137, mean pearson: 0.8335, mean kt: 0.4029, mean spearman: 0.4954, mean cosine: 0.8378
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.7925, mean pearson: 0.8907, mean kt: 0.4364, mean spearman: 0.5214, mean cosine: 0.8944
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.8413, mean pearson: 0.7459, mean kt: 0.3656, mean spearman: 0.4521, mean cosine: 0.7506
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8840, mean pearson: 0.7905, mean kt: 0.3800, mean spearman: 0.4674, mean cosine: 0.7962
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.8519, mean pearson: 0.7428, mean kt: 0.3611, mean spearman: 0.4468, mean cosine: 0.7473
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8904, mean pearson: 0.7872, mean kt: 0.3751, mean spearman: 0.4610, mean cosine: 0.7929
+
+
+Using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 5.7472, mean pearson: 0.4992, mean kt: 0.4684, mean spearman: 0.5013, mean cosine: 0.5097
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.7370, mean pearson: 0.5797, mean kt: 0.4684, mean spearman: 0.5013, mean cosine: 0.5903
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.6996, mean pearson: 0.8100, mean kt: 0.4042, mean spearman: 0.4975, mean cosine: 0.8152
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.7634, mean pearson: 0.8806, mean kt: 0.4174, mean spearman: 0.4975, mean cosine: 0.8848
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.7281, mean pearson: 0.8143, mean kt: 0.4023, mean spearman: 0.4951, mean cosine: 0.8195
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.7859, mean pearson: 0.8738, mean kt: 0.4109, mean spearman: 0.4940, mean cosine: 0.8782
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.5771, mean pearson: 0.7754, mean kt: 0.5454, mean spearman: 0.6378, mean cosine: 0.7822
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.6580, mean pearson: 0.8369, mean kt: 0.6143, mean spearman: 0.6501, mean cosine: 0.8428
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.8018, mean pearson: 0.8212, mean kt: 0.3933, mean spearman: 0.4850, mean cosine: 0.8265
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8400, mean pearson: 0.8583, mean kt: 0.3991, mean spearman: 0.4864, mean cosine: 0.8631
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.8168, mean pearson: 0.8182, mean kt: 0.3938, mean spearman: 0.4853, mean cosine: 0.8235
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8513, mean pearson: 0.8513, mean kt: 0.3996, mean spearman: 0.4872, mean cosine: 0.8562
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.8067, mean pearson: 0.8964, mean kt: 0.4441, mean spearman: 0.5430, mean cosine: 0.8998
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8376, mean pearson: 0.9242, mean kt: 0.4563, mean spearman: 0.5448, mean cosine: 0.9269
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.8775, mean pearson: 0.7999, mean kt: 0.3811, mean spearman: 0.4703, mean cosine: 0.8045
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8980, mean pearson: 0.8265, mean kt: 0.3895, mean spearman: 0.4786, mean cosine: 0.8313
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.8832, mean pearson: 0.7949, mean kt: 0.3765, mean spearman: 0.4649, mean cosine: 0.7995
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.9025, mean pearson: 0.8215, mean kt: 0.3848, mean spearman: 0.4728, mean cosine: 0.8263
+
+ntimes: 1000, interval: 50, ngenes: 30
+Not using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 10.9662, mean pearson: 0.8804, mean kt: 0.3573, mean spearman: 0.3866, mean cosine: 0.8836
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.4258, mean pearson: 0.8807, mean kt: 0.3599, mean spearman: 0.3895, mean cosine: 0.8838
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.3499, mean pearson: 0.8253, mean kt: 0.4224, mean spearman: 0.5230, mean cosine: 0.8288
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.6448, mean pearson: 0.8717, mean kt: 0.4395, mean spearman: 0.5179, mean cosine: 0.8746
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.3776, mean pearson: 0.8199, mean kt: 0.4206, mean spearman: 0.5218, mean cosine: 0.8234
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.6704, mean pearson: 0.8690, mean kt: 0.4393, mean spearman: 0.5212, mean cosine: 0.8719
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.2135, mean pearson: 0.9317, mean kt: 0.5651, mean spearman: 0.6715, mean cosine: 0.9333
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.5272, mean pearson: 0.9252, mean kt: 0.6529, mean spearman: 0.7048, mean cosine: 0.9272
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.6187, mean pearson: 0.7989, mean kt: 0.4119, mean spearman: 0.5144, mean cosine: 0.8026
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.7869, mean pearson: 0.8596, mean kt: 0.4426, mean spearman: 0.5353, mean cosine: 0.8626
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.6611, mean pearson: 0.7892, mean kt: 0.4032, mean spearman: 0.5046, mean cosine: 0.7930
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8059, mean pearson: 0.8529, mean kt: 0.4369, mean spearman: 0.5308, mean cosine: 0.8559
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.7098, mean pearson: 0.8350, mean kt: 0.4358, mean spearman: 0.5415, mean cosine: 0.8388
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8129, mean pearson: 0.8952, mean kt: 0.4924, mean spearman: 0.5851, mean cosine: 0.8976
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.7940, mean pearson: 0.7660, mean kt: 0.3835, mean spearman: 0.4823, mean cosine: 0.7708
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8674, mean pearson: 0.8241, mean kt: 0.4199, mean spearman: 0.5188, mean cosine: 0.8276
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.8017, mean pearson: 0.7638, mean kt: 0.3821, mean spearman: 0.4807, mean cosine: 0.7686
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8710, mean pearson: 0.8214, mean kt: 0.4160, mean spearman: 0.5141, mean cosine: 0.8251
+
+
+Using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 4.0430, mean pearson: 0.5549, mean kt: 0.3580, mean spearman: 0.3867, mean cosine: 0.5622
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.6362, mean pearson: 0.6159, mean kt: 0.3607, mean spearman: 0.3895, mean cosine: 0.6232
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.6696, mean pearson: 0.7609, mean kt: 0.4344, mean spearman: 0.5391, mean cosine: 0.7650
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.7756, mean pearson: 0.8671, mean kt: 0.4456, mean spearman: 0.5299, mean cosine: 0.8701
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.6879, mean pearson: 0.7743, mean kt: 0.4353, mean spearman: 0.5406, mean cosine: 0.7782
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.7866, mean pearson: 0.8708, mean kt: 0.4468, mean spearman: 0.5345, mean cosine: 0.8736
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.6057, mean pearson: 0.7987, mean kt: 0.5847, mean spearman: 0.6983, mean cosine: 0.8027
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.7253, mean pearson: 0.8710, mean kt: 0.6530, mean spearman: 0.7059, mean cosine: 0.8743
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.7807, mean pearson: 0.8261, mean kt: 0.4514, mean spearman: 0.5588, mean cosine: 0.8294
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8410, mean pearson: 0.8805, mean kt: 0.4607, mean spearman: 0.5577, mean cosine: 0.8831
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.7974, mean pearson: 0.8263, mean kt: 0.4463, mean spearman: 0.5532, mean cosine: 0.8295
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8515, mean pearson: 0.8753, mean kt: 0.4542, mean spearman: 0.5525, mean cosine: 0.8779
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.8071, mean pearson: 0.8769, mean kt: 0.4894, mean spearman: 0.6009, mean cosine: 0.8797
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8512, mean pearson: 0.9157, mean kt: 0.5136, mean spearman: 0.6095, mean cosine: 0.9176
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.8533, mean pearson: 0.8129, mean kt: 0.4272, mean spearman: 0.5325, mean cosine: 0.8167
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8883, mean pearson: 0.8496, mean kt: 0.4359, mean spearman: 0.5373, mean cosine: 0.8527
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.8571, mean pearson: 0.8097, mean kt: 0.4248, mean spearman: 0.5297, mean cosine: 0.8136
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8910, mean pearson: 0.8444, mean kt: 0.4316, mean spearman: 0.5320, mean cosine: 0.8476
+
+ntimes: 1000, interval: 50, ngenes: 50
+Not using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 4.3880, mean pearson: 0.8962, mean kt: 0.2828, mean spearman: 0.3050, mean cosine: 0.8980
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.1984, mean pearson: 0.8962, mean kt: 0.2814, mean spearman: 0.3036, mean cosine: 0.8979
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.2917, mean pearson: 0.8530, mean kt: 0.3940, mean spearman: 0.4843, mean cosine: 0.8552
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.6613, mean pearson: 0.8860, mean kt: 0.3929, mean spearman: 0.4524, mean cosine: 0.8879
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.3116, mean pearson: 0.8480, mean kt: 0.3918, mean spearman: 0.4839, mean cosine: 0.8503
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.6850, mean pearson: 0.8838, mean kt: 0.3930, mean spearman: 0.4556, mean cosine: 0.8856
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.2341, mean pearson: 0.9169, mean kt: 0.5055, mean spearman: 0.6023, mean cosine: 0.9182
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.5939, mean pearson: 0.9184, mean kt: 0.5252, mean spearman: 0.5703, mean cosine: 0.9198
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.5167, mean pearson: 0.8266, mean kt: 0.3905, mean spearman: 0.4896, mean cosine: 0.8293
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.7847, mean pearson: 0.8779, mean kt: 0.4064, mean spearman: 0.4836, mean cosine: 0.8799
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.5501, mean pearson: 0.8226, mean kt: 0.3892, mean spearman: 0.4886, mean cosine: 0.8254
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.7976, mean pearson: 0.8760, mean kt: 0.4029, mean spearman: 0.4815, mean cosine: 0.8780
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.6304, mean pearson: 0.8504, mean kt: 0.4282, mean spearman: 0.5335, mean cosine: 0.8530
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8106, mean pearson: 0.9095, mean kt: 0.4788, mean spearman: 0.5591, mean cosine: 0.9110
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.7020, mean pearson: 0.8033, mean kt: 0.3845, mean spearman: 0.4841, mean cosine: 0.8067
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8524, mean pearson: 0.8627, mean kt: 0.3988, mean spearman: 0.4845, mean cosine: 0.8651
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.7126, mean pearson: 0.8019, mean kt: 0.3843, mean spearman: 0.4840, mean cosine: 0.8054
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8561, mean pearson: 0.8609, mean kt: 0.4004, mean spearman: 0.4859, mean cosine: 0.8633
+
+
+Using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 2.2334, mean pearson: 0.5825, mean kt: 0.2824, mean spearman: 0.3052, mean cosine: 0.5871
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.5931, mean pearson: 0.6358, mean kt: 0.2808, mean spearman: 0.3036, mean cosine: 0.6403
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.6638, mean pearson: 0.6789, mean kt: 0.3802, mean spearman: 0.4737, mean cosine: 0.6821
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.7999, mean pearson: 0.8354, mean kt: 0.3892, mean spearman: 0.4535, mean cosine: 0.8379
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.6809, mean pearson: 0.6926, mean kt: 0.3800, mean spearman: 0.4747, mean cosine: 0.6958
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8101, mean pearson: 0.8439, mean kt: 0.3881, mean spearman: 0.4555, mean cosine: 0.8462
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.6406, mean pearson: 0.7314, mean kt: 0.5088, mean spearman: 0.6135, mean cosine: 0.7343
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.7693, mean pearson: 0.8275, mean kt: 0.5217, mean spearman: 0.5688, mean cosine: 0.8301
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.7694, mean pearson: 0.7715, mean kt: 0.3971, mean spearman: 0.4979, mean cosine: 0.7745
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8537, mean pearson: 0.8766, mean kt: 0.4115, mean spearman: 0.4933, mean cosine: 0.8786
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.7814, mean pearson: 0.7805, mean kt: 0.3969, mean spearman: 0.4979, mean cosine: 0.7834
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8600, mean pearson: 0.8787, mean kt: 0.4111, mean spearman: 0.4946, mean cosine: 0.8806
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.7995, mean pearson: 0.8349, mean kt: 0.4510, mean spearman: 0.5601, mean cosine: 0.8374
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8633, mean pearson: 0.9133, mean kt: 0.4882, mean spearman: 0.5728, mean cosine: 0.9147
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.8334, mean pearson: 0.8102, mean kt: 0.4012, mean spearman: 0.5027, mean cosine: 0.8132
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8884, mean pearson: 0.8783, mean kt: 0.4063, mean spearman: 0.4953, mean cosine: 0.8803
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.8371, mean pearson: 0.8109, mean kt: 0.4017, mean spearman: 0.5032, mean cosine: 0.8138
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8906, mean pearson: 0.8765, mean kt: 0.4078, mean spearman: 0.4964, mean cosine: 0.8785
+
+ntimes: 1000, interval: 50, ngenes: 100
+Not using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.1958, mean pearson: 0.8974, mean kt: 0.3882, mean spearman: 0.4516, mean cosine: 0.8980
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.5851, mean pearson: 0.8901, mean kt: 0.2718, mean spearman: 0.2957, mean cosine: 0.8908
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.2828, mean pearson: 0.8685, mean kt: 0.3503, mean spearman: 0.4249, mean cosine: 0.8694
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.7360, mean pearson: 0.8764, mean kt: 0.2825, mean spearman: 0.3218, mean cosine: 0.8772
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.3047, mean pearson: 0.8669, mean kt: 0.3530, mean spearman: 0.4302, mean cosine: 0.8677
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.7488, mean pearson: 0.8753, mean kt: 0.2861, mean spearman: 0.3272, mean cosine: 0.8761
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.3870, mean pearson: 0.8825, mean kt: 0.3986, mean spearman: 0.4857, mean cosine: 0.8833
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.7521, mean pearson: 0.8985, mean kt: 0.3559, mean spearman: 0.3960, mean cosine: 0.8991
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.4761, mean pearson: 0.8551, mean kt: 0.3657, mean spearman: 0.4557, mean cosine: 0.8560
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8146, mean pearson: 0.8734, mean kt: 0.3198, mean spearman: 0.3742, mean cosine: 0.8743
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.5034, mean pearson: 0.8521, mean kt: 0.3654, mean spearman: 0.4568, mean cosine: 0.8530
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8235, mean pearson: 0.8727, mean kt: 0.3251, mean spearman: 0.3819, mean cosine: 0.8735
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.6039, mean pearson: 0.8502, mean kt: 0.3780, mean spearman: 0.4761, mean cosine: 0.8511
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8460, mean pearson: 0.8865, mean kt: 0.3728, mean spearman: 0.4356, mean cosine: 0.8872
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.6341, mean pearson: 0.8352, mean kt: 0.3630, mean spearman: 0.4601, mean cosine: 0.8362
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8620, mean pearson: 0.8701, mean kt: 0.3385, mean spearman: 0.4050, mean cosine: 0.8710
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.6416, mean pearson: 0.8340, mean kt: 0.3626, mean spearman: 0.4600, mean cosine: 0.8350
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8642, mean pearson: 0.8697, mean kt: 0.3396, mean spearman: 0.4068, mean cosine: 0.8706
+
+
+Using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.5496, mean pearson: 0.6892, mean kt: 0.3876, mean spearman: 0.4550, mean cosine: 0.6908
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.7554, mean pearson: 0.7637, mean kt: 0.2716, mean spearman: 0.2956, mean cosine: 0.7652
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.6277, mean pearson: 0.6823, mean kt: 0.3303, mean spearman: 0.4072, mean cosine: 0.6837
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8311, mean pearson: 0.8086, mean kt: 0.2829, mean spearman: 0.3247, mean cosine: 0.8098
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.6429, mean pearson: 0.6870, mean kt: 0.3328, mean spearman: 0.4119, mean cosine: 0.6884
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8378, mean pearson: 0.8139, mean kt: 0.2863, mean spearman: 0.3302, mean cosine: 0.8151
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.6813, mean pearson: 0.7285, mean kt: 0.3919, mean spearman: 0.4827, mean cosine: 0.7298
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8378, mean pearson: 0.8338, mean kt: 0.3599, mean spearman: 0.4012, mean cosine: 0.8349
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.7344, mean pearson: 0.7262, mean kt: 0.3491, mean spearman: 0.4396, mean cosine: 0.7274
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8719, mean pearson: 0.8447, mean kt: 0.3219, mean spearman: 0.3795, mean cosine: 0.8457
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.7472, mean pearson: 0.7322, mean kt: 0.3506, mean spearman: 0.4422, mean cosine: 0.7334
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8767, mean pearson: 0.8484, mean kt: 0.3268, mean spearman: 0.3867, mean cosine: 0.8494
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.7891, mean pearson: 0.7688, mean kt: 0.3773, mean spearman: 0.4768, mean cosine: 0.7700
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8865, mean pearson: 0.8721, mean kt: 0.3647, mean spearman: 0.4276, mean cosine: 0.8729
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.8008, mean pearson: 0.7595, mean kt: 0.3406, mean spearman: 0.4333, mean cosine: 0.7606
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8967, mean pearson: 0.8615, mean kt: 0.3261, mean spearman: 0.3920, mean cosine: 0.8624
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.8039, mean pearson: 0.7608, mean kt: 0.3405, mean spearman: 0.4336, mean cosine: 0.7620
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8980, mean pearson: 0.8613, mean kt: 0.3264, mean spearman: 0.3927, mean cosine: 0.8622
+
+ntimes: 1000, interval: 100, ngenes: 20
+Not using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 1.6199, mean pearson: 0.9385, mean kt: 0.5458, mean spearman: 0.6164, mean cosine: 0.9408
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.1775, mean pearson: 0.9063, mean kt: 0.5110, mean spearman: 0.5435, mean cosine: 0.9101
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.4150, mean pearson: 0.7950, mean kt: 0.3795, mean spearman: 0.4685, mean cosine: 0.7998
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.6276, mean pearson: 0.8680, mean kt: 0.4104, mean spearman: 0.4872, mean cosine: 0.8724
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.4555, mean pearson: 0.7878, mean kt: 0.3747, mean spearman: 0.4634, mean cosine: 0.7928
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.6587, mean pearson: 0.8601, mean kt: 0.4042, mean spearman: 0.4831, mean cosine: 0.8647
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.4056, mean pearson: 0.8877, mean kt: 0.4552, mean spearman: 0.5535, mean cosine: 0.8909
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.5867, mean pearson: 0.9410, mean kt: 0.5648, mean spearman: 0.6295, mean cosine: 0.9432
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.6879, mean pearson: 0.7676, mean kt: 0.3787, mean spearman: 0.4680, mean cosine: 0.7749
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.7896, mean pearson: 0.8336, mean kt: 0.4030, mean spearman: 0.4892, mean cosine: 0.8398
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.7225, mean pearson: 0.7612, mean kt: 0.3775, mean spearman: 0.4669, mean cosine: 0.7689
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8098, mean pearson: 0.8251, mean kt: 0.4008, mean spearman: 0.4884, mean cosine: 0.8315
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.7484, mean pearson: 0.8344, mean kt: 0.4137, mean spearman: 0.5090, mean cosine: 0.8408
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8102, mean pearson: 0.8959, mean kt: 0.4659, mean spearman: 0.5569, mean cosine: 0.9001
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.8370, mean pearson: 0.7395, mean kt: 0.3633, mean spearman: 0.4500, mean cosine: 0.7496
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8810, mean pearson: 0.7843, mean kt: 0.3879, mean spearman: 0.4760, mean cosine: 0.7928
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.8426, mean pearson: 0.7370, mean kt: 0.3634, mean spearman: 0.4501, mean cosine: 0.7474
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8843, mean pearson: 0.7799, mean kt: 0.3862, mean spearman: 0.4741, mean cosine: 0.7888
+
+
+Using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.7004, mean pearson: 0.6061, mean kt: 0.5568, mean spearman: 0.6322, mean cosine: 0.6161
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.5847, mean pearson: 0.6985, mean kt: 0.5111, mean spearman: 0.5435, mean cosine: 0.7081
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.7021, mean pearson: 0.8157, mean kt: 0.4014, mean spearman: 0.4938, mean cosine: 0.8213
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.7636, mean pearson: 0.8813, mean kt: 0.4229, mean spearman: 0.5052, mean cosine: 0.8854
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.7208, mean pearson: 0.8218, mean kt: 0.3992, mean spearman: 0.4914, mean cosine: 0.8274
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.7776, mean pearson: 0.8791, mean kt: 0.4171, mean spearman: 0.5007, mean cosine: 0.8833
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.6804, mean pearson: 0.8893, mean kt: 0.4978, mean spearman: 0.6012, mean cosine: 0.8931
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.7353, mean pearson: 0.9318, mean kt: 0.5713, mean spearman: 0.6385, mean cosine: 0.9345
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.8058, mean pearson: 0.8310, mean kt: 0.4096, mean spearman: 0.5027, mean cosine: 0.8370
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8408, mean pearson: 0.8635, mean kt: 0.4156, mean spearman: 0.5042, mean cosine: 0.8686
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.8205, mean pearson: 0.8269, mean kt: 0.4075, mean spearman: 0.5004, mean cosine: 0.8331
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8523, mean pearson: 0.8561, mean kt: 0.4124, mean spearman: 0.5017, mean cosine: 0.8615
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.8186, mean pearson: 0.8948, mean kt: 0.4563, mean spearman: 0.5560, mean cosine: 0.8990
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8457, mean pearson: 0.9237, mean kt: 0.4812, mean spearman: 0.5745, mean cosine: 0.9267
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.8753, mean pearson: 0.7929, mean kt: 0.3910, mean spearman: 0.4809, mean cosine: 0.8009
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8967, mean pearson: 0.8190, mean kt: 0.3962, mean spearman: 0.4851, mean cosine: 0.8262
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.8784, mean pearson: 0.7885, mean kt: 0.3908, mean spearman: 0.4804, mean cosine: 0.7968
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8993, mean pearson: 0.8139, mean kt: 0.3940, mean spearman: 0.4826, mean cosine: 0.8213
+
+ntimes: 1000, interval: 100, ngenes: 30
+Not using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 5.4716, mean pearson: 0.8922, mean kt: 0.4340, mean spearman: 0.4758, mean cosine: 0.8950
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.2830, mean pearson: 0.8774, mean kt: 0.3597, mean spearman: 0.3895, mean cosine: 0.8807
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.3593, mean pearson: 0.8262, mean kt: 0.4272, mean spearman: 0.5286, mean cosine: 0.8293
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.6328, mean pearson: 0.8707, mean kt: 0.4371, mean spearman: 0.5144, mean cosine: 0.8738
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.3833, mean pearson: 0.8177, mean kt: 0.4228, mean spearman: 0.5249, mean cosine: 0.8210
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.6624, mean pearson: 0.8654, mean kt: 0.4337, mean spearman: 0.5146, mean cosine: 0.8686
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.3130, mean pearson: 0.8970, mean kt: 0.5145, mean spearman: 0.6246, mean cosine: 0.8991
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.5957, mean pearson: 0.9211, mean kt: 0.5787, mean spearman: 0.6419, mean cosine: 0.9231
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.5884, mean pearson: 0.7925, mean kt: 0.4067, mean spearman: 0.5089, mean cosine: 0.7957
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.7776, mean pearson: 0.8534, mean kt: 0.4319, mean spearman: 0.5246, mean cosine: 0.8565
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.6290, mean pearson: 0.7859, mean kt: 0.4047, mean spearman: 0.5067, mean cosine: 0.7895
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.7973, mean pearson: 0.8489, mean kt: 0.4291, mean spearman: 0.5237, mean cosine: 0.8522
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.6883, mean pearson: 0.8449, mean kt: 0.4630, mean spearman: 0.5729, mean cosine: 0.8478
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8076, mean pearson: 0.9040, mean kt: 0.5075, mean spearman: 0.6041, mean cosine: 0.9064
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.7822, mean pearson: 0.7668, mean kt: 0.3987, mean spearman: 0.4984, mean cosine: 0.7719
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8665, mean pearson: 0.8216, mean kt: 0.4138, mean spearman: 0.5117, mean cosine: 0.8260
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.7911, mean pearson: 0.7646, mean kt: 0.3964, mean spearman: 0.4954, mean cosine: 0.7698
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8708, mean pearson: 0.8205, mean kt: 0.4132, mean spearman: 0.5110, mean cosine: 0.8249
+
+
+Using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 1.9477, mean pearson: 0.5776, mean kt: 0.4398, mean spearman: 0.4820, mean cosine: 0.5850
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.5884, mean pearson: 0.6389, mean kt: 0.3607, mean spearman: 0.3895, mean cosine: 0.6460
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.6633, mean pearson: 0.7635, mean kt: 0.4456, mean spearman: 0.5518, mean cosine: 0.7676
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.7716, mean pearson: 0.8708, mean kt: 0.4450, mean spearman: 0.5287, mean cosine: 0.8739
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.6826, mean pearson: 0.7775, mean kt: 0.4497, mean spearman: 0.5568, mean cosine: 0.7813
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.7849, mean pearson: 0.8746, mean kt: 0.4468, mean spearman: 0.5340, mean cosine: 0.8775
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.6488, mean pearson: 0.8314, mean kt: 0.5490, mean spearman: 0.6659, mean cosine: 0.8349
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.7503, mean pearson: 0.8970, mean kt: 0.5833, mean spearman: 0.6483, mean cosine: 0.8996
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.7719, mean pearson: 0.8303, mean kt: 0.4526, mean spearman: 0.5610, mean cosine: 0.8335
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8384, mean pearson: 0.8813, mean kt: 0.4506, mean spearman: 0.5482, mean cosine: 0.8841
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.7871, mean pearson: 0.8301, mean kt: 0.4486, mean spearman: 0.5562, mean cosine: 0.8335
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8482, mean pearson: 0.8772, mean kt: 0.4462, mean spearman: 0.5453, mean cosine: 0.8801
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.7940, mean pearson: 0.8788, mean kt: 0.5083, mean spearman: 0.6244, mean cosine: 0.8814
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8476, mean pearson: 0.9259, mean kt: 0.5273, mean spearman: 0.6281, mean cosine: 0.9277
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.8467, mean pearson: 0.8168, mean kt: 0.4330, mean spearman: 0.5387, mean cosine: 0.8212
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8876, mean pearson: 0.8504, mean kt: 0.4265, mean spearman: 0.5276, mean cosine: 0.8542
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.8507, mean pearson: 0.8145, mean kt: 0.4307, mean spearman: 0.5361, mean cosine: 0.8190
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8903, mean pearson: 0.8478, mean kt: 0.4246, mean spearman: 0.5252, mean cosine: 0.8517
+
+ntimes: 1000, interval: 100, ngenes: 50
+Not using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.4631, mean pearson: 0.9214, mean kt: 0.5142, mean spearman: 0.5826, mean cosine: 0.9227
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.3594, mean pearson: 0.8870, mean kt: 0.3406, mean spearman: 0.3656, mean cosine: 0.8889
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.2989, mean pearson: 0.8500, mean kt: 0.4007, mean spearman: 0.4939, mean cosine: 0.8520
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.6808, mean pearson: 0.8834, mean kt: 0.4111, mean spearman: 0.4752, mean cosine: 0.8853
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.3296, mean pearson: 0.8443, mean kt: 0.3981, mean spearman: 0.4925, mean cosine: 0.8465
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.7018, mean pearson: 0.8808, mean kt: 0.4098, mean spearman: 0.4769, mean cosine: 0.8827
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.3553, mean pearson: 0.8925, mean kt: 0.4761, mean spearman: 0.5793, mean cosine: 0.8940
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.6754, mean pearson: 0.9201, mean kt: 0.5478, mean spearman: 0.6068, mean cosine: 0.9214
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.5393, mean pearson: 0.8206, mean kt: 0.3840, mean spearman: 0.4812, mean cosine: 0.8229
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.7915, mean pearson: 0.8731, mean kt: 0.4051, mean spearman: 0.4840, mean cosine: 0.8751
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.5705, mean pearson: 0.8167, mean kt: 0.3821, mean spearman: 0.4795, mean cosine: 0.8190
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8038, mean pearson: 0.8703, mean kt: 0.4027, mean spearman: 0.4835, mean cosine: 0.8723
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.6576, mean pearson: 0.8388, mean kt: 0.4084, mean spearman: 0.5116, mean cosine: 0.8408
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8227, mean pearson: 0.9027, mean kt: 0.4692, mean spearman: 0.5553, mean cosine: 0.9043
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.7135, mean pearson: 0.7974, mean kt: 0.3754, mean spearman: 0.4740, mean cosine: 0.7996
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8573, mean pearson: 0.8593, mean kt: 0.3983, mean spearman: 0.4877, mean cosine: 0.8613
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.7215, mean pearson: 0.7956, mean kt: 0.3753, mean spearman: 0.4741, mean cosine: 0.7978
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8604, mean pearson: 0.8583, mean kt: 0.3985, mean spearman: 0.4883, mean cosine: 0.8603
+
+
+Using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.6165, mean pearson: 0.6332, mean kt: 0.5124, mean spearman: 0.5854, mean cosine: 0.6368
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.6735, mean pearson: 0.7130, mean kt: 0.3395, mean spearman: 0.3653, mean cosine: 0.7170
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.6789, mean pearson: 0.6941, mean kt: 0.3877, mean spearman: 0.4831, mean cosine: 0.6969
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8070, mean pearson: 0.8436, mean kt: 0.4086, mean spearman: 0.4780, mean cosine: 0.8459
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.6957, mean pearson: 0.7068, mean kt: 0.3872, mean spearman: 0.4835, mean cosine: 0.7095
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8161, mean pearson: 0.8496, mean kt: 0.4068, mean spearman: 0.4789, mean cosine: 0.8519
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.6955, mean pearson: 0.7681, mean kt: 0.4884, mean spearman: 0.5978, mean cosine: 0.7705
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8019, mean pearson: 0.8694, mean kt: 0.5483, mean spearman: 0.6102, mean cosine: 0.8714
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.7767, mean pearson: 0.7764, mean kt: 0.3918, mean spearman: 0.4916, mean cosine: 0.7788
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8568, mean pearson: 0.8747, mean kt: 0.4090, mean spearman: 0.4922, mean cosine: 0.8766
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.7879, mean pearson: 0.7828, mean kt: 0.3911, mean spearman: 0.4910, mean cosine: 0.7852
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8630, mean pearson: 0.8749, mean kt: 0.4065, mean spearman: 0.4913, mean cosine: 0.8768
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.8101, mean pearson: 0.8326, mean kt: 0.4356, mean spearman: 0.5436, mean cosine: 0.8345
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8696, mean pearson: 0.9113, mean kt: 0.4828, mean spearman: 0.5726, mean cosine: 0.9127
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.8366, mean pearson: 0.8036, mean kt: 0.3942, mean spearman: 0.4955, mean cosine: 0.8057
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8907, mean pearson: 0.8720, mean kt: 0.4077, mean spearman: 0.5003, mean cosine: 0.8739
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.8395, mean pearson: 0.8044, mean kt: 0.3949, mean spearman: 0.4963, mean cosine: 0.8064
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8924, mean pearson: 0.8711, mean kt: 0.4069, mean spearman: 0.4999, mean cosine: 0.8729
+
+ntimes: 1000, interval: 100, ngenes: 100
+Not using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.1913, mean pearson: 0.8998, mean kt: 0.3926, mean spearman: 0.4552, mean cosine: 0.9004
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.5768, mean pearson: 0.8902, mean kt: 0.2675, mean spearman: 0.2909, mean cosine: 0.8909
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.2825, mean pearson: 0.8690, mean kt: 0.3498, mean spearman: 0.4241, mean cosine: 0.8698
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.7359, mean pearson: 0.8786, mean kt: 0.2891, mean spearman: 0.3292, mean cosine: 0.8794
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.3045, mean pearson: 0.8672, mean kt: 0.3522, mean spearman: 0.4288, mean cosine: 0.8681
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.7487, mean pearson: 0.8778, mean kt: 0.2933, mean spearman: 0.3353, mean cosine: 0.8786
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.3887, mean pearson: 0.8829, mean kt: 0.3953, mean spearman: 0.4819, mean cosine: 0.8837
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.7542, mean pearson: 0.9007, mean kt: 0.3659, mean spearman: 0.4069, mean cosine: 0.9013
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.4738, mean pearson: 0.8575, mean kt: 0.3642, mean spearman: 0.4533, mean cosine: 0.8584
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8131, mean pearson: 0.8763, mean kt: 0.3237, mean spearman: 0.3776, mean cosine: 0.8771
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.5004, mean pearson: 0.8547, mean kt: 0.3647, mean spearman: 0.4553, mean cosine: 0.8557
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8219, mean pearson: 0.8760, mean kt: 0.3273, mean spearman: 0.3833, mean cosine: 0.8768
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.5990, mean pearson: 0.8548, mean kt: 0.3818, mean spearman: 0.4793, mean cosine: 0.8557
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8449, mean pearson: 0.8906, mean kt: 0.3731, mean spearman: 0.4348, mean cosine: 0.8913
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.6284, mean pearson: 0.8407, mean kt: 0.3685, mean spearman: 0.4660, mean cosine: 0.8417
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8612, mean pearson: 0.8750, mean kt: 0.3443, mean spearman: 0.4108, mean cosine: 0.8759
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.6360, mean pearson: 0.8398, mean kt: 0.3683, mean spearman: 0.4664, mean cosine: 0.8408
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8634, mean pearson: 0.8748, mean kt: 0.3455, mean spearman: 0.4128, mean cosine: 0.8756
+
+
+Using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.5455, mean pearson: 0.6910, mean kt: 0.3926, mean spearman: 0.4592, mean cosine: 0.6926
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.7510, mean pearson: 0.7605, mean kt: 0.2672, mean spearman: 0.2906, mean cosine: 0.7621
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.6253, mean pearson: 0.6846, mean kt: 0.3313, mean spearman: 0.4083, mean cosine: 0.6861
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8300, mean pearson: 0.8104, mean kt: 0.2901, mean spearman: 0.3327, mean cosine: 0.8116
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.6403, mean pearson: 0.6894, mean kt: 0.3325, mean spearman: 0.4114, mean cosine: 0.6909
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8367, mean pearson: 0.8156, mean kt: 0.2938, mean spearman: 0.3384, mean cosine: 0.8168
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.6774, mean pearson: 0.7279, mean kt: 0.3792, mean spearman: 0.4680, mean cosine: 0.7291
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8362, mean pearson: 0.8322, mean kt: 0.3664, mean spearman: 0.4081, mean cosine: 0.8333
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.7307, mean pearson: 0.7264, mean kt: 0.3353, mean spearman: 0.4224, mean cosine: 0.7275
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8701, mean pearson: 0.8426, mean kt: 0.3122, mean spearman: 0.3675, mean cosine: 0.8436
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.7435, mean pearson: 0.7324, mean kt: 0.3367, mean spearman: 0.4250, mean cosine: 0.7335
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8748, mean pearson: 0.8462, mean kt: 0.3152, mean spearman: 0.3723, mean cosine: 0.8471
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.7854, mean pearson: 0.7690, mean kt: 0.3658, mean spearman: 0.4619, mean cosine: 0.7700
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8865, mean pearson: 0.8701, mean kt: 0.3607, mean spearman: 0.4225, mean cosine: 0.8709
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.8014, mean pearson: 0.7649, mean kt: 0.3497, mean spearman: 0.4436, mean cosine: 0.7659
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8969, mean pearson: 0.8602, mean kt: 0.3309, mean spearman: 0.3972, mean cosine: 0.8610
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.8046, mean pearson: 0.7669, mean kt: 0.3502, mean spearman: 0.4444, mean cosine: 0.7679
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8982, mean pearson: 0.8607, mean kt: 0.3320, mean spearman: 0.3990, mean cosine: 0.8616
+
+ntimes: 1000, interval: 200, ngenes: 20
+Not using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.7672, mean pearson: 0.9367, mean kt: 0.5288, mean spearman: 0.6086, mean cosine: 0.9392
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.1997, mean pearson: 0.9087, mean kt: 0.5816, mean spearman: 0.6132, mean cosine: 0.9125
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.4016, mean pearson: 0.7995, mean kt: 0.4148, mean spearman: 0.5085, mean cosine: 0.8046
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.6254, mean pearson: 0.8682, mean kt: 0.4359, mean spearman: 0.5165, mean cosine: 0.8726
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.4466, mean pearson: 0.7910, mean kt: 0.4103, mean spearman: 0.5038, mean cosine: 0.7963
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.6589, mean pearson: 0.8614, mean kt: 0.4296, mean spearman: 0.5123, mean cosine: 0.8658
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.3836, mean pearson: 0.8999, mean kt: 0.5141, mean spearman: 0.6185, mean cosine: 0.9031
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.5827, mean pearson: 0.9461, mean kt: 0.6013, mean spearman: 0.6673, mean cosine: 0.9483
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.6929, mean pearson: 0.7747, mean kt: 0.4129, mean spearman: 0.5085, mean cosine: 0.7810
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.7963, mean pearson: 0.8390, mean kt: 0.4326, mean spearman: 0.5238, mean cosine: 0.8439
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.7271, mean pearson: 0.7665, mean kt: 0.4076, mean spearman: 0.5021, mean cosine: 0.7731
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8159, mean pearson: 0.8298, mean kt: 0.4246, mean spearman: 0.5157, mean cosine: 0.8352
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.7515, mean pearson: 0.8544, mean kt: 0.4689, mean spearman: 0.5719, mean cosine: 0.8586
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8146, mean pearson: 0.9034, mean kt: 0.4913, mean spearman: 0.5875, mean cosine: 0.9068
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.8549, mean pearson: 0.7653, mean kt: 0.3743, mean spearman: 0.4618, mean cosine: 0.7724
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8886, mean pearson: 0.8023, mean kt: 0.4024, mean spearman: 0.4932, mean cosine: 0.8085
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.8607, mean pearson: 0.7626, mean kt: 0.3698, mean spearman: 0.4566, mean cosine: 0.7697
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8927, mean pearson: 0.7975, mean kt: 0.3979, mean spearman: 0.4884, mean cosine: 0.8036
+
+
+Using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.5767, mean pearson: 0.6524, mean kt: 0.5349, mean spearman: 0.6209, mean cosine: 0.6610
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.6003, mean pearson: 0.7431, mean kt: 0.5805, mean spearman: 0.6125, mean cosine: 0.7515
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.6944, mean pearson: 0.8159, mean kt: 0.4313, mean spearman: 0.5280, mean cosine: 0.8211
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.7606, mean pearson: 0.8842, mean kt: 0.4405, mean spearman: 0.5263, mean cosine: 0.8881
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.7139, mean pearson: 0.8213, mean kt: 0.4283, mean spearman: 0.5245, mean cosine: 0.8265
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.7750, mean pearson: 0.8804, mean kt: 0.4354, mean spearman: 0.5222, mean cosine: 0.8843
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.6684, mean pearson: 0.8819, mean kt: 0.5386, mean spearman: 0.6476, mean cosine: 0.8860
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.7298, mean pearson: 0.9313, mean kt: 0.6044, mean spearman: 0.6728, mean cosine: 0.9341
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.8059, mean pearson: 0.8370, mean kt: 0.4367, mean spearman: 0.5340, mean cosine: 0.8424
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8426, mean pearson: 0.8664, mean kt: 0.4419, mean spearman: 0.5343, mean cosine: 0.8709
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.8210, mean pearson: 0.8292, mean kt: 0.4266, mean spearman: 0.5223, mean cosine: 0.8351
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8542, mean pearson: 0.8582, mean kt: 0.4325, mean spearman: 0.5243, mean cosine: 0.8631
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.8172, mean pearson: 0.9017, mean kt: 0.5001, mean spearman: 0.6064, mean cosine: 0.9052
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8463, mean pearson: 0.9258, mean kt: 0.5058, mean spearman: 0.6044, mean cosine: 0.9286
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.8815, mean pearson: 0.8009, mean kt: 0.3903, mean spearman: 0.4793, mean cosine: 0.8078
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.9005, mean pearson: 0.8285, mean kt: 0.4013, mean spearman: 0.4914, mean cosine: 0.8345
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.8851, mean pearson: 0.7970, mean kt: 0.3848, mean spearman: 0.4732, mean cosine: 0.8040
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.9034, mean pearson: 0.8248, mean kt: 0.3971, mean spearman: 0.4869, mean cosine: 0.8308
+
+ntimes: 1000, interval: 200, ngenes: 30
+Not using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 3.9539, mean pearson: 0.8995, mean kt: 0.4805, mean spearman: 0.5347, mean cosine: 0.9020
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.2573, mean pearson: 0.8720, mean kt: 0.3600, mean spearman: 0.3895, mean cosine: 0.8753
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.3340, mean pearson: 0.8271, mean kt: 0.4246, mean spearman: 0.5251, mean cosine: 0.8301
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.6193, mean pearson: 0.8699, mean kt: 0.4424, mean spearman: 0.5192, mean cosine: 0.8729
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.3535, mean pearson: 0.8205, mean kt: 0.4195, mean spearman: 0.5201, mean cosine: 0.8235
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.6472, mean pearson: 0.8660, mean kt: 0.4375, mean spearman: 0.5166, mean cosine: 0.8690
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.2798, mean pearson: 0.9062, mean kt: 0.5345, mean spearman: 0.6451, mean cosine: 0.9081
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.5793, mean pearson: 0.9201, mean kt: 0.5983, mean spearman: 0.6599, mean cosine: 0.9220
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.5946, mean pearson: 0.7956, mean kt: 0.4115, mean spearman: 0.5127, mean cosine: 0.7987
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.7773, mean pearson: 0.8566, mean kt: 0.4378, mean spearman: 0.5298, mean cosine: 0.8594
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.6367, mean pearson: 0.7910, mean kt: 0.4114, mean spearman: 0.5127, mean cosine: 0.7939
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.7969, mean pearson: 0.8520, mean kt: 0.4386, mean spearman: 0.5330, mean cosine: 0.8548
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.6812, mean pearson: 0.8571, mean kt: 0.4819, mean spearman: 0.5915, mean cosine: 0.8593
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.7985, mean pearson: 0.9130, mean kt: 0.5309, mean spearman: 0.6271, mean cosine: 0.9148
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.7782, mean pearson: 0.7779, mean kt: 0.4208, mean spearman: 0.5234, mean cosine: 0.7797
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8634, mean pearson: 0.8351, mean kt: 0.4424, mean spearman: 0.5422, mean cosine: 0.8376
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.7857, mean pearson: 0.7761, mean kt: 0.4203, mean spearman: 0.5227, mean cosine: 0.7779
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8669, mean pearson: 0.8337, mean kt: 0.4429, mean spearman: 0.5427, mean cosine: 0.8362
+
+
+Using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 1.4295, mean pearson: 0.5900, mean kt: 0.4881, mean spearman: 0.5441, mean cosine: 0.5969
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.5828, mean pearson: 0.6497, mean kt: 0.3608, mean spearman: 0.3895, mean cosine: 0.6566
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.6514, mean pearson: 0.7581, mean kt: 0.4462, mean spearman: 0.5526, mean cosine: 0.7625
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.7638, mean pearson: 0.8710, mean kt: 0.4514, mean spearman: 0.5344, mean cosine: 0.8740
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.6710, mean pearson: 0.7730, mean kt: 0.4446, mean spearman: 0.5508, mean cosine: 0.7772
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.7761, mean pearson: 0.8745, mean kt: 0.4482, mean spearman: 0.5336, mean cosine: 0.8774
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.6318, mean pearson: 0.8225, mean kt: 0.5671, mean spearman: 0.6854, mean cosine: 0.8262
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.7419, mean pearson: 0.8954, mean kt: 0.6048, mean spearman: 0.6692, mean cosine: 0.8980
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.7739, mean pearson: 0.8381, mean kt: 0.4591, mean spearman: 0.5663, mean cosine: 0.8410
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8357, mean pearson: 0.8828, mean kt: 0.4590, mean spearman: 0.5554, mean cosine: 0.8852
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.7896, mean pearson: 0.8391, mean kt: 0.4580, mean spearman: 0.5649, mean cosine: 0.8418
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8463, mean pearson: 0.8787, mean kt: 0.4591, mean spearman: 0.5574, mean cosine: 0.8811
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.7910, mean pearson: 0.9031, mean kt: 0.5444, mean spearman: 0.6604, mean cosine: 0.9051
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8407, mean pearson: 0.9328, mean kt: 0.5565, mean spearman: 0.6560, mean cosine: 0.9343
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.8448, mean pearson: 0.8322, mean kt: 0.4601, mean spearman: 0.5671, mean cosine: 0.8343
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8845, mean pearson: 0.8612, mean kt: 0.4605, mean spearman: 0.5635, mean cosine: 0.8636
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.8482, mean pearson: 0.8306, mean kt: 0.4598, mean spearman: 0.5666, mean cosine: 0.8328
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8868, mean pearson: 0.8589, mean kt: 0.4594, mean spearman: 0.5621, mean cosine: 0.8613
+
+ntimes: 1000, interval: 200, ngenes: 50
+Not using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.2417, mean pearson: 0.9178, mean kt: 0.5046, mean spearman: 0.5827, mean cosine: 0.9191
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.4325, mean pearson: 0.8946, mean kt: 0.4194, mean spearman: 0.4504, mean cosine: 0.8964
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.2982, mean pearson: 0.8516, mean kt: 0.4041, mean spearman: 0.4978, mean cosine: 0.8535
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.6825, mean pearson: 0.8860, mean kt: 0.4082, mean spearman: 0.4719, mean cosine: 0.8879
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.3259, mean pearson: 0.8477, mean kt: 0.4034, mean spearman: 0.4985, mean cosine: 0.8496
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.7011, mean pearson: 0.8843, mean kt: 0.4067, mean spearman: 0.4728, mean cosine: 0.8862
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.3726, mean pearson: 0.8885, mean kt: 0.4720, mean spearman: 0.5764, mean cosine: 0.8900
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.6880, mean pearson: 0.9213, mean kt: 0.5290, mean spearman: 0.5885, mean cosine: 0.9226
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.5294, mean pearson: 0.8266, mean kt: 0.4070, mean spearman: 0.5083, mean cosine: 0.8287
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.7884, mean pearson: 0.8792, mean kt: 0.4236, mean spearman: 0.5042, mean cosine: 0.8810
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.5601, mean pearson: 0.8225, mean kt: 0.4058, mean spearman: 0.5074, mean cosine: 0.8247
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8001, mean pearson: 0.8774, mean kt: 0.4255, mean spearman: 0.5081, mean cosine: 0.8792
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.6511, mean pearson: 0.8379, mean kt: 0.4287, mean spearman: 0.5352, mean cosine: 0.8399
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8232, mean pearson: 0.9036, mean kt: 0.4816, mean spearman: 0.5680, mean cosine: 0.9051
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.6995, mean pearson: 0.8050, mean kt: 0.3981, mean spearman: 0.5005, mean cosine: 0.8064
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8527, mean pearson: 0.8633, mean kt: 0.4082, mean spearman: 0.4967, mean cosine: 0.8648
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.7073, mean pearson: 0.8038, mean kt: 0.3975, mean spearman: 0.4999, mean cosine: 0.8050
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8557, mean pearson: 0.8616, mean kt: 0.4066, mean spearman: 0.4953, mean cosine: 0.8631
+
+
+Using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.5757, mean pearson: 0.6515, mean kt: 0.5055, mean spearman: 0.5905, mean cosine: 0.6547
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.7013, mean pearson: 0.7403, mean kt: 0.4170, mean spearman: 0.4489, mean cosine: 0.7439
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.6737, mean pearson: 0.7019, mean kt: 0.3920, mean spearman: 0.4888, mean cosine: 0.7046
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8057, mean pearson: 0.8456, mean kt: 0.4071, mean spearman: 0.4760, mean cosine: 0.8479
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.6888, mean pearson: 0.7150, mean kt: 0.3943, mean spearman: 0.4923, mean cosine: 0.7177
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8137, mean pearson: 0.8515, mean kt: 0.4064, mean spearman: 0.4778, mean cosine: 0.8537
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.6976, mean pearson: 0.7755, mean kt: 0.4908, mean spearman: 0.6021, mean cosine: 0.7777
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8044, mean pearson: 0.8727, mean kt: 0.5301, mean spearman: 0.5929, mean cosine: 0.8747
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.7711, mean pearson: 0.7885, mean kt: 0.4185, mean spearman: 0.5228, mean cosine: 0.7908
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8540, mean pearson: 0.8799, mean kt: 0.4262, mean spearman: 0.5114, mean cosine: 0.8816
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.7823, mean pearson: 0.7964, mean kt: 0.4203, mean spearman: 0.5252, mean cosine: 0.7987
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8598, mean pearson: 0.8813, mean kt: 0.4284, mean spearman: 0.5156, mean cosine: 0.8830
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.8062, mean pearson: 0.8402, mean kt: 0.4620, mean spearman: 0.5739, mean cosine: 0.8421
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8684, mean pearson: 0.9113, mean kt: 0.4956, mean spearman: 0.5866, mean cosine: 0.9127
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.8293, mean pearson: 0.8164, mean kt: 0.4258, mean spearman: 0.5324, mean cosine: 0.8182
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8865, mean pearson: 0.8768, mean kt: 0.4220, mean spearman: 0.5151, mean cosine: 0.8782
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.8320, mean pearson: 0.8168, mean kt: 0.4261, mean spearman: 0.5328, mean cosine: 0.8184
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8882, mean pearson: 0.8755, mean kt: 0.4198, mean spearman: 0.5128, mean cosine: 0.8769
+
+ntimes: 1000, interval: 200, ngenes: 100
+Not using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.1923, mean pearson: 0.8993, mean kt: 0.3918, mean spearman: 0.4546, mean cosine: 0.9000
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.5780, mean pearson: 0.8906, mean kt: 0.2668, mean spearman: 0.2900, mean cosine: 0.8913
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.2823, mean pearson: 0.8691, mean kt: 0.3507, mean spearman: 0.4251, mean cosine: 0.8699
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.7353, mean pearson: 0.8784, mean kt: 0.2886, mean spearman: 0.3284, mean cosine: 0.8792
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.3035, mean pearson: 0.8676, mean kt: 0.3545, mean spearman: 0.4314, mean cosine: 0.8685
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.7481, mean pearson: 0.8778, mean kt: 0.2942, mean spearman: 0.3361, mean cosine: 0.8786
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.3868, mean pearson: 0.8834, mean kt: 0.3986, mean spearman: 0.4854, mean cosine: 0.8841
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.7538, mean pearson: 0.9005, mean kt: 0.3630, mean spearman: 0.4041, mean cosine: 0.9011
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.4708, mean pearson: 0.8589, mean kt: 0.3695, mean spearman: 0.4592, mean cosine: 0.8598
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8128, mean pearson: 0.8774, mean kt: 0.3302, mean spearman: 0.3855, mean cosine: 0.8782
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.4970, mean pearson: 0.8568, mean kt: 0.3711, mean spearman: 0.4627, mean cosine: 0.8578
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8216, mean pearson: 0.8769, mean kt: 0.3325, mean spearman: 0.3899, mean cosine: 0.8778
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.5950, mean pearson: 0.8571, mean kt: 0.3878, mean spearman: 0.4863, mean cosine: 0.8580
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8444, mean pearson: 0.8898, mean kt: 0.3762, mean spearman: 0.4382, mean cosine: 0.8906
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.6238, mean pearson: 0.8437, mean kt: 0.3756, mean spearman: 0.4738, mean cosine: 0.8447
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8605, mean pearson: 0.8734, mean kt: 0.3467, mean spearman: 0.4135, mean cosine: 0.8743
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.6310, mean pearson: 0.8427, mean kt: 0.3759, mean spearman: 0.4747, mean cosine: 0.8437
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8627, mean pearson: 0.8731, mean kt: 0.3466, mean spearman: 0.4140, mean cosine: 0.8739
+
+
+Using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.5463, mean pearson: 0.6901, mean kt: 0.3932, mean spearman: 0.4602, mean cosine: 0.6917
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.7511, mean pearson: 0.7602, mean kt: 0.2668, mean spearman: 0.2901, mean cosine: 0.7617
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.6251, mean pearson: 0.6839, mean kt: 0.3309, mean spearman: 0.4081, mean cosine: 0.6855
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8295, mean pearson: 0.8089, mean kt: 0.2891, mean spearman: 0.3315, mean cosine: 0.8102
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.6400, mean pearson: 0.6890, mean kt: 0.3334, mean spearman: 0.4129, mean cosine: 0.6905
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8362, mean pearson: 0.8147, mean kt: 0.2949, mean spearman: 0.3396, mean cosine: 0.8159
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.6794, mean pearson: 0.7288, mean kt: 0.3828, mean spearman: 0.4719, mean cosine: 0.7301
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8373, mean pearson: 0.8323, mean kt: 0.3650, mean spearman: 0.4065, mean cosine: 0.8335
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.7306, mean pearson: 0.7274, mean kt: 0.3445, mean spearman: 0.4334, mean cosine: 0.7286
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8702, mean pearson: 0.8448, mean kt: 0.3228, mean spearman: 0.3796, mean cosine: 0.8458
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.7430, mean pearson: 0.7337, mean kt: 0.3460, mean spearman: 0.4362, mean cosine: 0.7349
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8748, mean pearson: 0.8488, mean kt: 0.3258, mean spearman: 0.3846, mean cosine: 0.8498
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.7843, mean pearson: 0.7700, mean kt: 0.3728, mean spearman: 0.4704, mean cosine: 0.7711
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8861, mean pearson: 0.8730, mean kt: 0.3748, mean spearman: 0.4381, mean cosine: 0.8738
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.8001, mean pearson: 0.7649, mean kt: 0.3567, mean spearman: 0.4519, mean cosine: 0.7660
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8963, mean pearson: 0.8657, mean kt: 0.3446, mean spearman: 0.4134, mean cosine: 0.8666
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.8034, mean pearson: 0.7670, mean kt: 0.3577, mean spearman: 0.4532, mean cosine: 0.7680
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8975, mean pearson: 0.8664, mean kt: 0.3461, mean spearman: 0.4156, mean cosine: 0.8672
+
+------------------------------------------------------------------
+benchmark differences
+------------------------------------------------------------------
+ntimes: 1000, interval: 50, ngenes: 20
+Not using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 1.8976, mean pearson: nan, mean kt: nan, mean spearman: nan, mean cosine: nan
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 1.0149, mean pearson: nan, mean kt: nan, mean spearman: nan, mean cosine: nan
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 17.8526, mean pearson: 0.0585, mean kt: 0.0470, mean spearman: 0.0581, mean cosine: 0.0590
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 2.4552, mean pearson: 0.0641, mean kt: 0.0508, mean spearman: 0.0618, mean cosine: 0.0639
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 9.9510, mean pearson: 0.0510, mean kt: 0.0362, mean spearman: 0.0447, mean cosine: 0.0506
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 1.8943, mean pearson: 0.0579, mean kt: 0.0411, mean spearman: 0.0501, mean cosine: 0.0569
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 4.5046, mean pearson: 0.0916, mean kt: 0.0535, mean spearman: 0.0644, mean cosine: 0.0908
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 1.1675, mean pearson: 0.0385, mean kt: 0.0125, mean spearman: 0.0134, mean cosine: 0.0377
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 1.7252, mean pearson: 0.0167, mean kt: -0.0016, mean spearman: -0.0019, mean cosine: 0.0174
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 1.1101, mean pearson: 0.0190, mean kt: 0.0069, mean spearman: 0.0084, mean cosine: 0.0196
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 1.4383, mean pearson: 0.0262, mean kt: 0.0116, mean spearman: 0.0144, mean cosine: 0.0264
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 1.0582, mean pearson: 0.0272, mean kt: 0.0127, mean spearman: 0.0157, mean cosine: 0.0278
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 1.0376, mean pearson: 0.0454, mean kt: 0.0352, mean spearman: 0.0435, mean cosine: 0.0459
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.9692, mean pearson: 0.0332, mean kt: 0.0243, mean spearman: 0.0292, mean cosine: 0.0333
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.9812, mean pearson: 0.0312, mean kt: 0.0265, mean spearman: 0.0328, mean cosine: 0.0317
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.9607, mean pearson: 0.0275, mean kt: 0.0227, mean spearman: 0.0283, mean cosine: 0.0278
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.9661, mean pearson: 0.0217, mean kt: 0.0200, mean spearman: 0.0248, mean cosine: 0.0225
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.9570, mean pearson: 0.0185, mean kt: 0.0166, mean spearman: 0.0205, mean cosine: 0.0193
+
+
+Using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 1.1134, mean pearson: nan, mean kt: nan, mean spearman: nan, mean cosine: nan
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.9618, mean pearson: nan, mean kt: nan, mean spearman: nan, mean cosine: nan
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 2.0712, mean pearson: 0.0860, mean kt: 0.0579, mean spearman: 0.0711, mean cosine: 0.0853
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 1.2371, mean pearson: 0.0848, mean kt: 0.0611, mean spearman: 0.0747, mean cosine: 0.0843
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 1.6092, mean pearson: 0.0823, mean kt: 0.0435, mean spearman: 0.0536, mean cosine: 0.0813
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 1.1519, mean pearson: 0.0783, mean kt: 0.0499, mean spearman: 0.0612, mean cosine: 0.0773
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 1.1370, mean pearson: 0.1480, mean kt: 0.0826, mean spearman: 0.1001, mean cosine: 0.1474
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.9675, mean pearson: 0.0782, mean kt: 0.0174, mean spearman: 0.0187, mean cosine: 0.0776
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 1.0859, mean pearson: 0.0244, mean kt: 0.0077, mean spearman: 0.0094, mean cosine: 0.0249
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 1.0046, mean pearson: 0.0322, mean kt: 0.0158, mean spearman: 0.0194, mean cosine: 0.0328
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 1.0406, mean pearson: 0.0265, mean kt: 0.0133, mean spearman: 0.0164, mean cosine: 0.0270
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.9879, mean pearson: 0.0241, mean kt: 0.0095, mean spearman: 0.0117, mean cosine: 0.0241
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.9585, mean pearson: 0.0468, mean kt: 0.0263, mean spearman: 0.0323, mean cosine: 0.0471
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.9528, mean pearson: 0.0408, mean kt: 0.0236, mean spearman: 0.0285, mean cosine: 0.0408
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.9588, mean pearson: 0.0278, mean kt: 0.0177, mean spearman: 0.0222, mean cosine: 0.0290
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.9545, mean pearson: 0.0237, mean kt: 0.0185, mean spearman: 0.0230, mean cosine: 0.0250
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.9558, mean pearson: 0.0221, mean kt: 0.0174, mean spearman: 0.0216, mean cosine: 0.0231
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.9539, mean pearson: 0.0197, mean kt: 0.0161, mean spearman: 0.0199, mean cosine: 0.0203
+
+ntimes: 1000, interval: 50, ngenes: 30
+Not using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 13.4264, mean pearson: -0.0117, mean kt: -0.0460, mean spearman: -0.0467, mean cosine: -0.0119
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 1.5980, mean pearson: -0.0123, mean kt: -0.0518, mean spearman: -0.0526, mean cosine: -0.0126
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 42.6348, mean pearson: 0.0361, mean kt: 0.0180, mean spearman: 0.0221, mean cosine: 0.0362
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 3.3668, mean pearson: 0.0311, mean kt: 0.0198, mean spearman: 0.0237, mean cosine: 0.0310
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 27.8260, mean pearson: 0.0315, mean kt: 0.0167, mean spearman: 0.0205, mean cosine: 0.0320
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 2.6814, mean pearson: 0.0260, mean kt: 0.0161, mean spearman: 0.0193, mean cosine: 0.0262
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 4.7341, mean pearson: 0.0695, mean kt: 0.0421, mean spearman: 0.0511, mean cosine: 0.0698
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 1.1174, mean pearson: 0.0900, mean kt: 0.0608, mean spearman: 0.0658, mean cosine: 0.0902
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 2.4001, mean pearson: 0.0220, mean kt: 0.0078, mean spearman: 0.0095, mean cosine: 0.0218
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 1.1308, mean pearson: 0.0190, mean kt: 0.0058, mean spearman: 0.0072, mean cosine: 0.0188
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 1.7872, mean pearson: 0.0124, mean kt: -0.0044, mean spearman: -0.0054, mean cosine: 0.0120
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 1.0637, mean pearson: 0.0129, mean kt: -0.0017, mean spearman: -0.0020, mean cosine: 0.0123
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 1.0345, mean pearson: -0.0059, mean kt: -0.0224, mean spearman: -0.0275, mean cosine: -0.0063
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.9619, mean pearson: 0.0116, mean kt: -0.0095, mean spearman: -0.0113, mean cosine: 0.0111
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.9838, mean pearson: -0.0155, mean kt: -0.0247, mean spearman: -0.0304, mean cosine: -0.0158
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.9599, mean pearson: -0.0059, mean kt: -0.0133, mean spearman: -0.0162, mean cosine: -0.0061
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.9794, mean pearson: -0.0068, mean kt: -0.0142, mean spearman: -0.0175, mean cosine: -0.0071
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.9685, mean pearson: -0.0030, mean kt: -0.0065, mean spearman: -0.0079, mean cosine: -0.0031
+
+
+Using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 5.5414, mean pearson: -0.0041, mean kt: -0.0458, mean spearman: -0.0465, mean cosine: -0.0042
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 1.1861, mean pearson: -0.0049, mean kt: -0.0518, mean spearman: -0.0526, mean cosine: -0.0050
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 5.3117, mean pearson: 0.0388, mean kt: 0.0176, mean spearman: 0.0216, mean cosine: 0.0384
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 1.5618, mean pearson: 0.0382, mean kt: 0.0208, mean spearman: 0.0251, mean cosine: 0.0381
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 3.7396, mean pearson: 0.0366, mean kt: 0.0173, mean spearman: 0.0212, mean cosine: 0.0364
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 1.3997, mean pearson: 0.0339, mean kt: 0.0182, mean spearman: 0.0220, mean cosine: 0.0341
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 1.2731, mean pearson: 0.0741, mean kt: 0.0607, mean spearman: 0.0740, mean cosine: 0.0741
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.9721, mean pearson: 0.0841, mean kt: 0.0647, mean spearman: 0.0701, mean cosine: 0.0843
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 1.1580, mean pearson: 0.0346, mean kt: 0.0206, mean spearman: 0.0253, mean cosine: 0.0343
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 1.0063, mean pearson: 0.0227, mean kt: 0.0084, mean spearman: 0.0103, mean cosine: 0.0228
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 1.0902, mean pearson: 0.0225, mean kt: 0.0091, mean spearman: 0.0111, mean cosine: 0.0221
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.9900, mean pearson: 0.0197, mean kt: 0.0032, mean spearman: 0.0039, mean cosine: 0.0193
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.9630, mean pearson: 0.0099, mean kt: -0.0066, mean spearman: -0.0081, mean cosine: 0.0095
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.9523, mean pearson: 0.0231, mean kt: -0.0016, mean spearman: -0.0019, mean cosine: 0.0226
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.9604, mean pearson: -0.0094, mean kt: -0.0182, mean spearman: -0.0223, mean cosine: -0.0095
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.9557, mean pearson: -0.0028, mean kt: -0.0112, mean spearman: -0.0137, mean cosine: -0.0030
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.9671, mean pearson: -0.0044, mean kt: -0.0100, mean spearman: -0.0123, mean cosine: -0.0044
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.9645, mean pearson: -0.0007, mean kt: -0.0050, mean spearman: -0.0061, mean cosine: -0.0007
+
+ntimes: 1000, interval: 50, ngenes: 50
+Not using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 32.0061, mean pearson: -0.0291, mean kt: -0.0935, mean spearman: -0.0944, mean cosine: -0.0297
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 2.4280, mean pearson: -0.0309, mean kt: -0.1076, mean spearman: -0.1085, mean cosine: -0.0315
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 151.7392, mean pearson: 0.0141, mean kt: 0.0042, mean spearman: 0.0051, mean cosine: 0.0141
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 7.1254, mean pearson: 0.0142, mean kt: 0.0086, mean spearman: 0.0099, mean cosine: 0.0142
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 107.9519, mean pearson: 0.0130, mean kt: 0.0057, mean spearman: 0.0069, mean cosine: 0.0131
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 5.6702, mean pearson: 0.0132, mean kt: 0.0111, mean spearman: 0.0128, mean cosine: 0.0132
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 16.9439, mean pearson: 0.0257, mean kt: 0.0225, mean spearman: 0.0270, mean cosine: 0.0258
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 1.6138, mean pearson: 0.0204, mean kt: 0.0079, mean spearman: 0.0082, mean cosine: 0.0200
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 8.7540, mean pearson: 0.0129, mean kt: 0.0084, mean spearman: 0.0103, mean cosine: 0.0129
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 1.5227, mean pearson: 0.0099, mean kt: 0.0070, mean spearman: 0.0085, mean cosine: 0.0096
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 5.8112, mean pearson: 0.0075, mean kt: 0.0023, mean spearman: 0.0028, mean cosine: 0.0077
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 1.3316, mean pearson: 0.0075, mean kt: 0.0003, mean spearman: 0.0006, mean cosine: 0.0071
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 1.2659, mean pearson: 0.0001, mean kt: -0.0018, mean spearman: -0.0021, mean cosine: 0.0000
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.9868, mean pearson: 0.0009, mean kt: -0.0021, mean spearman: -0.0023, mean cosine: 0.0009
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 1.0754, mean pearson: -0.0052, mean kt: -0.0067, mean spearman: -0.0082, mean cosine: -0.0052
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.9684, mean pearson: -0.0071, mean kt: -0.0101, mean spearman: -0.0119, mean cosine: -0.0072
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 1.0161, mean pearson: -0.0021, mean kt: -0.0030, mean spearman: -0.0037, mean cosine: -0.0021
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.9698, mean pearson: -0.0030, mean kt: -0.0048, mean spearman: -0.0056, mean cosine: -0.0028
+
+
+Using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 18.0403, mean pearson: -0.0200, mean kt: -0.0936, mean spearman: -0.0944, mean cosine: -0.0204
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 1.7490, mean pearson: -0.0207, mean kt: -0.1077, mean spearman: -0.1085, mean cosine: -0.0212
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 27.0498, mean pearson: 0.0094, mean kt: 0.0099, mean spearman: 0.0121, mean cosine: 0.0095
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 2.8770, mean pearson: 0.0139, mean kt: 0.0113, mean spearman: 0.0132, mean cosine: 0.0139
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 18.1594, mean pearson: 0.0095, mean kt: 0.0098, mean spearman: 0.0120, mean cosine: 0.0095
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 2.4006, mean pearson: 0.0150, mean kt: 0.0143, mean spearman: 0.0167, mean cosine: 0.0150
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 3.7048, mean pearson: 0.0194, mean kt: 0.0269, mean spearman: 0.0324, mean cosine: 0.0193
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 1.1651, mean pearson: 0.0124, mean kt: 0.0105, mean spearman: 0.0111, mean cosine: 0.0119
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 2.0712, mean pearson: 0.0015, mean kt: -0.0011, mean spearman: -0.0013, mean cosine: 0.0015
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 1.1352, mean pearson: 0.0114, mean kt: 0.0074, mean spearman: 0.0090, mean cosine: 0.0113
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 1.6709, mean pearson: 0.0026, mean kt: -0.0002, mean spearman: -0.0003, mean cosine: 0.0026
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 1.0774, mean pearson: 0.0106, mean kt: 0.0040, mean spearman: 0.0050, mean cosine: 0.0104
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 1.0008, mean pearson: 0.0006, mean kt: 0.0012, mean spearman: 0.0015, mean cosine: 0.0006
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.9628, mean pearson: 0.0008, mean kt: 0.0021, mean spearman: 0.0025, mean cosine: 0.0007
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.9720, mean pearson: -0.0034, mean kt: -0.0035, mean spearman: -0.0043, mean cosine: -0.0034
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.9603, mean pearson: -0.0083, mean kt: -0.0082, mean spearman: -0.0097, mean cosine: -0.0083
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.9702, mean pearson: -0.0019, mean kt: -0.0022, mean spearman: -0.0026, mean cosine: -0.0019
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.9647, mean pearson: -0.0008, mean kt: -0.0020, mean spearman: -0.0023, mean cosine: -0.0007
+
+ntimes: 1000, interval: 50, ngenes: 100
+Not using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 309.8910, mean pearson: 0.0091, mean kt: 0.0068, mean spearman: 0.0078, mean cosine: 0.0092
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 5.6134, mean pearson: 0.0041, mean kt: 0.0046, mean spearman: 0.0047, mean cosine: 0.0042
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 209.8540, mean pearson: 0.0108, mean kt: 0.0084, mean spearman: 0.0100, mean cosine: 0.0109
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 9.9632, mean pearson: 0.0047, mean kt: 0.0044, mean spearman: 0.0048, mean cosine: 0.0047
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 152.9893, mean pearson: 0.0136, mean kt: 0.0102, mean spearman: 0.0122, mean cosine: 0.0136
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 7.8496, mean pearson: 0.0050, mean kt: 0.0055, mean spearman: 0.0061, mean cosine: 0.0051
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 22.7834, mean pearson: 0.0116, mean kt: 0.0098, mean spearman: 0.0117, mean cosine: 0.0117
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 1.9091, mean pearson: 0.0069, mean kt: 0.0059, mean spearman: 0.0063, mean cosine: 0.0070
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 13.7409, mean pearson: 0.0077, mean kt: 0.0081, mean spearman: 0.0098, mean cosine: 0.0078
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 1.7424, mean pearson: 0.0074, mean kt: 0.0092, mean spearman: 0.0103, mean cosine: 0.0075
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 9.2244, mean pearson: 0.0060, mean kt: 0.0080, mean spearman: 0.0097, mean cosine: 0.0061
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 1.4788, mean pearson: 0.0048, mean kt: 0.0084, mean spearman: 0.0094, mean cosine: 0.0049
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 1.6416, mean pearson: 0.0078, mean kt: 0.0086, mean spearman: 0.0104, mean cosine: 0.0080
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 1.0064, mean pearson: -0.0027, mean kt: -0.0002, mean spearman: -0.0002, mean cosine: -0.0025
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 1.2070, mean pearson: 0.0025, mean kt: 0.0028, mean spearman: 0.0034, mean cosine: 0.0027
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.9706, mean pearson: -0.0007, mean kt: 0.0037, mean spearman: 0.0042, mean cosine: -0.0004
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 1.0728, mean pearson: 0.0034, mean kt: 0.0042, mean spearman: 0.0050, mean cosine: 0.0036
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.9601, mean pearson: -0.0001, mean kt: 0.0036, mean spearman: 0.0041, mean cosine: 0.0001
+
+
+Using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 108.7962, mean pearson: 0.0051, mean kt: 0.0066, mean spearman: 0.0077, mean cosine: 0.0051
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 3.2829, mean pearson: 0.0031, mean kt: 0.0049, mean spearman: 0.0050, mean cosine: 0.0032
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 65.3994, mean pearson: 0.0066, mean kt: 0.0078, mean spearman: 0.0095, mean cosine: 0.0067
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 4.7030, mean pearson: 0.0039, mean kt: 0.0053, mean spearman: 0.0059, mean cosine: 0.0039
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 45.8368, mean pearson: 0.0079, mean kt: 0.0100, mean spearman: 0.0121, mean cosine: 0.0080
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 3.7524, mean pearson: 0.0046, mean kt: 0.0077, mean spearman: 0.0086, mean cosine: 0.0046
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 6.8108, mean pearson: 0.0120, mean kt: 0.0098, mean spearman: 0.0118, mean cosine: 0.0122
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 1.3380, mean pearson: 0.0057, mean kt: 0.0070, mean spearman: 0.0074, mean cosine: 0.0057
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 4.1926, mean pearson: 0.0070, mean kt: 0.0047, mean spearman: 0.0058, mean cosine: 0.0071
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 1.2758, mean pearson: 0.0087, mean kt: 0.0082, mean spearman: 0.0093, mean cosine: 0.0087
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 3.0358, mean pearson: 0.0074, mean kt: 0.0060, mean spearman: 0.0073, mean cosine: 0.0076
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 1.1676, mean pearson: 0.0066, mean kt: 0.0069, mean spearman: 0.0079, mean cosine: 0.0067
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 1.1191, mean pearson: 0.0018, mean kt: 0.0061, mean spearman: 0.0074, mean cosine: 0.0020
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.9732, mean pearson: 0.0016, mean kt: 0.0030, mean spearman: 0.0033, mean cosine: 0.0017
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 1.0112, mean pearson: -0.0015, mean kt: -0.0046, mean spearman: -0.0056, mean cosine: -0.0014
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.9655, mean pearson: -0.0044, mean kt: -0.0060, mean spearman: -0.0068, mean cosine: -0.0043
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 1.0002, mean pearson: 0.0002, mean kt: -0.0027, mean spearman: -0.0033, mean cosine: 0.0003
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.9781, mean pearson: -0.0007, mean kt: -0.0032, mean spearman: -0.0037, mean cosine: -0.0006
+
+ntimes: 1000, interval: 100, ngenes: 20
+Not using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 86.3397, mean pearson: 0.0674, mean kt: 0.0501, mean spearman: 0.0597, mean cosine: 0.0688
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 3.6041, mean pearson: 0.0034, mean kt: 0.0080, mean spearman: 0.0079, mean cosine: 0.0041
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 22.3339, mean pearson: 0.0500, mean kt: 0.0369, mean spearman: 0.0453, mean cosine: 0.0498
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 3.0051, mean pearson: 0.0430, mean kt: 0.0266, mean spearman: 0.0320, mean cosine: 0.0430
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 15.2300, mean pearson: 0.0519, mean kt: 0.0383, mean spearman: 0.0470, mean cosine: 0.0514
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 2.4745, mean pearson: 0.0484, mean kt: 0.0345, mean spearman: 0.0420, mean cosine: 0.0482
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 2.7449, mean pearson: 0.0938, mean kt: 0.0703, mean spearman: 0.0866, mean cosine: 0.0938
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 1.0892, mean pearson: 0.0814, mean kt: 0.0680, mean spearman: 0.0788, mean cosine: 0.0824
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 1.8321, mean pearson: 0.0295, mean kt: 0.0379, mean spearman: 0.0468, mean cosine: 0.0285
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 1.0822, mean pearson: 0.0300, mean kt: 0.0387, mean spearman: 0.0474, mean cosine: 0.0285
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 1.4486, mean pearson: 0.0217, mean kt: 0.0330, mean spearman: 0.0407, mean cosine: 0.0202
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 1.0240, mean pearson: 0.0204, mean kt: 0.0360, mean spearman: 0.0444, mean cosine: 0.0187
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.9257, mean pearson: 0.0321, mean kt: 0.0470, mean spearman: 0.0578, mean cosine: 0.0300
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.9057, mean pearson: 0.0294, mean kt: 0.0477, mean spearman: 0.0576, mean cosine: 0.0273
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.9058, mean pearson: 0.0221, mean kt: 0.0408, mean spearman: 0.0502, mean cosine: 0.0204
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.9014, mean pearson: 0.0236, mean kt: 0.0346, mean spearman: 0.0425, mean cosine: 0.0224
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.9030, mean pearson: 0.0252, mean kt: 0.0367, mean spearman: 0.0452, mean cosine: 0.0243
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.9014, mean pearson: 0.0217, mean kt: 0.0286, mean spearman: 0.0350, mean cosine: 0.0213
+
+
+Using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 10.8646, mean pearson: 0.0714, mean kt: 0.0710, mean spearman: 0.0854, mean cosine: 0.0710
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 1.5219, mean pearson: 0.0051, mean kt: 0.0083, mean spearman: 0.0083, mean cosine: 0.0047
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 2.5290, mean pearson: 0.0776, mean kt: 0.0374, mean spearman: 0.0460, mean cosine: 0.0767
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 1.3666, mean pearson: 0.0665, mean kt: 0.0271, mean spearman: 0.0330, mean cosine: 0.0656
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 2.0887, mean pearson: 0.0819, mean kt: 0.0453, mean spearman: 0.0557, mean cosine: 0.0809
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 1.2637, mean pearson: 0.0702, mean kt: 0.0349, mean spearman: 0.0428, mean cosine: 0.0693
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.9872, mean pearson: 0.1408, mean kt: 0.0862, mean spearman: 0.1060, mean cosine: 0.1404
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.9030, mean pearson: 0.1154, mean kt: 0.0743, mean spearman: 0.0866, mean cosine: 0.1158
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 1.0408, mean pearson: 0.0411, mean kt: 0.0465, mean spearman: 0.0575, mean cosine: 0.0399
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.9628, mean pearson: 0.0359, mean kt: 0.0427, mean spearman: 0.0526, mean cosine: 0.0346
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.9907, mean pearson: 0.0365, mean kt: 0.0452, mean spearman: 0.0558, mean cosine: 0.0351
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.9454, mean pearson: 0.0287, mean kt: 0.0387, mean spearman: 0.0478, mean cosine: 0.0274
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.9007, mean pearson: 0.0527, mean kt: 0.0634, mean spearman: 0.0781, mean cosine: 0.0513
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.9004, mean pearson: 0.0361, mean kt: 0.0546, mean spearman: 0.0665, mean cosine: 0.0345
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.8997, mean pearson: 0.0309, mean kt: 0.0427, mean spearman: 0.0526, mean cosine: 0.0298
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8985, mean pearson: 0.0398, mean kt: 0.0457, mean spearman: 0.0560, mean cosine: 0.0391
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.9003, mean pearson: 0.0307, mean kt: 0.0367, mean spearman: 0.0453, mean cosine: 0.0300
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.9005, mean pearson: 0.0188, mean kt: 0.0260, mean spearman: 0.0319, mean cosine: 0.0186
+
+ntimes: 1000, interval: 100, ngenes: 30
+Not using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 158.6029, mean pearson: 0.0266, mean kt: 0.0228, mean spearman: 0.0257, mean cosine: 0.0266
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 6.5872, mean pearson: -0.0015, mean kt: 0.0025, mean spearman: 0.0025, mean cosine: -0.0013
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 55.5889, mean pearson: 0.0380, mean kt: 0.0174, mean spearman: 0.0215, mean cosine: 0.0370
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 3.9269, mean pearson: 0.0386, mean kt: 0.0272, mean spearman: 0.0327, mean cosine: 0.0378
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 43.4153, mean pearson: 0.0363, mean kt: 0.0148, mean spearman: 0.0183, mean cosine: 0.0351
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 3.3859, mean pearson: 0.0338, mean kt: 0.0225, mean spearman: 0.0272, mean cosine: 0.0327
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 13.0770, mean pearson: 0.0346, mean kt: 0.0129, mean spearman: 0.0158, mean cosine: 0.0343
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 1.5323, mean pearson: 0.0638, mean kt: 0.0445, mean spearman: 0.0503, mean cosine: 0.0635
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 6.0300, mean pearson: 0.0292, mean kt: 0.0028, mean spearman: 0.0033, mean cosine: 0.0281
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 1.4060, mean pearson: 0.0331, mean kt: 0.0097, mean spearman: 0.0118, mean cosine: 0.0313
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 3.5944, mean pearson: 0.0191, mean kt: -0.0037, mean spearman: -0.0047, mean cosine: 0.0180
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 1.1905, mean pearson: 0.0362, mean kt: 0.0099, mean spearman: 0.0120, mean cosine: 0.0344
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 1.0020, mean pearson: 0.0233, mean kt: -0.0009, mean spearman: -0.0013, mean cosine: 0.0221
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.9112, mean pearson: 0.0329, mean kt: 0.0119, mean spearman: 0.0142, mean cosine: 0.0317
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.9348, mean pearson: 0.0090, mean kt: -0.0089, mean spearman: -0.0110, mean cosine: 0.0082
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.9110, mean pearson: -0.0093, mean kt: -0.0170, mean spearman: -0.0207, mean cosine: -0.0105
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.9138, mean pearson: 0.0108, mean kt: -0.0016, mean spearman: -0.0019, mean cosine: 0.0105
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.9078, mean pearson: -0.0046, mean kt: -0.0114, mean spearman: -0.0139, mean cosine: -0.0051
+
+
+Using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 58.0532, mean pearson: 0.0070, mean kt: 0.0247, mean spearman: 0.0276, mean cosine: 0.0070
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 3.2444, mean pearson: -0.0010, mean kt: 0.0025, mean spearman: 0.0025, mean cosine: -0.0010
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 7.0456, mean pearson: 0.0303, mean kt: 0.0248, mean spearman: 0.0304, mean cosine: 0.0295
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 1.6832, mean pearson: 0.0455, mean kt: 0.0309, mean spearman: 0.0374, mean cosine: 0.0447
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 5.2572, mean pearson: 0.0281, mean kt: 0.0232, mean spearman: 0.0285, mean cosine: 0.0271
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 1.5401, mean pearson: 0.0421, mean kt: 0.0288, mean spearman: 0.0350, mean cosine: 0.0410
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 1.9728, mean pearson: 0.0406, mean kt: 0.0301, mean spearman: 0.0370, mean cosine: 0.0404
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 1.0239, mean pearson: 0.0708, mean kt: 0.0510, mean spearman: 0.0579, mean cosine: 0.0706
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 1.4534, mean pearson: 0.0467, mean kt: 0.0215, mean spearman: 0.0263, mean cosine: 0.0456
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 1.0234, mean pearson: 0.0527, mean kt: 0.0179, mean spearman: 0.0218, mean cosine: 0.0511
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 1.2128, mean pearson: 0.0442, mean kt: 0.0168, mean spearman: 0.0205, mean cosine: 0.0430
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.9721, mean pearson: 0.0540, mean kt: 0.0177, mean spearman: 0.0215, mean cosine: 0.0523
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.9057, mean pearson: 0.0411, mean kt: 0.0132, mean spearman: 0.0160, mean cosine: 0.0402
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8987, mean pearson: 0.0402, mean kt: 0.0127, mean spearman: 0.0152, mean cosine: 0.0393
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.9067, mean pearson: 0.0109, mean kt: -0.0088, mean spearman: -0.0108, mean cosine: 0.0104
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.9048, mean pearson: -0.0039, mean kt: -0.0160, mean spearman: -0.0195, mean cosine: -0.0051
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.9039, mean pearson: 0.0126, mean kt: -0.0008, mean spearman: -0.0010, mean cosine: 0.0125
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.9045, mean pearson: 0.0025, mean kt: -0.0065, mean spearman: -0.0079, mean cosine: 0.0021
+
+ntimes: 1000, interval: 100, ngenes: 50
+Not using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 237.9037, mean pearson: 0.0304, mean kt: 0.0199, mean spearman: 0.0232, mean cosine: 0.0303
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 4.9555, mean pearson: -0.0034, mean kt: -0.0074, mean spearman: -0.0076, mean cosine: -0.0032
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 146.1657, mean pearson: 0.0284, mean kt: 0.0208, mean spearman: 0.0254, mean cosine: 0.0284
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 7.9573, mean pearson: 0.0236, mean kt: 0.0189, mean spearman: 0.0222, mean cosine: 0.0241
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 107.9949, mean pearson: 0.0286, mean kt: 0.0225, mean spearman: 0.0276, mean cosine: 0.0286
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 6.5764, mean pearson: 0.0255, mean kt: 0.0206, mean spearman: 0.0243, mean cosine: 0.0261
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 18.4641, mean pearson: 0.0506, mean kt: 0.0450, mean spearman: 0.0549, mean cosine: 0.0505
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 1.9763, mean pearson: 0.0392, mean kt: 0.0290, mean spearman: 0.0321, mean cosine: 0.0394
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 10.4889, mean pearson: 0.0534, mean kt: 0.0550, mean spearman: 0.0674, mean cosine: 0.0539
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 1.7440, mean pearson: 0.0435, mean kt: 0.0446, mean spearman: 0.0529, mean cosine: 0.0438
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 7.1556, mean pearson: 0.0543, mean kt: 0.0561, mean spearman: 0.0687, mean cosine: 0.0548
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 1.4673, mean pearson: 0.0459, mean kt: 0.0479, mean spearman: 0.0567, mean cosine: 0.0462
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 1.4493, mean pearson: 0.0578, mean kt: 0.0542, mean spearman: 0.0664, mean cosine: 0.0580
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.9535, mean pearson: 0.0562, mean kt: 0.0535, mean spearman: 0.0623, mean cosine: 0.0563
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 1.0676, mean pearson: 0.0469, mean kt: 0.0441, mean spearman: 0.0541, mean cosine: 0.0473
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.9183, mean pearson: 0.0413, mean kt: 0.0348, mean spearman: 0.0415, mean cosine: 0.0414
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.9736, mean pearson: 0.0481, mean kt: 0.0473, mean spearman: 0.0579, mean cosine: 0.0484
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.9070, mean pearson: 0.0414, mean kt: 0.0363, mean spearman: 0.0433, mean cosine: 0.0416
+
+
+Using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 60.1794, mean pearson: 0.0212, mean kt: 0.0198, mean spearman: 0.0232, mean cosine: 0.0210
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 2.4581, mean pearson: -0.0039, mean kt: -0.0080, mean spearman: -0.0080, mean cosine: -0.0038
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 23.5163, mean pearson: 0.0239, mean kt: 0.0181, mean spearman: 0.0221, mean cosine: 0.0241
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 3.1550, mean pearson: 0.0202, mean kt: 0.0170, mean spearman: 0.0202, mean cosine: 0.0207
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 17.0746, mean pearson: 0.0241, mean kt: 0.0208, mean spearman: 0.0255, mean cosine: 0.0243
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 2.7546, mean pearson: 0.0225, mean kt: 0.0202, mean spearman: 0.0241, mean cosine: 0.0230
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 3.5942, mean pearson: 0.0366, mean kt: 0.0407, mean spearman: 0.0498, mean cosine: 0.0367
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 1.2166, mean pearson: 0.0347, mean kt: 0.0256, mean spearman: 0.0285, mean cosine: 0.0349
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 2.3610, mean pearson: 0.0429, mean kt: 0.0492, mean spearman: 0.0603, mean cosine: 0.0433
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 1.1920, mean pearson: 0.0435, mean kt: 0.0434, mean spearman: 0.0517, mean cosine: 0.0436
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 1.8342, mean pearson: 0.0442, mean kt: 0.0516, mean spearman: 0.0632, mean cosine: 0.0447
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 1.1039, mean pearson: 0.0448, mean kt: 0.0464, mean spearman: 0.0554, mean cosine: 0.0451
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.9836, mean pearson: 0.0495, mean kt: 0.0464, mean spearman: 0.0569, mean cosine: 0.0499
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.9162, mean pearson: 0.0500, mean kt: 0.0486, mean spearman: 0.0568, mean cosine: 0.0504
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.9246, mean pearson: 0.0415, mean kt: 0.0416, mean spearman: 0.0510, mean cosine: 0.0418
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.9062, mean pearson: 0.0378, mean kt: 0.0347, mean spearman: 0.0417, mean cosine: 0.0378
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.9092, mean pearson: 0.0369, mean kt: 0.0399, mean spearman: 0.0489, mean cosine: 0.0370
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.9014, mean pearson: 0.0412, mean kt: 0.0353, mean spearman: 0.0424, mean cosine: 0.0412
+
+ntimes: 1000, interval: 100, ngenes: 100
+Not using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 468.3499, mean pearson: 0.0105, mean kt: 0.0062, mean spearman: 0.0072, mean cosine: 0.0105
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 7.5444, mean pearson: 0.0046, mean kt: 0.0066, mean spearman: 0.0068, mean cosine: 0.0046
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 393.2957, mean pearson: 0.0097, mean kt: 0.0083, mean spearman: 0.0100, mean cosine: 0.0097
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 16.2062, mean pearson: 0.0065, mean kt: 0.0064, mean spearman: 0.0071, mean cosine: 0.0065
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 312.2242, mean pearson: 0.0104, mean kt: 0.0096, mean spearman: 0.0116, mean cosine: 0.0104
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 13.8176, mean pearson: 0.0073, mean kt: 0.0074, mean spearman: 0.0082, mean cosine: 0.0073
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 66.3667, mean pearson: 0.0118, mean kt: 0.0100, mean spearman: 0.0121, mean cosine: 0.0117
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 3.7632, mean pearson: 0.0068, mean kt: 0.0083, mean spearman: 0.0088, mean cosine: 0.0068
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 39.8745, mean pearson: 0.0042, mean kt: 0.0052, mean spearman: 0.0063, mean cosine: 0.0040
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 3.3195, mean pearson: 0.0022, mean kt: 0.0019, mean spearman: 0.0022, mean cosine: 0.0021
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 27.0341, mean pearson: 0.0032, mean kt: 0.0032, mean spearman: 0.0039, mean cosine: 0.0030
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 2.5893, mean pearson: 0.0001, mean kt: 0.0010, mean spearman: 0.0011, mean cosine: -0.0001
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 3.4598, mean pearson: 0.0038, mean kt: 0.0010, mean spearman: 0.0012, mean cosine: 0.0034
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 1.1099, mean pearson: 0.0008, mean kt: 0.0011, mean spearman: 0.0012, mean cosine: 0.0004
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 1.8648, mean pearson: 0.0037, mean kt: 0.0010, mean spearman: 0.0012, mean cosine: 0.0034
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.9787, mean pearson: -0.0002, mean kt: -0.0024, mean spearman: -0.0028, mean cosine: -0.0006
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 1.3912, mean pearson: 0.0037, mean kt: 0.0007, mean spearman: 0.0009, mean cosine: 0.0034
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.9426, mean pearson: 0.0005, mean kt: -0.0010, mean spearman: -0.0011, mean cosine: 0.0001
+
+
+Using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 165.6662, mean pearson: 0.0010, mean kt: 0.0057, mean spearman: 0.0067, mean cosine: 0.0009
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 4.0495, mean pearson: 0.0015, mean kt: 0.0064, mean spearman: 0.0065, mean cosine: 0.0015
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 128.3559, mean pearson: 0.0004, mean kt: 0.0052, mean spearman: 0.0063, mean cosine: 0.0004
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 7.5201, mean pearson: 0.0028, mean kt: 0.0060, mean spearman: 0.0068, mean cosine: 0.0028
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 97.8952, mean pearson: 0.0006, mean kt: 0.0058, mean spearman: 0.0071, mean cosine: 0.0006
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 6.4405, mean pearson: 0.0035, mean kt: 0.0080, mean spearman: 0.0091, mean cosine: 0.0036
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 19.4007, mean pearson: 0.0022, mean kt: -0.0025, mean spearman: -0.0030, mean cosine: 0.0023
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 2.1043, mean pearson: -0.0015, mean kt: -0.0035, mean spearman: -0.0038, mean cosine: -0.0014
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 11.2625, mean pearson: 0.0018, mean kt: -0.0015, mean spearman: -0.0018, mean cosine: 0.0019
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 1.9451, mean pearson: 0.0011, mean kt: -0.0027, mean spearman: -0.0032, mean cosine: 0.0013
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 7.7032, mean pearson: -0.0005, mean kt: -0.0042, mean spearman: -0.0051, mean cosine: -0.0005
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 1.6430, mean pearson: 0.0009, mean kt: -0.0040, mean spearman: -0.0046, mean cosine: 0.0010
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 1.5731, mean pearson: -0.0034, mean kt: -0.0070, mean spearman: -0.0086, mean cosine: -0.0036
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 1.0002, mean pearson: -0.0070, mean kt: -0.0063, mean spearman: -0.0070, mean cosine: -0.0071
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 1.1374, mean pearson: -0.0041, mean kt: -0.0082, mean spearman: -0.0100, mean cosine: -0.0043
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.9382, mean pearson: -0.0041, mean kt: -0.0027, mean spearman: -0.0032, mean cosine: -0.0042
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 1.0188, mean pearson: -0.0033, mean kt: -0.0080, mean spearman: -0.0098, mean cosine: -0.0034
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.9209, mean pearson: -0.0038, mean kt: -0.0025, mean spearman: -0.0029, mean cosine: -0.0038
+
+ntimes: 1000, interval: 200, ngenes: 20
+Not using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 56.1265, mean pearson: 0.1137, mean kt: 0.0789, mean spearman: 0.0958, mean cosine: 0.1148
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 2.5786, mean pearson: 0.0472, mean kt: 0.0807, mean spearman: 0.0839, mean cosine: 0.0463
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 24.2066, mean pearson: 0.0363, mean kt: 0.0252, mean spearman: 0.0313, mean cosine: 0.0382
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 3.0793, mean pearson: 0.0428, mean kt: 0.0287, mean spearman: 0.0354, mean cosine: 0.0441
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 18.6975, mean pearson: 0.0310, mean kt: 0.0223, mean spearman: 0.0277, mean cosine: 0.0327
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 2.8030, mean pearson: 0.0384, mean kt: 0.0261, mean spearman: 0.0323, mean cosine: 0.0397
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 5.5941, mean pearson: 0.0503, mean kt: 0.0516, mean spearman: 0.0634, mean cosine: 0.0525
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 1.2186, mean pearson: 0.0832, mean kt: 0.0699, mean spearman: 0.0820, mean cosine: 0.0841
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 2.7109, mean pearson: 0.0117, mean kt: 0.0108, mean spearman: 0.0133, mean cosine: 0.0136
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 1.1918, mean pearson: 0.0252, mean kt: 0.0293, mean spearman: 0.0359, mean cosine: 0.0272
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 2.0797, mean pearson: 0.0179, mean kt: 0.0065, mean spearman: 0.0081, mean cosine: 0.0200
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 1.0642, mean pearson: 0.0309, mean kt: 0.0242, mean spearman: 0.0298, mean cosine: 0.0333
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.8881, mean pearson: 0.0415, mean kt: 0.0332, mean spearman: 0.0405, mean cosine: 0.0442
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8093, mean pearson: 0.0561, mean kt: 0.0469, mean spearman: 0.0573, mean cosine: 0.0581
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.8281, mean pearson: -0.0037, mean kt: -0.0119, mean spearman: -0.0149, mean cosine: -0.0015
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8061, mean pearson: 0.0142, mean kt: 0.0007, mean spearman: 0.0005, mean cosine: 0.0164
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.8115, mean pearson: -0.0029, mean kt: -0.0053, mean spearman: -0.0066, mean cosine: -0.0011
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8024, mean pearson: 0.0124, mean kt: 0.0036, mean spearman: 0.0042, mean cosine: 0.0138
+
+
+Using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 5.7034, mean pearson: 0.1307, mean kt: 0.0791, mean spearman: 0.0959, mean cosine: 0.1302
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 1.0550, mean pearson: 0.0461, mean kt: 0.0810, mean spearman: 0.0842, mean cosine: 0.0457
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 2.4580, mean pearson: 0.0528, mean kt: 0.0289, mean spearman: 0.0355, mean cosine: 0.0549
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 1.2945, mean pearson: 0.0532, mean kt: 0.0323, mean spearman: 0.0398, mean cosine: 0.0550
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 2.2866, mean pearson: 0.0449, mean kt: 0.0262, mean spearman: 0.0324, mean cosine: 0.0471
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 1.2988, mean pearson: 0.0460, mean kt: 0.0295, mean spearman: 0.0364, mean cosine: 0.0479
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 1.1031, mean pearson: 0.1047, mean kt: 0.0734, mean spearman: 0.0902, mean cosine: 0.1062
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8173, mean pearson: 0.1300, mean kt: 0.0778, mean spearman: 0.0914, mean cosine: 0.1307
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 1.1277, mean pearson: 0.0245, mean kt: 0.0290, mean spearman: 0.0357, mean cosine: 0.0261
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.9585, mean pearson: 0.0275, mean kt: 0.0360, mean spearman: 0.0441, mean cosine: 0.0293
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 1.0374, mean pearson: 0.0273, mean kt: 0.0196, mean spearman: 0.0242, mean cosine: 0.0291
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.9118, mean pearson: 0.0313, mean kt: 0.0281, mean spearman: 0.0346, mean cosine: 0.0335
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.7978, mean pearson: 0.0790, mean kt: 0.0607, mean spearman: 0.0742, mean cosine: 0.0812
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.7938, mean pearson: 0.0730, mean kt: 0.0579, mean spearman: 0.0705, mean cosine: 0.0749
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.8089, mean pearson: 0.0038, mean kt: -0.0074, mean spearman: -0.0095, mean cosine: 0.0061
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8031, mean pearson: 0.0118, mean kt: -0.0063, mean spearman: -0.0081, mean cosine: 0.0144
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.8047, mean pearson: -0.0016, mean kt: -0.0068, mean spearman: -0.0086, mean cosine: 0.0004
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8018, mean pearson: 0.0072, mean kt: -0.0075, mean spearman: -0.0095, mean cosine: 0.0091
+
+ntimes: 1000, interval: 200, ngenes: 30
+Not using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 125.1903, mean pearson: 0.0617, mean kt: 0.0498, mean spearman: 0.0574, mean cosine: 0.0622
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 4.4384, mean pearson: 0.0165, mean kt: 0.0558, mean spearman: 0.0567, mean cosine: 0.0168
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 53.2459, mean pearson: 0.0305, mean kt: 0.0066, mean spearman: 0.0081, mean cosine: 0.0314
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 3.8670, mean pearson: 0.0345, mean kt: 0.0093, mean spearman: 0.0112, mean cosine: 0.0350
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 42.5358, mean pearson: 0.0299, mean kt: 0.0073, mean spearman: 0.0090, mean cosine: 0.0308
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 3.5410, mean pearson: 0.0343, mean kt: 0.0092, mean spearman: 0.0111, mean cosine: 0.0350
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 12.3056, mean pearson: 0.0559, mean kt: 0.0380, mean spearman: 0.0468, mean cosine: 0.0569
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 1.4769, mean pearson: 0.0869, mean kt: 0.0372, mean spearman: 0.0422, mean cosine: 0.0874
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 5.9714, mean pearson: 0.0241, mean kt: 0.0155, mean spearman: 0.0190, mean cosine: 0.0249
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 1.4188, mean pearson: 0.0401, mean kt: 0.0163, mean spearman: 0.0198, mean cosine: 0.0409
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 3.9210, mean pearson: 0.0219, mean kt: 0.0193, mean spearman: 0.0236, mean cosine: 0.0229
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 1.2180, mean pearson: 0.0333, mean kt: 0.0176, mean spearman: 0.0215, mean cosine: 0.0342
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 1.0122, mean pearson: 0.0439, mean kt: 0.0392, mean spearman: 0.0481, mean cosine: 0.0452
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8178, mean pearson: 0.0684, mean kt: 0.0480, mean spearman: 0.0579, mean cosine: 0.0688
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.8624, mean pearson: 0.0136, mean kt: 0.0175, mean spearman: 0.0216, mean cosine: 0.0165
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8081, mean pearson: 0.0245, mean kt: 0.0190, mean spearman: 0.0234, mean cosine: 0.0268
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.8273, mean pearson: 0.0090, mean kt: 0.0120, mean spearman: 0.0148, mean cosine: 0.0121
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8029, mean pearson: 0.0233, mean kt: 0.0144, mean spearman: 0.0177, mean cosine: 0.0257
+
+
+Using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 36.1970, mean pearson: 0.0305, mean kt: 0.0464, mean spearman: 0.0534, mean cosine: 0.0308
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 2.2025, mean pearson: 0.0065, mean kt: 0.0558, mean spearman: 0.0567, mean cosine: 0.0067
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 6.5176, mean pearson: 0.0103, mean kt: 0.0052, mean spearman: 0.0064, mean cosine: 0.0109
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 1.5918, mean pearson: 0.0316, mean kt: 0.0075, mean spearman: 0.0091, mean cosine: 0.0319
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 5.4350, mean pearson: 0.0084, mean kt: 0.0035, mean spearman: 0.0042, mean cosine: 0.0091
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 1.5466, mean pearson: 0.0306, mean kt: 0.0071, mean spearman: 0.0087, mean cosine: 0.0311
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 2.0810, mean pearson: 0.0412, mean kt: 0.0377, mean spearman: 0.0463, mean cosine: 0.0414
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.9181, mean pearson: 0.0878, mean kt: 0.0389, mean spearman: 0.0444, mean cosine: 0.0880
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 1.5589, mean pearson: 0.0176, mean kt: 0.0149, mean spearman: 0.0184, mean cosine: 0.0185
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 1.0174, mean pearson: 0.0417, mean kt: 0.0159, mean spearman: 0.0194, mean cosine: 0.0427
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 1.2840, mean pearson: 0.0199, mean kt: 0.0187, mean spearman: 0.0229, mean cosine: 0.0209
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.9542, mean pearson: 0.0374, mean kt: 0.0187, mean spearman: 0.0229, mean cosine: 0.0384
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 0.8170, mean pearson: 0.0708, mean kt: 0.0500, mean spearman: 0.0614, mean cosine: 0.0717
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.7932, mean pearson: 0.0928, mean kt: 0.0547, mean spearman: 0.0661, mean cosine: 0.0931
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.8073, mean pearson: 0.0310, mean kt: 0.0257, mean spearman: 0.0317, mean cosine: 0.0339
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.7989, mean pearson: 0.0409, mean kt: 0.0271, mean spearman: 0.0334, mean cosine: 0.0435
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.8020, mean pearson: 0.0274, mean kt: 0.0226, mean spearman: 0.0279, mean cosine: 0.0307
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.7980, mean pearson: 0.0385, mean kt: 0.0283, mean spearman: 0.0348, mean cosine: 0.0411
+
+ntimes: 1000, interval: 200, ngenes: 50
+Not using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 251.3073, mean pearson: 0.0313, mean kt: 0.0273, mean spearman: 0.0325, mean cosine: 0.0313
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 5.0539, mean pearson: 0.0115, mean kt: 0.0161, mean spearman: 0.0166, mean cosine: 0.0112
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 200.4786, mean pearson: 0.0316, mean kt: 0.0231, mean spearman: 0.0283, mean cosine: 0.0316
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 9.9893, mean pearson: 0.0248, mean kt: 0.0206, mean spearman: 0.0242, mean cosine: 0.0249
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 165.6619, mean pearson: 0.0314, mean kt: 0.0225, mean spearman: 0.0276, mean cosine: 0.0314
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 9.1725, mean pearson: 0.0246, mean kt: 0.0201, mean spearman: 0.0238, mean cosine: 0.0247
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 47.0405, mean pearson: 0.0375, mean kt: 0.0287, mean spearman: 0.0351, mean cosine: 0.0374
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 3.3504, mean pearson: 0.0271, mean kt: 0.0265, mean spearman: 0.0299, mean cosine: 0.0273
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 29.3319, mean pearson: 0.0181, mean kt: 0.0160, mean spearman: 0.0196, mean cosine: 0.0181
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 3.1584, mean pearson: 0.0149, mean kt: 0.0152, mean spearman: 0.0182, mean cosine: 0.0152
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 20.8798, mean pearson: 0.0172, mean kt: 0.0167, mean spearman: 0.0205, mean cosine: 0.0170
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 2.5936, mean pearson: 0.0121, mean kt: 0.0154, mean spearman: 0.0185, mean cosine: 0.0122
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 2.9555, mean pearson: -0.0017, mean kt: 0.0006, mean spearman: 0.0008, mean cosine: -0.0021
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 1.0679, mean pearson: 0.0043, mean kt: 0.0111, mean spearman: 0.0131, mean cosine: 0.0041
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 1.5558, mean pearson: -0.0049, mean kt: -0.0024, mean spearman: -0.0029, mean cosine: -0.0051
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8998, mean pearson: -0.0044, mean kt: 0.0002, mean spearman: 0.0003, mean cosine: -0.0048
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 1.1853, mean pearson: 0.0004, mean kt: -0.0005, mean spearman: -0.0006, mean cosine: 0.0003
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8547, mean pearson: -0.0058, mean kt: -0.0013, mean spearman: -0.0016, mean cosine: -0.0060
+
+
+Using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 55.3391, mean pearson: 0.0349, mean kt: 0.0302, mean spearman: 0.0362, mean cosine: 0.0345
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 2.3216, mean pearson: 0.0148, mean kt: 0.0165, mean spearman: 0.0170, mean cosine: 0.0146
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 33.1357, mean pearson: 0.0331, mean kt: 0.0271, mean spearman: 0.0332, mean cosine: 0.0329
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 3.8031, mean pearson: 0.0278, mean kt: 0.0240, mean spearman: 0.0287, mean cosine: 0.0278
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 27.3573, mean pearson: 0.0333, mean kt: 0.0263, mean spearman: 0.0322, mean cosine: 0.0331
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 3.6407, mean pearson: 0.0261, mean kt: 0.0230, mean spearman: 0.0275, mean cosine: 0.0262
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 7.7741, mean pearson: 0.0461, mean kt: 0.0318, mean spearman: 0.0390, mean cosine: 0.0459
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 1.5628, mean pearson: 0.0334, mean kt: 0.0275, mean spearman: 0.0312, mean cosine: 0.0334
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 5.1256, mean pearson: 0.0297, mean kt: 0.0188, mean spearman: 0.0230, mean cosine: 0.0297
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 1.6701, mean pearson: 0.0184, mean kt: 0.0166, mean spearman: 0.0200, mean cosine: 0.0186
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 3.7650, mean pearson: 0.0302, mean kt: 0.0188, mean spearman: 0.0230, mean cosine: 0.0301
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 1.4703, mean pearson: 0.0151, mean kt: 0.0162, mean spearman: 0.0195, mean cosine: 0.0152
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 1.1255, mean pearson: 0.0216, mean kt: 0.0191, mean spearman: 0.0233, mean cosine: 0.0212
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 0.8980, mean pearson: 0.0082, mean kt: 0.0112, mean spearman: 0.0132, mean cosine: 0.0081
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 0.9238, mean pearson: 0.0076, mean kt: 0.0065, mean spearman: 0.0080, mean cosine: 0.0072
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.8438, mean pearson: -0.0038, mean kt: -0.0016, mean spearman: -0.0019, mean cosine: -0.0041
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 0.8660, mean pearson: 0.0072, mean kt: 0.0039, mean spearman: 0.0048, mean cosine: 0.0069
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8246, mean pearson: -0.0047, mean kt: -0.0031, mean spearman: -0.0037, mean cosine: -0.0050
+
+ntimes: 1000, interval: 200, ngenes: 100
+Not using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 451.5263, mean pearson: 0.0067, mean kt: 0.0075, mean spearman: 0.0088, mean cosine: 0.0067
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 6.8083, mean pearson: 0.0094, mean kt: 0.0126, mean spearman: 0.0128, mean cosine: 0.0094
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 477.1910, mean pearson: 0.0072, mean kt: 0.0077, mean spearman: 0.0093, mean cosine: 0.0072
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 18.0012, mean pearson: 0.0100, mean kt: 0.0100, mean spearman: 0.0112, mean cosine: 0.0100
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 416.8370, mean pearson: 0.0074, mean kt: 0.0080, mean spearman: 0.0097, mean cosine: 0.0074
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 16.7846, mean pearson: 0.0098, mean kt: 0.0099, mean spearman: 0.0112, mean cosine: 0.0098
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 144.4584, mean pearson: 0.0074, mean kt: 0.0088, mean spearman: 0.0106, mean cosine: 0.0074
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 6.6899, mean pearson: 0.0130, mean kt: 0.0128, mean spearman: 0.0138, mean cosine: 0.0130
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 95.0870, mean pearson: 0.0030, mean kt: 0.0036, mean spearman: 0.0045, mean cosine: 0.0030
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 6.2382, mean pearson: 0.0120, mean kt: 0.0134, mean spearman: 0.0154, mean cosine: 0.0120
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 69.7796, mean pearson: 0.0023, mean kt: 0.0031, mean spearman: 0.0038, mean cosine: 0.0023
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 4.9552, mean pearson: 0.0108, mean kt: 0.0120, mean spearman: 0.0138, mean cosine: 0.0108
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 9.2012, mean pearson: 0.0032, mean kt: 0.0027, mean spearman: 0.0033, mean cosine: 0.0032
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 1.4655, mean pearson: 0.0124, mean kt: 0.0136, mean spearman: 0.0153, mean cosine: 0.0124
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 3.9319, mean pearson: 0.0024, mean kt: 0.0012, mean spearman: 0.0014, mean cosine: 0.0023
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 1.0568, mean pearson: 0.0064, mean kt: 0.0067, mean spearman: 0.0076, mean cosine: 0.0065
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 2.3869, mean pearson: 0.0036, mean kt: 0.0026, mean spearman: 0.0031, mean cosine: 0.0035
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.9325, mean pearson: 0.0054, mean kt: 0.0062, mean spearman: 0.0071, mean cosine: 0.0055
+
+
+Using TF information
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 161.0071, mean pearson: 0.0042, mean kt: 0.0083, mean spearman: 0.0097, mean cosine: 0.0042
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 3.6599, mean pearson: 0.0038, mean kt: 0.0124, mean spearman: 0.0126, mean cosine: 0.0038
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 158.9012, mean pearson: 0.0059, mean kt: 0.0091, mean spearman: 0.0111, mean cosine: 0.0059
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 8.4700, mean pearson: 0.0099, mean kt: 0.0093, mean spearman: 0.0105, mean cosine: 0.0099
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 135.6513, mean pearson: 0.0064, mean kt: 0.0085, mean spearman: 0.0104, mean cosine: 0.0064
+
+	Hyper-parameter: bandwidth = 0.01, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 7.9350, mean pearson: 0.0093, mean kt: 0.0093, mean spearman: 0.0107, mean cosine: 0.0093
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 43.5401, mean pearson: -0.0026, mean kt: -0.0029, mean spearman: -0.0035, mean cosine: -0.0026
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 3.2287, mean pearson: -0.0004, mean kt: 0.0025, mean spearman: 0.0027, mean cosine: -0.0004
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 27.7465, mean pearson: -0.0006, mean kt: -0.0019, mean spearman: -0.0023, mean cosine: -0.0005
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 3.1989, mean pearson: -0.0030, mean kt: -0.0003, mean spearman: -0.0003, mean cosine: -0.0029
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 19.8213, mean pearson: -0.0004, mean kt: -0.0019, mean spearman: -0.0023, mean cosine: -0.0003
+
+	Hyper-parameter: bandwidth = 0.10, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 2.6489, mean pearson: -0.0009, mean kt: 0.0025, mean spearman: 0.0030, mean cosine: -0.0008
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.01
+	mean nmse: 2.9809, mean pearson: -0.0012, mean kt: -0.0002, mean spearman: -0.0003, mean cosine: -0.0011
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 0.10, lambda = 0.10
+	mean nmse: 1.1023, mean pearson: 0.0098, mean kt: 0.0100, mean spearman: 0.0114, mean cosine: 0.0099
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.01
+	mean nmse: 1.6048, mean pearson: -0.0024, mean kt: -0.0023, mean spearman: -0.0028, mean cosine: -0.0024
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 1.00, lambda = 0.10
+	mean nmse: 0.9184, mean pearson: 0.0026, mean kt: 0.0067, mean spearman: 0.0077, mean cosine: 0.0028
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.01
+	mean nmse: 1.2114, mean pearson: -0.0012, mean kt: -0.0024, mean spearman: -0.0029, mean cosine: -0.0012
+
+	Hyper-parameter: bandwidth = 1.00, truncate_param = 5.00, lambda = 0.10
+	mean nmse: 0.8612, mean pearson: 0.0029, mean kt: 0.0079, mean spearman: 0.0092, mean cosine: 0.0031
+

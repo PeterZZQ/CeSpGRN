@@ -1,0 +1,1253 @@
+Raw TimePoints: 1000, no.Genes: 20
+number of nearest neighbor: 6
+number of nearest neighbor: 7
+number of nearest neighbor: 8
+final number of nearest neighbor (make connected): 8
+0.001793842246120732
+0.042353774874510676
+time calculating the kernel function: 4.65 sec
+start running batch 0
+n_iter: 100, duality gap: 3.3340e-06, primal residual: 1.6413e-03, dual residual: 4.949782e-01
+n_iter: 200, duality gap: 2.9224e-06, primal residual: 1.5068e-03, dual residual: 3.653713e-01
+n_iter: 300, duality gap: 2.1832e-06, primal residual: 1.3117e-03, dual residual: 3.023287e-01
+n_iter: 400, duality gap: 1.8764e-06, primal residual: 1.1459e-03, dual residual: 2.632279e-01
+n_iter: 500, duality gap: 1.4364e-06, primal residual: 1.0421e-03, dual residual: 2.358855e-01
+Batch loss: loss1: -6530.31006, loss2: 101906.51562, loss3: 0.00000
+Finished running batch 0, running time: 15.46 sec
+start running batch 1
+n_iter: 100, duality gap: 3.9025e-06, primal residual: 1.8223e-03, dual residual: 4.873990e-01
+n_iter: 200, duality gap: 2.6133e-06, primal residual: 1.5108e-03, dual residual: 3.572187e-01
+n_iter: 300, duality gap: 2.0843e-06, primal residual: 1.2884e-03, dual residual: 2.937641e-01
+n_iter: 400, duality gap: 1.8366e-06, primal residual: 1.1808e-03, dual residual: 2.543870e-01
+n_iter: 500, duality gap: 1.3991e-06, primal residual: 1.0413e-03, dual residual: 2.269026e-01
+Batch loss: loss1: -6400.85791, loss2: 99222.67188, loss3: 0.00000
+Finished running batch 1, running time: 14.76 sec
+start running batch 2
+n_iter: 100, duality gap: 4.3109e-06, primal residual: 1.9391e-03, dual residual: 4.764539e-01
+n_iter: 200, duality gap: 2.9397e-06, primal residual: 1.5254e-03, dual residual: 3.482722e-01
+n_iter: 300, duality gap: 3.0454e-06, primal residual: 1.3152e-03, dual residual: 2.854404e-01
+n_iter: 400, duality gap: 1.7494e-06, primal residual: 1.1519e-03, dual residual: 2.463806e-01
+n_iter: 500, duality gap: 1.9352e-06, primal residual: 1.0772e-03, dual residual: 2.191207e-01
+Batch loss: loss1: -6331.41699, loss2: 98812.03125, loss3: 0.00000
+Finished running batch 2, running time: 14.84 sec
+start running batch 3
+n_iter: 100, duality gap: 4.3507e-06, primal residual: 1.9790e-03, dual residual: 4.695484e-01
+n_iter: 200, duality gap: 3.1784e-06, primal residual: 1.6388e-03, dual residual: 3.417342e-01
+n_iter: 300, duality gap: 4.5031e-06, primal residual: 1.8689e-03, dual residual: 2.791172e-01
+n_iter: 400, duality gap: 3.1744e-06, primal residual: 1.6257e-03, dual residual: 2.402086e-01
+n_iter: 500, duality gap: 2.9047e-06, primal residual: 1.3768e-03, dual residual: 2.130749e-01
+Batch loss: loss1: -6207.62354, loss2: 98692.78125, loss3: 0.00000
+Finished running batch 3, running time: 14.87 sec
+start running batch 4
+n_iter: 100, duality gap: 3.2513e-06, primal residual: 1.8419e-03, dual residual: 4.714355e-01
+n_iter: 200, duality gap: 3.7709e-06, primal residual: 1.6370e-03, dual residual: 3.427251e-01
+n_iter: 300, duality gap: 2.4311e-06, primal residual: 1.4542e-03, dual residual: 2.801045e-01
+n_iter: 400, duality gap: 1.9433e-06, primal residual: 1.1958e-03, dual residual: 2.412010e-01
+n_iter: 500, duality gap: 1.6014e-06, primal residual: 1.0470e-03, dual residual: 2.140491e-01
+Batch loss: loss1: -6252.50781, loss2: 97507.82031, loss3: 0.00000
+Finished running batch 4, running time: 14.93 sec
+start running batch 5
+n_iter: 100, duality gap: 3.4183e-06, primal residual: 1.7979e-03, dual residual: 4.702014e-01
+n_iter: 200, duality gap: 2.9850e-06, primal residual: 1.6474e-03, dual residual: 3.423600e-01
+n_iter: 300, duality gap: 2.8945e-06, primal residual: 1.3883e-03, dual residual: 2.797864e-01
+n_iter: 400, duality gap: 3.1653e-06, primal residual: 1.2622e-03, dual residual: 2.409213e-01
+n_iter: 500, duality gap: 2.7639e-06, primal residual: 1.2028e-03, dual residual: 2.137910e-01
+Batch loss: loss1: -6230.07812, loss2: 97089.20312, loss3: 0.00000
+Finished running batch 5, running time: 14.87 sec
+start running batch 6
+n_iter: 100, duality gap: 2.9577e-06, primal residual: 1.7480e-03, dual residual: 4.658789e-01
+n_iter: 200, duality gap: 2.5750e-06, primal residual: 1.4193e-03, dual residual: 3.386849e-01
+n_iter: 300, duality gap: 2.1574e-06, primal residual: 1.1997e-03, dual residual: 2.762959e-01
+n_iter: 400, duality gap: 2.1679e-06, primal residual: 1.0973e-03, dual residual: 2.375391e-01
+n_iter: 500, duality gap: 1.7183e-06, primal residual: 9.9363e-04, dual residual: 2.104870e-01
+Batch loss: loss1: -6194.89258, loss2: 97050.14844, loss3: 0.00000
+Finished running batch 6, running time: 14.83 sec
+start running batch 7
+n_iter: 100, duality gap: 2.3128e-06, primal residual: 1.2412e-03, dual residual: 4.648665e-01
+n_iter: 200, duality gap: 1.7296e-06, primal residual: 1.5939e-03, dual residual: 3.365653e-01
+n_iter: 300, duality gap: 2.2531e-06, primal residual: 1.4286e-03, dual residual: 2.738984e-01
+n_iter: 400, duality gap: 2.2093e-06, primal residual: 1.3307e-03, dual residual: 2.350612e-01
+n_iter: 500, duality gap: 1.9756e-06, primal residual: 1.1263e-03, dual residual: 2.080078e-01
+Batch loss: loss1: -6158.71436, loss2: 97460.85938, loss3: 0.00000
+Finished running batch 7, running time: 14.78 sec
+start running batch 8
+n_iter: 100, duality gap: 3.2529e-06, primal residual: 2.0032e-03, dual residual: 4.647524e-01
+n_iter: 200, duality gap: 2.3566e-06, primal residual: 1.5438e-03, dual residual: 3.364039e-01
+n_iter: 300, duality gap: 1.7930e-06, primal residual: 1.2433e-03, dual residual: 2.736497e-01
+n_iter: 400, duality gap: 1.7287e-06, primal residual: 1.2619e-03, dual residual: 2.347225e-01
+n_iter: 500, duality gap: 1.7695e-06, primal residual: 1.1478e-03, dual residual: 2.076073e-01
+Batch loss: loss1: -6154.39062, loss2: 96052.57812, loss3: 0.00000
+Finished running batch 8, running time: 14.79 sec
+start running batch 9
+n_iter: 100, duality gap: 3.2978e-06, primal residual: 2.0567e-03, dual residual: 4.630320e-01
+n_iter: 200, duality gap: 2.1820e-06, primal residual: 1.6423e-03, dual residual: 3.354062e-01
+n_iter: 300, duality gap: 2.1634e-06, primal residual: 1.6839e-03, dual residual: 2.728606e-01
+n_iter: 400, duality gap: 1.6591e-06, primal residual: 1.5410e-03, dual residual: 2.340306e-01
+n_iter: 500, duality gap: 1.5336e-06, primal residual: 1.2771e-03, dual residual: 2.069551e-01
+Batch loss: loss1: -6184.45703, loss2: 94336.27344, loss3: 0.00000
+Finished running batch 9, running time: 14.84 sec
+time calculating thetas: 154.48 sec
+number of nearest neighbor: 6
+number of nearest neighbor: 7
+number of nearest neighbor: 8
+final number of nearest neighbor (make connected): 8
+0.001793842246120732
+0.042353774874510676
+time calculating the kernel function: 3.73 sec
+start running batch 0
+n_iter: 100, duality gap: 1.5696e-04, primal residual: 1.7589e-02, dual residual: 4.129110e-01
+n_iter: 200, duality gap: 7.4904e-05, primal residual: 1.2542e-02, dual residual: 2.876861e-01
+n_iter: 300, duality gap: 4.7387e-05, primal residual: 9.9368e-03, dual residual: 2.271502e-01
+n_iter: 400, duality gap: 2.5017e-05, primal residual: 8.3102e-03, dual residual: 1.895809e-01
+n_iter: 500, duality gap: 1.7052e-05, primal residual: 7.1650e-03, dual residual: 1.634652e-01
+Batch loss: loss1: -6195.76172, loss2: 80553.60938, loss3: 0.00000
+Finished running batch 0, running time: 15.05 sec
+start running batch 1
+n_iter: 100, duality gap: 1.1338e-04, primal residual: 1.7009e-02, dual residual: 4.064046e-01
+n_iter: 200, duality gap: 6.4515e-05, primal residual: 1.2043e-02, dual residual: 2.807420e-01
+n_iter: 300, duality gap: 3.5621e-05, primal residual: 9.5302e-03, dual residual: 2.197525e-01
+n_iter: 400, duality gap: 2.1892e-05, primal residual: 7.9704e-03, dual residual: 1.821543e-01
+n_iter: 500, duality gap: 1.9428e-05, primal residual: 6.9010e-03, dual residual: 1.561378e-01
+Batch loss: loss1: -6082.35693, loss2: 78247.17188, loss3: 0.00000
+Finished running batch 1, running time: 14.86 sec
+start running batch 2
+n_iter: 100, duality gap: 1.7419e-04, primal residual: 1.7904e-02, dual residual: 3.960483e-01
+n_iter: 200, duality gap: 8.9991e-05, primal residual: 1.2764e-02, dual residual: 2.728448e-01
+n_iter: 300, duality gap: 4.2466e-05, primal residual: 1.0143e-02, dual residual: 2.127749e-01
+n_iter: 400, duality gap: 2.0737e-05, primal residual: 8.4637e-03, dual residual: 1.757597e-01
+n_iter: 500, duality gap: 1.2449e-05, primal residual: 7.2920e-03, dual residual: 1.501767e-01
+Batch loss: loss1: -6015.85449, loss2: 76680.56250, loss3: 0.00000
+Finished running batch 2, running time: 14.95 sec
+start running batch 3
+n_iter: 100, duality gap: 1.9136e-04, primal residual: 1.7810e-02, dual residual: 3.893780e-01
+n_iter: 200, duality gap: 8.5502e-05, primal residual: 1.2704e-02, dual residual: 2.667749e-01
+n_iter: 300, duality gap: 4.3620e-05, primal residual: 1.0086e-02, dual residual: 2.070305e-01
+n_iter: 400, duality gap: 2.2092e-05, primal residual: 8.3755e-03, dual residual: 1.702898e-01
+n_iter: 500, duality gap: 2.3382e-05, primal residual: 7.2074e-03, dual residual: 1.449458e-01
+Batch loss: loss1: -5897.65137, loss2: 75486.84375, loss3: 0.00000
+Finished running batch 3, running time: 15.06 sec
+start running batch 4
+n_iter: 100, duality gap: 1.9574e-04, primal residual: 1.7688e-02, dual residual: 3.923832e-01
+n_iter: 200, duality gap: 8.7213e-05, primal residual: 1.2621e-02, dual residual: 2.696415e-01
+n_iter: 300, duality gap: 4.7092e-05, primal residual: 1.0006e-02, dual residual: 2.099272e-01
+n_iter: 400, duality gap: 3.2550e-05, primal residual: 8.3706e-03, dual residual: 1.731906e-01
+n_iter: 500, duality gap: 2.6962e-05, primal residual: 7.2871e-03, dual residual: 1.478170e-01
+Batch loss: loss1: -5948.06787, loss2: 76153.07031, loss3: 0.00000
+Finished running batch 4, running time: 14.96 sec
+start running batch 5
+n_iter: 100, duality gap: 1.9127e-04, primal residual: 1.8638e-02, dual residual: 3.920614e-01
+n_iter: 200, duality gap: 8.9871e-05, primal residual: 1.3238e-02, dual residual: 2.694434e-01
+n_iter: 300, duality gap: 4.7436e-05, primal residual: 1.0500e-02, dual residual: 2.097681e-01
+n_iter: 400, duality gap: 2.8947e-05, primal residual: 8.7543e-03, dual residual: 1.730604e-01
+n_iter: 500, duality gap: 1.7598e-05, primal residual: 7.5310e-03, dual residual: 1.477190e-01
+Batch loss: loss1: -5927.25977, loss2: 75508.09375, loss3: 0.00000
+Finished running batch 5, running time: 14.94 sec
+start running batch 6
+n_iter: 100, duality gap: 1.9085e-04, primal residual: 1.7095e-02, dual residual: 3.876637e-01
+n_iter: 200, duality gap: 8.0609e-05, primal residual: 1.2099e-02, dual residual: 2.657670e-01
+n_iter: 300, duality gap: 3.8577e-05, primal residual: 9.5898e-03, dual residual: 2.063499e-01
+n_iter: 400, duality gap: 2.8698e-05, primal residual: 8.0099e-03, dual residual: 1.698238e-01
+n_iter: 500, duality gap: 2.1183e-05, primal residual: 6.9473e-03, dual residual: 1.446202e-01
+Batch loss: loss1: -5894.00391, loss2: 75100.50000, loss3: 0.00000
+Finished running batch 6, running time: 14.89 sec
+start running batch 7
+n_iter: 100, duality gap: 1.2272e-04, primal residual: 1.5428e-02, dual residual: 3.844588e-01
+n_iter: 200, duality gap: 7.0857e-05, primal residual: 1.0800e-02, dual residual: 2.622003e-01
+n_iter: 300, duality gap: 3.9386e-05, primal residual: 8.5070e-03, dual residual: 2.027213e-01
+n_iter: 400, duality gap: 2.8833e-05, primal residual: 7.1553e-03, dual residual: 1.661979e-01
+n_iter: 500, duality gap: 3.3967e-05, primal residual: 6.1852e-03, dual residual: 1.410418e-01
+Batch loss: loss1: -5858.31689, loss2: 75388.89062, loss3: 0.00000
+Finished running batch 7, running time: 14.92 sec
+start running batch 8
+n_iter: 100, duality gap: 1.1611e-04, primal residual: 1.8157e-02, dual residual: 3.835750e-01
+n_iter: 200, duality gap: 4.6756e-05, primal residual: 1.2679e-02, dual residual: 2.620873e-01
+n_iter: 300, duality gap: 2.3515e-05, primal residual: 9.9527e-03, dual residual: 2.030339e-01
+n_iter: 400, duality gap: 2.3198e-05, primal residual: 8.2623e-03, dual residual: 1.668139e-01
+n_iter: 500, duality gap: 2.1211e-05, primal residual: 7.0676e-03, dual residual: 1.418825e-01
+Batch loss: loss1: -5857.89893, loss2: 74375.28125, loss3: 0.00000
+Finished running batch 8, running time: 14.94 sec
+start running batch 9
+n_iter: 100, duality gap: 1.2307e-04, primal residual: 1.7886e-02, dual residual: 3.828026e-01
+n_iter: 200, duality gap: 7.8955e-05, primal residual: 1.2603e-02, dual residual: 2.623882e-01
+n_iter: 300, duality gap: 5.5381e-05, primal residual: 9.9116e-03, dual residual: 2.042419e-01
+n_iter: 400, duality gap: 4.7538e-05, primal residual: 8.2471e-03, dual residual: 1.683032e-01
+n_iter: 500, duality gap: 4.5194e-05, primal residual: 7.0592e-03, dual residual: 1.434749e-01
+Batch loss: loss1: -5889.87109, loss2: 72271.65625, loss3: 0.00000
+Finished running batch 9, running time: 14.95 sec
+time calculating thetas: 154.07 sec
+number of nearest neighbor: 6
+number of nearest neighbor: 7
+number of nearest neighbor: 8
+final number of nearest neighbor (make connected): 8
+0.001793842246120732
+0.042353774874510676
+time calculating the kernel function: 3.71 sec
+start running batch 0
+n_iter: 100, duality gap: 1.0079e-02, primal residual: 3.8172e-02, dual residual: 1.948998e-03
+n_iter: 200, duality gap: 1.1836e-03, primal residual: 5.7315e-03, dual residual: 3.358746e-04
+n_iter: 300, duality gap: 1.6446e-04, primal residual: 1.1551e-03, dual residual: 9.693644e-05
+n_iter: 400, duality gap: 2.7774e-05, primal residual: 2.7311e-04, dual residual: 3.006964e-05
+Batch loss: loss1: -3546.95996, loss2: 16223.68359, loss3: 0.00000
+Finished running batch 0, running time: 12.15 sec
+start running batch 1
+n_iter: 100, duality gap: 7.8968e-03, primal residual: 3.1643e-02, dual residual: 1.682558e-03
+n_iter: 200, duality gap: 8.2814e-04, primal residual: 4.7086e-03, dual residual: 3.239484e-04
+n_iter: 300, duality gap: 1.1154e-04, primal residual: 9.9312e-04, dual residual: 9.449238e-05
+Batch loss: loss1: -3520.60156, loss2: 16009.34570, loss3: 0.00000
+Finished running batch 1, running time: 9.03 sec
+start running batch 2
+n_iter: 100, duality gap: 9.1202e-03, primal residual: 3.3980e-02, dual residual: 1.261258e-03
+n_iter: 200, duality gap: 9.4576e-04, primal residual: 4.8264e-03, dual residual: 3.191108e-04
+n_iter: 300, duality gap: 1.2131e-04, primal residual: 9.5308e-04, dual residual: 9.000473e-05
+Batch loss: loss1: -3537.21484, loss2: 15465.07812, loss3: 0.00000
+Finished running batch 2, running time: 9.46 sec
+start running batch 3
+n_iter: 100, duality gap: 9.0535e-03, primal residual: 3.3127e-02, dual residual: 1.261326e-03
+n_iter: 200, duality gap: 8.9744e-04, primal residual: 5.1111e-03, dual residual: 3.083897e-04
+n_iter: 300, duality gap: 1.2711e-04, primal residual: 1.0037e-03, dual residual: 8.376134e-05
+n_iter: 400, duality gap: 2.1830e-05, primal residual: 2.1835e-04, dual residual: 2.609149e-05
+Batch loss: loss1: -3483.70996, loss2: 15292.19141, loss3: 0.00000
+Finished running batch 3, running time: 12.10 sec
+start running batch 4
+n_iter: 100, duality gap: 9.3332e-03, primal residual: 3.4872e-02, dual residual: 1.327028e-03
+n_iter: 200, duality gap: 9.9714e-04, primal residual: 5.2579e-03, dual residual: 3.196965e-04
+n_iter: 300, duality gap: 1.3738e-04, primal residual: 1.0463e-03, dual residual: 8.822769e-05
+n_iter: 400, duality gap: 2.3089e-05, primal residual: 2.3352e-04, dual residual: 2.789298e-05
+Batch loss: loss1: -3498.31079, loss2: 15545.98242, loss3: 0.00000
+Finished running batch 4, running time: 12.07 sec
+start running batch 5
+n_iter: 100, duality gap: 1.0049e-02, primal residual: 3.5922e-02, dual residual: 1.350681e-03
+n_iter: 200, duality gap: 1.0607e-03, primal residual: 5.3248e-03, dual residual: 3.195618e-04
+n_iter: 300, duality gap: 1.4321e-04, primal residual: 1.0551e-03, dual residual: 8.928638e-05
+n_iter: 400, duality gap: 2.3832e-05, primal residual: 2.3534e-04, dual residual: 2.849891e-05
+Batch loss: loss1: -3512.69165, loss2: 15555.98340, loss3: 0.00000
+Finished running batch 5, running time: 12.11 sec
+start running batch 6
+n_iter: 100, duality gap: 1.0252e-02, primal residual: 3.6949e-02, dual residual: 1.311909e-03
+n_iter: 200, duality gap: 1.1057e-03, primal residual: 5.5993e-03, dual residual: 3.123333e-04
+n_iter: 300, duality gap: 1.5849e-04, primal residual: 1.0458e-03, dual residual: 8.537752e-05
+n_iter: 400, duality gap: 2.5957e-05, primal residual: 2.2731e-04, dual residual: 2.654095e-05
+Batch loss: loss1: -3512.16797, loss2: 15469.38770, loss3: 0.00000
+Finished running batch 6, running time: 12.04 sec
+start running batch 7
+n_iter: 100, duality gap: 1.1831e-02, primal residual: 3.9160e-02, dual residual: 1.280129e-03
+n_iter: 200, duality gap: 1.2584e-03, primal residual: 5.6494e-03, dual residual: 3.002014e-04
+n_iter: 300, duality gap: 1.6504e-04, primal residual: 1.1045e-03, dual residual: 8.081876e-05
+n_iter: 400, duality gap: 2.6706e-05, primal residual: 2.4659e-04, dual residual: 2.558284e-05
+Batch loss: loss1: -3483.54590, loss2: 15340.18945, loss3: 0.00000
+Finished running batch 7, running time: 12.04 sec
+start running batch 8
+n_iter: 100, duality gap: 1.1926e-02, primal residual: 3.9447e-02, dual residual: 1.320808e-03
+n_iter: 200, duality gap: 1.2771e-03, primal residual: 5.6574e-03, dual residual: 3.155216e-04
+n_iter: 300, duality gap: 1.6626e-04, primal residual: 1.1054e-03, dual residual: 8.662677e-05
+n_iter: 400, duality gap: 2.6721e-05, primal residual: 2.4679e-04, dual residual: 2.583842e-05
+Batch loss: loss1: -3506.05200, loss2: 15410.14648, loss3: 0.00000
+Finished running batch 8, running time: 12.08 sec
+start running batch 9
+n_iter: 100, duality gap: 1.0468e-02, primal residual: 3.5964e-02, dual residual: 1.318287e-03
+n_iter: 200, duality gap: 1.0701e-03, primal residual: 4.9666e-03, dual residual: 3.280631e-04
+n_iter: 300, duality gap: 1.3323e-04, primal residual: 9.5441e-04, dual residual: 9.149993e-05
+Batch loss: loss1: -3632.79736, loss2: 15753.77832, loss3: 0.00000
+Finished running batch 9, running time: 9.00 sec
+time calculating thetas: 116.62 sec
+number of nearest neighbor: 6
+number of nearest neighbor: 7
+number of nearest neighbor: 8
+final number of nearest neighbor (make connected): 8
+0.001793842246120732
+0.042353774874510676
+time calculating the kernel function: 3.21 sec
+start running batch 0
+n_iter: 100, duality gap: 8.7897e-08, primal residual: 8.7918e-08, dual residual: 8.106232e-07
+Batch loss: loss1: -1029.20508, loss2: 3660.68945, loss3: 0.00000
+Finished running batch 0, running time: 2.96 sec
+start running batch 1
+n_iter: 100, duality gap: 8.2625e-08, primal residual: 8.5359e-08, dual residual: 9.063043e-07
+Batch loss: loss1: -1031.83960, loss2: 3662.70459, loss3: 0.00000
+Finished running batch 1, running time: 2.96 sec
+start running batch 2
+n_iter: 100, duality gap: 4.7899e-08, primal residual: 6.4362e-08, dual residual: 8.106232e-07
+Batch loss: loss1: -1086.41309, loss2: 3711.75244, loss3: 0.00000
+Finished running batch 2, running time: 2.99 sec
+start running batch 3
+n_iter: 100, duality gap: 5.2544e-08, primal residual: 6.8989e-08, dual residual: 8.106232e-07
+Batch loss: loss1: -1067.05737, loss2: 3693.56372, loss3: 0.00000
+Finished running batch 3, running time: 3.03 sec
+start running batch 4
+n_iter: 100, duality gap: 5.5884e-08, primal residual: 7.1096e-08, dual residual: 8.106232e-07
+Batch loss: loss1: -1055.95166, loss2: 3684.03711, loss3: 0.00000
+Finished running batch 4, running time: 2.97 sec
+start running batch 5
+n_iter: 100, duality gap: 5.4970e-08, primal residual: 7.0700e-08, dual residual: 8.106232e-07
+Batch loss: loss1: -1063.44263, loss2: 3691.08350, loss3: 0.00000
+Finished running batch 5, running time: 3.03 sec
+start running batch 6
+n_iter: 100, duality gap: 4.8052e-08, primal residual: 6.5683e-08, dual residual: 9.063043e-07
+Batch loss: loss1: -1070.45605, loss2: 3697.29639, loss3: 0.00000
+Finished running batch 6, running time: 3.00 sec
+start running batch 7
+n_iter: 100, duality gap: 4.9784e-08, primal residual: 6.7275e-08, dual residual: 8.106232e-07
+Batch loss: loss1: -1063.03406, loss2: 3690.09692, loss3: 0.00000
+Finished running batch 7, running time: 2.98 sec
+start running batch 8
+n_iter: 100, duality gap: 4.9959e-08, primal residual: 6.8242e-08, dual residual: 9.928066e-07
+Batch loss: loss1: -1071.36194, loss2: 3697.90601, loss3: 0.00000
+Finished running batch 8, running time: 2.98 sec
+start running batch 9
+n_iter: 100, duality gap: 4.1583e-08, primal residual: 6.1751e-08, dual residual: 8.106232e-07
+Batch loss: loss1: -1124.40479, loss2: 3747.09668, loss3: 0.00000
+Finished running batch 9, running time: 2.98 sec
+time calculating thetas: 33.91 sec
+number of nearest neighbor: 6
+number of nearest neighbor: 7
+number of nearest neighbor: 8
+final number of nearest neighbor (make connected): 8
+0.01793842246120732
+0.13393439610946592
+time calculating the kernel function: 3.06 sec
+start running batch 0
+n_iter: 100, duality gap: 2.1339e-05, primal residual: 5.1638e-03, dual residual: 5.153663e-01
+n_iter: 200, duality gap: 4.5738e-06, primal residual: 2.0183e-03, dual residual: 3.697353e-01
+n_iter: 300, duality gap: 4.3891e-06, primal residual: 1.5662e-03, dual residual: 3.018847e-01
+n_iter: 400, duality gap: 3.7219e-06, primal residual: 1.3954e-03, dual residual: 2.605471e-01
+n_iter: 500, duality gap: 3.2421e-06, primal residual: 1.2801e-03, dual residual: 2.319989e-01
+Batch loss: loss1: -6147.57568, loss2: 101587.22656, loss3: 0.00000
+Finished running batch 0, running time: 14.83 sec
+start running batch 1
+n_iter: 100, duality gap: 2.5090e-05, primal residual: 5.3311e-03, dual residual: 5.089787e-01
+n_iter: 200, duality gap: 8.5486e-06, primal residual: 2.6984e-03, dual residual: 3.564487e-01
+n_iter: 300, duality gap: 6.0566e-06, primal residual: 2.0764e-03, dual residual: 2.889251e-01
+n_iter: 400, duality gap: 5.3190e-06, primal residual: 1.8059e-03, dual residual: 2.480461e-01
+n_iter: 500, duality gap: 3.8815e-06, primal residual: 1.5933e-03, dual residual: 2.199213e-01
+Batch loss: loss1: -5900.86377, loss2: 101866.19531, loss3: 0.00000
+Finished running batch 1, running time: 14.86 sec
+start running batch 2
+n_iter: 100, duality gap: 2.3775e-05, primal residual: 5.4040e-03, dual residual: 4.903302e-01
+n_iter: 200, duality gap: 1.0528e-05, primal residual: 2.7943e-03, dual residual: 3.434180e-01
+n_iter: 300, duality gap: 8.1582e-06, primal residual: 2.2516e-03, dual residual: 2.759231e-01
+n_iter: 400, duality gap: 6.0719e-06, primal residual: 2.1311e-03, dual residual: 2.351419e-01
+n_iter: 500, duality gap: 5.8640e-06, primal residual: 2.0331e-03, dual residual: 2.071316e-01
+Batch loss: loss1: -5808.66211, loss2: 98421.53125, loss3: 0.00000
+Finished running batch 2, running time: 14.91 sec
+start running batch 3
+n_iter: 100, duality gap: 2.3133e-05, primal residual: 4.8913e-03, dual residual: 4.844623e-01
+n_iter: 200, duality gap: 6.7295e-06, primal residual: 2.4705e-03, dual residual: 3.389929e-01
+n_iter: 300, duality gap: 5.0267e-06, primal residual: 2.1063e-03, dual residual: 2.722543e-01
+n_iter: 400, duality gap: 4.2865e-06, primal residual: 1.7323e-03, dual residual: 2.319683e-01
+n_iter: 500, duality gap: 4.0116e-06, primal residual: 1.5846e-03, dual residual: 2.043013e-01
+Batch loss: loss1: -5717.60547, loss2: 98075.46094, loss3: 0.00000
+Finished running batch 3, running time: 14.91 sec
+start running batch 4
+n_iter: 100, duality gap: 2.3490e-05, primal residual: 4.9851e-03, dual residual: 4.852709e-01
+n_iter: 200, duality gap: 6.0081e-06, primal residual: 2.3831e-03, dual residual: 3.372938e-01
+n_iter: 300, duality gap: 5.4035e-06, primal residual: 2.0444e-03, dual residual: 2.704178e-01
+n_iter: 400, duality gap: 4.0427e-06, primal residual: 1.6650e-03, dual residual: 2.301340e-01
+n_iter: 500, duality gap: 3.2609e-06, primal residual: 1.4385e-03, dual residual: 2.025109e-01
+Batch loss: loss1: -5678.24902, loss2: 98788.73438, loss3: 0.00000
+Finished running batch 4, running time: 14.91 sec
+start running batch 5
+n_iter: 100, duality gap: 1.7064e-05, primal residual: 4.6151e-03, dual residual: 4.874706e-01
+n_iter: 200, duality gap: 8.3500e-06, primal residual: 2.4993e-03, dual residual: 3.385490e-01
+n_iter: 300, duality gap: 5.5535e-06, primal residual: 2.0149e-03, dual residual: 2.704370e-01
+n_iter: 400, duality gap: 4.1538e-06, primal residual: 1.7448e-03, dual residual: 2.293543e-01
+n_iter: 500, duality gap: 3.5253e-06, primal residual: 1.5201e-03, dual residual: 2.011943e-01
+Batch loss: loss1: -5681.29395, loss2: 98681.85938, loss3: 0.00000
+Finished running batch 5, running time: 14.94 sec
+start running batch 6
+n_iter: 100, duality gap: 1.6272e-05, primal residual: 4.6209e-03, dual residual: 4.877368e-01
+n_iter: 200, duality gap: 6.1054e-06, primal residual: 2.2427e-03, dual residual: 3.392517e-01
+n_iter: 300, duality gap: 4.0798e-06, primal residual: 1.7319e-03, dual residual: 2.711393e-01
+n_iter: 400, duality gap: 3.0494e-06, primal residual: 1.4535e-03, dual residual: 2.300456e-01
+n_iter: 500, duality gap: 3.8294e-06, primal residual: 1.3764e-03, dual residual: 2.018383e-01
+Batch loss: loss1: -5712.83398, loss2: 97605.56250, loss3: 0.00000
+Finished running batch 6, running time: 14.98 sec
+start running batch 7
+n_iter: 100, duality gap: 1.9581e-05, primal residual: 4.7503e-03, dual residual: 4.879239e-01
+n_iter: 200, duality gap: 5.0815e-06, primal residual: 2.2412e-03, dual residual: 3.401954e-01
+n_iter: 300, duality gap: 4.0204e-06, primal residual: 1.7903e-03, dual residual: 2.722285e-01
+n_iter: 400, duality gap: 3.3486e-06, primal residual: 1.5190e-03, dual residual: 2.311486e-01
+n_iter: 500, duality gap: 3.2435e-06, primal residual: 1.3675e-03, dual residual: 2.029374e-01
+Batch loss: loss1: -5749.68359, loss2: 96692.32812, loss3: 0.00000
+Finished running batch 7, running time: 14.98 sec
+start running batch 8
+n_iter: 100, duality gap: 1.1507e-05, primal residual: 3.9082e-03, dual residual: 4.879388e-01
+n_iter: 200, duality gap: 7.2773e-06, primal residual: 2.6083e-03, dual residual: 3.409778e-01
+n_iter: 300, duality gap: 5.4846e-06, primal residual: 2.0702e-03, dual residual: 2.732530e-01
+n_iter: 400, duality gap: 4.0470e-06, primal residual: 1.7517e-03, dual residual: 2.322614e-01
+n_iter: 500, duality gap: 3.2908e-06, primal residual: 1.5312e-03, dual residual: 2.040901e-01
+Batch loss: loss1: -5787.54248, loss2: 96839.85938, loss3: 0.00000
+Finished running batch 8, running time: 15.02 sec
+start running batch 9
+n_iter: 100, duality gap: 8.5811e-06, primal residual: 3.1177e-03, dual residual: 4.876068e-01
+n_iter: 200, duality gap: 6.5708e-06, primal residual: 2.7043e-03, dual residual: 3.414912e-01
+n_iter: 300, duality gap: 4.2827e-06, primal residual: 1.8617e-03, dual residual: 2.740773e-01
+n_iter: 400, duality gap: 3.0167e-06, primal residual: 1.5893e-03, dual residual: 2.331842e-01
+n_iter: 500, duality gap: 2.6811e-06, primal residual: 1.4193e-03, dual residual: 2.050259e-01
+Batch loss: loss1: -5824.74365, loss2: 97171.81250, loss3: 0.00000
+Finished running batch 9, running time: 14.83 sec
+time calculating thetas: 152.91 sec
+number of nearest neighbor: 6
+number of nearest neighbor: 7
+number of nearest neighbor: 8
+final number of nearest neighbor (make connected): 8
+0.01793842246120732
+0.13393439610946592
+time calculating the kernel function: 2.97 sec
+start running batch 0
+n_iter: 100, duality gap: 9.2568e-04, primal residual: 3.0132e-02, dual residual: 4.341324e-01
+n_iter: 200, duality gap: 2.9207e-04, primal residual: 1.8077e-02, dual residual: 2.918882e-01
+n_iter: 300, duality gap: 1.8721e-04, primal residual: 1.3653e-02, dual residual: 2.260664e-01
+n_iter: 400, duality gap: 1.2988e-04, primal residual: 1.1147e-02, dual residual: 1.863173e-01
+n_iter: 500, duality gap: 1.0056e-04, primal residual: 9.4646e-03, dual residual: 1.590874e-01
+Batch loss: loss1: -5831.44580, loss2: 81559.93750, loss3: 0.00000
+Finished running batch 0, running time: 15.14 sec
+start running batch 1
+n_iter: 100, duality gap: 1.2323e-03, primal residual: 3.2408e-02, dual residual: 4.209769e-01
+n_iter: 200, duality gap: 4.0910e-04, primal residual: 1.8620e-02, dual residual: 2.775684e-01
+n_iter: 300, duality gap: 2.5844e-04, primal residual: 1.3589e-02, dual residual: 2.118910e-01
+n_iter: 400, duality gap: 1.8845e-04, primal residual: 1.0884e-02, dual residual: 1.725208e-01
+n_iter: 500, duality gap: 1.4799e-04, primal residual: 9.1746e-03, dual residual: 1.457440e-01
+Batch loss: loss1: -5586.13721, loss2: 78557.42188, loss3: 0.00000
+Finished running batch 1, running time: 14.89 sec
+start running batch 2
+n_iter: 100, duality gap: 8.6958e-04, primal residual: 2.9295e-02, dual residual: 4.097649e-01
+n_iter: 200, duality gap: 4.3008e-04, primal residual: 1.8686e-02, dual residual: 2.674272e-01
+n_iter: 300, duality gap: 2.8278e-04, primal residual: 1.4380e-02, dual residual: 2.025028e-01
+n_iter: 400, duality gap: 2.1086e-04, primal residual: 1.1810e-02, dual residual: 1.637570e-01
+n_iter: 500, duality gap: 1.6567e-04, primal residual: 1.0033e-02, dual residual: 1.375199e-01
+Batch loss: loss1: -5516.03418, loss2: 77260.62500, loss3: 0.00000
+Finished running batch 2, running time: 14.96 sec
+start running batch 3
+n_iter: 100, duality gap: 6.5862e-04, primal residual: 2.8448e-02, dual residual: 4.040754e-01
+n_iter: 200, duality gap: 3.0443e-04, primal residual: 1.7231e-02, dual residual: 2.630274e-01
+n_iter: 300, duality gap: 2.0038e-04, primal residual: 1.3065e-02, dual residual: 1.990287e-01
+n_iter: 400, duality gap: 1.5546e-04, primal residual: 1.0781e-02, dual residual: 1.609543e-01
+n_iter: 500, duality gap: 1.2032e-04, primal residual: 9.1214e-03, dual residual: 1.352068e-01
+Batch loss: loss1: -5426.06934, loss2: 76455.18750, loss3: 0.00000
+Finished running batch 3, running time: 15.29 sec
+start running batch 4
+n_iter: 100, duality gap: 8.1619e-04, primal residual: 2.7801e-02, dual residual: 4.051822e-01
+n_iter: 200, duality gap: 3.7211e-04, primal residual: 1.7285e-02, dual residual: 2.622627e-01
+n_iter: 300, duality gap: 2.2932e-04, primal residual: 1.3010e-02, dual residual: 1.976766e-01
+n_iter: 400, duality gap: 1.6644e-04, primal residual: 1.0606e-02, dual residual: 1.594508e-01
+n_iter: 500, duality gap: 1.1635e-04, primal residual: 9.0471e-03, dual residual: 1.337835e-01
+Batch loss: loss1: -5383.22949, loss2: 76008.47656, loss3: 0.00000
+Finished running batch 4, running time: 15.04 sec
+start running batch 5
+n_iter: 100, duality gap: 9.6245e-04, primal residual: 2.8650e-02, dual residual: 4.069430e-01
+n_iter: 200, duality gap: 4.7484e-04, primal residual: 1.7853e-02, dual residual: 2.629426e-01
+n_iter: 300, duality gap: 2.9371e-04, primal residual: 1.3427e-02, dual residual: 1.978487e-01
+n_iter: 400, duality gap: 2.0789e-04, primal residual: 1.0786e-02, dual residual: 1.593381e-01
+n_iter: 500, duality gap: 1.6114e-04, primal residual: 9.0562e-03, dual residual: 1.334035e-01
+Batch loss: loss1: -5392.15088, loss2: 76123.77344, loss3: 0.00000
+Finished running batch 5, running time: 15.12 sec
+start running batch 6
+n_iter: 100, duality gap: 8.9577e-04, primal residual: 2.7990e-02, dual residual: 4.072957e-01
+n_iter: 200, duality gap: 4.4815e-04, primal residual: 1.7886e-02, dual residual: 2.634113e-01
+n_iter: 300, duality gap: 2.9032e-04, primal residual: 1.3484e-02, dual residual: 1.982951e-01
+n_iter: 400, duality gap: 2.2018e-04, primal residual: 1.0969e-02, dual residual: 1.595602e-01
+n_iter: 500, duality gap: 1.6450e-04, primal residual: 9.2161e-03, dual residual: 1.334230e-01
+Batch loss: loss1: -5431.15918, loss2: 76299.50000, loss3: 0.00000
+Finished running batch 6, running time: 15.04 sec
+start running batch 7
+n_iter: 100, duality gap: 7.6398e-04, primal residual: 2.6632e-02, dual residual: 4.073732e-01
+n_iter: 200, duality gap: 3.7395e-04, primal residual: 1.7109e-02, dual residual: 2.641598e-01
+n_iter: 300, duality gap: 2.3674e-04, primal residual: 1.3094e-02, dual residual: 1.992408e-01
+n_iter: 400, duality gap: 1.7570e-04, primal residual: 1.0727e-02, dual residual: 1.606356e-01
+n_iter: 500, duality gap: 1.3552e-04, primal residual: 9.0893e-03, dual residual: 1.344466e-01
+Batch loss: loss1: -5471.92090, loss2: 76669.07812, loss3: 0.00000
+Finished running batch 7, running time: 15.02 sec
+start running batch 8
+n_iter: 100, duality gap: 5.7502e-04, primal residual: 2.5050e-02, dual residual: 4.072622e-01
+n_iter: 200, duality gap: 2.7793e-04, primal residual: 1.6494e-02, dual residual: 2.646012e-01
+n_iter: 300, duality gap: 1.8131e-04, primal residual: 1.2705e-02, dual residual: 1.999179e-01
+n_iter: 400, duality gap: 1.3045e-04, primal residual: 1.0379e-02, dual residual: 1.613223e-01
+n_iter: 500, duality gap: 9.8539e-05, primal residual: 8.7681e-03, dual residual: 1.352235e-01
+Batch loss: loss1: -5507.30371, loss2: 76963.42969, loss3: 0.00000
+Finished running batch 8, running time: 15.11 sec
+start running batch 9
+n_iter: 100, duality gap: 4.9900e-04, primal residual: 2.3862e-02, dual residual: 4.065712e-01
+n_iter: 200, duality gap: 2.2887e-04, primal residual: 1.5682e-02, dual residual: 2.647844e-01
+n_iter: 300, duality gap: 1.4203e-04, primal residual: 1.2052e-02, dual residual: 2.003942e-01
+n_iter: 400, duality gap: 1.0285e-04, primal residual: 9.8086e-03, dual residual: 1.619036e-01
+n_iter: 500, duality gap: 8.6161e-05, primal residual: 8.3058e-03, dual residual: 1.358378e-01
+Batch loss: loss1: -5542.38086, loss2: 77125.91406, loss3: 0.00000
+Finished running batch 9, running time: 15.04 sec
+time calculating thetas: 154.28 sec
+number of nearest neighbor: 6
+number of nearest neighbor: 7
+number of nearest neighbor: 8
+final number of nearest neighbor (make connected): 8
+0.01793842246120732
+0.13393439610946592
+time calculating the kernel function: 3.33 sec
+start running batch 0
+n_iter: 100, duality gap: 1.5668e-03, primal residual: 2.7852e-02, dual residual: 1.303191e-02
+n_iter: 200, duality gap: 2.7804e-04, primal residual: 4.0442e-03, dual residual: 1.333092e-03
+n_iter: 300, duality gap: 4.6700e-05, primal residual: 7.1775e-04, dual residual: 1.807669e-04
+Batch loss: loss1: -3166.15820, loss2: 17939.29297, loss3: 0.00000
+Finished running batch 0, running time: 9.09 sec
+start running batch 1
+n_iter: 100, duality gap: 1.0981e-03, primal residual: 2.1564e-02, dual residual: 1.247336e-02
+n_iter: 200, duality gap: 1.8162e-04, primal residual: 2.8243e-03, dual residual: 1.252409e-03
+n_iter: 300, duality gap: 2.7728e-05, primal residual: 4.3082e-04, dual residual: 1.704296e-04
+Batch loss: loss1: -3070.69263, loss2: 17554.57422, loss3: 0.00000
+Finished running batch 1, running time: 9.02 sec
+start running batch 2
+n_iter: 100, duality gap: 1.1369e-03, primal residual: 2.3723e-02, dual residual: 1.156030e-02
+n_iter: 200, duality gap: 2.1039e-04, primal residual: 3.4025e-03, dual residual: 9.566840e-04
+n_iter: 300, duality gap: 3.5375e-05, primal residual: 5.7911e-04, dual residual: 1.039827e-04
+Batch loss: loss1: -3043.72314, loss2: 17376.39062, loss3: 0.00000
+Finished running batch 2, running time: 9.01 sec
+start running batch 3
+n_iter: 100, duality gap: 1.1530e-03, primal residual: 2.3330e-02, dual residual: 1.152553e-02
+n_iter: 200, duality gap: 2.0586e-04, primal residual: 3.3214e-03, dual residual: 9.160850e-04
+n_iter: 300, duality gap: 3.3115e-05, primal residual: 5.8621e-04, dual residual: 9.611616e-05
+Batch loss: loss1: -2999.82617, loss2: 17186.91016, loss3: 0.00000
+Finished running batch 3, running time: 9.04 sec
+start running batch 4
+n_iter: 100, duality gap: 1.0405e-03, primal residual: 2.2470e-02, dual residual: 1.262595e-02
+n_iter: 200, duality gap: 1.8948e-04, primal residual: 3.3335e-03, dual residual: 1.036293e-03
+n_iter: 300, duality gap: 3.2337e-05, primal residual: 5.9375e-04, dual residual: 1.091579e-04
+Batch loss: loss1: -2984.80322, loss2: 17142.76562, loss3: 0.00000
+Finished running batch 4, running time: 8.97 sec
+start running batch 5
+n_iter: 100, duality gap: 9.2548e-04, primal residual: 2.1603e-02, dual residual: 1.316074e-02
+n_iter: 200, duality gap: 1.5592e-04, primal residual: 3.2053e-03, dual residual: 1.103596e-03
+n_iter: 300, duality gap: 2.6265e-05, primal residual: 5.8510e-04, dual residual: 1.238557e-04
+Batch loss: loss1: -2991.84351, loss2: 17196.42578, loss3: 0.00000
+Finished running batch 5, running time: 8.96 sec
+start running batch 6
+n_iter: 100, duality gap: 1.0457e-03, primal residual: 2.1687e-02, dual residual: 1.322178e-02
+n_iter: 200, duality gap: 1.5135e-04, primal residual: 2.8804e-03, dual residual: 1.106529e-03
+n_iter: 300, duality gap: 2.2843e-05, primal residual: 5.2905e-04, dual residual: 1.228508e-04
+Batch loss: loss1: -3011.37329, loss2: 17268.76562, loss3: 0.00000
+Finished running batch 6, running time: 8.95 sec
+start running batch 7
+n_iter: 100, duality gap: 1.1201e-03, primal residual: 2.3689e-02, dual residual: 1.259638e-02
+n_iter: 200, duality gap: 1.6151e-04, primal residual: 3.6590e-03, dual residual: 1.068201e-03
+n_iter: 300, duality gap: 2.9695e-05, primal residual: 6.9489e-04, dual residual: 1.224593e-04
+Batch loss: loss1: -3033.95898, loss2: 17296.05859, loss3: 0.00000
+Finished running batch 7, running time: 9.06 sec
+start running batch 8
+n_iter: 100, duality gap: 1.5958e-03, primal residual: 2.4819e-02, dual residual: 1.140217e-02
+n_iter: 200, duality gap: 2.0123e-04, primal residual: 3.4751e-03, dual residual: 9.433125e-04
+n_iter: 300, duality gap: 3.1305e-05, primal residual: 6.6522e-04, dual residual: 1.116193e-04
+Batch loss: loss1: -3055.05200, loss2: 17239.31445, loss3: 0.00000
+Finished running batch 8, running time: 9.04 sec
+start running batch 9
+n_iter: 100, duality gap: 2.5096e-03, primal residual: 2.9448e-02, dual residual: 1.024327e-02
+n_iter: 200, duality gap: 3.3106e-04, primal residual: 3.5372e-03, dual residual: 7.959310e-04
+n_iter: 300, duality gap: 4.2528e-05, primal residual: 6.3526e-04, dual residual: 9.402158e-05
+Batch loss: loss1: -3078.96289, loss2: 17125.51562, loss3: 0.00000
+Finished running batch 9, running time: 8.99 sec
+time calculating thetas: 94.14 sec
+number of nearest neighbor: 6
+number of nearest neighbor: 7
+number of nearest neighbor: 8
+final number of nearest neighbor (make connected): 8
+0.01793842246120732
+0.13393439610946592
+time calculating the kernel function: 3.15 sec
+start running batch 0
+n_iter: 100, duality gap: 3.0868e-06, primal residual: 2.0463e-06, dual residual: 3.331303e-05
+Batch loss: loss1: -260.77213, loss2: 3429.23633, loss3: 0.00000
+Finished running batch 0, running time: 2.98 sec
+start running batch 1
+n_iter: 100, duality gap: 4.0080e-06, primal residual: 2.6817e-06, dual residual: 4.297656e-05
+Batch loss: loss1: -228.23979, loss2: 3430.52686, loss3: 0.00000
+Finished running batch 1, running time: 2.96 sec
+start running batch 2
+n_iter: 100, duality gap: 3.2739e-07, primal residual: 2.4311e-07, dual residual: 1.520163e-06
+Batch loss: loss1: -223.75348, loss2: 3375.37402, loss3: 0.00000
+Finished running batch 2, running time: 2.99 sec
+start running batch 3
+n_iter: 100, duality gap: 2.0012e-07, primal residual: 2.2265e-07, dual residual: 1.434881e-06
+Batch loss: loss1: -208.23637, loss2: 3353.93237, loss3: 0.00000
+Finished running batch 3, running time: 2.99 sec
+start running batch 4
+n_iter: 100, duality gap: 3.4886e-07, primal residual: 2.2234e-07, dual residual: 1.186119e-06
+Batch loss: loss1: -198.94371, loss2: 3347.97168, loss3: 0.00000
+Finished running batch 4, running time: 2.99 sec
+start running batch 5
+n_iter: 100, duality gap: 3.0406e-07, primal residual: 2.1761e-07, dual residual: 1.418906e-06
+Batch loss: loss1: -196.28049, loss2: 3341.25586, loss3: 0.00000
+Finished running batch 5, running time: 2.99 sec
+start running batch 6
+n_iter: 100, duality gap: 2.1907e-07, primal residual: 2.4839e-07, dual residual: 1.177664e-06
+Batch loss: loss1: -202.52286, loss2: 3326.56104, loss3: 0.00000
+Finished running batch 6, running time: 3.00 sec
+start running batch 7
+n_iter: 100, duality gap: 2.3483e-07, primal residual: 2.1267e-07, dual residual: 1.310012e-06
+Batch loss: loss1: -220.81390, loss2: 3304.13550, loss3: 0.00000
+Finished running batch 7, running time: 3.01 sec
+start running batch 8
+n_iter: 100, duality gap: 2.0685e-07, primal residual: 2.1366e-07, dual residual: 1.370355e-06
+Batch loss: loss1: -249.87094, loss2: 3273.47949, loss3: 0.00000
+Finished running batch 8, running time: 3.00 sec
+start running batch 9
+n_iter: 100, duality gap: 2.4461e-07, primal residual: 2.0570e-07, dual residual: 8.129946e-07
+Batch loss: loss1: -285.48688, loss2: 3235.70215, loss3: 0.00000
+Finished running batch 9, running time: 3.00 sec
+time calculating thetas: 33.73 sec
+number of nearest neighbor: 6
+number of nearest neighbor: 7
+number of nearest neighbor: 8
+final number of nearest neighbor (make connected): 8
+0.1793842246120732
+0.4235377487451068
+time calculating the kernel function: 3.72 sec
+start running batch 0
+n_iter: 100, duality gap: 1.5825e-05, primal residual: 4.4055e-03, dual residual: 8.067523e-01
+n_iter: 200, duality gap: 1.4352e-05, primal residual: 4.2626e-03, dual residual: 6.376841e-01
+n_iter: 300, duality gap: 1.5274e-05, primal residual: 4.2836e-03, dual residual: 5.350213e-01
+n_iter: 400, duality gap: 1.6077e-05, primal residual: 4.3062e-03, dual residual: 4.353319e-01
+n_iter: 500, duality gap: 1.6117e-05, primal residual: 4.4293e-03, dual residual: 3.443511e-01
+Batch loss: loss1: -4641.28320, loss2: 110571.09375, loss3: 0.00000
+Finished running batch 0, running time: 14.79 sec
+start running batch 1
+n_iter: 100, duality gap: 1.7052e-05, primal residual: 4.3848e-03, dual residual: 7.963908e-01
+n_iter: 200, duality gap: 1.3843e-05, primal residual: 4.2714e-03, dual residual: 6.319401e-01
+n_iter: 300, duality gap: 1.6437e-05, primal residual: 4.6653e-03, dual residual: 5.136705e-01
+n_iter: 400, duality gap: 1.6272e-05, primal residual: 4.6284e-03, dual residual: 4.188142e-01
+n_iter: 500, duality gap: 1.7233e-05, primal residual: 4.6690e-03, dual residual: 3.392609e-01
+Batch loss: loss1: -4564.32861, loss2: 110054.60938, loss3: 0.00000
+Finished running batch 1, running time: 14.74 sec
+start running batch 2
+n_iter: 100, duality gap: 1.7960e-05, primal residual: 4.5272e-03, dual residual: 8.068866e-01
+n_iter: 200, duality gap: 1.1167e-05, primal residual: 3.5200e-03, dual residual: 6.330366e-01
+n_iter: 300, duality gap: 8.9782e-06, primal residual: 3.2834e-03, dual residual: 5.308297e-01
+n_iter: 400, duality gap: 6.9501e-06, primal residual: 3.0364e-03, dual residual: 4.500536e-01
+n_iter: 500, duality gap: 8.2284e-06, primal residual: 3.3744e-03, dual residual: 3.741806e-01
+Batch loss: loss1: -4437.49854, loss2: 109401.25000, loss3: 0.00000
+Finished running batch 2, running time: 14.73 sec
+start running batch 3
+n_iter: 100, duality gap: 1.0630e-05, primal residual: 3.6927e-03, dual residual: 8.251263e-01
+n_iter: 200, duality gap: 1.0760e-05, primal residual: 3.7554e-03, dual residual: 6.501866e-01
+n_iter: 300, duality gap: 7.4175e-06, primal residual: 3.1862e-03, dual residual: 5.467882e-01
+n_iter: 400, duality gap: 7.9561e-06, primal residual: 3.4010e-03, dual residual: 4.595461e-01
+n_iter: 500, duality gap: 1.0474e-05, primal residual: 3.8973e-03, dual residual: 3.859494e-01
+Batch loss: loss1: -4400.63330, loss2: 108906.75781, loss3: 0.00000
+Finished running batch 3, running time: 14.75 sec
+start running batch 4
+n_iter: 100, duality gap: 9.4851e-06, primal residual: 3.2444e-03, dual residual: 8.350125e-01
+n_iter: 200, duality gap: 9.1748e-06, primal residual: 3.3999e-03, dual residual: 6.617294e-01
+n_iter: 300, duality gap: 1.0400e-05, primal residual: 3.6491e-03, dual residual: 5.482200e-01
+n_iter: 400, duality gap: 9.5887e-06, primal residual: 3.6507e-03, dual residual: 4.581959e-01
+n_iter: 500, duality gap: 1.1197e-05, primal residual: 3.7379e-03, dual residual: 3.834290e-01
+Batch loss: loss1: -4447.98535, loss2: 108541.79688, loss3: 0.00000
+Finished running batch 4, running time: 14.75 sec
+start running batch 5
+n_iter: 100, duality gap: 9.2009e-06, primal residual: 3.4362e-03, dual residual: 8.480285e-01
+n_iter: 200, duality gap: 1.3879e-05, primal residual: 4.0045e-03, dual residual: 6.622143e-01
+n_iter: 300, duality gap: 1.1476e-05, primal residual: 4.0815e-03, dual residual: 5.388030e-01
+n_iter: 400, duality gap: 1.6233e-05, primal residual: 4.4342e-03, dual residual: 4.384883e-01
+n_iter: 500, duality gap: 1.8843e-05, primal residual: 4.8730e-03, dual residual: 3.556508e-01
+Batch loss: loss1: -4525.65283, loss2: 108135.03906, loss3: 0.00000
+Finished running batch 5, running time: 14.79 sec
+start running batch 6
+n_iter: 100, duality gap: 1.0818e-05, primal residual: 3.6693e-03, dual residual: 8.587533e-01
+n_iter: 200, duality gap: 1.6513e-05, primal residual: 4.3438e-03, dual residual: 6.863744e-01
+n_iter: 300, duality gap: 1.7093e-05, primal residual: 4.2934e-03, dual residual: 5.376573e-01
+n_iter: 400, duality gap: 1.8292e-05, primal residual: 4.6702e-03, dual residual: 4.263209e-01
+n_iter: 500, duality gap: 1.8896e-05, primal residual: 4.7968e-03, dual residual: 3.306946e-01
+Batch loss: loss1: -4583.66504, loss2: 107702.68750, loss3: 0.00000
+Finished running batch 6, running time: 14.83 sec
+start running batch 7
+n_iter: 100, duality gap: 1.0132e-05, primal residual: 3.3864e-03, dual residual: 8.818720e-01
+n_iter: 200, duality gap: 1.9108e-05, primal residual: 4.6592e-03, dual residual: 7.045280e-01
+n_iter: 300, duality gap: 1.8861e-05, primal residual: 4.6121e-03, dual residual: 5.721910e-01
+n_iter: 400, duality gap: 1.9585e-05, primal residual: 4.7512e-03, dual residual: 4.520266e-01
+n_iter: 500, duality gap: 2.1339e-05, primal residual: 4.9000e-03, dual residual: 3.468344e-01
+Batch loss: loss1: -4598.58203, loss2: 107268.10938, loss3: 0.00000
+Finished running batch 7, running time: 14.86 sec
+start running batch 8
+n_iter: 100, duality gap: 9.4537e-06, primal residual: 3.1579e-03, dual residual: 8.985642e-01
+n_iter: 200, duality gap: 1.4383e-05, primal residual: 3.9503e-03, dual residual: 7.051857e-01
+n_iter: 300, duality gap: 1.9076e-05, primal residual: 4.7291e-03, dual residual: 5.881832e-01
+n_iter: 400, duality gap: 2.1066e-05, primal residual: 4.9898e-03, dual residual: 4.601810e-01
+n_iter: 500, duality gap: 2.5059e-05, primal residual: 5.4485e-03, dual residual: 3.463332e-01
+Batch loss: loss1: -4649.47217, loss2: 106862.28125, loss3: 0.00000
+Finished running batch 8, running time: 14.90 sec
+start running batch 9
+n_iter: 100, duality gap: 1.4311e-05, primal residual: 3.8747e-03, dual residual: 9.150227e-01
+n_iter: 200, duality gap: 1.1526e-05, primal residual: 3.6360e-03, dual residual: 7.188777e-01
+n_iter: 300, duality gap: 1.5589e-05, primal residual: 4.3573e-03, dual residual: 5.870833e-01
+n_iter: 400, duality gap: 1.8563e-05, primal residual: 4.7982e-03, dual residual: 4.579861e-01
+n_iter: 500, duality gap: 1.9860e-05, primal residual: 4.9550e-03, dual residual: 3.318467e-01
+Batch loss: loss1: -4718.65771, loss2: 106426.21875, loss3: 0.00000
+Finished running batch 9, running time: 14.93 sec
+time calculating thetas: 152.47 sec
+number of nearest neighbor: 6
+number of nearest neighbor: 7
+number of nearest neighbor: 8
+final number of nearest neighbor (make connected): 8
+0.1793842246120732
+0.4235377487451068
+time calculating the kernel function: 3.83 sec
+start running batch 0
+n_iter: 100, duality gap: 1.3831e-03, primal residual: 4.4873e-02, dual residual: 3.902273e-01
+n_iter: 200, duality gap: 3.3738e-04, primal residual: 2.0289e-02, dual residual: 2.438888e-01
+n_iter: 300, duality gap: 1.6429e-04, primal residual: 1.4514e-02, dual residual: 1.803484e-01
+n_iter: 400, duality gap: 9.9253e-05, primal residual: 1.1366e-02, dual residual: 1.433046e-01
+n_iter: 500, duality gap: 6.1827e-05, primal residual: 9.3168e-03, dual residual: 1.186646e-01
+Batch loss: loss1: -4601.74854, loss2: 77576.66406, loss3: 0.00000
+Finished running batch 0, running time: 15.03 sec
+start running batch 1
+n_iter: 100, duality gap: 1.3479e-03, primal residual: 4.2562e-02, dual residual: 3.850279e-01
+n_iter: 200, duality gap: 3.6243e-04, primal residual: 2.0910e-02, dual residual: 2.393093e-01
+n_iter: 300, duality gap: 1.8862e-04, primal residual: 1.4954e-02, dual residual: 1.762914e-01
+n_iter: 400, duality gap: 1.3114e-04, primal residual: 1.1732e-02, dual residual: 1.395415e-01
+n_iter: 500, duality gap: 9.1394e-05, primal residual: 9.6126e-03, dual residual: 1.149652e-01
+Batch loss: loss1: -4508.88086, loss2: 76685.95312, loss3: 0.00000
+Finished running batch 1, running time: 14.98 sec
+start running batch 2
+n_iter: 100, duality gap: 1.3149e-03, primal residual: 3.8144e-02, dual residual: 3.814268e-01
+n_iter: 200, duality gap: 3.0990e-04, primal residual: 1.7452e-02, dual residual: 2.357550e-01
+n_iter: 300, duality gap: 1.7074e-04, primal residual: 1.2410e-02, dual residual: 1.729837e-01
+n_iter: 400, duality gap: 1.1874e-04, primal residual: 9.7047e-03, dual residual: 1.363732e-01
+n_iter: 500, duality gap: 7.8041e-05, primal residual: 7.8759e-03, dual residual: 1.120434e-01
+Batch loss: loss1: -4471.05615, loss2: 75877.67188, loss3: 0.00000
+Finished running batch 2, running time: 14.93 sec
+start running batch 3
+n_iter: 100, duality gap: 1.3705e-03, primal residual: 3.8278e-02, dual residual: 3.804251e-01
+n_iter: 200, duality gap: 2.6347e-04, primal residual: 1.6238e-02, dual residual: 2.343969e-01
+n_iter: 300, duality gap: 1.4310e-04, primal residual: 1.1254e-02, dual residual: 1.716461e-01
+n_iter: 400, duality gap: 9.0410e-05, primal residual: 8.6793e-03, dual residual: 1.349874e-01
+n_iter: 500, duality gap: 6.0881e-05, primal residual: 6.9824e-03, dual residual: 1.107564e-01
+Batch loss: loss1: -4464.04492, loss2: 75518.10938, loss3: 0.00000
+Finished running batch 3, running time: 14.92 sec
+start running batch 4
+n_iter: 100, duality gap: 1.4072e-03, primal residual: 3.8569e-02, dual residual: 3.800174e-01
+n_iter: 200, duality gap: 2.9008e-04, primal residual: 1.6635e-02, dual residual: 2.338480e-01
+n_iter: 300, duality gap: 1.5571e-04, primal residual: 1.1623e-02, dual residual: 1.710283e-01
+n_iter: 400, duality gap: 1.0452e-04, primal residual: 8.8584e-03, dual residual: 1.344280e-01
+n_iter: 500, duality gap: 6.2628e-05, primal residual: 7.0876e-03, dual residual: 1.101890e-01
+Batch loss: loss1: -4468.58594, loss2: 75326.57031, loss3: 0.00000
+Finished running batch 4, running time: 14.95 sec
+start running batch 5
+n_iter: 100, duality gap: 1.4917e-03, primal residual: 4.0609e-02, dual residual: 3.802873e-01
+n_iter: 200, duality gap: 3.4513e-04, primal residual: 1.9075e-02, dual residual: 2.337056e-01
+n_iter: 300, duality gap: 1.7856e-04, primal residual: 1.3490e-02, dual residual: 1.709251e-01
+n_iter: 400, duality gap: 1.1088e-04, primal residual: 1.0286e-02, dual residual: 1.343023e-01
+n_iter: 500, duality gap: 8.8167e-05, primal residual: 8.3105e-03, dual residual: 1.100579e-01
+Batch loss: loss1: -4480.05469, loss2: 75081.57812, loss3: 0.00000
+Finished running batch 5, running time: 14.93 sec
+start running batch 6
+n_iter: 100, duality gap: 1.5688e-03, primal residual: 4.2281e-02, dual residual: 3.807425e-01
+n_iter: 200, duality gap: 3.4728e-04, primal residual: 1.9929e-02, dual residual: 2.338409e-01
+n_iter: 300, duality gap: 1.9781e-04, primal residual: 1.4090e-02, dual residual: 1.707940e-01
+n_iter: 400, duality gap: 1.1933e-04, primal residual: 1.0855e-02, dual residual: 1.343479e-01
+n_iter: 500, duality gap: 9.9390e-05, primal residual: 8.6999e-03, dual residual: 1.100043e-01
+Batch loss: loss1: -4498.46191, loss2: 74780.34375, loss3: 0.00000
+Finished running batch 6, running time: 15.35 sec
+start running batch 7
+n_iter: 100, duality gap: 1.6608e-03, primal residual: 4.3559e-02, dual residual: 3.816344e-01
+n_iter: 200, duality gap: 3.6627e-04, primal residual: 2.0838e-02, dual residual: 2.343078e-01
+n_iter: 300, duality gap: 1.9127e-04, primal residual: 1.4932e-02, dual residual: 1.708614e-01
+n_iter: 400, duality gap: 1.1594e-04, primal residual: 1.1462e-02, dual residual: 1.343725e-01
+n_iter: 500, duality gap: 7.6377e-05, primal residual: 9.2822e-03, dual residual: 1.098636e-01
+Batch loss: loss1: -4522.96973, loss2: 74507.60938, loss3: 0.00000
+Finished running batch 7, running time: 14.91 sec
+start running batch 8
+n_iter: 100, duality gap: 1.7809e-03, primal residual: 4.6534e-02, dual residual: 3.826200e-01
+n_iter: 200, duality gap: 4.6816e-04, primal residual: 2.3988e-02, dual residual: 2.349439e-01
+n_iter: 300, duality gap: 2.4823e-04, primal residual: 1.7282e-02, dual residual: 1.712977e-01
+n_iter: 400, duality gap: 1.4657e-04, primal residual: 1.3365e-02, dual residual: 1.345956e-01
+n_iter: 500, duality gap: 9.4967e-05, primal residual: 1.0831e-02, dual residual: 1.101876e-01
+Batch loss: loss1: -4551.32324, loss2: 74210.35938, loss3: 0.00000
+Finished running batch 8, running time: 14.96 sec
+start running batch 9
+n_iter: 100, duality gap: 1.9888e-03, primal residual: 4.9241e-02, dual residual: 3.837925e-01
+n_iter: 200, duality gap: 5.8946e-04, primal residual: 2.5917e-02, dual residual: 2.358636e-01
+n_iter: 300, duality gap: 2.9232e-04, primal residual: 1.8702e-02, dual residual: 1.719347e-01
+n_iter: 400, duality gap: 1.7649e-04, primal residual: 1.4498e-02, dual residual: 1.351467e-01
+n_iter: 500, duality gap: 1.1499e-04, primal residual: 1.1744e-02, dual residual: 1.105962e-01
+Batch loss: loss1: -4583.72656, loss2: 73910.33594, loss3: 0.00000
+Finished running batch 9, running time: 15.04 sec
+time calculating thetas: 154.52 sec
+number of nearest neighbor: 6
+number of nearest neighbor: 7
+number of nearest neighbor: 8
+final number of nearest neighbor (make connected): 8
+0.1793842246120732
+0.4235377487451068
+time calculating the kernel function: 3.17 sec
+start running batch 0
+n_iter: 100, duality gap: 5.4250e-04, primal residual: 2.1886e-02, dual residual: 2.495487e-02
+n_iter: 200, duality gap: 6.7697e-06, primal residual: 1.0691e-03, dual residual: 2.463005e-03
+n_iter: 300, duality gap: 1.3315e-06, primal residual: 9.9339e-05, dual residual: 3.144182e-04
+Batch loss: loss1: -2362.12256, loss2: 15902.48047, loss3: 0.00000
+Finished running batch 0, running time: 9.18 sec
+start running batch 1
+n_iter: 100, duality gap: 5.9503e-04, primal residual: 1.9824e-02, dual residual: 2.299782e-02
+n_iter: 200, duality gap: 7.5888e-06, primal residual: 8.3927e-04, dual residual: 2.180863e-03
+n_iter: 300, duality gap: 1.6643e-06, primal residual: 7.8276e-05, dual residual: 2.697746e-04
+Batch loss: loss1: -2293.83008, loss2: 15676.97656, loss3: 0.00000
+Finished running batch 1, running time: 8.99 sec
+start running batch 2
+n_iter: 100, duality gap: 3.3177e-04, primal residual: 1.6288e-02, dual residual: 2.204277e-02
+n_iter: 200, duality gap: 9.9519e-06, primal residual: 7.6764e-04, dual residual: 2.019383e-03
+n_iter: 300, duality gap: 2.2953e-06, primal residual: 6.7618e-05, dual residual: 2.495813e-04
+Batch loss: loss1: -2271.27173, loss2: 15607.81152, loss3: 0.00000
+Finished running batch 2, running time: 8.96 sec
+start running batch 3
+n_iter: 100, duality gap: 2.8278e-04, primal residual: 1.6339e-02, dual residual: 2.078458e-02
+n_iter: 200, duality gap: 9.9482e-06, primal residual: 7.7089e-04, dual residual: 1.974256e-03
+n_iter: 300, duality gap: 3.6276e-06, primal residual: 6.8860e-05, dual residual: 2.451365e-04
+Batch loss: loss1: -2269.34521, loss2: 15603.62500, loss3: 0.00000
+Finished running batch 3, running time: 8.93 sec
+start running batch 4
+n_iter: 100, duality gap: 2.9857e-04, primal residual: 1.3873e-02, dual residual: 2.082529e-02
+n_iter: 200, duality gap: 1.0719e-05, primal residual: 7.1009e-04, dual residual: 1.982530e-03
+n_iter: 300, duality gap: 2.3877e-06, primal residual: 6.5628e-05, dual residual: 2.555127e-04
+Batch loss: loss1: -2276.43896, loss2: 15642.75391, loss3: 0.00000
+Finished running batch 4, running time: 9.04 sec
+start running batch 5
+n_iter: 100, duality gap: 3.5427e-04, primal residual: 1.4035e-02, dual residual: 2.111584e-02
+n_iter: 200, duality gap: 1.5787e-05, primal residual: 6.6880e-04, dual residual: 2.008736e-03
+n_iter: 300, duality gap: 2.3768e-06, primal residual: 5.7643e-05, dual residual: 2.629452e-04
+Batch loss: loss1: -2293.67773, loss2: 15727.45312, loss3: 0.00000
+Finished running batch 5, running time: 8.98 sec
+start running batch 6
+n_iter: 100, duality gap: 3.5744e-04, primal residual: 1.5429e-02, dual residual: 2.151400e-02
+n_iter: 200, duality gap: 2.0179e-05, primal residual: 7.3418e-04, dual residual: 2.039436e-03
+n_iter: 300, duality gap: 2.4692e-06, primal residual: 6.0478e-05, dual residual: 2.702774e-04
+Batch loss: loss1: -2318.24658, loss2: 15830.55859, loss3: 0.00000
+Finished running batch 6, running time: 8.97 sec
+start running batch 7
+n_iter: 100, duality gap: 3.6270e-04, primal residual: 1.5937e-02, dual residual: 2.200372e-02
+n_iter: 200, duality gap: 2.1728e-05, primal residual: 7.5734e-04, dual residual: 2.068886e-03
+n_iter: 300, duality gap: 2.4337e-06, primal residual: 6.4099e-05, dual residual: 2.784726e-04
+Batch loss: loss1: -2347.11328, loss2: 15939.69434, loss3: 0.00000
+Finished running batch 7, running time: 8.94 sec
+start running batch 8
+n_iter: 100, duality gap: 3.4886e-04, primal residual: 1.4662e-02, dual residual: 2.296329e-02
+n_iter: 200, duality gap: 2.1672e-05, primal residual: 7.1774e-04, dual residual: 2.108351e-03
+n_iter: 300, duality gap: 2.7489e-06, primal residual: 7.0783e-05, dual residual: 2.869008e-04
+Batch loss: loss1: -2378.15723, loss2: 16049.66602, loss3: 0.00000
+Finished running batch 8, running time: 8.99 sec
+start running batch 9
+n_iter: 100, duality gap: 3.8849e-04, primal residual: 1.4432e-02, dual residual: 2.362312e-02
+n_iter: 200, duality gap: 2.1848e-05, primal residual: 8.3692e-04, dual residual: 2.160920e-03
+n_iter: 300, duality gap: 2.8877e-06, primal residual: 8.2726e-05, dual residual: 2.948141e-04
+Batch loss: loss1: -2410.90039, loss2: 16159.60352, loss3: 0.00000
+Finished running batch 9, running time: 9.07 sec
+time calculating thetas: 93.92 sec
+number of nearest neighbor: 6
+number of nearest neighbor: 7
+number of nearest neighbor: 8
+final number of nearest neighbor (make connected): 8
+0.1793842246120732
+0.4235377487451068
+time calculating the kernel function: 3.30 sec
+start running batch 0
+n_iter: 100, duality gap: 2.1254e-03, primal residual: 2.2507e-03, dual residual: 5.158565e-02
+n_iter: 200, duality gap: 6.0913e-04, primal residual: 6.5108e-04, dual residual: 1.474248e-02
+n_iter: 300, duality gap: 1.7405e-04, primal residual: 1.8620e-04, dual residual: 4.210485e-03
+n_iter: 400, duality gap: 5.9226e-05, primal residual: 5.4673e-05, dual residual: 1.227250e-03
+n_iter: 500, duality gap: 2.3751e-05, primal residual: 1.8150e-05, dual residual: 3.825799e-04
+Batch loss: loss1: 197.94690, loss2: 3533.55444, loss3: 0.00000
+Finished running batch 0, running time: 14.79 sec
+start running batch 1
+n_iter: 100, duality gap: 1.9524e-03, primal residual: 2.0019e-03, dual residual: 4.791827e-02
+n_iter: 200, duality gap: 5.5662e-04, primal residual: 5.8374e-04, dual residual: 1.382168e-02
+n_iter: 300, duality gap: 1.6386e-04, primal residual: 1.6894e-04, dual residual: 3.993391e-03
+n_iter: 400, duality gap: 5.3679e-05, primal residual: 5.1406e-05, dual residual: 1.173824e-03
+n_iter: 500, duality gap: 2.3080e-05, primal residual: 1.7605e-05, dual residual: 3.602327e-04
+Batch loss: loss1: 228.46523, loss2: 3511.31299, loss3: 0.00000
+Finished running batch 1, running time: 14.82 sec
+start running batch 2
+n_iter: 100, duality gap: 1.9530e-03, primal residual: 1.8862e-03, dual residual: 4.474608e-02
+n_iter: 200, duality gap: 5.0877e-04, primal residual: 4.8827e-04, dual residual: 1.153357e-02
+n_iter: 300, duality gap: 1.3522e-04, primal residual: 1.2622e-04, dual residual: 2.979182e-03
+n_iter: 400, duality gap: 4.1506e-05, primal residual: 3.4592e-05, dual residual: 7.897398e-04
+Batch loss: loss1: 241.09340, loss2: 3498.16260, loss3: 0.00000
+Finished running batch 2, running time: 11.78 sec
+start running batch 3
+n_iter: 100, duality gap: 2.2197e-03, primal residual: 1.9938e-03, dual residual: 4.887644e-02
+n_iter: 200, duality gap: 5.5675e-04, primal residual: 5.0297e-04, dual residual: 1.223854e-02
+n_iter: 300, duality gap: 1.3715e-04, primal residual: 1.2761e-04, dual residual: 3.068226e-03
+n_iter: 400, duality gap: 3.7918e-05, primal residual: 3.3351e-05, dual residual: 7.663968e-04
+Batch loss: loss1: 242.69991, loss2: 3494.18213, loss3: 0.00000
+Finished running batch 3, running time: 11.79 sec
+start running batch 4
+n_iter: 100, duality gap: 2.6249e-03, primal residual: 2.3534e-03, dual residual: 5.726054e-02
+n_iter: 200, duality gap: 6.5737e-04, primal residual: 5.9302e-04, dual residual: 1.434867e-02
+n_iter: 300, duality gap: 1.6625e-04, primal residual: 1.4907e-04, dual residual: 3.611609e-03
+n_iter: 400, duality gap: 4.9018e-05, primal residual: 3.8477e-05, dual residual: 9.154209e-04
+Batch loss: loss1: 241.60309, loss2: 3494.02759, loss3: 0.00000
+Finished running batch 4, running time: 11.77 sec
+start running batch 5
+n_iter: 100, duality gap: 3.0780e-03, primal residual: 2.7990e-03, dual residual: 6.596079e-02
+n_iter: 200, duality gap: 7.5440e-04, primal residual: 6.9472e-04, dual residual: 1.628327e-02
+n_iter: 300, duality gap: 1.8944e-04, primal residual: 1.7298e-04, dual residual: 4.022746e-03
+n_iter: 400, duality gap: 5.1221e-05, primal residual: 4.3830e-05, dual residual: 1.014342e-03
+n_iter: 500, duality gap: 1.9599e-05, primal residual: 1.3489e-05, dual residual: 2.625534e-04
+Batch loss: loss1: 236.87164, loss2: 3495.93457, loss3: 0.00000
+Finished running batch 5, running time: 14.66 sec
+start running batch 6
+n_iter: 100, duality gap: 3.7499e-03, primal residual: 3.1357e-03, dual residual: 8.023649e-02
+n_iter: 200, duality gap: 9.6793e-04, primal residual: 8.1510e-04, dual residual: 2.080970e-02
+n_iter: 300, duality gap: 2.5301e-04, primal residual: 2.1038e-04, dual residual: 5.392819e-03
+n_iter: 400, duality gap: 6.9511e-05, primal residual: 5.6160e-05, dual residual: 1.395804e-03
+n_iter: 500, duality gap: 2.0128e-05, primal residual: 1.5576e-05, dual residual: 3.774107e-04
+Batch loss: loss1: 227.91782, loss2: 3500.92529, loss3: 0.00000
+Finished running batch 6, running time: 14.69 sec
+start running batch 7
+n_iter: 100, duality gap: 4.1752e-03, primal residual: 3.4208e-03, dual residual: 8.798538e-02
+n_iter: 200, duality gap: 1.0667e-03, primal residual: 8.7686e-04, dual residual: 2.255451e-02
+n_iter: 300, duality gap: 2.7762e-04, primal residual: 2.2561e-04, dual residual: 5.777350e-03
+n_iter: 400, duality gap: 7.6003e-05, primal residual: 5.9858e-05, dual residual: 1.489510e-03
+n_iter: 500, duality gap: 2.2501e-05, primal residual: 1.6594e-05, dual residual: 4.027340e-04
+Batch loss: loss1: 216.83502, loss2: 3506.55518, loss3: 0.00000
+Finished running batch 7, running time: 14.72 sec
+start running batch 8
+n_iter: 100, duality gap: 4.5588e-03, primal residual: 3.6970e-03, dual residual: 9.445313e-02
+n_iter: 200, duality gap: 1.1507e-03, primal residual: 9.3590e-04, dual residual: 2.389012e-02
+n_iter: 300, duality gap: 2.9255e-04, primal residual: 2.3676e-04, dual residual: 6.045721e-03
+n_iter: 400, duality gap: 7.7739e-05, primal residual: 6.0884e-05, dual residual: 1.531338e-03
+n_iter: 500, duality gap: 2.3728e-05, primal residual: 1.7179e-05, dual residual: 4.004016e-04
+Batch loss: loss1: 204.67879, loss2: 3512.55908, loss3: 0.00000
+Finished running batch 8, running time: 14.77 sec
+start running batch 9
+n_iter: 100, duality gap: 4.6689e-03, primal residual: 3.6682e-03, dual residual: 9.390774e-02
+n_iter: 200, duality gap: 1.1385e-03, primal residual: 9.2974e-04, dual residual: 2.374124e-02
+n_iter: 300, duality gap: 2.9041e-04, primal residual: 2.3616e-04, dual residual: 5.999926e-03
+n_iter: 400, duality gap: 7.4598e-05, primal residual: 5.9217e-05, dual residual: 1.518057e-03
+n_iter: 500, duality gap: 2.0205e-05, primal residual: 1.5562e-05, dual residual: 3.902740e-04
+Batch loss: loss1: 191.42351, loss2: 3519.12793, loss3: 0.00000
+Finished running batch 9, running time: 14.72 sec
+time calculating thetas: 142.49 sec
+number of nearest neighbor: 6
+number of nearest neighbor: 7
+number of nearest neighbor: 8
+final number of nearest neighbor (make connected): 8
+1.793842246120732
+1.3393439610946591
+time calculating the kernel function: 3.21 sec
+start running batch 0
+n_iter: 100, duality gap: 6.4775e-06, primal residual: 2.8112e-03, dual residual: 5.772079e-01
+n_iter: 200, duality gap: 5.0763e-06, primal residual: 2.9516e-03, dual residual: 4.321602e-01
+n_iter: 300, duality gap: 2.3546e-06, primal residual: 2.4062e-03, dual residual: 3.571486e-01
+n_iter: 400, duality gap: 5.3320e-06, primal residual: 2.9292e-03, dual residual: 3.054559e-01
+n_iter: 500, duality gap: 7.4679e-06, primal residual: 3.3103e-03, dual residual: 2.592734e-01
+Batch loss: loss1: -4108.81885, loss2: 110206.98438, loss3: 0.00000
+Finished running batch 0, running time: 14.84 sec
+start running batch 1
+n_iter: 100, duality gap: 7.3375e-06, primal residual: 3.0084e-03, dual residual: 5.773146e-01
+n_iter: 200, duality gap: 4.9478e-06, primal residual: 2.9311e-03, dual residual: 4.321953e-01
+n_iter: 300, duality gap: 2.4487e-06, primal residual: 2.4014e-03, dual residual: 3.571571e-01
+n_iter: 400, duality gap: 5.1801e-06, primal residual: 2.8878e-03, dual residual: 3.050302e-01
+n_iter: 500, duality gap: 7.3011e-06, primal residual: 3.2693e-03, dual residual: 2.581270e-01
+Batch loss: loss1: -4115.81445, loss2: 110195.67188, loss3: 0.00000
+Finished running batch 1, running time: 14.68 sec
+start running batch 2
+n_iter: 100, duality gap: 7.0150e-06, primal residual: 2.9695e-03, dual residual: 5.775456e-01
+n_iter: 200, duality gap: 4.5079e-06, primal residual: 2.8573e-03, dual residual: 4.323524e-01
+n_iter: 300, duality gap: 2.4567e-06, primal residual: 2.3952e-03, dual residual: 3.573252e-01
+n_iter: 400, duality gap: 5.1453e-06, primal residual: 2.8811e-03, dual residual: 3.040296e-01
+n_iter: 500, duality gap: 7.1711e-06, primal residual: 3.2515e-03, dual residual: 2.568238e-01
+Batch loss: loss1: -4120.90479, loss2: 110187.58594, loss3: 0.00000
+Finished running batch 2, running time: 14.71 sec
+start running batch 3
+n_iter: 100, duality gap: 7.5150e-06, primal residual: 3.0940e-03, dual residual: 5.776216e-01
+n_iter: 200, duality gap: 4.8301e-06, primal residual: 2.8983e-03, dual residual: 4.324253e-01
+n_iter: 300, duality gap: 2.4574e-06, primal residual: 2.3905e-03, dual residual: 3.574100e-01
+n_iter: 400, duality gap: 5.1424e-06, primal residual: 2.8760e-03, dual residual: 3.035809e-01
+n_iter: 500, duality gap: 6.5340e-06, primal residual: 3.0864e-03, dual residual: 2.562367e-01
+Batch loss: loss1: -4124.01953, loss2: 110182.62500, loss3: 0.00000
+Finished running batch 3, running time: 14.66 sec
+start running batch 4
+n_iter: 100, duality gap: 7.7994e-06, primal residual: 3.1414e-03, dual residual: 5.776359e-01
+n_iter: 200, duality gap: 5.1971e-06, primal residual: 2.9510e-03, dual residual: 4.324393e-01
+n_iter: 300, duality gap: 2.4632e-06, primal residual: 2.3883e-03, dual residual: 3.574359e-01
+n_iter: 400, duality gap: 5.1385e-06, primal residual: 2.8729e-03, dual residual: 3.033170e-01
+n_iter: 500, duality gap: 6.6267e-06, primal residual: 3.0473e-03, dual residual: 2.560294e-01
+Batch loss: loss1: -4126.30615, loss2: 110180.16406, loss3: 0.00000
+Finished running batch 4, running time: 14.68 sec
+start running batch 5
+n_iter: 100, duality gap: 7.7581e-06, primal residual: 3.1349e-03, dual residual: 5.775280e-01
+n_iter: 200, duality gap: 4.6849e-06, primal residual: 2.8764e-03, dual residual: 4.323243e-01
+n_iter: 300, duality gap: 2.4540e-06, primal residual: 2.3840e-03, dual residual: 3.573374e-01
+n_iter: 400, duality gap: 5.1482e-06, primal residual: 2.8716e-03, dual residual: 3.031790e-01
+n_iter: 500, duality gap: 6.6304e-06, primal residual: 3.0490e-03, dual residual: 2.560278e-01
+Batch loss: loss1: -4128.56934, loss2: 110178.10938, loss3: 0.00000
+Finished running batch 5, running time: 14.65 sec
+start running batch 6
+n_iter: 100, duality gap: 7.4132e-06, primal residual: 3.0592e-03, dual residual: 5.775384e-01
+n_iter: 200, duality gap: 4.8066e-06, primal residual: 2.8943e-03, dual residual: 4.323144e-01
+n_iter: 300, duality gap: 2.4533e-06, primal residual: 2.3812e-03, dual residual: 3.573519e-01
+n_iter: 400, duality gap: 4.5746e-06, primal residual: 2.8012e-03, dual residual: 3.030782e-01
+n_iter: 500, duality gap: 6.6271e-06, primal residual: 3.0484e-03, dual residual: 2.560346e-01
+Batch loss: loss1: -4130.49121, loss2: 110175.92969, loss3: 0.00000
+Finished running batch 6, running time: 14.67 sec
+start running batch 7
+n_iter: 100, duality gap: 7.4930e-06, primal residual: 3.0501e-03, dual residual: 5.777161e-01
+n_iter: 200, duality gap: 4.4038e-06, primal residual: 2.8370e-03, dual residual: 4.324418e-01
+n_iter: 300, duality gap: 2.4908e-06, primal residual: 2.3873e-03, dual residual: 3.575159e-01
+n_iter: 400, duality gap: 5.0806e-06, primal residual: 2.8671e-03, dual residual: 3.030093e-01
+n_iter: 500, duality gap: 6.6718e-06, primal residual: 3.0558e-03, dual residual: 2.559718e-01
+Batch loss: loss1: -4132.21875, loss2: 110173.98438, loss3: 0.00000
+Finished running batch 7, running time: 14.73 sec
+start running batch 8
+n_iter: 100, duality gap: 7.5648e-06, primal residual: 3.0851e-03, dual residual: 5.777721e-01
+n_iter: 200, duality gap: 4.6669e-06, primal residual: 2.8806e-03, dual residual: 4.325143e-01
+n_iter: 300, duality gap: 2.5146e-06, primal residual: 2.3929e-03, dual residual: 3.575751e-01
+n_iter: 400, duality gap: 5.1394e-06, primal residual: 2.8765e-03, dual residual: 3.030934e-01
+n_iter: 500, duality gap: 6.7077e-06, primal residual: 3.0607e-03, dual residual: 2.561517e-01
+Batch loss: loss1: -4133.53906, loss2: 110172.12500, loss3: 0.00000
+Finished running batch 8, running time: 14.75 sec
+start running batch 9
+n_iter: 100, duality gap: 7.5650e-06, primal residual: 3.0883e-03, dual residual: 5.777750e-01
+n_iter: 200, duality gap: 5.0171e-06, primal residual: 2.9300e-03, dual residual: 4.324797e-01
+n_iter: 300, duality gap: 2.5139e-06, primal residual: 2.3923e-03, dual residual: 3.575889e-01
+n_iter: 400, duality gap: 5.0513e-06, primal residual: 2.8638e-03, dual residual: 3.029503e-01
+n_iter: 500, duality gap: 6.6970e-06, primal residual: 3.0618e-03, dual residual: 2.561141e-01
+Batch loss: loss1: -4135.18945, loss2: 110170.18750, loss3: 0.00000
+Finished running batch 9, running time: 14.71 sec
+time calculating thetas: 150.98 sec
+number of nearest neighbor: 6
+number of nearest neighbor: 7
+number of nearest neighbor: 8
+final number of nearest neighbor (make connected): 8
+1.793842246120732
+1.3393439610946591
+time calculating the kernel function: 3.36 sec
+start running batch 0
+n_iter: 100, duality gap: 1.1255e-04, primal residual: 1.0902e-02, dual residual: 3.797318e-01
+n_iter: 200, duality gap: 4.4045e-05, primal residual: 6.1481e-03, dual residual: 2.319592e-01
+n_iter: 300, duality gap: 3.1425e-05, primal residual: 4.4274e-03, dual residual: 1.688618e-01
+n_iter: 400, duality gap: 2.1550e-05, primal residual: 3.3730e-03, dual residual: 1.324204e-01
+n_iter: 500, duality gap: 1.3953e-05, primal residual: 2.6825e-03, dual residual: 1.083351e-01
+Batch loss: loss1: -4242.03418, loss2: 76125.85938, loss3: 0.00000
+Finished running batch 0, running time: 15.19 sec
+start running batch 1
+n_iter: 100, duality gap: 1.4533e-04, primal residual: 1.0800e-02, dual residual: 3.797057e-01
+n_iter: 200, duality gap: 5.1264e-05, primal residual: 6.0951e-03, dual residual: 2.319335e-01
+n_iter: 300, duality gap: 3.4068e-05, primal residual: 4.3728e-03, dual residual: 1.688318e-01
+n_iter: 400, duality gap: 2.2287e-05, primal residual: 3.3208e-03, dual residual: 1.323970e-01
+n_iter: 500, duality gap: 1.4447e-05, primal residual: 2.6559e-03, dual residual: 1.083071e-01
+Batch loss: loss1: -4241.93652, loss2: 76117.26562, loss3: 0.00000
+Finished running batch 1, running time: 14.82 sec
+start running batch 2
+n_iter: 100, duality gap: 1.8086e-04, primal residual: 1.0982e-02, dual residual: 3.796739e-01
+n_iter: 200, duality gap: 5.6344e-05, primal residual: 6.1358e-03, dual residual: 2.319056e-01
+n_iter: 300, duality gap: 4.0224e-05, primal residual: 4.5197e-03, dual residual: 1.688084e-01
+n_iter: 400, duality gap: 2.4765e-05, primal residual: 3.4175e-03, dual residual: 1.323670e-01
+n_iter: 500, duality gap: 1.6757e-05, primal residual: 2.7286e-03, dual residual: 1.082861e-01
+Batch loss: loss1: -4241.87793, loss2: 76111.54688, loss3: 0.00000
+Finished running batch 2, running time: 14.81 sec
+start running batch 3
+n_iter: 100, duality gap: 1.9686e-04, primal residual: 1.0936e-02, dual residual: 3.796824e-01
+n_iter: 200, duality gap: 5.7742e-05, primal residual: 6.2213e-03, dual residual: 2.318949e-01
+n_iter: 300, duality gap: 4.6932e-05, primal residual: 4.7032e-03, dual residual: 1.687927e-01
+n_iter: 400, duality gap: 2.7749e-05, primal residual: 3.5350e-03, dual residual: 1.323526e-01
+n_iter: 500, duality gap: 1.9623e-05, primal residual: 2.8222e-03, dual residual: 1.082709e-01
+Batch loss: loss1: -4241.84668, loss2: 76108.31250, loss3: 0.00000
+Finished running batch 3, running time: 14.84 sec
+start running batch 4
+n_iter: 100, duality gap: 1.8936e-04, primal residual: 1.0985e-02, dual residual: 3.796732e-01
+n_iter: 200, duality gap: 6.0944e-05, primal residual: 6.3128e-03, dual residual: 2.318870e-01
+n_iter: 300, duality gap: 5.0244e-05, primal residual: 4.7189e-03, dual residual: 1.687857e-01
+n_iter: 400, duality gap: 2.9747e-05, primal residual: 3.5975e-03, dual residual: 1.323455e-01
+n_iter: 500, duality gap: 2.1616e-05, primal residual: 2.8760e-03, dual residual: 1.082658e-01
+Batch loss: loss1: -4241.82178, loss2: 76106.73438, loss3: 0.00000
+Finished running batch 4, running time: 14.81 sec
+start running batch 5
+n_iter: 100, duality gap: 1.7482e-04, primal residual: 1.0939e-02, dual residual: 3.796679e-01
+n_iter: 200, duality gap: 6.4936e-05, primal residual: 6.2434e-03, dual residual: 2.318824e-01
+n_iter: 300, duality gap: 5.7830e-05, primal residual: 4.6656e-03, dual residual: 1.687811e-01
+n_iter: 400, duality gap: 3.5689e-05, primal residual: 3.5082e-03, dual residual: 1.323422e-01
+n_iter: 500, duality gap: 2.4464e-05, primal residual: 2.7757e-03, dual residual: 1.082602e-01
+Batch loss: loss1: -4241.80371, loss2: 76105.45312, loss3: 0.00000
+Finished running batch 5, running time: 14.78 sec
+start running batch 6
+n_iter: 100, duality gap: 1.6233e-04, primal residual: 1.0500e-02, dual residual: 3.796757e-01
+n_iter: 200, duality gap: 6.9659e-05, primal residual: 6.0503e-03, dual residual: 2.318808e-01
+n_iter: 300, duality gap: 4.6157e-05, primal residual: 4.4278e-03, dual residual: 1.687723e-01
+n_iter: 400, duality gap: 2.6923e-05, primal residual: 3.3604e-03, dual residual: 1.323372e-01
+n_iter: 500, duality gap: 1.9342e-05, primal residual: 2.6763e-03, dual residual: 1.082540e-01
+Batch loss: loss1: -4241.78418, loss2: 76104.16406, loss3: 0.00000
+Finished running batch 6, running time: 14.79 sec
+start running batch 7
+n_iter: 100, duality gap: 1.5563e-04, primal residual: 1.0552e-02, dual residual: 3.796814e-01
+n_iter: 200, duality gap: 7.1988e-05, primal residual: 6.2616e-03, dual residual: 2.318739e-01
+n_iter: 300, duality gap: 4.6037e-05, primal residual: 4.4989e-03, dual residual: 1.687712e-01
+n_iter: 400, duality gap: 2.8334e-05, primal residual: 3.4515e-03, dual residual: 1.323301e-01
+n_iter: 500, duality gap: 1.9710e-05, primal residual: 2.7701e-03, dual residual: 1.082502e-01
+Batch loss: loss1: -4241.77100, loss2: 76103.08594, loss3: 0.00000
+Finished running batch 7, running time: 14.81 sec
+start running batch 8
+n_iter: 100, duality gap: 1.4650e-04, primal residual: 1.0491e-02, dual residual: 3.796706e-01
+n_iter: 200, duality gap: 7.0248e-05, primal residual: 6.2357e-03, dual residual: 2.318694e-01
+n_iter: 300, duality gap: 5.1248e-05, primal residual: 4.5086e-03, dual residual: 1.687642e-01
+n_iter: 400, duality gap: 3.1844e-05, primal residual: 3.4410e-03, dual residual: 1.323251e-01
+n_iter: 500, duality gap: 2.2363e-05, primal residual: 2.7577e-03, dual residual: 1.082474e-01
+Batch loss: loss1: -4241.76123, loss2: 76102.06250, loss3: 0.00000
+Finished running batch 8, running time: 14.87 sec
+start running batch 9
+n_iter: 100, duality gap: 1.4090e-04, primal residual: 1.0261e-02, dual residual: 3.796720e-01
+n_iter: 200, duality gap: 6.0910e-05, primal residual: 5.9135e-03, dual residual: 2.318648e-01
+n_iter: 300, duality gap: 3.7919e-05, primal residual: 4.3207e-03, dual residual: 1.687574e-01
+n_iter: 400, duality gap: 2.4034e-05, primal residual: 3.2866e-03, dual residual: 1.323226e-01
+n_iter: 500, duality gap: 1.6694e-05, primal residual: 2.6318e-03, dual residual: 1.082413e-01
+Batch loss: loss1: -4241.75000, loss2: 76101.01562, loss3: 0.00000
+Finished running batch 9, running time: 14.81 sec
+time calculating thetas: 152.59 sec
+number of nearest neighbor: 6
+number of nearest neighbor: 7
+number of nearest neighbor: 8
+final number of nearest neighbor (make connected): 8
+1.793842246120732
+1.3393439610946591
+time calculating the kernel function: 3.79 sec
+start running batch 0
+n_iter: 100, duality gap: 4.0809e-04, primal residual: 7.6968e-03, dual residual: 2.857546e-02
+n_iter: 200, duality gap: 2.1694e-05, primal residual: 3.3370e-04, dual residual: 1.913168e-03
+n_iter: 300, duality gap: 9.8640e-06, primal residual: 9.7663e-05, dual residual: 2.473981e-04
+Batch loss: loss1: -1981.62268, loss2: 15120.88184, loss3: 0.00000
+Finished running batch 0, running time: 8.92 sec
+start running batch 1
+n_iter: 100, duality gap: 4.1154e-04, primal residual: 7.6770e-03, dual residual: 2.856589e-02
+n_iter: 200, duality gap: 2.0564e-05, primal residual: 3.4011e-04, dual residual: 1.912386e-03
+n_iter: 300, duality gap: 1.1533e-05, primal residual: 9.6352e-05, dual residual: 2.452302e-04
+Batch loss: loss1: -1981.91504, loss2: 15123.74609, loss3: 0.00000
+Finished running batch 1, running time: 8.98 sec
+start running batch 2
+n_iter: 100, duality gap: 4.1644e-04, primal residual: 7.6738e-03, dual residual: 2.852495e-02
+n_iter: 200, duality gap: 1.8986e-05, primal residual: 3.3279e-04, dual residual: 1.910881e-03
+n_iter: 300, duality gap: 9.7723e-06, primal residual: 9.0926e-05, dual residual: 2.480921e-04
+Batch loss: loss1: -1982.13123, loss2: 15125.80273, loss3: 0.00000
+Finished running batch 2, running time: 8.94 sec
+start running batch 3
+n_iter: 100, duality gap: 4.2064e-04, primal residual: 7.6718e-03, dual residual: 2.850870e-02
+n_iter: 200, duality gap: 1.9340e-05, primal residual: 3.3558e-04, dual residual: 1.909603e-03
+n_iter: 300, duality gap: 9.5834e-06, primal residual: 9.8108e-05, dual residual: 2.445063e-04
+Batch loss: loss1: -1982.26294, loss2: 15127.04395, loss3: 0.00000
+Finished running batch 3, running time: 8.97 sec
+start running batch 4
+n_iter: 100, duality gap: 4.1968e-04, primal residual: 7.6843e-03, dual residual: 2.848204e-02
+n_iter: 200, duality gap: 1.7843e-05, primal residual: 3.4304e-04, dual residual: 1.909972e-03
+n_iter: 300, duality gap: 1.0868e-05, primal residual: 8.7583e-05, dual residual: 2.514375e-04
+Batch loss: loss1: -1982.32202, loss2: 15127.69336, loss3: 0.00000
+Finished running batch 4, running time: 8.97 sec
+start running batch 5
+n_iter: 100, duality gap: 4.1886e-04, primal residual: 7.6896e-03, dual residual: 2.848225e-02
+n_iter: 200, duality gap: 2.0609e-05, primal residual: 3.3620e-04, dual residual: 1.911404e-03
+n_iter: 300, duality gap: 8.4183e-06, primal residual: 9.2659e-05, dual residual: 2.535198e-04
+Batch loss: loss1: -1982.37317, loss2: 15128.25195, loss3: 0.00000
+Finished running batch 5, running time: 8.96 sec
+start running batch 6
+n_iter: 100, duality gap: 4.2414e-04, primal residual: 7.6866e-03, dual residual: 2.845467e-02
+n_iter: 200, duality gap: 1.7601e-05, primal residual: 3.3251e-04, dual residual: 1.912318e-03
+n_iter: 300, duality gap: 1.1096e-05, primal residual: 8.9266e-05, dual residual: 2.600388e-04
+Batch loss: loss1: -1982.42566, loss2: 15128.81055, loss3: 0.00000
+Finished running batch 6, running time: 8.95 sec
+start running batch 7
+n_iter: 100, duality gap: 4.2348e-04, primal residual: 7.6960e-03, dual residual: 2.843625e-02
+n_iter: 200, duality gap: 1.7678e-05, primal residual: 3.3563e-04, dual residual: 1.911387e-03
+n_iter: 300, duality gap: 1.0795e-05, primal residual: 8.7051e-05, dual residual: 2.583244e-04
+Batch loss: loss1: -1982.47705, loss2: 15129.34180, loss3: 0.00000
+Finished running batch 7, running time: 8.96 sec
+start running batch 8
+n_iter: 100, duality gap: 4.2730e-04, primal residual: 7.6948e-03, dual residual: 2.843031e-02
+n_iter: 200, duality gap: 1.7823e-05, primal residual: 3.3423e-04, dual residual: 1.910703e-03
+n_iter: 300, duality gap: 1.1722e-05, primal residual: 1.0158e-04, dual residual: 2.614464e-04
+Batch loss: loss1: -1982.52563, loss2: 15129.82031, loss3: 0.00000
+Finished running batch 8, running time: 8.97 sec
+start running batch 9
+n_iter: 100, duality gap: 4.2115e-04, primal residual: 7.7058e-03, dual residual: 2.841669e-02
+n_iter: 200, duality gap: 1.8672e-05, primal residual: 3.3935e-04, dual residual: 1.912015e-03
+n_iter: 300, duality gap: 8.4234e-06, primal residual: 9.4627e-05, dual residual: 2.502456e-04
+Batch loss: loss1: -1982.57532, loss2: 15130.29492, loss3: 0.00000
+Finished running batch 9, running time: 9.25 sec
+time calculating thetas: 94.32 sec
+number of nearest neighbor: 6
+number of nearest neighbor: 7
+number of nearest neighbor: 8
+final number of nearest neighbor (make connected): 8
+1.793842246120732
+1.3393439610946591
+time calculating the kernel function: 3.17 sec
+start running batch 0
+n_iter: 100, duality gap: 1.8097e-03, primal residual: 3.1736e-03, dual residual: 9.260910e-02
+n_iter: 200, duality gap: 8.3917e-04, primal residual: 1.5171e-03, dual residual: 4.033671e-02
+n_iter: 300, duality gap: 3.9774e-04, primal residual: 6.8462e-04, dual residual: 1.791779e-02
+n_iter: 400, duality gap: 2.0452e-04, primal residual: 3.0627e-04, dual residual: 7.979296e-03
+n_iter: 500, duality gap: 1.1279e-04, primal residual: 1.4727e-04, dual residual: 3.600869e-03
+Batch loss: loss1: 420.90814, loss2: 3458.91431, loss3: 0.00000
+Finished running batch 0, running time: 14.61 sec
+start running batch 1
+n_iter: 100, duality gap: 1.8334e-03, primal residual: 3.1924e-03, dual residual: 9.304555e-02
+n_iter: 200, duality gap: 8.4285e-04, primal residual: 1.5211e-03, dual residual: 4.050824e-02
+n_iter: 300, duality gap: 3.9201e-04, primal residual: 6.8283e-04, dual residual: 1.794894e-02
+n_iter: 400, duality gap: 1.9940e-04, primal residual: 3.0916e-04, dual residual: 7.987270e-03
+n_iter: 500, duality gap: 1.1230e-04, primal residual: 1.4776e-04, dual residual: 3.582277e-03
+Batch loss: loss1: 420.99002, loss2: 3458.62671, loss3: 0.00000
+Finished running batch 1, running time: 14.59 sec
+start running batch 2
+n_iter: 100, duality gap: 1.8365e-03, primal residual: 3.1974e-03, dual residual: 9.323392e-02
+n_iter: 200, duality gap: 8.5268e-04, primal residual: 1.5245e-03, dual residual: 4.058786e-02
+n_iter: 300, duality gap: 4.0454e-04, primal residual: 6.8722e-04, dual residual: 1.799194e-02
+n_iter: 400, duality gap: 2.0405e-04, primal residual: 3.1055e-04, dual residual: 8.013075e-03
+n_iter: 500, duality gap: 1.2562e-04, primal residual: 1.4569e-04, dual residual: 3.590223e-03
+Batch loss: loss1: 421.04181, loss2: 3458.42261, loss3: 0.00000
+Finished running batch 2, running time: 14.60 sec
+start running batch 3
+n_iter: 100, duality gap: 1.8434e-03, primal residual: 3.2072e-03, dual residual: 9.354302e-02
+n_iter: 200, duality gap: 8.5501e-04, primal residual: 1.5260e-03, dual residual: 4.065973e-02
+n_iter: 300, duality gap: 3.9891e-04, primal residual: 6.8526e-04, dual residual: 1.796926e-02
+n_iter: 400, duality gap: 2.0260e-04, primal residual: 3.0944e-04, dual residual: 7.977825e-03
+n_iter: 500, duality gap: 1.1410e-04, primal residual: 1.4298e-04, dual residual: 3.567969e-03
+Batch loss: loss1: 421.07816, loss2: 3458.30225, loss3: 0.00000
+Finished running batch 3, running time: 14.62 sec
+start running batch 4
+n_iter: 100, duality gap: 1.8573e-03, primal residual: 3.2223e-03, dual residual: 9.390993e-02
+n_iter: 200, duality gap: 8.5905e-04, primal residual: 1.5366e-03, dual residual: 4.085445e-02
+n_iter: 300, duality gap: 4.0379e-04, primal residual: 6.9136e-04, dual residual: 1.806220e-02
+n_iter: 400, duality gap: 2.0154e-04, primal residual: 3.0863e-04, dual residual: 8.008304e-03
+n_iter: 500, duality gap: 1.1223e-04, primal residual: 1.4406e-04, dual residual: 3.582609e-03
+Batch loss: loss1: 421.10202, loss2: 3458.23682, loss3: 0.00000
+Finished running batch 4, running time: 14.59 sec
+start running batch 5
+n_iter: 100, duality gap: 1.8594e-03, primal residual: 3.2310e-03, dual residual: 9.432462e-02
+n_iter: 200, duality gap: 8.6340e-04, primal residual: 1.5371e-03, dual residual: 4.106295e-02
+n_iter: 300, duality gap: 4.0839e-04, primal residual: 6.9201e-04, dual residual: 1.817038e-02
+n_iter: 400, duality gap: 1.8998e-04, primal residual: 3.1111e-04, dual residual: 8.067515e-03
+n_iter: 500, duality gap: 1.1053e-04, primal residual: 1.4409e-04, dual residual: 3.589650e-03
+Batch loss: loss1: 421.12589, loss2: 3458.18115, loss3: 0.00000
+Finished running batch 5, running time: 14.61 sec
+start running batch 6
+n_iter: 100, duality gap: 1.8645e-03, primal residual: 3.2477e-03, dual residual: 9.472139e-02
+n_iter: 200, duality gap: 8.6855e-04, primal residual: 1.5476e-03, dual residual: 4.121915e-02
+n_iter: 300, duality gap: 3.9614e-04, primal residual: 6.9385e-04, dual residual: 1.821104e-02
+n_iter: 400, duality gap: 2.0256e-04, primal residual: 3.1089e-04, dual residual: 8.102794e-03
+n_iter: 500, duality gap: 1.0806e-04, primal residual: 1.4908e-04, dual residual: 3.604804e-03
+Batch loss: loss1: 421.14587, loss2: 3458.12500, loss3: 0.00000
+Finished running batch 6, running time: 14.56 sec
+start running batch 7
+n_iter: 100, duality gap: 1.8828e-03, primal residual: 3.2572e-03, dual residual: 9.500673e-02
+n_iter: 200, duality gap: 8.7712e-04, primal residual: 1.5506e-03, dual residual: 4.134922e-02
+n_iter: 300, duality gap: 4.0443e-04, primal residual: 6.9460e-04, dual residual: 1.831426e-02
+n_iter: 400, duality gap: 1.9822e-04, primal residual: 3.1221e-04, dual residual: 8.086171e-03
+n_iter: 500, duality gap: 1.1870e-04, primal residual: 1.4371e-04, dual residual: 3.596728e-03
+Batch loss: loss1: 421.16608, loss2: 3458.07178, loss3: 0.00000
+Finished running batch 7, running time: 14.60 sec
+start running batch 8
+n_iter: 100, duality gap: 1.8756e-03, primal residual: 3.2706e-03, dual residual: 9.535205e-02
+n_iter: 200, duality gap: 8.7239e-04, primal residual: 1.5550e-03, dual residual: 4.150407e-02
+n_iter: 300, duality gap: 4.0816e-04, primal residual: 6.9707e-04, dual residual: 1.834771e-02
+n_iter: 400, duality gap: 1.9475e-04, primal residual: 3.1496e-04, dual residual: 8.137172e-03
+n_iter: 500, duality gap: 1.0775e-04, primal residual: 1.4556e-04, dual residual: 3.644138e-03
+Batch loss: loss1: 421.17963, loss2: 3458.02441, loss3: 0.00000
+Finished running batch 8, running time: 14.57 sec
+start running batch 9
+n_iter: 100, duality gap: 1.8914e-03, primal residual: 3.2790e-03, dual residual: 9.568725e-02
+n_iter: 200, duality gap: 8.6796e-04, primal residual: 1.5600e-03, dual residual: 4.165796e-02
+n_iter: 300, duality gap: 4.0126e-04, primal residual: 6.9864e-04, dual residual: 1.844214e-02
+n_iter: 400, duality gap: 2.0544e-04, primal residual: 3.1382e-04, dual residual: 8.156349e-03
+n_iter: 500, duality gap: 1.1010e-04, primal residual: 1.4640e-04, dual residual: 3.659587e-03
+Batch loss: loss1: 421.19574, loss2: 3457.97974, loss3: 0.00000
+Finished running batch 9, running time: 14.70 sec
+time calculating thetas: 149.90 sec
