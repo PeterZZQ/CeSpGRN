@@ -3,8 +3,16 @@
 # (optional) simulate the GGM graph using partial orthogonal, following the paper On generating random Gaussian graphical models, seems to have certain advantages??
 # The key is to make the graph Symm+Positive definite
 import numpy as np
+from scanpy.neighbors import neighbors
 from scipy.linalg import eigh
 import os
+import matplotlib.pyplot as plt
+from umap import UMAP
+from sklearn.decomposition import PCA
+plt.rcParams["font.size"] = 20
+import pandas as pd
+import scanpy as sc
+from anndata import AnnData
 
 
 def make_PD(G, bias = 0.1):
@@ -114,7 +122,7 @@ def dyn_GRN(setting):
         active_area[:ntfs,:ntfs] = -1
 
     # backbone, find all possible branches
-    branches = list(set(setting["backbone"]))
+    branches = sorted(list(set(setting["backbone"])))
     node_times = {}
     # root node
     node_times["0"] = 0
@@ -155,11 +163,11 @@ def dyn_GRN(setting):
                     Gt = pre_G.reshape(-1).copy()
 
                     # delete, reduce to 0
-                    del_candid = np.array(list(set(np.where(Gt != 0)[0]).intersection(set(active_area.reshape(-1)))))
+                    del_candid = np.array(sorted(list(set(np.where(Gt != 0)[0]).intersection(set(active_area.reshape(-1))))))
                     del_idx = np.random.choice(del_candid, nchanges, replace = False)
                     assert len(del_idx) == nchanges
                     # add, increase to
-                    add_candid = np.array(list(set(np.where(Gt == 0)[0]).intersection(set(active_area.reshape(-1)))))
+                    add_candid = np.array(sorted(list(set(np.where(Gt == 0)[0]).intersection(set(active_area.reshape(-1))))))
                     add_idx = np.random.choice(add_candid, nchanges, replace = False)
                     assert len(add_idx) == nchanges
 
@@ -271,7 +279,7 @@ def gen_samples_backbone(Covs, backbone, nsamples = 1, seed = 0):
     sim_time = np.zeros((ntimes, nsamples))
 
     # unique backbones
-    branches = list(set([x for x in backbone]))
+    branches = sorted(list(set([x for x in backbone])))
     node_expr = {}
     node_time = {}
     node_expr["0"] = np.zeros(ngenes)
@@ -342,20 +350,22 @@ def simulate_data(setting):
     return result
 
 # In[0] generate data with bifurcating backbone
-import matplotlib.pyplot as plt
-from umap import UMAP
-from sklearn.decomposition import PCA
-plt.rcParams["font.size"] = 20
 
-umap_op = UMAP(n_components = 2, min_dist = 0.8, n_neighbors = 50, random_state = 0)
+umap_op = UMAP(n_components = 2, min_dist = 0.9, n_neighbors = 30, random_state = 0)
 pca_op = PCA(n_components = 2)
 
 for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20), (100, 50)]:
-    ntimes = 500
-    nsamples = 2
-    interval = 50
-    nchanges = 2
-    backbone = np.array(["0_1"] * 150 + ["1_2"] * 150 + ["1_3"] * 200)
+    # ntimes = 1000
+    # backbone = np.array(["0_1"] * 200 + ["1_2"] * 400 + ["1_3"] * 400)
+    # nsamples = 1
+    # interval = 200 # 50, 100, 200
+    # nchanges = 2
+
+    ntimes = 250
+    backbone = np.array(["0_1"] * 50 + ["1_2"] * 100 + ["1_3"] * 100)
+    nsamples = 10
+    interval = 50 # 10, 25, 50
+    nchanges = 2   
     if not os.path.exists("../../data/GGM_bifurcate/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/"):
         os.makedirs("../../data/GGM_bifurcate/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/")
 
@@ -375,6 +385,24 @@ for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20), (100, 50)]:
     samples = results["samples"].reshape(setting["ntimes"] * setting["nsamples"], setting["ngenes"])
     pt = results["sim time"].reshape(setting["ntimes"] * setting["nsamples"])
     Gs = results["GRNs"].reshape(setting["ntimes"] * setting["nsamples"], setting["ngenes"], setting["ngenes"])
+    
+    # samples_old = np.load("../../data/GGM_bifurcate/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/expr.npy")
+    # Gs_old = np.load("../../data/GGM_bifurcate/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/Gs.npy")
+
+    # assert np.allclose(samples_old, samples)
+    # assert np.allclose(Gs_old, Gs)
+    # print("the same")
+
+    np.save(file = "../../data/GGM_bifurcate/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/Gs.npy", arr = Gs)
+    np.save(file = "../../data/GGM_bifurcate/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/expr.npy", arr = samples)
+    np.save(file = "../../data/GGM_bifurcate/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/sim_time.npy", arr = pt)
+    # save for SCODE format, row correspond to gene, column correspond to cell, no index and header, \t separated txt file
+    samples_tf = pd.DataFrame(data = samples.T)
+    samples_tf.to_csv("../../data/GGM_bifurcate/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/expr.txt", sep = "\t", index = False, header = False)
+    # save for SCODE format, row correspond to cell, column one is the index, column two is the pseudotime
+    pt_df = pd.DataFrame(data = pt[:,None])
+    pt_df.to_csv("../../data/GGM_bifurcate/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/sim_time.txt", sep = "\t", index = True, header = False)
+
 
     X_umap = umap_op.fit_transform(samples.reshape(-1, ngenes))
     fig = plt.figure(figsize = (10, 7))
@@ -389,22 +417,139 @@ for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20), (100, 50)]:
     fig = plt.figure(figsize = (10, 7))
     ax = fig.add_subplot()
     ax.scatter(X_pca[:, 0], X_pca[:, 1], c = pt, s = 5)
-    ax.set_xlabel("UMAP 1")
-    ax.set_ylabel("UMAP 2")
-    ax.set_title("UMAP plot")
+    ax.set_xlabel("PCA 1")
+    ax.set_ylabel("PCA 2")
+    ax.set_title("PCA plot")
     fig.savefig("../../data/GGM_bifurcate/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/pca.png", bbox_inches = "tight")
 
 
     fig = plt.figure(figsize = (10, 7))
     ax = fig.add_subplot()
-    X = Gs.reshape(ntimes,-1)
-    X_umap = pca_op.fit_transform(X)
-    ax.scatter(X_umap[:, 0], X_umap[:, 1], s = 5, c = pt)
+    X = Gs.reshape(-1,setting["ngenes"] ** 2)
+    G_umap = pca_op.fit_transform(X)
+    ax.scatter(G_umap[:, 0], G_umap[:, 1], s = 5, c = pt)
     fig.savefig("../../data/GGM_bifurcate/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/grn_plot.png", bbox_inches = "tight")
 
-    np.save(file = "../../data/GGM_bifurcate/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/Gs.npy", arr = Gs)
-    np.save(file = "../../data/GGM_bifurcate/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/expr.npy", arr = samples)
-    # break
+    # diffusion pseudotime
+    adata = AnnData(X = samples)
+    adata.obsm["X_pca"] = X_pca
+    adata.uns['iroot'] = 0
+    sc.pp.neighbors(adata, n_neighbors = 30)
+    sc.tl.diffmap(adata, n_comps = 5)
+    sc.tl.dpt(adata, n_dcs = 5)
+
+    pt_est = adata.obs["dpt_pseudotime"].values.squeeze()
+    fig = plt.figure(figsize = (10, 7))
+    ax = fig.add_subplot()
+    ax.scatter(X_umap[:, 0], X_umap[:, 1], c = pt_est, s = 5)
+    ax.set_xlabel("UMAP 1")
+    ax.set_ylabel("UMAP 2")
+    ax.set_title("UMAP plot (dpt)")
+    fig.savefig("../../data/GGM_bifurcate/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/umap_dpt.png", bbox_inches = "tight")
+
+    pt_df = pd.DataFrame(data = pt_est[:,None])
+    pt_df.to_csv("../../data/GGM_bifurcate/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/dpt_time.txt", sep = "\t", index = True, header = False)
+
+
+# In[] generate with linear trajectory
+umap_op = UMAP(n_components = 2, min_dist = 0.9, n_neighbors = 30, random_state = 0)
+pca_op = PCA(n_components = 2)
+
+for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20), (100, 50)]:
+    # ntimes = 1000
+    # nsamples = 1
+    # interval = 200 # 50, 100, 200
+    # nchanges = 2
+    # backbone = np.array(["0_1"] * ntimes)
+
+    # ntimes = 250
+    # nsamples = 10
+    # interval = 50 # 10, 25, 50
+    # nchanges = 2   
+    backbone = np.array(["0_1"] * ntimes)
+    if not os.path.exists("../../data/GGM_linear/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/"):
+        os.makedirs("../../data/GGM_linear/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/")
+
+    setting = {"ngenes": ngenes, 
+               "ntimes": ntimes, 
+               "nsamples": nsamples,
+               "mode": "TF-TF&target", 
+               "ntfs": ntfs, 
+               "nchanges": nchanges, 
+               "change_stepsize": interval, 
+               "seed": 0,
+               "backbone": backbone
+               }
+    # run simulation
+    results = simulate_data(setting)
+    # obtain result
+    samples = results["samples"].reshape(setting["ntimes"] * setting["nsamples"], setting["ngenes"])
+    pt = results["sim time"].reshape(setting["ntimes"] * setting["nsamples"])
+    Gs = results["GRNs"].reshape(setting["ntimes"] * setting["nsamples"], setting["ngenes"], setting["ngenes"])
+    
+    # samples_old = np.load("../../data/GGM_linear/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/expr.npy")
+    # Gs_old = np.load("../../data/GGM_linear/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/Gs.npy")
+
+    # assert np.allclose(samples_old, samples)
+    # assert np.allclose(Gs_old, Gs)
+    # print("the same")
+    
+    np.save(file = "../../data/GGM_linear/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/Gs.npy", arr = Gs)
+    np.save(file = "../../data/GGM_linear/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/expr.npy", arr = samples)
+    np.save(file = "../../data/GGM_linear/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/sim_time.npy", arr = pt)
+    # save for SCODE format, row correspond to gene, column correspond to cell, no index and header, \t separated txt file
+    samples_tf = pd.DataFrame(data = samples.T)
+    samples_tf.to_csv("../../data/GGM_linear/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/expr.txt", sep = "\t", index = False, header = False)
+    # save for SCODE format, row correspond to cell, column one is the index, column two is the pseudotime
+    pt_df = pd.DataFrame(data = pt[:,None])
+    pt_df.to_csv("../../data/GGM_linear/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/sim_time.txt", sep = "\t", index = True, header = False)
+
+    X_umap = umap_op.fit_transform(samples.reshape(-1, ngenes))
+    fig = plt.figure(figsize = (10, 7))
+    ax = fig.add_subplot()
+    ax.scatter(X_umap[:, 0], X_umap[:, 1], c = pt, s = 5)
+    ax.set_xlabel("UMAP 1")
+    ax.set_ylabel("UMAP 2")
+    ax.set_title("UMAP plot")
+    fig.savefig("../../data/GGM_linear/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/umap.png", bbox_inches = "tight")
+
+    X_pca = pca_op.fit_transform(samples.reshape(-1, ngenes))
+    fig = plt.figure(figsize = (10, 7))
+    ax = fig.add_subplot()
+    ax.scatter(X_pca[:, 0], X_pca[:, 1], c = pt, s = 5)
+    ax.set_xlabel("PCA 1")
+    ax.set_ylabel("PCA 2")
+    ax.set_title("PCA plot")
+    fig.savefig("../../data/GGM_linear/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/pca.png", bbox_inches = "tight")
+
+
+    fig = plt.figure(figsize = (10, 7))
+    ax = fig.add_subplot()
+    X = Gs.reshape(-1,setting["ngenes"] ** 2)
+    G_umap = pca_op.fit_transform(X)
+    ax.scatter(G_umap[:, 0], G_umap[:, 1], s = 5, c = pt)
+    fig.savefig("../../data/GGM_linear/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/grn_plot.png", bbox_inches = "tight")
+
+    # diffusion pseudotime
+    adata = AnnData(X = samples)
+    adata.obsm["X_pca"] = X_pca
+    adata.uns['iroot'] = 0
+    sc.pp.neighbors(adata, n_neighbors = 30)
+    sc.tl.diffmap(adata, n_comps = 5)
+    sc.tl.dpt(adata, n_dcs = 5)
+
+    pt_est = adata.obs["dpt_pseudotime"].values.squeeze()
+    fig = plt.figure(figsize = (10, 7))
+    ax = fig.add_subplot()
+    ax.scatter(X_umap[:, 0], X_umap[:, 1], c = pt_est, s = 5)
+    ax.set_xlabel("UMAP 1")
+    ax.set_ylabel("UMAP 2")
+    ax.set_title("UMAP plot (dpt)")
+    fig.savefig("../../data/GGM_linear/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/umap_dpt.png", bbox_inches = "tight")
+
+    pt_df = pd.DataFrame(data = pt_est[:,None])
+    pt_df.to_csv("../../data/GGM_linear/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/dpt_time.txt", sep = "\t", index = True, header = False)
+
 
 # In[0] generate data with changing mean
 '''

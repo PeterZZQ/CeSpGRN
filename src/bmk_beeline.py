@@ -40,6 +40,15 @@ def pearson(G_inf, G_true):
     import scipy.stats as stats
     return stats.pearsonr(G_inf.reshape(-1), G_true.reshape(-1))
 
+def spearman(G_inf, G_true):
+    """\
+    Description:
+    ------------
+        Pearson Correlation
+    """
+    import scipy.stats as stats
+    return stats.spearmanr(G_inf.reshape(-1), G_true.reshape(-1))
+
 def cossim(G_inf, G_true):
     """\
     Description:
