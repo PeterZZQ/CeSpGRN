@@ -44,6 +44,8 @@ result_dir = "../results_THP-1/"
 
 counts = pd.read_csv(path + "counts.csv", index_col = 0).values
 annotation = pd.read_csv(path + "anno.csv", index_col = 0)
+dpt = pd.read_csv(path + "dpt_time.txt", index_col = 0, sep = "\t", header = None).values.squeeze()
+counts = counts[np.argsort(dpt), :]
 ncells, ngenes = counts.shape
 assert ncells == 8 * 120
 assert ngenes == 45
@@ -55,7 +57,7 @@ X = torch.FloatTensor(counts).to(device)
 # In[2] ADMM
 # hyper-parameter
 for bandwidth in [0.1]:
-    for truncate_param in [0.1]:
+    for truncate_param in [30]:
         for lamb in [0.1]:
             alpha = 2
             rho = 1.7
@@ -65,7 +67,8 @@ for bandwidth in [0.1]:
             start_time = time.time()
             empir_cov = torch.zeros(ncells, ngenes, ngenes)
             # calculate the kernel function
-            K, K_trun = kernel.calc_kernel(X, k = 5, bandwidth = bandwidth, truncate = True, truncate_param = truncate_param)
+            # K, K_trun = kernel.calc_kernel(counts, k = 5, bandwidth = bandwidth, truncate = True, truncate_param = truncate_param)
+            K, K_trun = kernel.calc_kernel_neigh(counts, k = 5, bandwidth = bandwidth, truncate = True, truncate_param = truncate_param)
 
             # plot kernel function
             fig = plt.figure(figsize = (20, 7))
@@ -74,6 +77,7 @@ for bandwidth in [0.1]:
             axs[1].plot(K_trun[int(ncells/2), :])
             fig.suptitle("kernel_" + str(bandwidth) + "_" + str(truncate_param))
             fig.savefig(result_dir + "kernel_" + str(bandwidth) + "_" + str(truncate_param) + ".png", bbox_inches = "tight")
+            print("number of neighbor being considered: " + str(np.sum(K_trun[int(ncells/2), :] > 0)))
 
             # building weighted covariance matrix, output is empir_cov of the shape (ncells, ngenes, ngenes)
             for t in range(ncells):
@@ -93,7 +97,7 @@ for bandwidth in [0.1]:
             thetas = np.zeros((ncells, ngenes, ngenes))
 
             # gadmm_batch = g_admm.G_admm_batch(X=X[:, None, :], K=K, pre_cov=empir_cov)
-            gadmm_batch = g_admm.G_admm_minibatch(X=X[:, None, :], K=K, pre_cov=empir_cov, batchsize = 120)
+            gadmm_batch = g_admm.G_admm_minibatch(X=counts[:, None, :], K=K, pre_cov=empir_cov, batchsize = 120)
             thetas = gadmm_batch.train(max_iters=max_iters, n_intervals=100, alpha=alpha, lamb=lamb, rho=rho, theta_init_offset=0.1)
             np.save(file = result_dir + "thetas_" + str(bandwidth) + "_" + str(lamb) + "_" + str(truncate_param) + "_0.npy", arr = thetas) 
             print("time calculating thetas: {:.2f} sec".format(time.time() - start_time))
@@ -102,8 +106,8 @@ for bandwidth in [0.1]:
             gc.collect()
 
 # In[3] GENIE3
-genie_theta = genie3.GENIE3(counts, gene_names=["gene_" + str(x) for x in range(ngenes)], regulators='all',tree_method='RF',K='sqrt',ntrees=1000,nthreads=1)
-genie_theta = np.repeat(genie_theta[None, :, :], ncells, axis=0)
-np.save(file = result_dir + "theta_genie.npy", arr = genie_theta)
+# genie_theta = genie3.GENIE3(counts, gene_names=["gene_" + str(x) for x in range(ngenes)], regulators='all',tree_method='RF',K='sqrt',ntrees=1000,nthreads=1)
+# genie_theta = np.repeat(genie_theta[None, :, :], ncells, axis=0)
+# np.save(file = result_dir + "theta_genie.npy", arr = genie_theta)
 
 

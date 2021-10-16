@@ -358,13 +358,13 @@ for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20), (100, 50)]:
     # ntimes = 1000
     # backbone = np.array(["0_1"] * 200 + ["1_2"] * 400 + ["1_3"] * 400)
     # nsamples = 1
-    # interval = 200 # 50, 100, 200
+    # interval = 5 # 5, 10, 25, 50, 100, 200
     # nchanges = 2
 
     ntimes = 250
     backbone = np.array(["0_1"] * 50 + ["1_2"] * 100 + ["1_3"] * 100)
     nsamples = 10
-    interval = 50 # 10, 25, 50
+    interval = 2 # 10, 25, 50
     nchanges = 2   
     if not os.path.exists("../../data/GGM_bifurcate/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/"):
         os.makedirs("../../data/GGM_bifurcate/ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/")
