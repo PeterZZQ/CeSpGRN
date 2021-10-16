@@ -42,8 +42,8 @@ nsamples = 1
 path = "../../data/GGM_bifurcate/"
 max_iters = 500
 for interval in [25]:
-    for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20)]:
-    # for (ngenes, ntfs) in [(100, 50)]:
+    # for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20)]:
+    for (ngenes, ntfs) in [(100, 50)]:
         result_dir = "../results_GGM/bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "/"
         if not os.path.exists(result_dir):
             os.makedirs(result_dir)

@@ -26,7 +26,6 @@ plt.rcParams["font.size"] = 16
 print("------------------------------------------------------------------")
 print("benchmark accuracy")
 print("------------------------------------------------------------------")
-'''
 ntimes = 1000
 nsample = 1
 path = "../../data/GGM_bifurcate/"
@@ -34,7 +33,7 @@ path = "../../data/GGM_bifurcate/"
 score_all = pd.DataFrame(columns = ["interval", "ngenes", "nmse","kendall-tau", "pearson", "spearman", "cosine similarity", "time", "model", "bandwidth", "truncate_param", "lambda"])
 
 umap_op = UMAP(n_components = 2, min_dist = 0.8, n_neighbors = 30, random_state = 0)
-for interval in [50, 100, 200]:
+for interval in [5, 10, 25, 50, 100, 200]:
     for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20), (100, 50)]:
         score = pd.DataFrame(columns = ["interval", "ngenes", "nmse","kendall-tau", "pearson", "spearman", "cosine similarity", "time", "model", "bandwidth", "truncate_param", "lambda"])
         result_dir = "../results_GGM/bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "/"
@@ -157,7 +156,7 @@ for interval in [50, 100, 200]:
         print("Not using TF information")
         # admm, hyper-parameter
         for bandwidth in [0.01, 0.1, 1]:
-            for truncate_param in [0.1, 1, 5]:
+            for truncate_param in [15, 30, 100]:
                 for lamb in [0.01, 0.1]:
                     data = str(bandwidth) + "_" + str(lamb) + "_" + str(truncate_param) + "_0"
                     thetas = np.load(file = result_dir + "thetas_" + data + ".npy")
@@ -211,7 +210,7 @@ for interval in [50, 100, 200]:
         print("Using TF information")
         # admm with tf, hyper-parameter
         for bandwidth in [0.01, 0.1, 1]:
-            for truncate_param in [0.1, 1, 5]:
+            for truncate_param in [15, 30, 100]:
                 for lamb in [0.01, 0.1]:
                     data = str(bandwidth) + "_" + str(lamb) + "_" + str(truncate_param) + "_1"
                     thetas = np.load(file = result_dir + "thetas_" + data + ".npy")
@@ -266,18 +265,20 @@ for interval in [50, 100, 200]:
         score_all = pd.concat([score_all, score], axis = 0)
 
 score_all.to_csv("../results_GGM/score_bifur_all.csv")
-'''
 # In[] 
 print("------------------------------------------------------------------")
 print("benchmark differences")
 print("------------------------------------------------------------------")
-'''
+
+
+
+
 ntimes = 1000
 nsample = 1
 
 score_all = pd.DataFrame(columns = ["interval", "ngenes", "nmse","kendall-tau", "pearson", "spearman", "cosine similarity", "time", "model", "bandwidth", "truncate_param", "lambda"])
 
-for interval in [50, 100, 200]:
+for interval in [5, 10, 25, 50, 100, 200]:
     for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20), (100, 50)]:
         print("ntimes: " + str(ntimes) + ", interval: " + str(interval) + ", ngenes: " + str(ngenes))
 
@@ -287,7 +288,9 @@ for interval in [50, 100, 200]:
         # the data smapled from GGM is zero-mean
         X = np.load(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/expr.npy")
         gt_adj = np.load(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/Gs.npy")
-        gt_adj = gt_adj[interval::,:,:] - gt_adj[:-interval,:,:]
+        step = interval - 1
+        # gt_adj = gt_adj[step::(step+1),:,:] - gt_adj[:-step:(step+1),:,:]
+        gt_adj = gt_adj[step::,:,:] - gt_adj[:-step:,:,:]
         ntimes_diff = gt_adj.shape[0]
 
 
@@ -318,7 +321,8 @@ for interval in [50, 100, 200]:
 
         # genie3 
         thetas = np.load(file = result_dir + "theta_genie.npy")
-        thetas = thetas[interval::,:,:] - thetas[:-interval,:,:]
+        # thetas = thetas[step::(step+1),:,:] - thetas[:-step:(step+1),:,:]
+        thetas = thetas[step::,:,:] - thetas[:-step:,:,:]
         for time in range(0, ntimes_diff):
             nmse = bmk.NMSE(G_inf = thetas[time], G_true = gt_adj[time])
             pearson_val, pval = bmk.pearson(G_inf = thetas[time], G_true = gt_adj[time])
@@ -340,7 +344,8 @@ for interval in [50, 100, 200]:
 
         # genie3 with tf 
         thetas = np.load(file = result_dir + "theta_genie_tf.npy")
-        thetas = thetas[interval::,:,:] - thetas[:-interval,:,:]
+        # thetas = thetas[step::(step+1),:,:] - thetas[:-step:(step+1),:,:]
+        thetas = thetas[step::,:,:] - thetas[:-step:,:,:]
         for time in range(0, ntimes_diff):
             nmse = bmk.NMSE(G_inf = thetas[time], G_true = gt_adj[time])
             pearson_val, pval = bmk.pearson(G_inf = thetas[time], G_true = gt_adj[time])
@@ -363,7 +368,8 @@ for interval in [50, 100, 200]:
         # scode diffusion pseudotime
         try:
             thetas = np.load(file = result_dir + "theta_scode_dpt.npy")
-            thetas = thetas[interval::,:,:] - thetas[:-interval,:,:]
+            # thetas = thetas[step::(step+1),:,:] - thetas[:-step:(step+1),:,:]
+            thetas = thetas[step::,:,:] - thetas[:-step:,:,:]
             for time in range(0, ntimes_diff):
                 nmse = bmk.NMSE(G_inf = thetas[time], G_true = gt_adj[time])
                 pearson_val, pval = bmk.pearson(G_inf = thetas[time], G_true = gt_adj[time])
@@ -387,7 +393,8 @@ for interval in [50, 100, 200]:
 
         # scode true time
         thetas = np.load(file = result_dir + "theta_scode_truet.npy")
-        thetas = thetas[interval::,:,:] - thetas[:-interval,:,:]
+        # thetas = thetas[step::(step+1),:,:] - thetas[:-step:(step+1),:,:]
+        thetas = thetas[step::,:,:] - thetas[:-step:,:,:]
         for time in range(0, ntimes_diff):
             nmse = bmk.NMSE(G_inf = thetas[time], G_true = gt_adj[time])
             pearson_val, pval = bmk.pearson(G_inf = thetas[time], G_true = gt_adj[time])
@@ -411,11 +418,13 @@ for interval in [50, 100, 200]:
         print("Not using TF information")
         # admm, hyper-parameter
         for bandwidth in [0.01, 0.1, 1]:
-            for truncate_param in [0.1, 1, 5]:
+            for truncate_param in [15, 30, 100]:
                 for lamb in [0.01, 0.1]:
                     data = str(bandwidth) + "_" + str(lamb) + "_" + str(truncate_param) + "_0"
                     thetas = np.load(file = result_dir + "thetas_" + data + ".npy")
-                    thetas = thetas[interval::,:,:] - thetas[:-interval,:,:]
+                    # thetas = thetas[step::(step+1),:,:] - thetas[:-step:(step+1),:,:]
+                    thetas = thetas[step::,:,:] - thetas[:-step:,:,:]
+
 
                     mean_nmse = 0
                     mean_pearson = 0
@@ -461,11 +470,12 @@ for interval in [50, 100, 200]:
         print("Using TF information")
         # admm with tf, hyper-parameter
         for bandwidth in [0.01, 0.1, 1]:
-            for truncate_param in [0.1, 1, 5]:
+            for truncate_param in [15, 30, 100]:
                 for lamb in [0.01, 0.1]:
                     data = str(bandwidth) + "_" + str(lamb) + "_" + str(truncate_param) + "_1"
                     thetas = np.load(file = result_dir + "thetas_" + data + ".npy")
-                    thetas = thetas[interval::,:,:] - thetas[:-interval,:,:]
+                    # thetas = thetas[step::(step+1),:,:] - thetas[:-step:(step+1),:,:]
+                    thetas = thetas[step::,:,:] - thetas[:-step:,:,:]
 
                     mean_nmse = 0
                     mean_pearson = 0
@@ -511,11 +521,12 @@ for interval in [50, 100, 200]:
         score_all = pd.concat([score_all, score], axis = 0)
 
 score_all.to_csv("../results_GGM/score_bifur_diff_all.csv")
-'''
+
 # In[] summarize the mean result in csv file
+'''
 ntimes = 1000
 nsample = 1
-for interval in [50, 100, 200]:
+for interval in [5, 10, 25, 50, 100, 200]:
     for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20), (100, 50)]:
         result_dir = "../results_GGM/bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "/"
         score = pd.read_csv(result_dir + "score.csv", index_col = 0)
@@ -524,7 +535,7 @@ for interval in [50, 100, 200]:
         mean_score.to_csv(result_dir + "mean_score.csv")
         display(mean_score)
 
-for interval in [50, 100, 200]:
+for interval in [5, 10, 25, 50, 100, 200]:
     for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20), (100, 50)]:
         result_dir = "../results_GGM/bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "/"
         score = pd.read_csv(result_dir + "score_diff.csv", index_col = 0)
@@ -539,7 +550,7 @@ ntimes = 1000
 
 # ----------------------------------- without TF information ---------------------------------#
 # How the bandwidth and truncate parameter is affected by the interval
-for interval in [50, 100, 200]:
+for interval in [5, 10, 25, 50, 100, 200]:
     score_interval = pd.DataFrame(columns = ["interval", "ngenes", "nmse","kendall-tau", "pearson", "spearman", "cosine similarity", "time", "model", "bandwidth", "truncate_param", "lambda"])
     score_interval_diff = pd.DataFrame(columns = ["interval", "ngenes", "nmse","kendall-tau", "pearson", "spearman", "cosine similarity", "time", "model", "bandwidth", "truncate_param", "lambda"])
 
@@ -611,7 +622,7 @@ for interval in [50, 100, 200]:
 
 
 # ----------------------------------- with TF information ---------------------------------#
-for interval in [50, 100, 200]:
+for interval in [5, 10, 25, 50, 100, 200]:
     score_interval = pd.DataFrame(columns = ["interval", "ngenes", "nmse","kendall-tau", "pearson", "spearman", "cosine similarity", "time", "model", "bandwidth", "truncate_param", "lambda"])
     score_interval_diff = pd.DataFrame(columns = ["interval", "ngenes", "nmse","kendall-tau", "pearson", "spearman", "cosine similarity", "time", "model", "bandwidth", "truncate_param", "lambda"])
 
@@ -694,7 +705,7 @@ lamb = 0.1
 score_all = pd.DataFrame(columns = ["interval", "ngenes", "nmse","kendall-tau", "pearson", "spearman", "cosine similarity", "time", "model", "bandwidth", "truncate_param", "lambda"])
 score_all_diff = pd.DataFrame(columns = ["interval", "ngenes", "nmse","kendall-tau", "pearson", "spearman", "cosine similarity", "time", "model", "bandwidth", "truncate_param", "lambda"])
     
-for interval in [50, 100, 200]:
+for interval in [5, 10, 25, 50, 100, 200]:
     for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20), (100, 50)]:
         result_dir = "../results_GGM/bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "/"
 
@@ -746,6 +757,6 @@ fig.set_facecolor('w')
 fig.suptitle("score of edge detection")
 plt.tight_layout()
 fig.savefig("../results_GGM/compare_models_bifur.png", bbox_inches = "tight")        
-
+'''
 
 # %%
