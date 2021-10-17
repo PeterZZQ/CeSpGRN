@@ -15,6 +15,7 @@ import genie3, g_admm
 import kernel
 import time
 import gc
+from sklearn.decomposition import PCA
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 plt.rcParams["font.size"] = 20
@@ -36,6 +37,8 @@ def preprocess(counts):
     counts = np.log1p(counts)
     return counts
 
+pca_op = PCA(n_components = 10)
+
 # In[1] test with the first set of hyper-parameters
 ntimes = 1000
 nsamples = 1
@@ -53,7 +56,7 @@ for interval in [10]:
 
         # sort the genes
         print("Raw TimePoints: {}, no.Genes: {}".format(X.shape[0],X.shape[1]))
-        # X = StandardScaler().fit_transform(X)
+        X_pca = pca_op.fit_transform(StandardScaler().fit_transform(X))
 
 
         sample = torch.FloatTensor(X).to(device)
@@ -69,7 +72,7 @@ for interval in [10]:
                 start_time = time.time()
                 empir_cov = torch.zeros(ntimes * nsamples, ngenes, ngenes)
                 # calculate the kernel function
-                K, K_trun = kernel.calc_kernel_neigh(X, k = 5, bandwidth = bandwidth, truncate = True, truncate_param = truncate_param)
+                K, K_trun = kernel.calc_kernel_neigh(X_pca, k = 5, bandwidth = bandwidth, truncate = True, truncate_param = truncate_param)
 
                 # plot kernel function
                 fig = plt.figure(figsize = (20, 7))
@@ -123,7 +126,7 @@ for interval in [10]:
             for truncate_param in [15, 30, 100]:
                 start_time = time.time()
                 empir_cov = torch.zeros(ntimes * nsamples, ngenes, ngenes)
-                K, K_trun = kernel.calc_kernel_neigh(X, k = 5, bandwidth = bandwidth, truncate = True, truncate_param = truncate_param)
+                K, K_trun = kernel.calc_kernel_neigh(X_pca, k = 5, bandwidth = bandwidth, truncate = True, truncate_param = truncate_param)
 
                 # building weighted covariance matrix, output is empir_cov of the shape (ntimes, ngenes, ngenes)
                 for t in range(ntimes * nsamples):

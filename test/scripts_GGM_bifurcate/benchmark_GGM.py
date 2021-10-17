@@ -30,9 +30,8 @@ ntimes = 1000
 nsample = 1
 path = "../../data/GGM_bifurcate/"
 
-score_all = pd.DataFrame(columns = ["interval", "ngenes", "nmse","kendall-tau", "pearson", "spearman", "cosine similarity", "time", "model", "bandwidth", "truncate_param", "lambda"])
-
 umap_op = UMAP(n_components = 2, min_dist = 0.8, n_neighbors = 30, random_state = 0)
+
 for interval in [5, 10, 25, 50, 100, 200]:
     for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20), (100, 50)]:
         score = pd.DataFrame(columns = ["interval", "ngenes", "nmse","kendall-tau", "pearson", "spearman", "cosine similarity", "time", "model", "bandwidth", "truncate_param", "lambda"])
@@ -108,7 +107,50 @@ for interval in [5, 10, 25, 50, 100, 200]:
                                 "truncate_param":0,
                                 "lambda":0}, ignore_index=True)    
 
-        # scode
+        # genie3-dyn 
+        thetas = np.load(file = result_dir + "theta_genie_dyn.npy")
+        for time in range(0, ntimes * nsample):
+            nmse = bmk.NMSE(G_inf = thetas[time], G_true = gt_adj[time])
+            pearson_val, pval = bmk.pearson(G_inf = thetas[time], G_true = gt_adj[time])
+            kt, _ = bmk.kendalltau(G_inf = thetas[time], G_true = gt_adj[time])
+            spearman_val, _ = bmk.spearman(G_inf = thetas[time], G_true = gt_adj[time])
+            cosine_sim = bmk.cossim(G_inf = thetas[time], G_true = gt_adj[time])   
+            score = score.append({"interval": interval,
+                                "ngenes": ngenes,
+                                "nmse": nmse, 
+                                "pearson": pearson_val, 
+                                "kendall-tau": kt,
+                                "spearman": spearman_val,
+                                "cosine similarity": cosine_sim, 
+                                "time":time,
+                                "model": "GENIE3-DYN",
+                                "bandwidth": 0,
+                                "truncate_param":0,
+                                "lambda":0}, ignore_index=True)    
+
+        # genie3 with tf 
+        thetas = np.load(file = result_dir + "theta_genie_dyn_tf.npy")
+        for time in range(0, ntimes * nsample):
+            nmse = bmk.NMSE(G_inf = thetas[time], G_true = gt_adj[time])
+            pearson_val, pval = bmk.pearson(G_inf = thetas[time], G_true = gt_adj[time])
+            kt, _ = bmk.kendalltau(G_inf = thetas[time], G_true = gt_adj[time])
+            spearman_val, _ = bmk.spearman(G_inf = thetas[time], G_true = gt_adj[time])
+            cosine_sim = bmk.cossim(G_inf = thetas[time], G_true = gt_adj[time])   
+            score = score.append({"interval": interval,
+                                "ngenes": ngenes,
+                                "nmse": nmse, 
+                                "pearson": pearson_val, 
+                                "kendall-tau": kt,
+                                "spearman": spearman_val,
+                                "cosine similarity": cosine_sim, 
+                                "time":time,
+                                "model": "GENIE3-DYN-TF",                                
+                                "bandwidth": 0,
+                                "truncate_param":0,
+                                "lambda":0}, ignore_index=True)    
+
+
+        # SCODE (DPT)
         try:
             thetas = np.load(file = result_dir + "theta_scode_dpt.npy")
             for time in range(0, ntimes * nsample):
@@ -132,7 +174,7 @@ for interval in [5, 10, 25, 50, 100, 200]:
         except:
             pass    
 
-        
+        # SCODE (True T)
         thetas = np.load(file = result_dir + "theta_scode_truet.npy")
         for time in range(0, ntimes * nsample):
             nmse = bmk.NMSE(G_inf = thetas[time], G_true = gt_adj[time])
@@ -149,6 +191,52 @@ for interval in [5, 10, 25, 50, 100, 200]:
                                 "cosine similarity": cosine_sim, 
                                 "time":time,
                                 "model": "SCODE (true time)",
+                                "bandwidth": 0,
+                                "truncate_param":0,
+                                "lambda":0}, ignore_index=True)  
+
+
+        # SCODE-DYN (DPT)
+        try:
+            thetas = np.load(file = result_dir + "theta_scode_dyn_dpt.npy")
+            for time in range(0, ntimes * nsample):
+                nmse = bmk.NMSE(G_inf = thetas[time], G_true = gt_adj[time])
+                pearson_val, pval = bmk.pearson(G_inf = thetas[time], G_true = gt_adj[time])
+                kt, _ = bmk.kendalltau(G_inf = thetas[time], G_true = gt_adj[time])
+                spearman_val, _ = bmk.spearman(G_inf = thetas[time], G_true = gt_adj[time])
+                cosine_sim = bmk.cossim(G_inf = thetas[time], G_true = gt_adj[time])   
+                score = score.append({"interval": interval,
+                                    "ngenes": ngenes,
+                                    "nmse": nmse, 
+                                    "pearson": pearson_val, 
+                                    "kendall-tau": kt,
+                                    "spearman": spearman_val,
+                                    "cosine similarity": cosine_sim, 
+                                    "time":time,
+                                    "model": "SCODE-DYN (dpt)",
+                                    "bandwidth": 0,
+                                    "truncate_param":0,
+                                    "lambda":0}, ignore_index=True)
+        except:
+            pass  
+        
+        # SCODE-DYN (True T)
+        thetas = np.load(file = result_dir + "theta_scode_dyn_truet.npy")
+        for time in range(0, ntimes * nsample):
+            nmse = bmk.NMSE(G_inf = thetas[time], G_true = gt_adj[time])
+            pearson_val, pval = bmk.pearson(G_inf = thetas[time], G_true = gt_adj[time])
+            kt, _ = bmk.kendalltau(G_inf = thetas[time], G_true = gt_adj[time])
+            spearman_val, _ = bmk.spearman(G_inf = thetas[time], G_true = gt_adj[time])
+            cosine_sim = bmk.cossim(G_inf = thetas[time], G_true = gt_adj[time])   
+            score = score.append({"interval": interval,
+                                "ngenes": ngenes,
+                                "nmse": nmse, 
+                                "pearson": pearson_val, 
+                                "kendall-tau": kt,
+                                "spearman": spearman_val,
+                                "cosine similarity": cosine_sim, 
+                                "time":time,
+                                "model": "SCODE-DYN (true time)",
                                 "bandwidth": 0,
                                 "truncate_param":0,
                                 "lambda":0}, ignore_index=True)  
@@ -262,9 +350,7 @@ for interval in [5, 10, 25, 50, 100, 200]:
 
         # save results
         score.to_csv(result_dir + "score.csv")
-        score_all = pd.concat([score_all, score], axis = 0)
 
-score_all.to_csv("../results_GGM/score_bifur_all.csv")
 # In[] 
 print("------------------------------------------------------------------")
 print("benchmark differences")
@@ -276,8 +362,6 @@ print("------------------------------------------------------------------")
 ntimes = 1000
 nsample = 1
 
-score_all = pd.DataFrame(columns = ["interval", "ngenes", "nmse","kendall-tau", "pearson", "spearman", "cosine similarity", "time", "model", "bandwidth", "truncate_param", "lambda"])
-
 for interval in [5, 10, 25, 50, 100, 200]:
     for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20), (100, 50)]:
         print("ntimes: " + str(ntimes) + ", interval: " + str(interval) + ", ngenes: " + str(ngenes))
@@ -288,7 +372,7 @@ for interval in [5, 10, 25, 50, 100, 200]:
         # the data smapled from GGM is zero-mean
         X = np.load(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/expr.npy")
         gt_adj = np.load(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/Gs.npy")
-        step = interval - 1
+        step = 400
         # gt_adj = gt_adj[step::(step+1),:,:] - gt_adj[:-step:(step+1),:,:]
         gt_adj = gt_adj[step::,:,:] - gt_adj[:-step:,:,:]
         ntimes_diff = gt_adj.shape[0]
@@ -302,7 +386,8 @@ for interval in [5, 10, 25, 50, 100, 200]:
             pearson_val, _ = bmk.pearson(G_inf = thetas_rand, G_true = gt_adj[time])
             kt, _ = bmk.kendalltau(G_inf = thetas_rand, G_true = gt_adj[time])
             spearman_val, _ = bmk.spearman(G_inf = thetas_rand, G_true = gt_adj[time])
-            cosine_sim = bmk.cossim(G_inf = thetas_rand, G_true = gt_adj[time])        
+            cosine_sim = bmk.cossim(G_inf = thetas_rand, G_true = gt_adj[time])   
+            AUPRC_pos, AUPRC_neg = bmk.compute_auc_signed(G_inf = thetas_rand, G_true = gt_adj[time])     
             score = score.append({"interval": interval,
                                 "ngenes": ngenes,
                                 "nmse": nmse, 
@@ -310,6 +395,8 @@ for interval in [5, 10, 25, 50, 100, 200]:
                                 "kendall-tau": kt,
                                 "spearman": spearman_val,
                                 "cosine similarity": cosine_sim, 
+                                "AUPRC_pos": AUPRC_pos,
+                                "AUPRC_neg": AUPRC_neg,
                                 "time":time,
                                 "model": "RANDOM",
                                 "bandwidth": 0,
@@ -328,7 +415,9 @@ for interval in [5, 10, 25, 50, 100, 200]:
             pearson_val, pval = bmk.pearson(G_inf = thetas[time], G_true = gt_adj[time])
             kt, _ = bmk.kendalltau(G_inf = thetas[time], G_true = gt_adj[time])
             spearman_val, _ = bmk.spearman(G_inf = thetas[time], G_true = gt_adj[time])
-            cosine_sim = bmk.cossim(G_inf = thetas[time], G_true = gt_adj[time])   
+            cosine_sim = bmk.cossim(G_inf = thetas[time], G_true = gt_adj[time])
+            AUPRC_pos, AUPRC_neg = bmk.compute_auc_signed(G_inf = thetas[time], G_true = gt_adj[time])     
+   
             score = score.append({"interval": interval,
                                 "ngenes": ngenes,
                                 "nmse": nmse, 
@@ -336,6 +425,8 @@ for interval in [5, 10, 25, 50, 100, 200]:
                                 "kendall-tau": kt,
                                 "spearman": spearman_val,
                                 "cosine similarity": cosine_sim, 
+                                "AUPRC_pos": AUPRC_pos,
+                                "AUPRC_neg": AUPRC_neg,
                                 "time":time,
                                 "model": "GENIE3",
                                 "bandwidth": 0,
@@ -351,7 +442,9 @@ for interval in [5, 10, 25, 50, 100, 200]:
             pearson_val, pval = bmk.pearson(G_inf = thetas[time], G_true = gt_adj[time])
             kt, _ = bmk.kendalltau(G_inf = thetas[time], G_true = gt_adj[time])
             spearman_val, _ = bmk.spearman(G_inf = thetas[time], G_true = gt_adj[time])
-            cosine_sim = bmk.cossim(G_inf = thetas[time], G_true = gt_adj[time])   
+            cosine_sim = bmk.cossim(G_inf = thetas[time], G_true = gt_adj[time])
+            AUPRC_pos, AUPRC_neg = bmk.compute_auc_signed(G_inf = thetas[time], G_true = gt_adj[time])     
+   
             score = score.append({"interval": interval,
                                 "ngenes": ngenes,
                                 "nmse": nmse, 
@@ -359,13 +452,70 @@ for interval in [5, 10, 25, 50, 100, 200]:
                                 "kendall-tau": kt,
                                 "spearman": spearman_val,
                                 "cosine similarity": cosine_sim, 
+                                "AUPRC_pos": AUPRC_pos,
+                                "AUPRC_neg": AUPRC_neg,
                                 "time":time,
                                 "model": "GENIE3-TF",                                
                                 "bandwidth": 0,
                                 "truncate_param":0,
                                 "lambda":0}, ignore_index=True)    
 
-        # scode diffusion pseudotime
+
+        # genie3=dyn 
+        thetas = np.load(file = result_dir + "theta_genie_dyn.npy")
+        # thetas = thetas[step::(step+1),:,:] - thetas[:-step:(step+1),:,:]
+        thetas = thetas[step::,:,:] - thetas[:-step:,:,:]
+        for time in range(0, ntimes_diff):
+            nmse = bmk.NMSE(G_inf = thetas[time], G_true = gt_adj[time])
+            pearson_val, pval = bmk.pearson(G_inf = thetas[time], G_true = gt_adj[time])
+            kt, _ = bmk.kendalltau(G_inf = thetas[time], G_true = gt_adj[time])
+            spearman_val, _ = bmk.spearman(G_inf = thetas[time], G_true = gt_adj[time])
+            cosine_sim = bmk.cossim(G_inf = thetas[time], G_true = gt_adj[time])
+            AUPRC_pos, AUPRC_neg = bmk.compute_auc_signed(G_inf = thetas[time], G_true = gt_adj[time])     
+   
+            score = score.append({"interval": interval,
+                                "ngenes": ngenes,
+                                "nmse": nmse, 
+                                "pearson": pearson_val, 
+                                "kendall-tau": kt,
+                                "spearman": spearman_val,
+                                "cosine similarity": cosine_sim, 
+                                "AUPRC_pos": AUPRC_pos,
+                                "AUPRC_neg": AUPRC_neg,
+                                "time":time,
+                                "model": "GENIE3-DYN",
+                                "bandwidth": 0,
+                                "truncate_param":0,
+                                "lambda":0}, ignore_index=True)    
+
+        # genie3-dyn with tf 
+        thetas = np.load(file = result_dir + "theta_genie_dyn_tf.npy")
+        # thetas = thetas[step::(step+1),:,:] - thetas[:-step:(step+1),:,:]
+        thetas = thetas[step::,:,:] - thetas[:-step:,:,:]
+        for time in range(0, ntimes_diff):
+            nmse = bmk.NMSE(G_inf = thetas[time], G_true = gt_adj[time])
+            pearson_val, pval = bmk.pearson(G_inf = thetas[time], G_true = gt_adj[time])
+            kt, _ = bmk.kendalltau(G_inf = thetas[time], G_true = gt_adj[time])
+            spearman_val, _ = bmk.spearman(G_inf = thetas[time], G_true = gt_adj[time])
+            cosine_sim = bmk.cossim(G_inf = thetas[time], G_true = gt_adj[time])
+            AUPRC_pos, AUPRC_neg = bmk.compute_auc_signed(G_inf = thetas[time], G_true = gt_adj[time])     
+   
+            score = score.append({"interval": interval,
+                                "ngenes": ngenes,
+                                "nmse": nmse, 
+                                "pearson": pearson_val, 
+                                "kendall-tau": kt,
+                                "spearman": spearman_val,
+                                "cosine similarity": cosine_sim, 
+                                "AUPRC_pos": AUPRC_pos,
+                                "AUPRC_neg": AUPRC_neg,
+                                "time":time,
+                                "model": "GENIE3-DYN-TF",                                
+                                "bandwidth": 0,
+                                "truncate_param":0,
+                                "lambda":0}, ignore_index=True) 
+
+        # SCODE (DPT)
         try:
             thetas = np.load(file = result_dir + "theta_scode_dpt.npy")
             # thetas = thetas[step::(step+1),:,:] - thetas[:-step:(step+1),:,:]
@@ -375,7 +525,9 @@ for interval in [5, 10, 25, 50, 100, 200]:
                 pearson_val, pval = bmk.pearson(G_inf = thetas[time], G_true = gt_adj[time])
                 kt, _ = bmk.kendalltau(G_inf = thetas[time], G_true = gt_adj[time])
                 spearman_val, _ = bmk.spearman(G_inf = thetas[time], G_true = gt_adj[time])
-                cosine_sim = bmk.cossim(G_inf = thetas[time], G_true = gt_adj[time])   
+                cosine_sim = bmk.cossim(G_inf = thetas[time], G_true = gt_adj[time]) 
+                AUPRC_pos, AUPRC_neg = bmk.compute_auc_signed(G_inf = thetas[time], G_true = gt_adj[time])     
+  
                 score = score.append({"interval": interval,
                                     "ngenes": ngenes,
                                     "nmse": nmse, 
@@ -383,6 +535,8 @@ for interval in [5, 10, 25, 50, 100, 200]:
                                     "kendall-tau": kt,
                                     "spearman": spearman_val,
                                     "cosine similarity": cosine_sim, 
+                                    "AUPRC_pos": AUPRC_pos,
+                                    "AUPRC_neg": AUPRC_neg,
                                     "time":time,
                                     "model": "SCODE (dpt)",
                                     "bandwidth": 0,
@@ -391,7 +545,7 @@ for interval in [5, 10, 25, 50, 100, 200]:
         except:
             pass    
 
-        # scode true time
+        # SCODE (True T)
         thetas = np.load(file = result_dir + "theta_scode_truet.npy")
         # thetas = thetas[step::(step+1),:,:] - thetas[:-step:(step+1),:,:]
         thetas = thetas[step::,:,:] - thetas[:-step:,:,:]
@@ -401,6 +555,7 @@ for interval in [5, 10, 25, 50, 100, 200]:
             kt, _ = bmk.kendalltau(G_inf = thetas[time], G_true = gt_adj[time])
             spearman_val, _ = bmk.spearman(G_inf = thetas[time], G_true = gt_adj[time])
             cosine_sim = bmk.cossim(G_inf = thetas[time], G_true = gt_adj[time])   
+            AUPRC_pos, AUPRC_neg = bmk.compute_auc_signed(G_inf = thetas[time], G_true = gt_adj[time])     
             score = score.append({"interval": interval,
                                 "ngenes": ngenes,
                                 "nmse": nmse, 
@@ -408,11 +563,70 @@ for interval in [5, 10, 25, 50, 100, 200]:
                                 "kendall-tau": kt,
                                 "spearman": spearman_val,
                                 "cosine similarity": cosine_sim, 
+                                "AUPRC_pos": AUPRC_pos,
+                                "AUPRC_neg": AUPRC_neg,
                                 "time":time,
                                 "model": "SCODE (true time)",
                                 "bandwidth": 0,
                                 "truncate_param":0,
                                 "lambda":0}, ignore_index=True)    
+
+        # SCODE-DYN (DPT)
+        try:
+            thetas = np.load(file = result_dir + "theta_scode_dyn_dpt.npy")
+            # thetas = thetas[step::(step+1),:,:] - thetas[:-step:(step+1),:,:]
+            thetas = thetas[step::,:,:] - thetas[:-step:,:,:]
+            for time in range(0, ntimes_diff):
+                nmse = bmk.NMSE(G_inf = thetas[time], G_true = gt_adj[time])
+                pearson_val, pval = bmk.pearson(G_inf = thetas[time], G_true = gt_adj[time])
+                kt, _ = bmk.kendalltau(G_inf = thetas[time], G_true = gt_adj[time])
+                spearman_val, _ = bmk.spearman(G_inf = thetas[time], G_true = gt_adj[time])
+                cosine_sim = bmk.cossim(G_inf = thetas[time], G_true = gt_adj[time]) 
+                AUPRC_pos, AUPRC_neg = bmk.compute_auc_signed(G_inf = thetas[time], G_true = gt_adj[time])     
+  
+                score = score.append({"interval": interval,
+                                    "ngenes": ngenes,
+                                    "nmse": nmse, 
+                                    "pearson": pearson_val, 
+                                    "kendall-tau": kt,
+                                    "spearman": spearman_val,
+                                    "cosine similarity": cosine_sim, 
+                                    "AUPRC_pos": AUPRC_pos,
+                                    "AUPRC_neg": AUPRC_neg,
+                                    "time":time,
+                                    "model": "SCODE-DYN (dpt)",
+                                    "bandwidth": 0,
+                                    "truncate_param":0,
+                                    "lambda":0}, ignore_index=True)
+        except:
+            pass    
+
+        # SCODE-DYN (True T)
+        thetas = np.load(file = result_dir + "theta_scode_dyn_truet.npy")
+        # thetas = thetas[step::(step+1),:,:] - thetas[:-step:(step+1),:,:]
+        thetas = thetas[step::,:,:] - thetas[:-step:,:,:]
+        for time in range(0, ntimes_diff):
+            nmse = bmk.NMSE(G_inf = thetas[time], G_true = gt_adj[time])
+            pearson_val, pval = bmk.pearson(G_inf = thetas[time], G_true = gt_adj[time])
+            kt, _ = bmk.kendalltau(G_inf = thetas[time], G_true = gt_adj[time])
+            spearman_val, _ = bmk.spearman(G_inf = thetas[time], G_true = gt_adj[time])
+            cosine_sim = bmk.cossim(G_inf = thetas[time], G_true = gt_adj[time])   
+            AUPRC_pos, AUPRC_neg = bmk.compute_auc_signed(G_inf = thetas[time], G_true = gt_adj[time])     
+            score = score.append({"interval": interval,
+                                "ngenes": ngenes,
+                                "nmse": nmse, 
+                                "pearson": pearson_val, 
+                                "kendall-tau": kt,
+                                "spearman": spearman_val,
+                                "cosine similarity": cosine_sim, 
+                                "AUPRC_pos": AUPRC_pos,
+                                "AUPRC_neg": AUPRC_neg,
+                                "time":time,
+                                "model": "SCODE-DYN (true time)",
+                                "bandwidth": 0,
+                                "truncate_param":0,
+                                "lambda":0}, ignore_index=True)    
+
 
 
         print("Not using TF information")
@@ -431,6 +645,7 @@ for interval in [5, 10, 25, 50, 100, 200]:
                     mean_kt = 0
                     mean_spearman = 0
                     mean_cosine = 0
+                    mean_auprc = 0
                     
                     for time in range(0, ntimes_diff):
                         nmse = bmk.NMSE(G_inf = thetas[time], G_true = gt_adj[time])
@@ -438,6 +653,8 @@ for interval in [5, 10, 25, 50, 100, 200]:
                         kt, _ = bmk.kendalltau(G_inf = thetas[time], G_true = gt_adj[time])
                         spearman_val, _ = bmk.spearman(G_inf = thetas[time], G_true = gt_adj[time])
                         cosine_sim = bmk.cossim(G_inf = thetas[time], G_true = gt_adj[time])   
+                        AUPRC_pos, AUPRC_neg = bmk.compute_auc_signed(G_inf = thetas[time], G_true = gt_adj[time])     
+
                         score = score.append({"interval": interval,
                                             "ngenes": ngenes,
                                             "nmse": nmse, 
@@ -445,6 +662,8 @@ for interval in [5, 10, 25, 50, 100, 200]:
                                             "kendall-tau": kt,
                                             "spearman": spearman_val,
                                             "cosine similarity": cosine_sim, 
+                                            "AUPRC_pos": AUPRC_pos,
+                                            "AUPRC_neg": AUPRC_neg,
                                             "time":time,
                                             "model": "Dyn-GRN",                                
                                             "bandwidth": bandwidth,
@@ -456,13 +675,17 @@ for interval in [5, 10, 25, 50, 100, 200]:
                         mean_kt += kt
                         mean_spearman += spearman_val
                         mean_cosine += cosine_sim
+                        mean_auprc += AUPRC_pos
+                        mean_auprc += AUPRC_neg
+                        
                     mean_nmse = mean_nmse/ntimes
                     mean_pearson = mean_pearson/ntimes
                     mean_kt = mean_kt/ntimes
                     mean_spearman = mean_spearman/ntimes
                     mean_cosine = mean_cosine/ntimes
+                    mean_auprc = mean_auprc/(2*ntimes)
                     print("\tHyper-parameter: bandwidth = {:.2f}, truncate_param = {:.2f}, lambda = {:.2f}".format(bandwidth, truncate_param, lamb)) 
-                    print("\tmean nmse: {:.4f}, mean pearson: {:.4f}, mean kt: {:.4f}, mean spearman: {:.4f}, mean cosine: {:.4f}".format(mean_nmse, mean_pearson, mean_kt, mean_spearman, mean_cosine))
+                    print("\tmean nmse: {:.4f}, mean pearson: {:.4f}, mean kt: {:.4f}, mean spearman: {:.4f}, mean cosine: {:.4f}, mean AUPRC: {:.4F}".format(mean_nmse, mean_pearson, mean_kt, mean_spearman, mean_cosine, mean_auprc))
                     print()   
 
 
@@ -489,6 +712,8 @@ for interval in [5, 10, 25, 50, 100, 200]:
                         kt, _ = bmk.kendalltau(G_inf = thetas[time], G_true = gt_adj[time])
                         spearman_val, _ = bmk.spearman(G_inf = thetas[time], G_true = gt_adj[time])
                         cosine_sim = bmk.cossim(G_inf = thetas[time], G_true = gt_adj[time])   
+                        AUPRC_pos, AUPRC_neg = bmk.compute_auc_signed(G_inf = thetas[time], G_true = gt_adj[time])     
+
                         score = score.append({"interval": interval,
                                             "ngenes": ngenes,
                                             "nmse": nmse, 
@@ -496,6 +721,8 @@ for interval in [5, 10, 25, 50, 100, 200]:
                                             "kendall-tau": kt,
                                             "spearman": spearman_val,
                                             "cosine similarity": cosine_sim, 
+                                            "AUPRC_pos": AUPRC_pos,
+                                            "AUPRC_neg": AUPRC_neg,
                                             "time":time,
                                             "model": "Dyn-GRN-TF",                                
                                             "bandwidth": bandwidth,
@@ -507,27 +734,30 @@ for interval in [5, 10, 25, 50, 100, 200]:
                         mean_kt += kt
                         mean_spearman += spearman_val
                         mean_cosine += cosine_sim
+                        mean_auprc += AUPRC_pos
+                        mean_auprc += AUPRC_neg
+
                     mean_nmse = mean_nmse/ntimes
                     mean_pearson = mean_pearson/ntimes
                     mean_kt = mean_kt/ntimes
                     mean_spearman = mean_spearman/ntimes
                     mean_cosine = mean_cosine/ntimes
+                    mean_auprc = mean_auprc/(2*ntimes)
                     print("\tHyper-parameter: bandwidth = {:.2f}, truncate_param = {:.2f}, lambda = {:.2f}".format(bandwidth, truncate_param, lamb)) 
-                    print("\tmean nmse: {:.4f}, mean pearson: {:.4f}, mean kt: {:.4f}, mean spearman: {:.4f}, mean cosine: {:.4f}".format(mean_nmse, mean_pearson, mean_kt, mean_spearman, mean_cosine))
+                    print("\tmean nmse: {:.4f}, mean pearson: {:.4f}, mean kt: {:.4f}, mean spearman: {:.4f}, mean cosine: {:.4f}, mean AUPRC: {:.4F}".format(mean_nmse, mean_pearson, mean_kt, mean_spearman, mean_cosine, mean_auprc))
                     print()   
 
         # save results
         score.to_csv(result_dir + "score_diff.csv")
-        score_all = pd.concat([score_all, score], axis = 0)
 
-score_all.to_csv("../results_GGM/score_bifur_diff_all.csv")
 
 # In[] summarize the mean result in csv file
-'''
+
 ntimes = 1000
 nsample = 1
 for interval in [5, 10, 25, 50, 100, 200]:
     for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20), (100, 50)]:
+        print("bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes))
         result_dir = "../results_GGM/bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "/"
         score = pd.read_csv(result_dir + "score.csv", index_col = 0)
         mean_score = score.groupby(by = ["model", "bandwidth", "truncate_param", "lambda"]).mean()
@@ -535,8 +765,11 @@ for interval in [5, 10, 25, 50, 100, 200]:
         mean_score.to_csv(result_dir + "mean_score.csv")
         display(mean_score)
 
+print("\ndifferences\n")
+
 for interval in [5, 10, 25, 50, 100, 200]:
     for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20), (100, 50)]:
+        print("bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes))
         result_dir = "../results_GGM/bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "/"
         score = pd.read_csv(result_dir + "score_diff.csv", index_col = 0)
         mean_score = score.groupby(by = ["model", "bandwidth", "truncate_param", "lambda"]).mean()
@@ -698,9 +931,9 @@ for interval in [5, 10, 25, 50, 100, 200]:
 ntimes = 1000
 
 # ----------------------------------- without TF information ---------------------------------#
-# Bandwidth: 0.1, truncate parameter: 0.1, lambda: 0.1
+# Bandwidth: 0.1, truncate parameter: 15, lambda: 0.1
 bandwith = 0.1
-truncate_param = 0.1
+truncate_param = 15
 lamb = 0.1
 score_all = pd.DataFrame(columns = ["interval", "ngenes", "nmse","kendall-tau", "pearson", "spearman", "cosine similarity", "time", "model", "bandwidth", "truncate_param", "lambda"])
 score_all_diff = pd.DataFrame(columns = ["interval", "ngenes", "nmse","kendall-tau", "pearson", "spearman", "cosine similarity", "time", "model", "bandwidth", "truncate_param", "lambda"])
@@ -757,6 +990,6 @@ fig.set_facecolor('w')
 fig.suptitle("score of edge detection")
 plt.tight_layout()
 fig.savefig("../results_GGM/compare_models_bifur.png", bbox_inches = "tight")        
-'''
+
 
 # %%

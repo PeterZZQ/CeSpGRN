@@ -12,6 +12,9 @@ import torch.nn
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+from sklearn.manifold import MDS
+from umap import UMAP
 
 import bmk_beeline as bmk
 import genie3, g_admm, kernel
@@ -51,6 +54,27 @@ assert ncells == 8 * 120
 assert ngenes == 45
 print("Raw TimePoints: {}, no.Genes: {}".format(counts.shape[0],counts.shape[1]))
 
+# check distribution
+fig = plt.figure(figsize = (10,7))
+ax = fig.add_subplot()
+_ = ax.hist(counts.reshape(-1), bins = 20)
+fig = plt.figure(figsize = (10,7))
+ax = fig.add_subplot()
+_ = ax.hist(np.log1p(counts.reshape(-1)), bins = 20)
+# the distribution of the original count is log-normal distribution, conduct log transform
+counts = np.log1p(counts)
+
+pca_op = PCA(n_components = 10)
+umap_op = UMAP(n_components = 2, min_dist = 0.8)
+mds_op = MDS(n_components = 10)
+# X_pca = pca_op.fit_transform(counts)
+# X_pca = umap_op.fit_transform(counts)
+X_pca = mds_op.fit_transform(counts)
+
+fig = plt.figure(figsize  = (10,7))
+ax = fig.add_subplot()
+ax.scatter(X_pca[:, 0], X_pca[:, 1], c = np.arange(X_pca.shape[0]))
+
 X = torch.FloatTensor(counts).to(device)
 
 
@@ -68,7 +92,7 @@ for bandwidth in [0.1]:
             empir_cov = torch.zeros(ncells, ngenes, ngenes)
             # calculate the kernel function
             # K, K_trun = kernel.calc_kernel(counts, k = 5, bandwidth = bandwidth, truncate = True, truncate_param = truncate_param)
-            K, K_trun = kernel.calc_kernel_neigh(counts, k = 5, bandwidth = bandwidth, truncate = True, truncate_param = truncate_param)
+            K, K_trun = kernel.calc_kernel_neigh(X_pca, k = 5, bandwidth = bandwidth, truncate = True, truncate_param = truncate_param)
 
             # plot kernel function
             fig = plt.figure(figsize = (20, 7))
@@ -78,7 +102,6 @@ for bandwidth in [0.1]:
             fig.suptitle("kernel_" + str(bandwidth) + "_" + str(truncate_param))
             fig.savefig(result_dir + "kernel_" + str(bandwidth) + "_" + str(truncate_param) + ".png", bbox_inches = "tight")
             print("number of neighbor being considered: " + str(np.sum(K_trun[int(ncells/2), :] > 0)))
-
             # building weighted covariance matrix, output is empir_cov of the shape (ncells, ngenes, ngenes)
             for t in range(ncells):
                 weight = torch.FloatTensor(K_trun[t, :]).to(device)

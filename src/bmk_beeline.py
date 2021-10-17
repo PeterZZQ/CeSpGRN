@@ -59,6 +59,63 @@ def cossim(G_inf, G_true):
     G_true_norm = np.sqrt((G_true.reshape(-1) ** 2).sum())
     return np.sum(G_inf.reshape(-1) * G_true.reshape(-1))/G_inf_norm/G_true_norm
 
+def compute_auc_signed(G_inf, G_true):
+    # assert np.allclose(G_inf, G_inf.T, atol = 1e-7)
+    # assert np.allclose(G_true, G_true.T, atol = 1e-7)
+    gt_pos = G_true.copy()
+    estm_pos = G_inf.copy()
+    gt_pos[np.where(G_true < 0)] = 0
+    estm_pos[np.where(G_true < 0)] = 0
+    # binarize
+    gt_pos = (gt_pos > 1e-6).astype(int)
+    estm_pos = (estm_pos - np.min(estm_pos))/(np.max(estm_pos) - np.min(estm_pos) + 1e-12)
+    _, _, _, _, AUPRC_pos, AUROC_pos, _ = _compute_auc(estm_pos, gt_pos)
+
+    gt_neg = G_true.copy()
+    estm_neg = G_inf.copy()
+    gt_neg[np.where(G_true > 0)] = 0
+    estm_neg[np.where(G_true > 0)] = 0
+    # binarize
+    gt_neg = (gt_pos < -1e-6).astype(int)
+    estm_neg = - estm_neg
+    estm_neg = (estm_neg - np.min(estm_neg))/(np.max(estm_neg) - np.min(estm_neg) + 1e-12)
+    _, _, _, _, AUPRC_neg, AUROC_neg, _ = _compute_auc(estm_neg, gt_neg)
+
+    return AUPRC_pos, AUPRC_neg
+
+def _compute_auc(estm_adj, gt_adj):
+    """\
+    Description:
+    ------------
+        calculate AUPRC and AUROC
+    Parameters:
+    ------------
+        estm_adj: predict graph adjacency matrix
+        gt_adj: ground truth graph adjacency matrix
+        directed: the directed estimation or not
+    Return:
+    ------------
+        prec: precision
+        recall: recall
+        fpr: false positive rate
+        tpr: true positive rate
+        AUPRC, AUROC
+    """
+    
+    if np.max(estm_adj) == 0:
+        return 0, 0, 0, 0, 0, 0, 0
+    else:
+        fpr, tpr, thresholds = roc_curve(y_true=gt_adj.reshape(-1,), y_score=estm_adj.reshape(-1,), pos_label=1)
+        
+        if len(set(gt_adj.reshape(-1,))) == 1:
+            prec, recall = np.array([0., 1.]), np.array([1., 0.])
+        else:
+            prec, recall, thresholds = precision_recall_curve(y_true=gt_adj.reshape(-1,), probas_pred=estm_adj.reshape(-1,), pos_label=1)
+
+        # the same
+        # AUPRC = average_precision_score(gt_adj.reshape(-1,), estm_adj.reshape(-1,)) 
+        return prec, recall, fpr, tpr, auc(recall, prec), auc(fpr, tpr), thresholds    
+
 def compute_auc(estm_adj, gt_adj, directed = False):
     """\
     Description:
@@ -81,7 +138,7 @@ def compute_auc(estm_adj, gt_adj, directed = False):
     estm_norm_adj = np.abs(estm_adj)/np.max(np.abs(estm_adj) + 1e-12)
     
     if np.max(estm_norm_adj) == 0:
-        return 0, 0, 0, 0, 0, 0
+        return 0, 0, 0, 0, 0, 0, 0
     else:
         # assert np.abs(np.max(estm_norm_adj) - 1) < 1e-4
         if directed == False:
