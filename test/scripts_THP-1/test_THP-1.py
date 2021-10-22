@@ -48,7 +48,7 @@ result_dir = "../results_THP-1/"
 counts = pd.read_csv(path + "counts.csv", index_col = 0).values
 annotation = pd.read_csv(path + "anno.csv", index_col = 0)
 dpt = pd.read_csv(path + "dpt_time.txt", index_col = 0, sep = "\t", header = None).values.squeeze()
-counts = counts[np.argsort(dpt), :]
+# counts = counts[np.argsort(dpt), :]
 ncells, ngenes = counts.shape
 assert ncells == 8 * 120
 assert ngenes == 45
@@ -64,25 +64,32 @@ _ = ax.hist(np.log1p(counts.reshape(-1)), bins = 20)
 # the distribution of the original count is log-normal distribution, conduct log transform
 counts = np.log1p(counts)
 
-pca_op = PCA(n_components = 10)
+pca_op = PCA(n_components = 20)
 umap_op = UMAP(n_components = 2, min_dist = 0.8)
-mds_op = MDS(n_components = 10)
-# X_pca = pca_op.fit_transform(counts)
+mds_op = MDS(n_components = 2)
+X_pca = pca_op.fit_transform(counts)
 # X_pca = umap_op.fit_transform(counts)
-X_pca = mds_op.fit_transform(counts)
+# X_pca = mds_op.fit_transform(counts)
 
 fig = plt.figure(figsize  = (10,7))
 ax = fig.add_subplot()
-ax.scatter(X_pca[:, 0], X_pca[:, 1], c = np.arange(X_pca.shape[0]))
+for i in np.sort(np.unique(annotation.values.squeeze())):
+    idx = np.where(annotation.values.squeeze() == i)
+    ax.scatter(X_pca[idx, 0], X_pca[idx, 1], label = i)
+
+ax.set_xlabel("PCA1")
+ax.set_ylabel("PCA2")
+ax.legend(bbox_to_anchor=(1.01, 1), loc='upper left', frameon=False)
+fig.savefig(result_dir + "X_pca.png", bbox_inches = "tight")
 
 X = torch.FloatTensor(counts).to(device)
 
 
 # In[2] ADMM
 # hyper-parameter
-for bandwidth in [0.1]:
-    for truncate_param in [30]:
-        for lamb in [0.1]:
+for bandwidth in [0.01, 0.1, 1]:
+    for truncate_param in [5, 15, 30]:
+        for lamb in [0.001, 0.01, 0.05, 0.1]:
             alpha = 2
             rho = 1.7
             max_iters = 1000

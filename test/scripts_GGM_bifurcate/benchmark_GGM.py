@@ -35,7 +35,7 @@ umap_op = UMAP(n_components = 2, min_dist = 0.8, n_neighbors = 30, random_state 
 for interval in [5, 10, 25, 50, 100, 200]:
     for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20), (100, 50)]:
         score = pd.DataFrame(columns = ["interval", "ngenes", "nmse","kendall-tau", "pearson", "spearman", "cosine similarity", "time", "model", "bandwidth", "truncate_param", "lambda"])
-        result_dir = "../results_GGM/bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "/"
+        result_dir = "../results_GGM_pca/bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "/"
         
         # the data smapled from GGM is zero-mean
         X = np.load(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/expr.npy")
@@ -367,7 +367,7 @@ for interval in [5, 10, 25, 50, 100, 200]:
         print("ntimes: " + str(ntimes) + ", interval: " + str(interval) + ", ngenes: " + str(ngenes))
 
         score = pd.DataFrame(columns = ["interval", "ngenes", "nmse","kendall-tau", "pearson", "spearman", "cosine similarity", "time", "model", "bandwidth", "truncate_param", "lambda"])
-        result_dir = "../results_GGM/bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "/"
+        result_dir = "../results_GGM_pca/bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "/"
         
         # the data smapled from GGM is zero-mean
         X = np.load(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "/expr.npy")
@@ -758,7 +758,7 @@ nsample = 1
 for interval in [5, 10, 25, 50, 100, 200]:
     for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20), (100, 50)]:
         print("bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes))
-        result_dir = "../results_GGM/bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "/"
+        result_dir = "../results_GGM_pca/bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "/"
         score = pd.read_csv(result_dir + "score.csv", index_col = 0)
         mean_score = score.groupby(by = ["model", "bandwidth", "truncate_param", "lambda"]).mean()
         mean_score = mean_score.drop(["time"], axis = 1)
@@ -770,7 +770,7 @@ print("\ndifferences\n")
 for interval in [5, 10, 25, 50, 100, 200]:
     for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20), (100, 50)]:
         print("bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes))
-        result_dir = "../results_GGM/bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "/"
+        result_dir = "../results_GGM_pca/bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "/"
         score = pd.read_csv(result_dir + "score_diff.csv", index_col = 0)
         mean_score = score.groupby(by = ["model", "bandwidth", "truncate_param", "lambda"]).mean()
         mean_score = mean_score.drop(["time"], axis = 1)
@@ -789,7 +789,7 @@ for interval in [5, 10, 25, 50, 100, 200]:
 
 
     for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20), (100, 50)]:
-        result_dir = "../results_GGM/bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "/"
+        result_dir = "../results_GGM_pca/bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "/"
 
         score = pd.read_csv(result_dir + "score.csv", index_col = 0)
         score_diff = pd.read_csv(result_dir + "score_diff.csv", index_col = 0)
@@ -825,7 +825,7 @@ for interval in [5, 10, 25, 50, 100, 200]:
     fig.set_facecolor('w')
     fig.suptitle("score of edge detection, change interval: " + str(interval) + ", method: Dyn-GRN")
     plt.tight_layout()
-    fig.savefig("../results_GGM/DynGRN_bifur_score_full_interval_" + str(interval) + ".png", bbox_inches = "tight")
+    fig.savefig("../results_GGM_pca/DynGRN_bifur_score_full_interval_" + str(interval) + ".png", bbox_inches = "tight")
 
     fig, big_axes = plt.subplots( figsize=(20.0, 10.0) , nrows=2, ncols=1, sharey=True) 
     lambdas = [0.01, 0.1]
@@ -851,7 +851,7 @@ for interval in [5, 10, 25, 50, 100, 200]:
     fig.set_facecolor('w')
     fig.suptitle("score of changing edges detection, change interval: " + str(interval) + ", method: Dyn-GRN")
     plt.tight_layout()
-    fig.savefig("../results_GGM/DynGRN_bifur_score_full_diff_interval_" + str(interval) + ".png", bbox_inches = "tight")    
+    fig.savefig("../results_GGM_pca/DynGRN_bifur_score_full_diff_interval_" + str(interval) + ".png", bbox_inches = "tight")    
 
 
 # ----------------------------------- with TF information ---------------------------------#
@@ -861,7 +861,7 @@ for interval in [5, 10, 25, 50, 100, 200]:
 
 
     for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20), (100, 50)]:
-        result_dir = "../results_GGM/bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "/"
+        result_dir = "../results_GGM_pca/bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "/"
 
         score = pd.read_csv(result_dir + "score.csv", index_col = 0)
         score_diff = pd.read_csv(result_dir + "score_diff.csv", index_col = 0)
@@ -897,7 +897,7 @@ for interval in [5, 10, 25, 50, 100, 200]:
     fig.set_facecolor('w')
     fig.suptitle("score of edge detection, change interval: " + str(interval) + ", method: Dyn-GRN-TF")
     plt.tight_layout()
-    fig.savefig("../results_GGM/DynGRN_bifur_score_full_interval_" + str(interval) + "_tf.png", bbox_inches = "tight")
+    fig.savefig("../results_GGM_pca/DynGRN_bifur_score_full_interval_" + str(interval) + "_tf.png", bbox_inches = "tight")
 
     fig, big_axes = plt.subplots( figsize=(20.0, 10.0) , nrows=2, ncols=1, sharey=True) 
     lambdas = [0.01, 0.1]
@@ -923,7 +923,7 @@ for interval in [5, 10, 25, 50, 100, 200]:
     fig.set_facecolor('w')
     fig.suptitle("score of changing edges detection, change interval: " + str(interval) + ", method: Dyn-GRN-TF")
     plt.tight_layout()
-    fig.savefig("../results_GGM/DynGRN_bifur_score_full_diff_interval_" + str(interval) + "_tf.png", bbox_inches = "tight")
+    fig.savefig("../results_GGM_pca/DynGRN_bifur_score_full_diff_interval_" + str(interval) + "_tf.png", bbox_inches = "tight")
 
     # Select the best bandwidth, truncate_param, and lambda setting for each interval size. 
 
@@ -940,7 +940,7 @@ score_all_diff = pd.DataFrame(columns = ["interval", "ngenes", "nmse","kendall-t
     
 for interval in [5, 10, 25, 50, 100, 200]:
     for (ngenes, ntfs) in [(20, 5), (30, 10), (50, 20), (100, 50)]:
-        result_dir = "../results_GGM/bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "/"
+        result_dir = "../results_GGM_pca/bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "/"
 
         score = pd.read_csv(result_dir + "score.csv", index_col = 0)
         score_diff = pd.read_csv(result_dir + "score_diff.csv", index_col = 0)
@@ -989,7 +989,7 @@ ax[1,0].set_ylim([-1 , 1])
 fig.set_facecolor('w')
 fig.suptitle("score of edge detection")
 plt.tight_layout()
-fig.savefig("../results_GGM/compare_models_bifur.png", bbox_inches = "tight")        
+fig.savefig("../results_GGM_pca/compare_models_bifur.png", bbox_inches = "tight")        
 
 
 # %%

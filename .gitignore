@@ -1,6 +1,7 @@
 src/__pycache__
-test/results_old/
-test/results_GGM/
+test/results_GGM_old/
+test/results_GGM_nopca/
+test/results_GGM_pca/
 test/results_softODE/
 test/results_softODE_sergio/
 test/results_scMultiSim/
