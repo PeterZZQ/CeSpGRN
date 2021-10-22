@@ -10,11 +10,9 @@ test/scripts_GGM2
 test/scripts_scMultiSim
 test/scripts_softODE1/*.pbs
 test/scripts_softODE1/*.err
-test/scripts_GGM_bifurcate/*.out
-test/scripts_GGM_bifurcate/*.job
-test/scripts_GGM_bifurcate/*.err
-test/scripts_GGM_linear/*.out
-test/scripts_GGM_linear/*.job
-test/scripts_GGM_linear/*.err
+test/scripts_GGM_bifur_v2/*.out
+# test/scripts_GGM_bifur_v2/*.job
+# test/scripts_GGM_bifur_v2/*.pbs
+test/scripts_GGM_bifur_v2/*.err
 SCODE
 data

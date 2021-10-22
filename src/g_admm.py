@@ -340,7 +340,13 @@ class G_admm_minibatch():
         self.weights = torch.FloatTensor(K)
         # weighted average of empricial covariance matrix
         assert torch.all(torch.sum(self.weights,dim=1) - 1 < 1e-6)
-        self.w_empir_cov = torch.sum((self.weights[:,:,None,None]*self.empir_cov[None,:,:,:]),dim=1) 
+        # memory consuming
+        # self.w_empir_cov = torch.sum((self.weights[:,:,None,None]*self.empir_cov[None,:,:,:]),dim=1) 
+        self.w_empir_cov = torch.stack([torch.sum(weight[:, None, None] * self.empir_cov, axis = 0) for weight in self.weights], dim = 0)
+        assert self.w_empir_cov.shape[0] == self.ntimes
+        assert self.w_empir_cov.shape[1] == self.ngenes
+        assert self.w_empir_cov.shape[2] == self.ngenes
+        # assert torch.equal(self.w_empir_cov, w_empir_cov)
         # store the result
         self.thetas = np.zeros((self.ntimes, self.ngenes, self.ngenes))
         
