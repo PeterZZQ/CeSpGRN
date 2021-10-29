@@ -76,12 +76,18 @@ def compute_auc_signed(G_inf, G_true):
     gt_neg[np.where(G_true > 0)] = 0
     estm_neg[np.where(G_true > 0)] = 0
     # binarize
-    gt_neg = (gt_pos < -1e-6).astype(int)
+    gt_neg = (gt_neg < -1e-6).astype(int)
     estm_neg = - estm_neg
     estm_neg = (estm_neg - np.min(estm_neg))/(np.max(estm_neg) - np.min(estm_neg) + 1e-12)
     _, _, _, _, AUPRC_neg, AUROC_neg, _ = _compute_auc(estm_neg, gt_neg)
 
     return AUPRC_pos, AUPRC_neg
+
+def compute_auc_abs(G_inf, G_true):
+    # assert np.allclose(G_inf, G_inf.T, atol = 1e-7)
+    # assert np.allclose(G_true, G_true.T, atol = 1e-7)
+    _, _, _, _, AUPRC, AUROC, _ = _compute_auc(np.abs(G_inf), np.abs(G_true))
+    return AUPRC
 
 def _compute_auc(estm_adj, gt_adj):
     """\
@@ -342,10 +348,10 @@ def compute_earlyprec(estm_adj, gt_adj, directed = False, TFEdges = False):
         # estm_adj = (estm_adj - np.min(estm_adj))/(np.max(estm_adj) - np.min(estm_adj))
         
         # assert np.abs(np.max(estm_norm_adj) - 1) < 1e-4
-        if directed == False:
-            gt_adj = ((gt_adj + gt_adj.T) > 0).astype(np.int)
-        np.fill_diagonal(gt_adj, 0)
-        np.fill_diagonal(estm_norm_adj, 0)
+        # if directed == False:
+        #     gt_adj = ((gt_adj + gt_adj.T) > 0).astype(np.int)
+        # np.fill_diagonal(gt_adj, 0)
+        # np.fill_diagonal(estm_norm_adj, 0)
         rows, cols = np.where(gt_adj != 0)
 
         trueEdgesDF = pd.DataFrame(columns = ["Gene1", "Gene2", "EdgeWeight"])
@@ -432,7 +438,8 @@ def compute_earlyprec(estm_adj, gt_adj, directed = False, TFEdges = False):
             # rankDict is a set that stores all significant edges
             rankDict = set(newDF['Gene1'] + "|" + newDF['Gene2'])
         else:
-            raise ValueError("No prediction")
+            # raise ValueError("No prediction")
+            rankDict = []
 
         if len(rankDict) != 0:
             intersectionSet = rankDict.intersection(trueEdges)
@@ -443,3 +450,34 @@ def compute_earlyprec(estm_adj, gt_adj, directed = False, TFEdges = False):
             Erec = 0
 
     return Eprec, Erec
+
+
+def compute_eprec_signed(G_inf, G_true):
+    # assert np.allclose(G_inf, G_inf.T, atol = 1e-7)
+    # assert np.allclose(G_true, G_true.T, atol = 1e-7)
+    gt_pos = G_true.copy()
+    estm_pos = G_inf.copy()
+    gt_pos[np.where(G_true < 0)] = 0
+    estm_pos[np.where(G_true < 0)] = 0
+    # binarize
+    gt_pos = (gt_pos > 1e-6).astype(int)
+    estm_pos = (estm_pos - np.min(estm_pos))/(np.max(estm_pos) - np.min(estm_pos) + 1e-12)
+    Eprec_pos, Erec_pos = compute_earlyprec(estm_pos, gt_pos)
+
+    gt_neg = G_true.copy()
+    estm_neg = G_inf.copy()
+    gt_neg[np.where(G_true > 0)] = 0
+    estm_neg[np.where(G_true > 0)] = 0
+    # binarize
+    gt_neg = (gt_neg < -1e-6).astype(int)
+    estm_neg = - estm_neg
+    estm_neg = (estm_neg - np.min(estm_neg))/(np.max(estm_neg) - np.min(estm_neg) + 1e-12)
+    Eprec_neg, Erec_neg = compute_earlyprec(estm_neg, gt_neg)
+
+    return Eprec_pos, Eprec_neg
+
+def compute_eprec_abs(G_inf, G_true):
+    # assert np.allclose(G_inf, G_inf.T, atol = 1e-7)
+    # assert np.allclose(G_true, G_true.T, atol = 1e-7)
+    Eprec, Erec = compute_earlyprec(np.abs(G_inf), np.abs(G_true))
+    return Eprec

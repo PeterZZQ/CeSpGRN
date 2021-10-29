@@ -1,9 +1,9 @@
 #PBS -N benchmark_GGM
 #PBS -q hive-himem
-#PBS -l nodes=1:ppn=4
+#PBS -l nodes=1:ppn=15
 #PBS -l walltime=10:20:00
 #PBS -j oe
-#PBS -o benchmark_GGM.out
+#PBS -o benchmark_GGM_diff.out
 #PBS -m abe                            
 #PBS -M zzhang834@gatech.edu
 

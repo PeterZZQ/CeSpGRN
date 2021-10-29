@@ -269,7 +269,10 @@ def dyn_GRN(setting):
                     del_mask = np.zeros_like(Gt)
                     del_mask[del_idx] = 1
                     add_mask = np.zeros_like(Gt)
-                    add_mask[add_idx] = np.random.uniform(low = -2, high = 2, size = nchanges) / change_stepsize
+                    # add_mask[add_idx] = np.random.uniform(low = -4, high = 4, size = nchanges) / change_stepsize
+                    add_mask[add_idx[:int(nchanges/2)]] = np.random.uniform(low = 3.5, high = 4, size = int(nchanges/2)) / change_stepsize
+                    add_mask[add_idx[int(nchanges/2):]] = np.random.uniform(low = -4, high = -3.5, size = nchanges - int(nchanges/2))/ change_stepsize
+
                     Gt = Gt.reshape((ngenes, ngenes))
                     del_mask = del_mask.reshape((ngenes, ngenes))
                     add_mask = add_mask.reshape((ngenes, ngenes))
