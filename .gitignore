@@ -15,4 +15,5 @@ test/scripts_GGM_bifur_v2/*.out
 # test/scripts_GGM_bifur_v2/*.pbs
 test/scripts_GGM_bifur_v2/*.err
 SCODE
+CSN
 data
