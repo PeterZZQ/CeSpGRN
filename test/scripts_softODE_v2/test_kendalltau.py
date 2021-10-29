@@ -125,9 +125,9 @@ for interval in [5]:
                 print("number of neighbor being considered: " + str(np.sum(K_trun[int(ntimes * nsamples/2), :] > 0)))
                 
                 # building weighted covariance matrix, output is empir_cov of the shape (ntimes * nsamples, ngenes, ngenes)
-                # empir_cov = g_admm.est_cov(X = X, K_trun = K_trun, weighted_kt = True)
+                empir_cov = g_admm.est_cov(X = X, K_trun = K_trun, weighted_kt = True)
                 # not using weight, direct kendall tau, find that the empirical covariance matrix is very close to not using weight
-                empir_cov = g_admm.est_cov(X = X, K_trun = K_trun, weighted_kt = False)
+                # empir_cov = g_admm.est_cov(X = X, K_trun = K_trun, weighted_kt = False)
                             
                 # run the model
                 for lamb in [0.1]:

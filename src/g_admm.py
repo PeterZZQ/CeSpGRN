@@ -57,7 +57,6 @@ def find_clostest_PSD(A):
     # U, S, V = torch.svd(A, some=False)
     S, U = torch.eig(A, eigenvectors = True)
     S = S[:, 0]
-    print(S)
     S[S <= 0] = 1e-4
     return U @ torch.diag(S) @ U.t()
 
@@ -120,11 +119,12 @@ def est_cov(X, K_trun, weighted_kt = True):
                         assert empir_cov[t, i, j] < 1
                     else:
                         empir_cov[t, i, j] = 1
-                        assert empir_cov[t, i, j] < 1
+                        
                 else:
                     kt = weighted_kendall_tau(X[(weight > 0), i].squeeze(), X[(weight > 0), j].squeeze(), weight[weight > 0])
                     if i != j:
                         empir_cov[t, i, j] = torch.sin(np.pi/2 * kt) 
+                        assert empir_cov[t, i, j] < 1
                     else:
                         empir_cov[t, i, j] = 1
         empir_cov[t,:,:] = empir_cov[t,:,:] + empir_cov[t,:,:].T - torch.diag(torch.diag(empir_cov[t,:,:]))
