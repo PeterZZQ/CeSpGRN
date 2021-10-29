@@ -57,7 +57,7 @@ def find_clostest_PSD(A):
     # U, S, V = torch.svd(A, some=False)
     S, U = torch.eig(A, eigenvectors = True)
     S = S[:, 0]
-    S[S <= 0] = 1e-4
+    S[S <= 0] = 1e-3
     return U @ torch.diag(S) @ U.t()
 
 
@@ -75,7 +75,7 @@ def weighted_kendall_tau(xs, ys, ws = None):
     """
     n = xs.shape[0]
     if ws is None:
-        ws = torch.ones(n).to(device)
+        ws = torch.ones(n)#.to(device)
     assert ys.shape[0] == n
     assert ws.shape[0] == n
     kt = 0
@@ -96,15 +96,15 @@ def weighted_kendall_tau(xs, ys, ws = None):
     
 def est_cov(X, K_trun, weighted_kt = True):
     start_time = time.time()
-    X = torch.FloatTensor(X).to(device)
+    X = torch.FloatTensor(X)#.to(device)
     ntimes = X.shape[0]
     ngenes = X.shape[1]
 
-    empir_cov = torch.zeros(ntimes, ngenes, ngenes).to(device)
+    empir_cov = torch.zeros(ntimes, ngenes, ngenes)#.to(device)
 
     # building weighted covariance matrix, output is empir_cov of the shape (ntimes, ngenes, ngenes)
     for t in range(ntimes):
-        weight = torch.FloatTensor(K_trun[t, :]).to(device)
+        weight = torch.FloatTensor(K_trun[t, :])#.to(device)
         if weighted_kt:
             weight = (weight > 0)
         # assert torch.sum(weight > 0) == 15
@@ -116,7 +116,7 @@ def est_cov(X, K_trun, weighted_kt = True):
                     kt = weighted_kendall_tau(X[(weight > 0), i].squeeze(), X[(weight > 0), j].squeeze(), weight[weight > 0])
                     if i != j:
                         empir_cov[t, i, j] = torch.sin(np.pi/2 * kt)
-                        assert empir_cov[t, i, j] < 1
+                        # assert empir_cov[t, i, j] < 1
                     else:
                         empir_cov[t, i, j] = 1
                         
@@ -135,6 +135,7 @@ def est_cov(X, K_trun, weighted_kt = True):
             print("inferred empirical convariance matrix is not positive definite at the time point " + str(t) + ", min eig: " + str(min_eig))
             empir_cov[t,:,:] = find_clostest_PSD(empir_cov[t,:,:])
             Flag, min_eig = isPSD(empir_cov[t,:,:])
+            print("After correction, the minimum eigenvalue: " + str(min_eig))
             assert Flag
 
     # empir_cov = empir_cov + empir_cov.permute((0,2,1)) - torch.stack([torch.diag(torch.diag(x)) for x in empir_cov])
