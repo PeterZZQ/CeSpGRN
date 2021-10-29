@@ -42,20 +42,24 @@ torch_sqrtm = MatrixSquareRoot.apply
 
 def isPSD(A, tol=1e-7):
     # E,V = eigh(A)
-    E = np.linalg.eigvals(A)
+    E, V = torch.eig(A, eigenvectors = False)
+    E = E[:, 0].squeeze()
     # print('min_eig = ', np.min(E) , 'max_eig = ', np.max(E), ' min_diag = ', np.min(np.diag(A)))
     # make sure symmetric positive definite
-    return np.all(E > -tol) & np.allclose(A, A.T, atol = tol)
+    return torch.all(E > -tol) & torch.allclose(A, A.T, atol = tol), torch.min(E)
 
 def find_clostest_PSD(A):
     """\
     https://math.stackexchange.com/questions/648809/how-to-find-closest-positive-definite-matrix-of-non-symmetric-matrix
     Positive definite matrices are a open set (Positive semidefinite is closed), no cloest point, uses 1e-4 for the minimum eigenvalue
     """
-    # L, Q = torch.linalg.eigh(A)
-    U, S, Vh = torch.linalg.svd(A, full_matrices=True)
+    # cannot make sure that U = V.t() with svd,
+    # U, S, V = torch.svd(A, some=False)
+    S, U = torch.eig(A, eigenvectors = True)
+    S = S[:, 0]
+    print(S)
     S[S <= 0] = 1e-4
-    return U @ torch.diag(S) @ Vh
+    return U @ torch.diag(S) @ U.t()
 
 
 def weighted_kendall_tau(xs, ys, ws = None):
@@ -110,14 +114,28 @@ def est_cov(X, K_trun, weighted_kt = True):
         for i in range(ngenes):
             for j in range(i, ngenes):
                 if weighted_kt:
-                    empir_cov[t, i, j] = weighted_kendall_tau(X[(weight > 0), i].squeeze(), X[(weight > 0), j].squeeze(), weight[weight > 0])
+                    kt = weighted_kendall_tau(X[(weight > 0), i].squeeze(), X[(weight > 0), j].squeeze(), weight[weight > 0])
+                    if i != j:
+                        empir_cov[t, i, j] = torch.sin(np.pi/2 * kt)
+                        assert empir_cov[t, i, j] < 1
+                    else:
+                        empir_cov[t, i, j] = 1
+                        assert empir_cov[t, i, j] < 1
                 else:
-                    empir_cov[t, i, j] = weighted_kendall_tau(X[(weight > 0), i].squeeze(), X[(weight > 0), j].squeeze(), weight[weight > 0])
+                    kt = weighted_kendall_tau(X[(weight > 0), i].squeeze(), X[(weight > 0), j].squeeze(), weight[weight > 0])
+                    if i != j:
+                        empir_cov[t, i, j] = torch.sin(np.pi/2 * kt) 
+                    else:
+                        empir_cov[t, i, j] = 1
         empir_cov[t,:,:] = empir_cov[t,:,:] + empir_cov[t,:,:].T - torch.diag(torch.diag(empir_cov[t,:,:]))
         # check positive definite
-        if not isPSD(empir_cov[t,:,:]):
-            print("inferred empirical convariance matrix is not positive definite at the time point " + str(t))
+        Flag, min_eig = isPSD(empir_cov[t,:,:])
+        # if not find the closest positive definite matrix
+        if not Flag:
+            print("inferred empirical convariance matrix is not positive definite at the time point " + str(t) + ", min eig: " + str(min_eig))
             empir_cov[t,:,:] = find_clostest_PSD(empir_cov[t,:,:])
+            Flag, min_eig = isPSD(empir_cov[t,:,:])
+            assert Flag
 
     # empir_cov = empir_cov + empir_cov.permute((0,2,1)) - torch.stack([torch.diag(torch.diag(x)) for x in empir_cov])
     print("time calculating the kernel function: {:.2f} sec".format(time.time() - start_time))
