@@ -65,7 +65,7 @@ def compute_auc_signed(G_inf, G_true):
     gt_pos = G_true.copy()
     estm_pos = G_inf.copy()
     gt_pos[np.where(G_true < 0)] = 0
-    estm_pos[np.where(G_true < 0)] = 0
+    estm_pos[np.where(estm_pos < 0)] = 0
     # binarize
     gt_pos = (gt_pos > 1e-6).astype(int)
     estm_pos = (estm_pos - np.min(estm_pos))/(np.max(estm_pos) - np.min(estm_pos) + 1e-12)
@@ -74,7 +74,7 @@ def compute_auc_signed(G_inf, G_true):
     gt_neg = G_true.copy()
     estm_neg = G_inf.copy()
     gt_neg[np.where(G_true > 0)] = 0
-    estm_neg[np.where(G_true > 0)] = 0
+    estm_neg[np.where(estm_neg > 0)] = 0
     # binarize
     gt_neg = (gt_neg < -1e-6).astype(int)
     estm_neg = - estm_neg
@@ -86,7 +86,11 @@ def compute_auc_signed(G_inf, G_true):
 def compute_auc_abs(G_inf, G_true):
     # assert np.allclose(G_inf, G_inf.T, atol = 1e-7)
     # assert np.allclose(G_true, G_true.T, atol = 1e-7)
-    _, _, _, _, AUPRC, AUROC, _ = _compute_auc(np.abs(G_inf), np.abs(G_true))
+    G_inf_abs = np.abs(G_inf)
+    G_true_abs = np.abs(G_true)
+    G_true_abs = (G_true_abs > 1e-6).astype(int)
+    G_inf_abs = (G_inf_abs - np.min(G_inf_abs))/(np.max(G_inf_abs) - np.min(G_inf_abs) + 1e-12)
+    _, _, _, _, AUPRC, AUROC, _ = _compute_auc(G_inf_abs, G_true_abs)
     return AUPRC
 
 def _compute_auc(estm_adj, gt_adj):
@@ -355,14 +359,14 @@ def compute_earlyprec(estm_adj, gt_adj, directed = False, TFEdges = False):
         rows, cols = np.where(gt_adj != 0)
 
         trueEdgesDF = pd.DataFrame(columns = ["Gene1", "Gene2", "EdgeWeight"])
-        trueEdgesDF.Gene1 = [str(x) for x in rows]
-        trueEdgesDF.Gene2 = [str(y) for y in cols]
+        trueEdgesDF.Gene1 = np.array([str(x) for x in rows], dtype = np.object)
+        trueEdgesDF.Gene2 = np.array([str(y) for y in cols], dtype = np.object)
         trueEdgesDF.EdgeWeight = 1
 
         rows, cols = np.where(estm_norm_adj != 0)
         predEdgeDF = pd.DataFrame(columns = ["Gene1", "Gene2", "EdgeWeight"])
-        predEdgeDF.Gene1 = [str(x) for x in rows]
-        predEdgeDF.Gene2 = [str(y) for y in cols]
+        predEdgeDF.Gene1 = np.array([str(x) for x in rows], dtype = np.object)
+        predEdgeDF.Gene2 = np.array([str(y) for y in cols], dtype = np.object)
         predEdgeDF.EdgeWeight = np.array([estm_norm_adj[i,j] for i,j in zip(rows,cols)])
 
         # order according to ranks
@@ -443,8 +447,8 @@ def compute_earlyprec(estm_adj, gt_adj, directed = False, TFEdges = False):
 
         if len(rankDict) != 0:
             intersectionSet = rankDict.intersection(trueEdges)
-            Eprec = len(intersectionSet)/len(rankDict)
-            Erec = len(intersectionSet)/len(trueEdges)
+            Eprec = len(intersectionSet)/(len(rankDict)+1e-12)
+            Erec = len(intersectionSet)/(len(trueEdges)+1e-12)
         else:
             Eprec = 0
             Erec = 0
@@ -458,7 +462,7 @@ def compute_eprec_signed(G_inf, G_true):
     gt_pos = G_true.copy()
     estm_pos = G_inf.copy()
     gt_pos[np.where(G_true < 0)] = 0
-    estm_pos[np.where(G_true < 0)] = 0
+    estm_pos[np.where(estm_pos < 0)] = 0
     # binarize
     gt_pos = (gt_pos > 1e-6).astype(int)
     estm_pos = (estm_pos - np.min(estm_pos))/(np.max(estm_pos) - np.min(estm_pos) + 1e-12)
@@ -467,7 +471,7 @@ def compute_eprec_signed(G_inf, G_true):
     gt_neg = G_true.copy()
     estm_neg = G_inf.copy()
     gt_neg[np.where(G_true > 0)] = 0
-    estm_neg[np.where(G_true > 0)] = 0
+    estm_neg[np.where(estm_neg > 0)] = 0
     # binarize
     gt_neg = (gt_neg < -1e-6).astype(int)
     estm_neg = - estm_neg
@@ -479,5 +483,9 @@ def compute_eprec_signed(G_inf, G_true):
 def compute_eprec_abs(G_inf, G_true):
     # assert np.allclose(G_inf, G_inf.T, atol = 1e-7)
     # assert np.allclose(G_true, G_true.T, atol = 1e-7)
-    Eprec, Erec = compute_earlyprec(np.abs(G_inf), np.abs(G_true))
+    G_inf_abs = np.abs(G_inf)
+    G_true_abs = np.abs(G_true)
+    G_true_abs = (G_true_abs > 1e-6).astype(int)
+    G_inf_abs = (G_inf_abs - np.min(G_inf_abs))/(np.max(G_inf_abs) - np.min(G_inf_abs) + 1e-12)
+    Eprec, Erec = compute_earlyprec(G_inf_abs, G_true_abs)
     return Eprec

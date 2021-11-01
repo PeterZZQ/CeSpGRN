@@ -40,7 +40,7 @@ torch_sqrtm = MatrixSquareRoot.apply
 #                 norm += w
 #     return kt/norm
 
-def isPSD(A, tol=1e-7):
+def isPSD(A, tol=1e-5):
     # E,V = eigh(A)
     E, V = torch.eig(A, eigenvectors = False)
     E = E[:, 0].squeeze()

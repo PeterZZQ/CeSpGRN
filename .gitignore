@@ -1,10 +1,5 @@
 src/__pycache__
-test/results_old/
-test/results_GGM/
-test/results_softODE/
-test/results_softODE_sergio/
-test/results_scMultiSim/
-test/results_THP-1/
+test/results_*
 test/scripts_GGM1
 test/scripts_GGM2 
 test/scripts_scMultiSim
