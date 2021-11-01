@@ -1,14 +1,13 @@
-#PBS -N benchmark_GGM
+#PBS -N benchmark_softODE
 #PBS -q hive-himem
 #PBS -l nodes=1:ppn=6
-#PBS -l walltime=20:20:00
+#PBS -l walltime=10:20:00
 #PBS -j oe
-#PBS -o benchmark_GGM.out
+#PBS -o benchmark_softODE.out
 #PBS -m abe                            
 #PBS -M zzhang834@gatech.edu
-#PBS -t 0,1,2,3,4
 
 cd $PBS_O_WORKDIR
 module load anaconda3
 conda activate myenv
-python benchmark_GGM.py ${PBS_ARRAYID}
+python benchmark_softODE.py

@@ -187,7 +187,8 @@ def dyn_GRN(setting):
     else:
         G0 = _setting["G0"].copy()
 
-
+    # amplify the changes
+    G0 = G0 * 50
     # make sure the precision matrix is positive definite
     G0 = make_PD(G0)
     cov0 = np.linalg.inv(G0)
@@ -269,7 +270,10 @@ def dyn_GRN(setting):
                     del_mask = np.zeros_like(Gt)
                     del_mask[del_idx] = 1
                     add_mask = np.zeros_like(Gt)
-                    add_mask[add_idx] = np.random.uniform(low = -2, high = 2, size = nchanges) / change_stepsize
+                    # add_mask[add_idx] = np.random.uniform(low = -4, high = 4, size = nchanges) / change_stepsize
+                    add_mask[add_idx[:int(nchanges/2)]] = 50 * np.random.uniform(low = 3.5, high = 4, size = int(nchanges/2)) / change_stepsize
+                    add_mask[add_idx[int(nchanges/2):]] = 50 * np.random.uniform(low = -4, high = -3.5, size = nchanges - int(nchanges/2))/ change_stepsize
+
                     Gt = Gt.reshape((ngenes, ngenes))
                     del_mask = del_mask.reshape((ngenes, ngenes))
                     add_mask = add_mask.reshape((ngenes, ngenes))
@@ -444,6 +448,110 @@ def simulate_data(setting):
     }
 
     return result
+
+# In[]
+umap_op = UMAP(n_components = 2, min_dist = 0.9, n_neighbors = 30, random_state = 0)
+pca_op = PCA(n_components = 2)
+path = "../../data/GGM_bifurcate_test/"
+for interval in [5, 25, 100]:
+    for (ngenes, ntfs) in [(50, 20)]:
+        for seed in range(1):
+            ntimes = 1000
+            backbone = np.array(["0_1"] * 200 + ["1_2"] * 400 + ["1_3"] * 400)
+            nsamples = 1
+            nchanges = 2
+
+            if not os.path.exists(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) +  "_" + str(seed) + "_sergio/"):
+                os.makedirs(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) +  "_" + str(seed) + "_sergio/")
+
+            # Interaction_cID_5 is a sergio data which has 400 genes in total
+            sergio_path = "../soft_boolODE/sergio_data/Interaction_cID_5"
+            G0 = load_sub_sergio(grn_init = sergio_path, 
+                                 sub_size = ngenes, 
+                                 ntfs = ntfs, 
+                                 seed = seed, 
+                                 init_size = 400, 
+                                 mode = "dense"
+                                 )
+
+            setting = {"ngenes": ngenes, 
+                    "ntimes": ntimes, 
+                    "nsamples": nsamples,
+                    "mode": "TF-TF&target", 
+                    "ntfs": ntfs, 
+                    "nchanges": nchanges, 
+                    "change_stepsize": interval, 
+                    "seed": seed,
+                    "backbone": backbone,
+                    "G0": G0
+                    }
+            # run simulation
+            results = simulate_data(setting)
+            # obtain result
+            samples = results["samples"].reshape(setting["ntimes"] * setting["nsamples"], setting["ngenes"])
+            pt = results["sim time"].reshape(setting["ntimes"] * setting["nsamples"])
+            Gs = results["GRNs"].reshape(setting["ntimes"] * setting["nsamples"], setting["ngenes"], setting["ngenes"])
+
+            np.save(file = path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) +  "_" + str(seed) + "_sergio/Gs.npy", arr = Gs)
+            np.save(file = path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes)  +  "_" + str(seed) + "_sergio/expr.npy", arr = samples)
+            np.save(file = path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) +  "_" + str(seed) + "_sergio/sim_time.npy", arr = pt)
+            # save for SCODE format, row correspond to gene, column correspond to cell, no index and header, \t separated txt file
+            samples_tf = pd.DataFrame(data = samples.T)
+            samples_tf.to_csv(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) +  "_" + str(seed) + "_sergio/expr.txt", sep = "\t", index = False, header = False)
+            # save for SCODE format, row correspond to cell, column one is the index, column two is the pseudotime
+            pt_df = pd.DataFrame(data = pt[:,None])
+            pt_df.to_csv(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) +  "_" + str(seed) + "_sergio/sim_time.txt", sep = "\t", index = True, header = False)
+
+
+            X_umap = umap_op.fit_transform(samples.reshape(-1, ngenes))
+            fig = plt.figure(figsize = (10, 7))
+            ax = fig.add_subplot()
+            ax.scatter(X_umap[:, 0], X_umap[:, 1], c = pt, s = 5)
+            ax.set_xlabel("UMAP 1")
+            ax.set_ylabel("UMAP 2")
+            ax.set_title("UMAP plot")
+            fig.savefig(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) +  "_" + str(seed) + "_sergio/umap.png", bbox_inches = "tight")
+
+            X_pca = pca_op.fit_transform(samples.reshape(-1, ngenes))
+            fig = plt.figure(figsize = (10, 7))
+            ax = fig.add_subplot()
+            ax.scatter(X_pca[:, 0], X_pca[:, 1], c = pt, s = 5)
+            ax.set_xlabel("PCA 1")
+            ax.set_ylabel("PCA 2")
+            ax.set_title("PCA plot")
+            fig.savefig(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) +  "_" + str(seed) + "_sergio/pca.png", bbox_inches = "tight")
+
+
+            fig = plt.figure(figsize = (10, 7))
+            ax = fig.add_subplot()
+            X = Gs.reshape(-1,setting["ngenes"] ** 2)
+            G_umap = pca_op.fit_transform(X)
+            ax.scatter(G_umap[:, 0], G_umap[:, 1], s = 5, c = pt)
+            fig.savefig(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) +  "_" + str(seed) + "_sergio/grn_plot.png", bbox_inches = "tight")
+
+            # diffusion pseudotime
+            adata = AnnData(X = samples)
+            adata.obsm["X_pca"] = X_pca
+            adata.uns['iroot'] = 0
+            sc.pp.neighbors(adata, n_neighbors = 30)
+            sc.tl.diffmap(adata, n_comps = 5)
+            sc.tl.dpt(adata, n_dcs = 5)
+
+            pt_est = adata.obs["dpt_pseudotime"].values.squeeze()
+            fig = plt.figure(figsize = (10, 7))
+            ax = fig.add_subplot()
+            ax.scatter(X_umap[:, 0], X_umap[:, 1], c = pt_est, s = 5)
+            ax.set_xlabel("UMAP 1")
+            ax.set_ylabel("UMAP 2")
+            ax.set_title("UMAP plot (dpt)")
+            fig.savefig(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) +  "_" + str(seed) + "_sergio/umap_dpt.png", bbox_inches = "tight")
+
+            pt_df = pd.DataFrame(data = pt_est[:,None])
+            pt_df.to_csv(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) +  "_" + str(seed) + "_sergio/dpt_time.txt", sep = "\t", index = True, header = False)
+
+
+
+
 
 # In[0] generate data with bifurcating backbone
 

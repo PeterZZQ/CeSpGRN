@@ -37,7 +37,7 @@ import numpy as np
 
 # In[1]
 
-result_dir = "../results_GGM/"
+result_dir = "results_GGM/"
 print(result_dir)
 for use_init in ["sergio", "random"]:
     for pt in ["truet", "dpt"]:
@@ -48,7 +48,7 @@ for use_init in ["sergio", "random"]:
                     try:
                         theta = pd.read_csv(result_dir + subfolder + "/SCODE_" + pt + "/meanA.txt", sep = "\t", header = None).T.values
                     except:
-                        print("no result: " + subfolder + "/SCODE_" + pt)
+                        print("no result: " + subfolder)
                         continue
                     theta = np.repeat(theta[None, :, :], repeats = 1000, axis = 0)
                     assert theta.shape[0] == 1000

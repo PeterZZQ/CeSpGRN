@@ -11,6 +11,137 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 torch_sqrtm = MatrixSquareRoot.apply
 
+# def weighted_kendall_tau(xs, ys, ws = None):
+#     """\
+#     Description:
+#     -----------
+#        Calculate weighted kendall tau score, mxi, mxj, myi, myj are use to account for the missing values
+#     Parameters:
+#     -----------
+#         xs: the first array
+#         ys: the second array
+#         ws: the weight
+#     """
+#     n = len(xs)
+#     if ws is None:
+#         ws = np.ones(n)
+#     assert len(ys) == n
+#     assert len(ws) == n
+#     kt = 0
+#     norm = 0
+#     # mask array
+#     mx = (xs != 0)
+#     my = (ys != 0)
+#     for i in range(n):
+#         for j in range(n):
+#             if i != j:
+#                 w = mx[i] * mx[j] * my[i] * my[j] * ws[i] * ws[j]
+#                 kt += w * np.sign(xs[i] - xs[j]) * np.sign(ys[i] - ys[j])
+#                 norm += w
+#     return kt/norm
+
+def isPSD(A, tol=1e-5):
+    # E,V = eigh(A)
+    E, V = torch.eig(A, eigenvectors = False)
+    E = E[:, 0].squeeze()
+    # print('min_eig = ', np.min(E) , 'max_eig = ', np.max(E), ' min_diag = ', np.min(np.diag(A)))
+    # make sure symmetric positive definite
+    return torch.all(E > -tol) & torch.allclose(A, A.T, atol = tol), torch.min(E)
+
+def find_clostest_PSD(A):
+    """\
+    https://math.stackexchange.com/questions/648809/how-to-find-closest-positive-definite-matrix-of-non-symmetric-matrix
+    Positive definite matrices are a open set (Positive semidefinite is closed), no cloest point, uses 1e-4 for the minimum eigenvalue
+    """
+    # cannot make sure that U = V.t() with svd,
+    # U, S, V = torch.svd(A, some=False)
+    S, U = torch.eig(A, eigenvectors = True)
+    S = S[:, 0]
+    S[S <= 0] = 1e-3
+    return U @ torch.diag(S) @ U.t()
+
+
+def weighted_kendall_tau(xs, ys, ws = None):
+    """\
+    Description:
+    ------------
+        Calculate weighted kendall tau score, mxi, mxj, myi, myj are use to account for the missing values
+        Updated matrix version
+    Parameters:
+    -----------
+        xs: the first array
+        ys: the second array
+        ws: the weight
+    """
+    n = xs.shape[0]
+    if ws is None:
+        ws = torch.ones(n)#.to(device)
+    assert ys.shape[0] == n
+    assert ws.shape[0] == n
+    kt = 0
+    norm = 0
+    # mask array
+    mx = (xs != 0)
+    my = (ys != 0)
+    # make signed_diffx[i,j] = np.signed(xs[i] - xs[j])
+    signed_diffx = torch.sign(xs[:, None] - xs[None, :])
+    # make signed_diffy[i,j] = np.signed(ys[i] - ys[j])
+    signed_diffy = torch.sign(ys[:, None] - ys[None, :])
+    # make w_mat[i,j] = mx[i] * my[i] * mx[j] * my[j] * ws[i] * ws[j]
+    w_mat = mx[:, None] * my[:, None] * mx[None, :] * my[None, :] * ws[:, None] * ws[None, :]
+    # make sure don't sum up diagonal value, where i == j
+    w_mat.fill_diagonal_(0)
+    kt = torch.sum(signed_diffx * signed_diffy * w_mat)/torch.sum(w_mat)
+    return kt
+    
+def est_cov(X, K_trun, weighted_kt = True):
+    start_time = time.time()
+    X = torch.FloatTensor(X)#.to(device)
+    ntimes = X.shape[0]
+    ngenes = X.shape[1]
+
+    empir_cov = torch.zeros(ntimes, ngenes, ngenes)#.to(device)
+
+    # building weighted covariance matrix, output is empir_cov of the shape (ntimes, ngenes, ngenes)
+    for t in range(ntimes):
+        weight = torch.FloatTensor(K_trun[t, :])#.to(device)
+        if weighted_kt:
+            weight = (weight > 0)
+        # assert torch.sum(weight > 0) == 15
+
+        # sample_mean = torch.sum(sample * (bin_weight/torch.sum(bin_weight))[:, None], dim = 0)
+        for i in range(ngenes):
+            for j in range(i, ngenes):
+                if weighted_kt:
+                    kt = weighted_kendall_tau(X[(weight > 0), i].squeeze(), X[(weight > 0), j].squeeze(), weight[weight > 0])
+                    if i != j:
+                        empir_cov[t, i, j] = torch.sin(np.pi/2 * kt)
+                        # assert empir_cov[t, i, j] < 1
+                    else:
+                        empir_cov[t, i, j] = 1
+                        
+                else:
+                    kt = weighted_kendall_tau(X[(weight > 0), i].squeeze(), X[(weight > 0), j].squeeze(), weight[weight > 0])
+                    if i != j:
+                        empir_cov[t, i, j] = torch.sin(np.pi/2 * kt) 
+                        assert empir_cov[t, i, j] < 1
+                    else:
+                        empir_cov[t, i, j] = 1
+        empir_cov[t,:,:] = empir_cov[t,:,:] + empir_cov[t,:,:].T - torch.diag(torch.diag(empir_cov[t,:,:]))
+        # check positive definite
+        Flag, min_eig = isPSD(empir_cov[t,:,:])
+        # if not find the closest positive definite matrix
+        if not Flag:
+            print("inferred empirical convariance matrix is not positive definite at the time point " + str(t) + ", min eig: " + str(min_eig))
+            empir_cov[t,:,:] = find_clostest_PSD(empir_cov[t,:,:])
+            Flag, min_eig = isPSD(empir_cov[t,:,:])
+            print("After correction, the minimum eigenvalue: " + str(min_eig))
+            assert Flag
+
+    # empir_cov = empir_cov + empir_cov.permute((0,2,1)) - torch.stack([torch.diag(torch.diag(x)) for x in empir_cov])
+    print("time calculating the kernel function: {:.2f} sec".format(time.time() - start_time))
+    return empir_cov
+    
 # ADMM
 class G_admm():
     def __init__(self, X, K, TF = None, seed = 0, pre_cov = None):
