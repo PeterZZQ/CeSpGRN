@@ -452,10 +452,10 @@ def simulate_data(setting):
 # In[]
 umap_op = UMAP(n_components = 2, min_dist = 0.9, n_neighbors = 30, random_state = 0)
 pca_op = PCA(n_components = 2)
-path = "../../data/GGM_bifurcate_test/"
-for interval in [5, 25, 100]:
-    for (ngenes, ntfs) in [(50, 20)]:
-        for seed in range(1):
+path = "../../data/GGM_bifurcate/"
+for interval in [5, 25]:
+    for (ngenes, ntfs) in [(50, 20), (200,20)]:
+        for seed in range(3):
             ntimes = 1000
             backbone = np.array(["0_1"] * 200 + ["1_2"] * 400 + ["1_3"] * 400)
             nsamples = 1
@@ -495,6 +495,7 @@ for interval in [5, 25, 100]:
             np.save(file = path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) +  "_" + str(seed) + "_sergio/Gs.npy", arr = Gs)
             np.save(file = path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes)  +  "_" + str(seed) + "_sergio/expr.npy", arr = samples)
             np.save(file = path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) +  "_" + str(seed) + "_sergio/sim_time.npy", arr = pt)
+            np.save(file = path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "_" + str(seed) + "_sergio/backbone.npy", arr = backbone)
             # save for SCODE format, row correspond to gene, column correspond to cell, no index and header, \t separated txt file
             samples_tf = pd.DataFrame(data = samples.T)
             samples_tf.to_csv(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) +  "_" + str(seed) + "_sergio/expr.txt", sep = "\t", index = False, header = False)

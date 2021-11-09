@@ -73,7 +73,23 @@ def calc_scores(thetas_inf, thetas_gt, interval, model, bandwidth = 0, truncate_
 
     return scores      
     
+import matplotlib.patheffects as path_effects
 
+def add_median_labels(ax, precision='.2f'):
+    lines = ax.get_lines()
+    boxes = [c for c in ax.get_children() if type(c).__name__ == 'PathPatch']
+    lines_per_box = int(len(lines) / len(boxes))
+    for median in lines[4:len(lines):lines_per_box]:
+        x, y = (data.mean() for data in median.get_data())
+        # choose value depending on horizontal or vertical plot orientation
+        value = x if (median.get_xdata()[1] - median.get_xdata()[0]) == 0 else y
+        text = ax.text(x, y, f'{value:{precision}}', ha='center', va='center',
+                       fontweight='bold', color='white', fontsize = 10)
+        # create median-colored border around white text for contrast
+        text.set_path_effects([
+            path_effects.Stroke(linewidth=3, foreground=median.get_color()),
+            path_effects.Normal(),
+        ])
 
 # In[] benchmark accuracy
 
@@ -84,7 +100,7 @@ ntimes = 1000
 nsample = 1
 path = "../../data/continuousODE/"
 umap_op = UMAP(n_components = 2, min_dist = 0.8, n_neighbors = 30, random_state = 0)
-traj = "bifurc"
+traj = "linear"
 
 
 def summarize_scores(setting):
@@ -105,9 +121,9 @@ def summarize_scores(setting):
     print("data loaded.")
 
     # admm, hyper-parameter
-    for bandwidth in [0.1, 1, 10]:
-        for truncate_param in [15, 30, 100]:
-            for lamb in [0.0001, 0.001, 0.01, 0.1]:
+    for bandwidth in [10]:
+        for truncate_param in [30]:
+            for lamb in [0.001]:
                 thetas = np.load(file = result_dir + "thetas_" + str(bandwidth) + "_" + str(lamb) + "_" + str(truncate_param) + "_kt.npy")
                 print(result_dir + "thetas_" + str(bandwidth) + "_" + str(lamb) + "_" + str(truncate_param))
                 score = calc_scores(thetas_inf = thetas, thetas_gt = gt_adj, interval = interval, model = "CeSpGRN-kt", bandwidth = bandwidth, truncate_param = truncate_param, lamb = lamb)
@@ -130,13 +146,13 @@ def summarize_scores(setting):
                 ax.scatter(X_umap[:,0], X_umap[:,1], c = sim_time, s = 5)
                 fig.savefig(result_dir + "infer_G_" + str(bandwidth) + "_" + str(lamb) + "_" + str(truncate_param) + ".png", bbox_inches = "tight")
 
-    scores.to_csv(result_dir + "score.csv")
+    scores.to_csv(result_dir + "score_best.csv")
 
 
 settings = []
 for interval in [20]:
     for (ngenes, ntfs) in [(20, 5)]:
-        for seed in [4]:
+        for seed in [0,1,2,3,4]:
             settings.append({
                 "ntimes": ntimes,
                 "interval": interval,
@@ -181,9 +197,9 @@ def summarize_scores_diff(setting):
     gt_adj = gt_adj[step::,:,:] - gt_adj[:-step:,:,:]  
 
     # admm, hyper-parameter
-    for bandwidth in [0.1, 1, 10]:
-        for truncate_param in [15, 30, 100]:
-            for lamb in [0.0001, 0.001, 0.01, 0.1]:
+    for bandwidth in [10]:
+        for truncate_param in [30]:
+            for lamb in [0.001]:
                 thetas = np.load(file = result_dir + "thetas_" + str(bandwidth) + "_" + str(lamb) + "_" + str(truncate_param) + "_kt.npy")
                 thetas = thetas[step::,:,:] - thetas[:-step:,:,:]  
                 score = calc_scores(thetas_inf = thetas, thetas_gt = gt_adj, interval = interval, model = "CeSpGRN-kt", bandwidth = bandwidth, truncate_param = truncate_param, lamb = lamb)
@@ -194,12 +210,12 @@ def summarize_scores_diff(setting):
                 score = calc_scores(thetas_inf = thetas, thetas_gt = gt_adj, interval = interval, model = "CeSpGRN", bandwidth = bandwidth, truncate_param = truncate_param, lamb = lamb)
                 scores = pd.concat([scores, score], axis = 0, ignore_index = True)
 
-    scores.to_csv(result_dir + "score_diff.csv")
+    scores.to_csv(result_dir + "score_best_diff.csv")
 
 settings = []
 for interval in [20]:
     for (ngenes, ntfs) in [(20, 5)]:
-        for seed in [4]:
+        for seed in [0,1,2,3,4]:
             settings.append({
                 "ntimes": ntimes,
                 "interval": interval,
@@ -213,6 +229,126 @@ pool = Pool(5)
 pool.map(summarize_scores_diff, [x for x in settings])
 pool.close()
 pool.join()
+
+
+
+# In[] for TF case, we use bandwidth = 10, truncate_param = 30, lamb = 0.001 to be the best hyper-parameter setting
+# and loop through all possible betas
+print("------------------------------------------------------------------")
+print("benchmark accuracy for TF")
+print("------------------------------------------------------------------")
+ntimes = 1000
+nsample = 1
+path = "../../data/continuousODE/"
+umap_op = UMAP(n_components = 2, min_dist = 0.8, n_neighbors = 30, random_state = 0)
+traj = "linear"
+
+
+def summarize_scores(setting):
+    ntimes = setting["ntimes"]
+    interval = setting["interval"]
+    ngenes = setting["ngenes"]
+    ntfs = setting["ntfs"]
+    seed = setting["seed"]
+
+    print("ntimes: " + str(ntimes) + ", interval: " + str(interval) + ", ngenes: " + str(ngenes) + ", seed: " + str(seed) + ", initial graph: sergio\n")
+    scores = pd.DataFrame(columns = ["interval", "ngenes", "time", "model", "bandwidth", "truncate_param", "lambda", "beta", "nmse","kendall-tau", "pearson", "spearman", "cosine similarity", "AUPRC Ratio (pos)", "AUPRC Ratio (neg)", "AUPRC Ratio (abs)", "Early Precision Ratio (pos)", "Early Precision Ratio (neg)", "Early Precision Ratio (abs)"])
+    result_dir = "../results_softODE_v3/" + traj + "_ngenes_" + str(ngenes) + "_ncell_" + str(ntimes) + "_seed_" + str(seed) + "/"
+    data_dir = path + traj + "_ngenes_" + str(ngenes) + "_ncell_" + str(ntimes) + "_seed_" + str(seed) + "/"
+    
+    # X = np.load(data_dir + "expr.npy")
+    gt_adj = np.load(data_dir + "GRNs.npy")
+    sim_time = np.load(data_dir + "pseudotime.npy")
+    print("data loaded.")
+
+    # admm, hyper-parameter
+    for bandwidth in [10]:
+        for truncate_param in [30]:
+            for lamb in [0.001]:
+                for beta in [0.01, 0.1, 1, 10, 100]:
+                    thetas = np.load(file = result_dir + "thetas_" + str(bandwidth) + "_" + str(lamb) + "_" + str(truncate_param) + "_"+ str(beta) + "_kt.npy")
+                    print(result_dir + "thetas_" + str(bandwidth) + "_" + str(lamb) + "_" + str(truncate_param)+ "_"+ str(beta))
+                    score = calc_scores(thetas_inf = thetas, thetas_gt = gt_adj, interval = interval, model = "CeSpGRN-kt-TF", bandwidth = bandwidth, truncate_param = truncate_param, lamb = lamb)
+                    score["beta"] = beta
+                    scores = pd.concat([scores, score], axis = 0, ignore_index = True)
+
+    scores.to_csv(result_dir + "score_tf.csv")
+
+
+settings = []
+for interval in [20]:
+    for (ngenes, ntfs) in [(20, 5)]:
+        for seed in [0,1,2,3,4]:
+            settings.append({
+                "ntimes": ntimes,
+                "interval": interval,
+                "ngenes": ngenes,
+                "ntfs": ntfs,
+                "seed": seed
+            })
+
+
+pool = Pool(5) 
+pool.map(summarize_scores, [x for x in settings])
+pool.close()
+pool.join()
+
+print("------------------------------------------------------------------")
+print("benchmark differences for TF")
+print("------------------------------------------------------------------")
+
+def summarize_scores_diff(setting):
+    ntimes = setting["ntimes"]
+    interval = setting["interval"]
+    ngenes = setting["ngenes"]
+    ntfs = setting["ntfs"]
+    seed = setting["seed"]
+
+    print("ntimes: " + str(ntimes) + ", interval: " + str(interval) + ", ngenes: " + str(ngenes) + ", seed: " + str(seed) + ", initial graph: sergio\n")
+    scores = pd.DataFrame(columns = ["interval", "ngenes", "time", "model", "bandwidth", "truncate_param", "lambda", "beta", "nmse","kendall-tau", "pearson", "spearman", "cosine similarity", "AUPRC Ratio (pos)", "AUPRC Ratio (neg)", "AUPRC Ratio (abs)", "Early Precision Ratio (pos)", "Early Precision Ratio (neg)", "Early Precision Ratio (abs)"])
+    result_dir = "../results_softODE_v3/" + traj + "_ngenes_" + str(ngenes) + "_ncell_" + str(ntimes) + "_seed_" + str(seed) + "/"
+    data_dir = path + traj + "_ngenes_" + str(ngenes) + "_ncell_" + str(ntimes) + "_seed_" + str(seed) + "/"
+    
+    # X = np.load(data_dir + "expr.npy")
+    gt_adj = np.load(data_dir + "GRNs.npy")
+    sim_time = np.load(data_dir + "pseudotime.npy")
+    print("data loaded.")
+
+    step = 400
+    gt_adj = gt_adj[step::,:,:] - gt_adj[:-step:,:,:]  
+
+    # admm, hyper-parameter
+    for bandwidth in [10]:
+        for truncate_param in [30]:
+            for lamb in [0.001]:
+                for beta in [0.01, 0.1, 1, 10, 100]:
+                    thetas = np.load(file = result_dir + "thetas_" + str(bandwidth) + "_" + str(lamb) + "_" + str(truncate_param) + "_"+ str(beta) + "_kt.npy")
+                    thetas = thetas[step::,:,:] - thetas[:-step:,:,:]  
+                    print(result_dir + "thetas_" + str(bandwidth) + "_" + str(lamb) + "_" + str(truncate_param)+ "_"+ str(beta))
+                    score = calc_scores(thetas_inf = thetas, thetas_gt = gt_adj, interval = interval, model = "CeSpGRN-kt-TF", bandwidth = bandwidth, truncate_param = truncate_param, lamb = lamb)
+                    score["beta"] = beta
+                    scores = pd.concat([scores, score], axis = 0, ignore_index = True)
+
+    scores.to_csv(result_dir + "score_diff_tf.csv")
+
+settings = []
+for interval in [20]:
+    for (ngenes, ntfs) in [(20, 5)]:
+        for seed in [0,1,2,3,4]:
+            settings.append({
+                "ntimes": ntimes,
+                "interval": interval,
+                "ngenes": ngenes,
+                "ntfs": ntfs,
+                "seed": seed
+            })
+
+
+pool = Pool(5) 
+pool.map(summarize_scores_diff, [x for x in settings])
+pool.close()
+pool.join()
+
 
 # In[] summarize the mean result in csv file
 
@@ -245,24 +381,6 @@ for traj in ["linear", "bifurc"]:
 
 
 # In[]
-import matplotlib.patheffects as path_effects
-
-def add_median_labels(ax, precision='.2f'):
-    lines = ax.get_lines()
-    boxes = [c for c in ax.get_children() if type(c).__name__ == 'PathPatch']
-    lines_per_box = int(len(lines) / len(boxes))
-    for median in lines[4:len(lines):lines_per_box]:
-        x, y = (data.mean() for data in median.get_data())
-        # choose value depending on horizontal or vertical plot orientation
-        value = x if (median.get_xdata()[1] - median.get_xdata()[0]) == 0 else y
-        text = ax.text(x, y, f'{value:{precision}}', ha='center', va='center',
-                       fontweight='bold', color='white', fontsize = 10)
-        # create median-colored border around white text for contrast
-        text.set_path_effects([
-            path_effects.Stroke(linewidth=3, foreground=median.get_color()),
-            path_effects.Normal(),
-        ])
-
 score_all = pd.DataFrame(columns = ["interval", "ngenes", "time", "model", "bandwidth", "truncate_param", "lambda", "nmse","kendall-tau", "pearson", "spearman", "cosine similarity", "AUPRC Ratio (pos)", "AUPRC Ratio (neg)", "AUPRC Ratio (abs)", "Early Precision Ratio (pos)", "Early Precision Ratio (neg)", "Early Precision Ratio (abs)"])
 score_all_diff = pd.DataFrame(columns = ["interval", "ngenes", "time", "model", "bandwidth", "truncate_param", "lambda", "nmse","kendall-tau", "pearson", "spearman", "cosine similarity", "AUPRC Ratio (pos)", "AUPRC Ratio (neg)", "AUPRC Ratio (abs)", "Early Precision Ratio (pos)", "Early Precision Ratio (neg)", "Early Precision Ratio (abs)"])
 ntimes = 1000
@@ -433,8 +551,7 @@ fig.suptitle("score of changing edge detection")
 plt.tight_layout()
 fig.savefig("../results_softODE_v3/hyper-parameter-diff-kt.png", bbox_inches = "tight")
 
-
-# In[] find setting with the highest mean score
+# In[] check beta effect, beta = 100 is the best.
 score_all = pd.DataFrame(columns = ["interval", "ngenes", "time", "model", "bandwidth", "truncate_param", "lambda", "nmse","kendall-tau", "pearson", "spearman", "cosine similarity", "AUPRC Ratio (pos)", "AUPRC Ratio (neg)", "AUPRC Ratio (abs)", "Early Precision Ratio (pos)", "Early Precision Ratio (neg)", "Early Precision Ratio (abs)"])
 score_all_diff = pd.DataFrame(columns = ["interval", "ngenes", "time", "model", "bandwidth", "truncate_param", "lambda", "nmse","kendall-tau", "pearson", "spearman", "cosine similarity", "AUPRC Ratio (pos)", "AUPRC Ratio (neg)", "AUPRC Ratio (abs)", "Early Precision Ratio (pos)", "Early Precision Ratio (neg)", "Early Precision Ratio (abs)"])
 ntimes = 1000
@@ -444,12 +561,12 @@ for interval in [20]:
             # bifurcating
             result_dir = "../results_softODE_v3/bifurc_ngenes_" + str(ngenes) + "_ncell_" + str(ntimes) + "_seed_" + str(seed) + "/"
     
-            score = pd.read_csv(result_dir + "score.csv", index_col = 0)
-            score_diff = pd.read_csv(result_dir + "score_diff.csv", index_col = 0)
+            score = pd.read_csv(result_dir + "score_tf.csv", index_col = 0)
+            score_diff = pd.read_csv(result_dir + "score_diff_tf.csv", index_col = 0)
 
 
-            score = score[(score["model"] == "CeSpGRN-kt")|(score["model"] == "CeSpGRN")]
-            score_diff = score_diff[(score_diff["model"] == "CeSpGRN-kt")|(score_diff["model"] == "CeSpGRN")]
+            score = score[(score["model"] == "CeSpGRN-kt-TF")]
+            score_diff = score_diff[score_diff["model"] == "CeSpGRN-kt-TF"]
 
             score_all = pd.concat([score_all, score], axis = 0)
             score_all_diff = pd.concat([score_all_diff, score_diff], axis = 0)
@@ -458,21 +575,108 @@ for interval in [20]:
             # linear
             result_dir = "../results_softODE_v3/linear_ngenes_" + str(ngenes) + "_ncell_" + str(ntimes) + "_seed_" + str(seed) + "/"
     
-            score = pd.read_csv(result_dir + "score.csv", index_col = 0)
-            score_diff = pd.read_csv(result_dir + "score_diff.csv", index_col = 0)
+            score = pd.read_csv(result_dir + "score_tf.csv", index_col = 0)
+            score_diff = pd.read_csv(result_dir + "score_diff_tf.csv", index_col = 0)
 
-            score = score[(score["model"] == "CeSpGRN-kt")|(score["model"] == "CeSpGRN")]
-            score_diff = score_diff[(score_diff["model"] == "CeSpGRN-kt")|(score_diff["model"] == "CeSpGRN")]
+            score = score[(score["model"] == "CeSpGRN-kt-TF")]
+            score_diff = score_diff[score_diff["model"] == "CeSpGRN-kt-TF"]
 
             score_all = pd.concat([score_all, score], axis = 0)
             score_all_diff = pd.concat([score_all_diff, score_diff], axis = 0)
 
-mean_score = score_all.groupby(by = ["model", "bandwidth", "truncate_param", "lambda"]).mean()
-mean_score = mean_score.drop(["time"], axis = 1)
-mean_score.to_csv("../results_softODE_v3/mean_score.csv")
 
-mean_score_diff = score_all_diff.groupby(by = ["model", "bandwidth", "truncate_param", "lambda"]).mean()
-mean_score_diff = mean_score_diff.drop(["time"], axis = 1)
-mean_score_diff.to_csv("../results_softODE_v3/mean_score_diff.csv")
+fig, ax = plt.subplots( figsize=(12.0, 7.0) , nrows=2, ncols=2) 
+boxplot1 = sns.boxplot(data = score_all, x = "beta", y = "pearson", ax = ax[0,0])
+boxplot2 = sns.boxplot(data = score_all, x = "beta", y = "spearman", ax = ax[0,1])
+boxplot3 = sns.boxplot(data = score_all, x = "beta", y = "AUPRC Ratio (pos)", ax = ax[1,0])
+boxplot4 = sns.boxplot(data = score_all, x = "beta", y = "AUPRC Ratio (neg)", ax = ax[1,1])
+add_median_labels(boxplot1.axes)
+add_median_labels(boxplot2.axes)
+add_median_labels(boxplot3.axes)
+add_median_labels(boxplot4.axes)
+
+ax[0,0].set_xticklabels(boxplot1.get_xticklabels(), rotation = 45)
+ax[0,1].set_xticklabels(boxplot2.get_xticklabels(), rotation = 45)
+ax[1,0].set_xticklabels(boxplot1.get_xticklabels(), rotation = 45)
+ax[1,1].set_xticklabels(boxplot2.get_xticklabels(), rotation = 45)
+# ax[0,0].get_legend().remove()
+# ax[1,0].get_legend().remove()
+ax[0,1].legend(loc="upper left", prop={'size': 15}, frameon = False, ncol = 1, bbox_to_anchor=(1.01, 1), title = "Neighborhood size")
+ax[1,1].legend(loc="upper left", prop={'size': 15}, frameon = False, ncol = 1, bbox_to_anchor=(1.01, 1), title = "Neighborhood size")
+
+
+fig.set_facecolor('w')
+fig.suptitle("score of edge detection")
+plt.tight_layout()
+fig.savefig("../results_softODE_v3/hyper-parameter-tf.png", bbox_inches = "tight")
+
+
+
+fig, ax = plt.subplots( figsize=(12.0, 7.0) , nrows=2, ncols=2) 
+boxplot1 = sns.boxplot(data = score_all_diff, x = "beta", y = "pearson", ax = ax[0,0])
+boxplot2 = sns.boxplot(data = score_all_diff, x = "beta", y = "spearman", ax = ax[0,1])
+boxplot3 = sns.boxplot(data = score_all_diff, x = "beta", y = "AUPRC Ratio (pos)", ax = ax[1,0])
+boxplot4 = sns.boxplot(data = score_all_diff, x = "beta", y = "AUPRC Ratio (neg)", ax = ax[1,1])
+add_median_labels(boxplot1.axes)
+add_median_labels(boxplot2.axes)
+add_median_labels(boxplot3.axes)
+add_median_labels(boxplot4.axes)
+
+ax[0,0].set_xticklabels(boxplot1.get_xticklabels(), rotation = 45)
+ax[0,1].set_xticklabels(boxplot2.get_xticklabels(), rotation = 45)
+ax[1,0].set_xticklabels(boxplot1.get_xticklabels(), rotation = 45)
+ax[1,1].set_xticklabels(boxplot2.get_xticklabels(), rotation = 45)
+# ax[0,0].get_legend().remove()
+# ax[1,0].get_legend().remove()
+ax[0,1].legend(loc="upper left", prop={'size': 15}, frameon = False, ncol = 1, bbox_to_anchor=(1.01, 1), title = "Neighborhood size")
+ax[1,1].legend(loc="upper left", prop={'size': 15}, frameon = False, ncol = 1, bbox_to_anchor=(1.01, 1), title = "Neighborhood size")
+    
+
+fig.set_facecolor('w')
+fig.suptitle("score of changing edge detection")
+plt.tight_layout()
+fig.savefig("../results_softODE_v3/hyper-parameter-diff-tf.png", bbox_inches = "tight")
+
+
+# In[] find setting with the highest mean score, already summarized into the excel
+# score_all = pd.DataFrame(columns = ["interval", "ngenes", "time", "model", "bandwidth", "truncate_param", "lambda", "nmse","kendall-tau", "pearson", "spearman", "cosine similarity", "AUPRC Ratio (pos)", "AUPRC Ratio (neg)", "AUPRC Ratio (abs)", "Early Precision Ratio (pos)", "Early Precision Ratio (neg)", "Early Precision Ratio (abs)"])
+# score_all_diff = pd.DataFrame(columns = ["interval", "ngenes", "time", "model", "bandwidth", "truncate_param", "lambda", "nmse","kendall-tau", "pearson", "spearman", "cosine similarity", "AUPRC Ratio (pos)", "AUPRC Ratio (neg)", "AUPRC Ratio (abs)", "Early Precision Ratio (pos)", "Early Precision Ratio (neg)", "Early Precision Ratio (abs)"])
+# ntimes = 1000
+# for interval in [20]:
+#     for (ngenes, ntfs) in [(20, 5)]:
+#         for seed in [0,1,2,3,4]:
+#             # bifurcating
+#             result_dir = "../results_softODE_v3/bifurc_ngenes_" + str(ngenes) + "_ncell_" + str(ntimes) + "_seed_" + str(seed) + "/"
+    
+#             score = pd.read_csv(result_dir + "score.csv", index_col = 0)
+#             score_diff = pd.read_csv(result_dir + "score_diff.csv", index_col = 0)
+
+
+#             score = score[(score["model"] == "CeSpGRN-kt")|(score["model"] == "CeSpGRN")]
+#             score_diff = score_diff[(score_diff["model"] == "CeSpGRN-kt")|(score_diff["model"] == "CeSpGRN")]
+
+#             score_all = pd.concat([score_all, score], axis = 0)
+#             score_all_diff = pd.concat([score_all_diff, score_diff], axis = 0)
+
+
+#             # linear
+#             result_dir = "../results_softODE_v3/linear_ngenes_" + str(ngenes) + "_ncell_" + str(ntimes) + "_seed_" + str(seed) + "/"
+    
+#             score = pd.read_csv(result_dir + "score.csv", index_col = 0)
+#             score_diff = pd.read_csv(result_dir + "score_diff.csv", index_col = 0)
+
+#             score = score[(score["model"] == "CeSpGRN-kt")|(score["model"] == "CeSpGRN")]
+#             score_diff = score_diff[(score_diff["model"] == "CeSpGRN-kt")|(score_diff["model"] == "CeSpGRN")]
+
+#             score_all = pd.concat([score_all, score], axis = 0)
+#             score_all_diff = pd.concat([score_all_diff, score_diff], axis = 0)
+
+# mean_score = score_all.groupby(by = ["model", "bandwidth", "truncate_param", "lambda"]).mean()
+# mean_score = mean_score.drop(["time"], axis = 1)
+# mean_score.to_csv("../results_softODE_v3/mean_score.csv")
+
+# mean_score_diff = score_all_diff.groupby(by = ["model", "bandwidth", "truncate_param", "lambda"]).mean()
+# mean_score_diff = mean_score_diff.drop(["time"], axis = 1)
+# mean_score_diff.to_csv("../results_softODE_v3/mean_score_diff.csv")
 
 # %%
