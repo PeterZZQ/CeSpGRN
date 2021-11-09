@@ -1,0 +1,22 @@
+#!/bin/bash
+#SBATCH -J test_runtime_5
+#SBATCH -N 1
+#SBATCH -p GPU-shared
+#SBATCH --gres=gpu:1
+#SBATCH -t 2:00:00
+#SBATCH -o test_runtime_5.out 
+#SBATCH -e test_runtime_5.err
+#SBATCH --mail-user=zzhang834@gatech.edu
+#SBATCH --mail-type=ALL
+
+module load anaconda3
+module load cuda/11.1.1
+conda activate myenv
+
+cd ${PROJECT}/DynGRN/test/scripts_runtime
+
+# 1st argument: (gene,tf) pair, can be 0,1,2,3,4
+# 2nd argument: seed, 0,1,2
+gene_tf=0
+seed=1
+python test_runtime.py ${gene_tf} ${seed}

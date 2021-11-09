@@ -49,8 +49,7 @@ result_dir = "../results_THP-1_kt/"
 
 counts = pd.read_csv(path + "counts.csv", index_col = 0).values
 annotation = pd.read_csv(path + "anno.csv", index_col = 0)
-dpt = pd.read_csv(path + "dpt_time.txt", index_col = 0, sep = "\t", header = None).values.squeeze()
-# counts = counts[np.argsort(dpt), :]
+
 ncells, ngenes = counts.shape
 assert ncells == 8 * 120
 assert ngenes == 45
@@ -70,11 +69,10 @@ counts = counts / np.sum(counts, axis = 1)[:,None] * libsize
 counts = np.log1p(counts)
 
 pca_op = PCA(n_components = 20)
-umap_op = UMAP(n_components = 2, min_dist = 0.8)
-mds_op = MDS(n_components = 2)
+umap_op = UMAP(n_components = 2, min_dist = 0.8, random_state = 0)
+
 X_pca = pca_op.fit_transform(counts)
 X_umap = umap_op.fit_transform(counts)
-# X_pca = mds_op.fit_transform(counts)
 
 fig = plt.figure(figsize  = (10,7))
 ax = fig.add_subplot()
@@ -102,16 +100,17 @@ fig.savefig(result_dir + "X_umap.png", bbox_inches = "tight")
 
 # In[2] ADMM
 # hyper-parameter
+bandwidths = [0.01, 0.1, 0.2, 0.5, 1, 10]
 truncate_params = [5, 15, 30]
-assert len(sys.argv) == 2
+lambs = [0.001, 0.002, 0.005, 0.01, 0.05, 0.1]
+assert len(sys.argv) == 3
 
-for bandwidth in [0.01, 0.1, 0.2, 0.5, 1, 10]:
-    for truncate_param in [truncate_params[eval(sys.argv[1])]]:
+for bandwidth in [bandwidths[eval(sys.argv[1])]]:
+    for truncate_param in [truncate_params[eval(sys.argv[2])]]:
         # calculate empirical covariance matrix
         start_time = time.time()
         empir_cov = torch.zeros(ncells, ngenes, ngenes)
         # calculate the kernel function
-        # K, K_trun = kernel.calc_kernel(counts, k = 5, bandwidth = bandwidth, truncate = True, truncate_param = truncate_param)
         K, K_trun = kernel.calc_kernel_neigh(X_pca, k = 5, bandwidth = bandwidth, truncate = True, truncate_param = truncate_param)
 
         # plot kernel function
@@ -146,12 +145,12 @@ for bandwidth in [0.01, 0.1, 0.2, 0.5, 1, 10]:
         # building weighted covariance matrix, output is empir_cov of the shape (ncells, ngenes, ngenes)
         empir_cov = g_admm.est_cov(X = counts, K_trun = K_trun, weighted_kt = True)
 
-        for lamb in [0.001, 0.002, 0.005, 0.01, 0.05, 0.1]:
+        for lamb in lambs:
             alpha = 2
             rho = 1.7
             max_iters = 1000
 
-            if exists(result_dir + "thetas_" + str(bandwidth) + "_" + str(lamb) + "_" + str(truncate_param) + "_0.npy"):
+            if exists(result_dir + "thetas_" + str(bandwidth) + "_" + str(lamb) + "_" + str(truncate_param) + "_kt.npy"):
                 continue 
             else:
                 start_time = time.time() 
@@ -161,7 +160,7 @@ for bandwidth in [0.01, 0.1, 0.2, 0.5, 1, 10]:
                 # gadmm_batch = g_admm.G_admm_batch(X=X[:, None, :], K=K, pre_cov=empir_cov)
                 gadmm_batch = g_admm.G_admm_minibatch(X=counts[:, None, :], K=K, pre_cov=empir_cov, batchsize = 120)
                 thetas = gadmm_batch.train(max_iters=max_iters, n_intervals=100, alpha=alpha, lamb=lamb, rho=rho, theta_init_offset=0.1)
-                np.save(file = result_dir + "thetas_" + str(bandwidth) + "_" + str(lamb) + "_" + str(truncate_param) + "_0.npy", arr = thetas) 
+                np.save(file = result_dir + "thetas_" + str(bandwidth) + "_" + str(lamb) + "_" + str(truncate_param) + "_kt.npy", arr = thetas) 
                 print("time calculating thetas: {:.2f} sec".format(time.time() - start_time))
 
                 thetas = thetas.reshape(thetas.shape[0], -1)

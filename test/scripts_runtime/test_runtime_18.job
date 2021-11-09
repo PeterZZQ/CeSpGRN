@@ -1,0 +1,21 @@
+#!/bin/bash
+#SBATCH -J test_runtime_18
+#SBATCH -N 1
+#SBATCH -p RM-shared
+#SBATCH -t 2:00:00
+#SBATCH -o test_runtime_18.out 
+#SBATCH -e test_runtime_18.err
+#SBATCH --mail-user=zzhang834@gatech.edu
+#SBATCH --mail-type=ALL
+
+module load anaconda3
+module load cuda/11.1.1
+conda activate myenv
+
+cd ${PROJECT}/DynGRN/test/scripts_runtime
+
+# 1st argument: (gene,tf) pair, can be 0,1,2,3,4
+# 2nd argument: seed, 0,1,2
+gene_tf=3
+seed=0
+python test_runtime.py ${gene_tf} ${seed}

@@ -63,7 +63,7 @@ def cal_cov(X, K_trun):
 
 
 
-# In[2]
+# In[2] Gaussian
 # seeds = [eval(sys.argv[1])]
 # interval = 20
 # ntimes = 1000
@@ -163,7 +163,7 @@ def cal_cov(X, K_trun):
 #                             gadmm_batch = None
 #                             gc.collect()
 
-# In[]
+# In[] Gaussian Coupla
 seeds = [eval(sys.argv[1])]
 interval = 20
 ntimes = 1000

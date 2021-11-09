@@ -1,11 +1,11 @@
 #!/bin/bash
-#SBATCH -J test_THP-1
+#SBATCH -J test_THP-1-kt-6
 #SBATCH -N 1
 #SBATCH -p GPU-shared
 #SBATCH --gres=gpu:1
 #SBATCH -t 12:00:00
-#SBATCH -o test_THP-1.out 
-#SBATCH -e test_THP-1.err
+#SBATCH -o test_THP-1-kt-6.out 
+#SBATCH -e test_THP-1-kt-6.err
 #SBATCH --mail-user=zzhang834@gatech.edu
 #SBATCH --mail-type=ALL
 
@@ -15,5 +15,8 @@ conda activate myenv
 
 # RUN GENIE3 & ADMM
 cd /ocean/projects/cis210014p/ziqi/DynGRN/test/scripts_THP-1
-python test_THP-1.py
+
+bandwidth=2
+truncate_param=0
+python test_THP-1_kt.py ${bandwidth} ${truncate_param}
 
