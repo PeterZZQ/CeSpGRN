@@ -17,8 +17,3 @@ conda activate myenv
 cd /ocean/projects/cis210014p/ziqi/DynGRN/test/scripts_THP-1
 python test_THP-1.py
 
-# # RUN SCODE
-# cd /ocean/projects/cis210014p/ziqi/DynGRN/SCODE
-# data_dir=../data/COUNTS-THP-1
-# result_dir=../test/results_THP-1/SCODE
-# ruby run_R.rb ${data_dir}/expr.txt ${data_dir}/dpt_time.txt ${result_dir} 45 4 960 100 5

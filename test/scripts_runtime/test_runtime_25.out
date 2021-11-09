@@ -1,0 +1,50 @@
+ngenes: 30, seed: 2
+number of nearest neighbor: 6
+number of nearest neighbor: 7
+number of nearest neighbor: 8
+number of nearest neighbor: 9
+final number of nearest neighbor (make connected): 9
+number of neighbor being considered: 30
+time calculating the kernel function: 86.70 sec
+time cost (estimating empirical covariance matrix): 86.70 sec
+start running batch 0
+n_iter: 500, duality gap: 9.6448e-09, primal residual: 1.3324e-07, dual residual: 4.795694e-07
+Batch loss: loss1: 2706.16992, loss2: 6227.45166, loss3: 0.00000
+Finished running batch 0, running time: 16.19 sec
+start running batch 1
+n_iter: 500, duality gap: 8.5862e-09, primal residual: 1.3232e-07, dual residual: 5.432965e-07
+Batch loss: loss1: 2748.98120, loss2: 5977.15918, loss3: 0.00000
+Finished running batch 1, running time: 16.76 sec
+start running batch 2
+n_iter: 500, duality gap: 9.1851e-09, primal residual: 1.2452e-07, dual residual: 5.201177e-07
+Batch loss: loss1: 2762.76782, loss2: 5891.08301, loss3: 0.00000
+Finished running batch 2, running time: 16.77 sec
+start running batch 3
+n_iter: 500, duality gap: 7.6281e-09, primal residual: 1.3003e-07, dual residual: 5.130094e-07
+Batch loss: loss1: 2734.89136, loss2: 6077.69922, loss3: 0.00000
+Finished running batch 3, running time: 16.91 sec
+start running batch 4
+n_iter: 500, duality gap: 9.7672e-09, primal residual: 1.3201e-07, dual residual: 5.612259e-07
+Batch loss: loss1: 2678.19678, loss2: 6421.19824, loss3: 0.00000
+Finished running batch 4, running time: 17.24 sec
+start running batch 5
+n_iter: 500, duality gap: 1.1622e-08, primal residual: 1.3113e-07, dual residual: 5.507314e-07
+Batch loss: loss1: 2585.94385, loss2: 6946.47559, loss3: 0.00000
+Finished running batch 5, running time: 16.41 sec
+start running batch 6
+n_iter: 500, duality gap: 8.5300e-09, primal residual: 1.2728e-07, dual residual: 5.965955e-07
+Batch loss: loss1: 2766.87598, loss2: 5857.85645, loss3: 0.00000
+Finished running batch 6, running time: 16.85 sec
+start running batch 7
+n_iter: 500, duality gap: 7.6023e-09, primal residual: 1.2478e-07, dual residual: 5.737768e-07
+Batch loss: loss1: 2756.14600, loss2: 5918.89551, loss3: 0.00000
+Finished running batch 7, running time: 16.86 sec
+start running batch 8
+n_iter: 500, duality gap: 9.9421e-09, primal residual: 1.3565e-07, dual residual: 5.478872e-07
+Batch loss: loss1: 2722.80933, loss2: 6107.77246, loss3: 0.00000
+Finished running batch 8, running time: 17.00 sec
+start running batch 9
+n_iter: 500, duality gap: 1.6892e-08, primal residual: 3.8793e-07, dual residual: 6.604493e-07
+Batch loss: loss1: 2610.90918, loss2: 6666.10938, loss3: 0.00000
+Finished running batch 9, running time: 17.17 sec
+time cost (estimating theta): 168.39 sec

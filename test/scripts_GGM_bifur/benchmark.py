@@ -136,6 +136,7 @@ def calc_scores_static(setting):
     bandwidth = setting["bandwidth"]
     truncate_param = setting["truncate_param"]
     lamb = setting["lamb"]
+    diff = setting["diff"]
 
     score = pd.DataFrame(columns = ["interval", "ngenes", "time", "model", "bandwidth", "truncate_param", "lambda", "nmse","kendall-tau", "pearson", \
         "spearman", "cosine similarity", "AUPRC (pos)", "AUPRC (neg)", "AUPRC (abs)", "Early Precision (pos)", "Early Precision (neg)", "Early Precision (abs)", "AUPRC random (pos)",\
@@ -170,7 +171,25 @@ def calc_scores_static(setting):
     Eprec_pos_rand, Eprec_neg_rand = bmk.compute_eprec_signed(G_inf = thetas_rand, G_true = theta_gt)
     Eprec = bmk.compute_eprec_abs(G_inf = theta_inf, G_true = theta_gt)
     Eprec_rand = bmk.compute_eprec_abs(G_inf = thetas_rand, G_true = theta_gt)
-    
+
+    AUPRC_ratio_pos = AUPRC_pos/AUPRC_pos_rand
+    AUPRC_ratio_neg = AUPRC_neg/AUPRC_neg_rand
+    AUPRC_ratio_abs = AUPRC/AUPRC_rand
+    Eprec_ratio_pos = Eprec_pos/(Eprec_pos_rand + 1e-12)
+    Eprec_ratio_neg = Eprec_neg/(Eprec_neg_rand + 1e-12)
+    Eprec_ratio_abs = Eprec/(Eprec_rand + 1e-12)
+
+    if ((model == "CSN")|(model == "GENIE3")|(model == "GENIE3-Dyn")) & (diff == False):
+        AUPRC_signed = AUPRC
+        Eprec_signed = Eprec
+        AUPRC_ratio_signed = AUPRC_ratio_abs
+        Eprec_ratio_signed = Eprec_ratio_abs
+    else:
+        AUPRC_signed = (AUPRC_pos + AUPRC_neg)/2
+        Eprec_signed = (Eprec_pos + Eprec_neg)/2
+        AUPRC_ratio_signed = (AUPRC_ratio_pos + AUPRC_ratio_neg)/2
+        Eprec_ratio_signed = (Eprec_ratio_pos + Eprec_ratio_neg)/2
+
     score = score.append({"interval": interval,
                         "ngenes": ngenes,
                         "nmse": nmse, 
@@ -181,21 +200,25 @@ def calc_scores_static(setting):
                         "AUPRC (pos)": AUPRC_pos,
                         "AUPRC (neg)": AUPRC_neg,
                         "AUPRC (abs)": AUPRC,
+                        "AUPRC (signed)": AUPRC_signed,
                         "Early Precision (pos)": Eprec_pos,
                         "Early Precision (neg)": Eprec_neg,
                         "Early Precision (abs)":Eprec,
+                        "Early Precision (signed)": Eprec_signed,
                         "AUPRC random (pos)": AUPRC_pos_rand,
                         "AUPRC random (neg)": AUPRC_neg_rand,
                         "AUPRC random (abs)": AUPRC_rand,
                         "Early Precision random (pos)": Eprec_pos_rand,
                         "Early Precision random (neg)": Eprec_neg_rand,
                         "Early Precision random (abs)":Eprec_rand,
-                        "AUPRC Ratio (pos)": AUPRC_pos/AUPRC_pos_rand,
-                        "AUPRC Ratio (neg)": AUPRC_neg/AUPRC_neg_rand,
-                        "AUPRC Ratio (abs)": AUPRC/AUPRC_rand,
-                        "Early Precision Ratio (pos)": Eprec_pos/(Eprec_pos_rand + 1e-12),
-                        "Early Precision Ratio (neg)": Eprec_neg/(Eprec_neg_rand + 1e-12),
-                        "Early Precision Ratio (abs)":Eprec/(Eprec_rand + 1e-12),
+                        "AUPRC Ratio (pos)": AUPRC_ratio_pos,
+                        "AUPRC Ratio (neg)": AUPRC_ratio_neg,
+                        "AUPRC Ratio (abs)": AUPRC_ratio_abs,
+                        "AUPRC Ratio (signed)": AUPRC_ratio_signed,
+                        "Early Precision Ratio (pos)": Eprec_ratio_pos,
+                        "Early Precision Ratio (neg)": Eprec_ratio_neg,
+                        "Early Precision Ratio (abs)":Eprec_ratio_abs,
+                        "Early Precision Ratio (signed)":Eprec_ratio_signed,
                         "time":time,
                         "model": model,
                         "bandwidth": bandwidth,
@@ -204,7 +227,7 @@ def calc_scores_static(setting):
 
     return score
 
-def calc_scores_para(thetas_inf, thetas_gt, interval, model, bandwidth = 0, truncate_param = 0, lamb = 0):
+def calc_scores_para(thetas_inf, thetas_gt, interval, model, bandwidth = 0, truncate_param = 0, lamb = 0, diff = False):
     assert thetas_inf.shape[0] == thetas_gt.shape[0]
 
     ntimes = thetas_inf.shape[0]
@@ -218,11 +241,12 @@ def calc_scores_para(thetas_inf, thetas_gt, interval, model, bandwidth = 0, trun
             "bandwidth": bandwidth,
             "truncate_param": truncate_param,
             "lamb": lamb,
-            "time": time
+            "time": time,
+            "diff": diff
         })
 
 
-    pool = Pool(8) 
+    pool = Pool(24) 
     scores = pool.map(calc_scores_static, [x for x in settings])
     pool.close()
     pool.join()
@@ -265,7 +289,7 @@ def summarize_scores(setting):
     # genie3            
     thetas = np.load(file = result_dir + "theta_genie.npy")
     # scores = calc_scores(thetas_inf = thetas, thetas_gt = gt_adj, interval = interval, model = "GENIE3")
-    scores = calc_scores_para(thetas_inf = thetas, thetas_gt = gt_adj, interval = interval, model = "GENIE3")
+    scores = calc_scores_para(thetas_inf = thetas, thetas_gt = np.abs(gt_adj), interval = interval, model = "GENIE3")
     # first one don't need to concat
     # scores = pd.concat([scores, score], axis = 0, ignore_index = True)
     print("GENIE3")
@@ -279,7 +303,7 @@ def summarize_scores(setting):
     # genie3-dyn
     thetas = np.load(file = result_dir + "theta_genie_dyn.npy")
     # score = calc_scores(thetas_inf = thetas, thetas_gt = gt_adj, interval = interval, model = "GENIE3-Dyn")
-    score = calc_scores_para(thetas_inf = thetas, thetas_gt = gt_adj, interval = interval, model = "GENIE3-Dyn")
+    score = calc_scores_para(thetas_inf = thetas, thetas_gt = np.abs(gt_adj), interval = interval, model = "GENIE3-Dyn")
     scores = pd.concat([scores, score], axis = 0, ignore_index = True)
     print("GENIE3-Dyn")
     
@@ -332,76 +356,6 @@ def summarize_scores(setting):
     print("")
     scores.to_csv(result_dir + "score.csv")
     
-
-def correct_score(setting):
-    ntimes = setting["ntimes"]
-    interval = setting["interval"]
-    ngenes = setting["ngenes"]
-    ntfs = setting["ntfs"]
-    seed = setting["seed"]
-
-    print("ntimes: " + str(ntimes) + ", interval: " + str(interval) + ", ngenes: " + str(ngenes) + ", seed: " + str(seed) + ", initial graph: sergio\n")
-    result_dir = "../results_GGM/bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "_" + str(seed) + "_sergio/"
-    
-    # load previous scores
-    scores = pd.read_csv(result_dir + "score.csv", index_col = 0)
-    scores = scores[scores["model"] == "CeSpGRN"]
-    assert scores.shape[0] > 0
-
-    # the data smapled from GGM is zero-mean
-    X = np.load(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "_" + str(seed) + "_sergio/expr.npy")
-    gt_adj = np.load(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "_" + str(seed) + "_sergio/Gs.npy")
-    sim_time = np.load(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "_" + str(seed) + "_sergio/sim_time.npy")
-    print("data loaded.")
-    
-    # genie3            
-    thetas = np.load(file = result_dir + "theta_genie.npy")
-    score = calc_scores(thetas_inf = thetas, thetas_gt = gt_adj, interval = interval, model = "GENIE3")
-    scores = pd.concat([scores, score], axis = 0, ignore_index = True)
-    print("genie3.")
-
-    # # genie3-tf
-    # thetas = np.load(file = result_dir + "theta_genie_tf.npy")
-    # score = calc_scores(thetas_inf = thetas, thetas_gt = gt_adj, interval = interval, model = "GENIE3-TF")
-    # scores = pd.concat([scores, score], axis = 0, ignore_index = True)
-    # print("genie3-tf.")
-
-    # genie3-dyn
-    thetas = np.load(file = result_dir + "theta_genie_dyn.npy")
-    score = calc_scores(thetas_inf = thetas, thetas_gt = gt_adj, interval = interval, model = "GENIE3-Dyn")
-    scores = pd.concat([scores, score], axis = 0, ignore_index = True)
-    print("genie3-dyn.")
-    
-    
-    # # genie3-dyn-tf 
-    # thetas = np.load(file = result_dir + "theta_genie_dyn_tf.npy")
-    # score = calc_scores(thetas_inf = thetas, thetas_gt = gt_adj, interval = interval, model = "GENIE3-Dyn-TF")
-    # scores = pd.concat([scores, score], axis = 0, ignore_index = True)
-    # print("genie3-dyn-tf.")
-
-
-    # SCODE (True T)
-    thetas = np.load(file = result_dir + "theta_scode.npy")
-    score = calc_scores(thetas_inf = thetas, thetas_gt = gt_adj, interval = interval, model = "SCODE")
-    scores = pd.concat([scores, score], axis = 0, ignore_index = True)
-    print("SCODE (True T).")
-
-    
-    # SCODE-DYN (True T)
-    thetas = np.load(file = result_dir + "theta_scode_dyn.npy")
-    score = calc_scores(thetas_inf = thetas, thetas_gt = gt_adj, interval = interval, model = "SCODE-Dyn")
-    scores = pd.concat([scores, score], axis = 0, ignore_index = True)
-    print("SCODE-DYN (True T).")
-
-    # CSN          
-    thetas = np.load(file = result_dir + "theta_CSN.npy")
-    score = calc_scores(thetas_inf = thetas, thetas_gt = np.abs(gt_adj), interval = interval, model = "CSN")
-    scores = pd.concat([scores, score], axis = 0, ignore_index = True)
-    print("CSN.") 
-
-    print("")
-    scores.to_csv(result_dir + "score.csv")
-
 if __name__ == "__main__":
     # assert len(sys.argv) == 2
     # seeds = [eval(sys.argv[1])]
@@ -461,7 +415,9 @@ def summarize_scores_diff(setting):
     # the data smapled from GGM is zero-mean
     X = np.load(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "_" + str(seed) + "_sergio/expr.npy")
     gt_adj = np.load(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "_" + str(seed) + "_sergio/Gs.npy")
+    gt_adj_abs = np.abs(gt_adj)
     gt_adj_diff = np.concatenate((gt_adj[400:600,:,:] - gt_adj[:200,:,:], gt_adj[800:,:,:] - gt_adj[:200,:,:]), axis = 0)
+    gt_adj_diff_abs = np.concatenate((gt_adj_abs[400:600,:,:] - gt_adj_abs[:200,:,:], gt_adj_abs[800:,:,:] - gt_adj_abs[:200,:,:]), axis = 0)
     sim_time = np.load(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "_" + str(seed) + "_sergio/sim_time.npy")
 
     # # genie3            
@@ -476,11 +432,11 @@ def summarize_scores_diff(setting):
     # scores = pd.concat([scores, score], axis = 0, ignore_index = True)
     # print("genie3-tf.")
 
-    # genie3-dyn
+    # genie3-dyn, only infer positive
     thetas = np.load(file = result_dir + "theta_genie_dyn.npy")
     thetas_diff = np.concatenate((thetas[400:600,:,:] - thetas[:200,:,:], thetas[800:,:,:] - thetas[:200,:,:]), axis = 0)
     # scores = calc_scores(thetas_inf = thetas_diff, thetas_gt = gt_adj_diff, interval = interval, model = "GENIE3-Dyn")
-    scores = calc_scores_para(thetas_inf = thetas_diff, thetas_gt = gt_adj_diff, interval = interval, model = "GENIE3-Dyn")
+    scores = calc_scores_para(thetas_inf = thetas_diff, thetas_gt = gt_adj_diff_abs, interval = interval, model = "GENIE3-Dyn", diff = True)
     # scores = pd.concat([scores, score], axis = 0, ignore_index = True)
     print("GENIE3-Dyn")
     
@@ -503,7 +459,7 @@ def summarize_scores_diff(setting):
     thetas = np.load(file = result_dir + "theta_scode_dyn.npy")
     thetas_diff = np.concatenate((thetas[400:600,:,:] - thetas[:200,:,:], thetas[800:,:,:] - thetas[:200,:,:]), axis = 0)
     # score = calc_scores(thetas_inf = thetas_diff, thetas_gt = gt_adj_diff, interval = interval, model = "SCODE-Dyn")
-    score = calc_scores_para(thetas_inf = thetas_diff, thetas_gt = gt_adj_diff, interval = interval, model = "SCODE-Dyn")
+    score = calc_scores_para(thetas_inf = thetas_diff, thetas_gt = gt_adj_diff, interval = interval, model = "SCODE-Dyn", diff = True)
     scores = pd.concat([scores, score], axis = 0, ignore_index = True)
     print("SCODE-Dyn")
 
@@ -511,7 +467,7 @@ def summarize_scores_diff(setting):
     thetas = np.load(file = result_dir + "theta_CSN.npy")
     thetas_diff = np.concatenate((thetas[400:600,:,:] - thetas[:200,:,:], thetas[800:,:,:] - thetas[:200,:,:]), axis = 0)
     # score = calc_scores(thetas_inf = thetas_diff, thetas_gt = np.abs(gt_adj_diff), interval = interval, model = "CSN")
-    score = calc_scores_para(thetas_inf = thetas_diff, thetas_gt = np.abs(gt_adj_diff), interval = interval, model = "CSN")
+    score = calc_scores_para(thetas_inf = thetas_diff, thetas_gt = gt_adj_diff_abs, interval = interval, model = "CSN", diff = True)
     scores = pd.concat([scores, score], axis = 0, ignore_index = True)
     print("CSN")
 
@@ -524,7 +480,7 @@ def summarize_scores_diff(setting):
                 thetas = np.load(file = result_dir + "thetas_" + data + "_kt.npy")
                 thetas_diff = np.concatenate((thetas[400:600,:,:] - thetas[:200,:,:], thetas[800:,:,:] - thetas[:200,:,:]), axis = 0)
                 # score = calc_scores(thetas_inf = thetas_diff, thetas_gt = gt_adj_diff, interval = interval, model = "CeSpGRN", bandwidth = bandwidth, truncate_param = truncate_param, lamb = lamb)
-                score = calc_scores_para(thetas_inf = thetas_diff, thetas_gt = gt_adj_diff, interval = interval, model = "CeSpGRN", bandwidth = bandwidth, truncate_param = truncate_param, lamb = lamb)
+                score = calc_scores_para(thetas_inf = thetas_diff, thetas_gt = gt_adj_diff, interval = interval, model = "CeSpGRN", bandwidth = bandwidth, truncate_param = truncate_param, lamb = lamb, diff = True)
                 scores = pd.concat([scores, score], axis = 0, ignore_index = True)
 
                 # fig = plt.figure(figsize = (10,7))
@@ -537,81 +493,6 @@ def summarize_scores_diff(setting):
     # save results
     scores.to_csv(result_dir + "score_diff.csv")
 
-
-def correct_score_diff(setting):
-    ntimes = setting["ntimes"]
-    interval = setting["interval"]
-    ngenes = setting["ngenes"]
-    ntfs = setting["ntfs"]
-    seed = setting["seed"]
-
-    print("ntimes: " + str(ntimes) + ", interval: " + str(interval) + ", ngenes: " + str(ngenes) + ", seed: " + str(seed) + ", initial graph: sergio\n")
-    result_dir = "../results_GGM/bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "_" + str(seed) + "_sergio/"
-    
-    # load previous scores
-    scores = pd.read_csv(result_dir + "score_diff.csv", index_col = 0)
-    scores = scores[scores["model"] == "CeSpGRN"]
-    assert scores.shape[0] > 0
-
-    # the data smapled from GGM is zero-mean
-    X = np.load(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "_" + str(seed) + "_sergio/expr.npy")
-    gt_adj = np.load(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "_" + str(seed) + "_sergio/Gs.npy")
-    gt_adj_diff = np.concatenate((gt_adj[400:600,:,:] - gt_adj[:200,:,:], gt_adj[800:,:,:] - gt_adj[:200,:,:]), axis = 0)
-    sim_time = np.load(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "_" + str(seed) + "_sergio/sim_time.npy")
-    print("data loaded.")
-    
-    # # genie3            
-    # thetas = np.load(file = result_dir + "theta_genie.npy")
-    # score = calc_scores(thetas_inf = thetas, thetas_gt = gt_adj, interval = interval, model = "GENIE3")
-    # scores = pd.concat([scores, score], axis = 0, ignore_index = True)
-    # print("genie3.")
-
-    # # genie3-tf
-    # thetas = np.load(file = result_dir + "theta_genie_tf.npy")
-    # score = calc_scores(thetas_inf = thetas, thetas_gt = gt_adj, interval = interval, model = "GENIE3-TF")
-    # scores = pd.concat([scores, score], axis = 0, ignore_index = True)
-    # print("genie3-tf.")
-
-    # genie3-dyn
-    thetas = np.load(file = result_dir + "theta_genie_dyn.npy")
-    thetas_diff = np.concatenate((thetas[400:600,:,:] - thetas[:200,:,:], thetas[800:,:,:] - thetas[:200,:,:]), axis = 0)
-    score = calc_scores(thetas_inf = thetas_diff, thetas_gt = gt_adj_diff, interval = interval, model = "GENIE3-Dyn")
-    scores = pd.concat([scores, score], axis = 0, ignore_index = True)
-    print("genie3-dyn")
-    
-    
-    # # genie3-dyn-tf 
-    # thetas = np.load(file = result_dir + "theta_genie_dyn_tf.npy")
-    # score = calc_scores(thetas_inf = thetas, thetas_gt = gt_adj, interval = interval, model = "GENIE3-Dyn-TF")
-    # scores = pd.concat([scores, score], axis = 0, ignore_index = True)
-    # print("genie3-dyn-tf.")
-
-
-    # # SCODE (True T)
-    # thetas = np.load(file = result_dir + "theta_scode.npy")
-    # score = calc_scores(thetas_inf = thetas, thetas_gt = gt_adj, interval = interval, model = "SCODE")
-    # scores = pd.concat([scores, score], axis = 0, ignore_index = True)
-    # print("SCODE (True T)")
-
-    
-    # SCODE-DYN (True T)
-    thetas = np.load(file = result_dir + "theta_scode_dyn.npy")
-    thetas_diff = np.concatenate((thetas[400:600,:,:] - thetas[:200,:,:], thetas[800:,:,:] - thetas[:200,:,:]), axis = 0)
-    score = calc_scores(thetas_inf = thetas_diff, thetas_gt = gt_adj_diff, interval = interval, model = "SCODE-Dyn")
-    scores = pd.concat([scores, score], axis = 0, ignore_index = True)
-    print("SCODE-DYN (True T)")
-
-    # CSN
-    thetas = np.load(file = result_dir + "theta_CSN.npy")
-    thetas_diff = np.concatenate((thetas[400:600,:,:] - thetas[:200,:,:], thetas[800:,:,:] - thetas[:200,:,:]), axis = 0)
-    score = calc_scores(thetas_inf = thetas_diff, thetas_gt = np.abs(gt_adj_diff), interval = interval, model = "CSN")
-    scores = pd.concat([scores, score], axis = 0, ignore_index = True)
-    print("CSN")
-
-    print("")
-
-    # save results
-    scores.to_csv(result_dir + "score_diff.csv")
 
 if __name__ == "__main__":
     # assert len(sys.argv) == 2
@@ -706,16 +587,6 @@ for interval in [5, 25]:
             score_interval = pd.concat([score_interval, score], axis = 0)
             score_interval_diff = pd.concat([score_interval_diff, score_diff], axis = 0)
 
-    score_interval["AUPRC Ratio (signed)"] = (score_interval["AUPRC Ratio (pos)"].values + score_interval["AUPRC Ratio (neg)"].values)/2
-    score_interval_diff["AUPRC Ratio (signed)"] = (score_interval_diff["AUPRC Ratio (pos)"].values + score_interval_diff["AUPRC Ratio (neg)"].values)/2
-    score_interval["Early Precision Ratio (signed)"] = (score_interval["Early Precision Ratio (pos)"].values + score_interval["Early Precision Ratio (neg)"].values)/2
-    score_interval_diff["Early Precision Ratio (signed)"] = (score_interval_diff["Early Precision Ratio (pos)"].values + score_interval_diff["Early Precision Ratio (neg)"].values)/2
-    score_interval["AUPRC (signed)"] = (score_interval["AUPRC (pos)"].values + score_interval["AUPRC (neg)"].values)/2
-    score_interval_diff["AUPRC (signed)"] = (score_interval_diff["AUPRC (pos)"].values + score_interval_diff["AUPRC (neg)"].values)/2
-    score_interval["Early Precision (signed)"] = (score_interval["Early Precision (pos)"].values + score_interval["Early Precision (neg)"].values)/2
-    score_interval_diff["Early Precision (signed)"] = (score_interval_diff["Early Precision (pos)"].values + score_interval_diff["Early Precision (neg)"].values)/2
-    
-
     # Plot including lambda
     fig, big_axes = plt.subplots( figsize=(15.0, 10.0) , nrows=3, ncols=1, sharey=False) 
     lambdas = [0.001, 0.01, 0.1]
@@ -786,15 +657,6 @@ for interval in [5, 25]:
             score = pd.read_csv(result_dir + "score.csv", index_col = 0)       
             score_all = pd.concat([score_all, score], axis = 0)
 
-score_all.loc[score_all["model"] != "CSN", "AUPRC Ratio (signed)"] = (score_all.loc[score_all["model"] != "CSN", "AUPRC Ratio (pos)"].values + score_all.loc[score_all["model"] != "CSN", "AUPRC Ratio (neg)"].values)/2
-score_all.loc[score_all["model"] == "CSN", "AUPRC Ratio (signed)"] = score_all.loc[score_all["model"] == "CSN", "AUPRC Ratio (abs)"].values
-score_all.loc[score_all["model"] != "CSN", "Early Precision Ratio (signed)"] = (score_all.loc[score_all["model"] != "CSN", "Early Precision Ratio (pos)"].values + score_all.loc[score_all["model"] != "CSN", "Early Precision Ratio (neg)"].values)/2
-score_all.loc[score_all["model"] == "CSN", "Early Precision Ratio (signed)"] = score_all.loc[score_all["model"] == "CSN", "Early Precision Ratio (abs)"].values
-score_all.loc[score_all["model"] != "CSN", "AUPRC (signed)"] = (score_all.loc[score_all["model"] != "CSN", "AUPRC (pos)"].values + score_all.loc[score_all["model"] != "CSN", "AUPRC (neg)"].values)/2
-score_all.loc[score_all["model"] == "CSN", "AUPRC (signed)"] = score_all.loc[score_all["model"] == "CSN", "AUPRC (abs)"].values
-score_all.loc[score_all["model"] != "CSN", "Early Precision (signed)"] = (score_all.loc[score_all["model"] != "CSN", "Early Precision (pos)"].values + score_all.loc[score_all["model"] != "CSN", "Early Precision (neg)"].values)/2
-score_all.loc[score_all["model"] == "CSN", "Early Precision (signed)"] = score_all.loc[score_all["model"] == "CSN", "Early Precision (abs)"].values
-
 
 fig, ax = plt.subplots( figsize=(15.0, 5.0) , nrows=1, ncols=4) 
 boxplot1 = sns.boxplot(data = score_all, x = "model", y = "Early Precision (signed)", ax = ax[0])
@@ -864,15 +726,6 @@ for interval in [5, 25]:
             result_dir = "../results_GGM/bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "_" + str(seed) + "_sergio/"
             score = pd.read_csv(result_dir + "score.csv", index_col = 0)       
             score_all = pd.concat([score_all, score], axis = 0)
-
-score_all.loc[score_all["model"] != "CSN", "AUPRC Ratio (signed)"] = (score_all.loc[score_all["model"] != "CSN", "AUPRC Ratio (pos)"].values + score_all.loc[score_all["model"] != "CSN", "AUPRC Ratio (neg)"].values)/2
-score_all.loc[score_all["model"] == "CSN", "AUPRC Ratio (signed)"] = score_all.loc[score_all["model"] == "CSN", "AUPRC Ratio (abs)"].values
-score_all.loc[score_all["model"] != "CSN", "Early Precision Ratio (signed)"] = (score_all.loc[score_all["model"] != "CSN", "Early Precision Ratio (pos)"].values + score_all.loc[score_all["model"] != "CSN", "Early Precision Ratio (neg)"].values)/2
-score_all.loc[score_all["model"] == "CSN", "Early Precision Ratio (signed)"] = score_all.loc[score_all["model"] == "CSN", "Early Precision Ratio (abs)"].values
-score_all.loc[score_all["model"] != "CSN", "AUPRC (signed)"] = (score_all.loc[score_all["model"] != "CSN", "AUPRC (pos)"].values + score_all.loc[score_all["model"] != "CSN", "AUPRC (neg)"].values)/2
-score_all.loc[score_all["model"] == "CSN", "AUPRC (signed)"] = score_all.loc[score_all["model"] == "CSN", "AUPRC (abs)"].values
-score_all.loc[score_all["model"] != "CSN", "Early Precision (signed)"] = (score_all.loc[score_all["model"] != "CSN", "Early Precision (pos)"].values + score_all.loc[score_all["model"] != "CSN", "Early Precision (neg)"].values)/2
-score_all.loc[score_all["model"] == "CSN", "Early Precision (signed)"] = score_all.loc[score_all["model"] == "CSN", "Early Precision (abs)"].values
 
 
 fig, ax = plt.subplots( figsize=(15.0, 5.0) , nrows=1, ncols=4) 
@@ -951,16 +804,7 @@ for interval in [5, 25]:
             score_diff = pd.read_csv(result_dir + "score_diff.csv", index_col = 0)       
             score_all_diff = pd.concat([score_all_diff, score_diff], axis = 0)
 
-    score_all_diff.loc[score_all_diff["model"] != "CSN", "AUPRC Ratio (signed)"] = (score_all_diff.loc[score_all_diff["model"] != "CSN", "AUPRC Ratio (pos)"].values + score_all_diff.loc[score_all_diff["model"] != "CSN", "AUPRC Ratio (neg)"].values)/2
-    score_all_diff.loc[score_all_diff["model"] == "CSN", "AUPRC Ratio (signed)"] = score_all_diff.loc[score_all_diff["model"] == "CSN", "AUPRC Ratio (abs)"].values
-    score_all_diff.loc[score_all_diff["model"] != "CSN", "Early Precision Ratio (signed)"] = (score_all_diff.loc[score_all_diff["model"] != "CSN", "Early Precision Ratio (pos)"].values + score_all_diff.loc[score_all_diff["model"] != "CSN", "Early Precision Ratio (neg)"].values)/2
-    score_all_diff.loc[score_all_diff["model"] == "CSN", "Early Precision Ratio (signed)"] = score_all_diff.loc[score_all_diff["model"] == "CSN", "Early Precision Ratio (abs)"].values
-    score_all_diff.loc[score_all_diff["model"] != "CSN", "AUPRC (signed)"] = (score_all_diff.loc[score_all_diff["model"] != "CSN", "AUPRC (pos)"].values + score_all_diff.loc[score_all_diff["model"] != "CSN", "AUPRC (neg)"].values)/2
-    score_all_diff.loc[score_all_diff["model"] == "CSN", "AUPRC (signed)"] = score_all_diff.loc[score_all_diff["model"] == "CSN", "AUPRC (abs)"].values
-    score_all_diff.loc[score_all_diff["model"] != "CSN", "Early Precision (signed)"] = (score_all_diff.loc[score_all_diff["model"] != "CSN", "Early Precision (pos)"].values + score_all_diff.loc[score_all_diff["model"] != "CSN", "Early Precision (neg)"].values)/2
-    score_all_diff.loc[score_all_diff["model"] == "CSN", "Early Precision (signed)"] = score_all_diff.loc[score_all_diff["model"] == "CSN", "Early Precision (abs)"].values
-
-    fig, ax = plt.subplots( figsize=(12.0, 5.0) , nrows=1, ncols=4) 
+    fig, ax = plt.subplots( figsize=(12.0, 4.0) , nrows=1, ncols=4) 
     boxplot1 = sns.boxplot(data = score_all_diff, x = "model", y = "Early Precision (signed)", ax = ax[0])
     boxplot2 = sns.boxplot(data = score_all_diff[score_all_diff["model"] != "CSN"], x = "model", y = "AUPRC (signed)", ax = ax[1])
     boxplot3 = sns.boxplot(data = score_all_diff, x = "model", y = "pearson", ax = ax[2])
@@ -987,7 +831,7 @@ for interval in [5, 25]:
     # ax[0,0].set_yscale('log')
     # ax[0,1].set_yscale('log')
     fig.set_facecolor('w')
-    fig.suptitle("Score of changing edge detection, number of genes 50, change interval: " + str(interval), fontsize = 25)
+    # fig.suptitle("Score of changing edge detection, number of genes 50, change interval: " + str(interval), fontsize = 25)
     plt.tight_layout()
     fig.savefig(result_path + "compare_models_diff_" + str(interval) + "_50.png", bbox_inches = "tight") 
 
@@ -1001,17 +845,8 @@ for interval in [5, 25]:
             score_diff = pd.read_csv(result_dir + "score_diff.csv", index_col = 0)       
             score_all_diff = pd.concat([score_all_diff, score_diff], axis = 0)
 
-    score_all_diff.loc[score_all_diff["model"] != "CSN", "AUPRC Ratio (signed)"] = (score_all_diff.loc[score_all_diff["model"] != "CSN", "AUPRC Ratio (pos)"].values + score_all_diff.loc[score_all_diff["model"] != "CSN", "AUPRC Ratio (neg)"].values)/2
-    score_all_diff.loc[score_all_diff["model"] == "CSN", "AUPRC Ratio (signed)"] = score_all_diff.loc[score_all_diff["model"] == "CSN", "AUPRC Ratio (abs)"].values
-    score_all_diff.loc[score_all_diff["model"] != "CSN", "Early Precision Ratio (signed)"] = (score_all_diff.loc[score_all_diff["model"] != "CSN", "Early Precision Ratio (pos)"].values + score_all_diff.loc[score_all_diff["model"] != "CSN", "Early Precision Ratio (neg)"].values)/2
-    score_all_diff.loc[score_all_diff["model"] == "CSN", "Early Precision Ratio (signed)"] = score_all_diff.loc[score_all_diff["model"] == "CSN", "Early Precision Ratio (abs)"].values
-    score_all_diff.loc[score_all_diff["model"] != "CSN", "AUPRC (signed)"] = (score_all_diff.loc[score_all_diff["model"] != "CSN", "AUPRC (pos)"].values + score_all_diff.loc[score_all_diff["model"] != "CSN", "AUPRC (neg)"].values)/2
-    score_all_diff.loc[score_all_diff["model"] == "CSN", "AUPRC (signed)"] = score_all_diff.loc[score_all_diff["model"] == "CSN", "AUPRC (abs)"].values
-    score_all_diff.loc[score_all_diff["model"] != "CSN", "Early Precision (signed)"] = (score_all_diff.loc[score_all_diff["model"] != "CSN", "Early Precision (pos)"].values + score_all_diff.loc[score_all_diff["model"] != "CSN", "Early Precision (neg)"].values)/2
-    score_all_diff.loc[score_all_diff["model"] == "CSN", "Early Precision (signed)"] = score_all_diff.loc[score_all_diff["model"] == "CSN", "Early Precision (abs)"].values
 
-
-    fig, ax = plt.subplots( figsize=(12.0, 5.0) , nrows=1, ncols=4) 
+    fig, ax = plt.subplots( figsize=(12.0, 4.0) , nrows=1, ncols=4) 
     boxplot1 = sns.boxplot(data = score_all_diff, x = "model", y = "Early Precision (signed)", ax = ax[0])
     boxplot2 = sns.boxplot(data = score_all_diff[score_all_diff["model"] != "CSN"], x = "model", y = "AUPRC (signed)", ax = ax[1])
     boxplot3 = sns.boxplot(data = score_all_diff, x = "model", y = "pearson", ax = ax[2])
@@ -1038,7 +873,7 @@ for interval in [5, 25]:
     # ax[0,0].set_yscale('log')
     # ax[0,1].set_yscale('log')
     fig.set_facecolor('w')
-    fig.suptitle("Score of changing edge detection, number of genes 200, change interval: " + str(interval), fontsize = 25)
+    # fig.suptitle("Score of changing edge detection, number of genes 200, change interval: " + str(interval), fontsize = 25)
     plt.tight_layout()
     fig.savefig(result_path + "compare_models_diff_" + str(interval) + "_200.png", bbox_inches = "tight") 
 
@@ -1046,11 +881,31 @@ for interval in [5, 25]:
 
 
 
+# In[] Find time points and hyper-parameter that produce the highest spearman/AUPRC/Early Precision score
+interval = 5
+ngenes = 50
+ntfs = 20
+score_all_diff = pd.DataFrame(columns = ["interval", "ngenes", "nmse","kendall-tau", "pearson", "spearman", "cosine similarity", "time", "model", "bandwidth", "truncate_param", "lambda"])
+for seed in range(3):
+    result_dir = "../results_GGM/bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "_" + str(seed) + "_sergio/"
+    score_diff = pd.read_csv(result_dir + "score_diff.csv", index_col = 0)       
+    score_all_diff = pd.concat([score_all_diff, score_diff], axis = 0)
+
+max_auprc = score_all_diff["AUPRC (signed)"].argmax()
+max_ep = score_all_diff["Early Precision (signed)"].argmax()
+max_sp = score_all_diff["spearman"].argmax()
+# bandwidth: 1.0, truncate_param: 15, lambda: 0.1
+display(score_all_diff.iloc[max_auprc,:])
+# bandwidth: 1.0, truncate_param: 15, lambda: 0.01
+display(score_all_diff.iloc[max_ep,:])
+# bandwidth: 0.1, truncate_param: 15, lambda: 0.01
+display(score_all_diff.iloc[max_sp,:])
+
 
 # In[]
 # read in one graph
 ntimes = 1000
-interval = 25
+interval = 5
 seed = 0
 ngenes = 50
 result_path = "../results_GGM/"
@@ -1058,204 +913,156 @@ path = "../../data/GGM_bifurcate/"
 
 result_dir = result_path + "bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "_" + str(seed) + "_sergio/"
 bandwidth = 1
-truncate_param = 30
-lamb = 0.01
+truncate_param = 15
+lamb = 0.1
 data = str(bandwidth) + "_" + str(lamb) + "_" + str(truncate_param)
 thetas_gt = np.load(file = path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "_" + str(seed) + "_sergio/Gs.npy")
+sim_time = np.load(file = path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "_" + str(seed) + "_sergio/sim_time.npy")
+sim_time = sim_time/np.max(sim_time)
 thetas_inf = np.load(file = result_dir + "thetas_" + data + "_kt.npy")
-thetas_gt = thetas_gt/np.max(thetas_gt)
-thetas_inf = thetas_inf/np.max(thetas_inf)
+# thetas_gt = thetas_gt/np.max(thetas_gt)
+# thetas_inf = thetas_inf/np.max(thetas_inf)
 
 
 # In[]
-def draw_graph(theta, threshold):
+def draw_graph(theta, threshold, ax):
     import networkx as nx 
+    theta_norm = theta.copy()
+    np.fill_diagonal(theta_norm, 0)
+    theta_norm = theta/np.max(np.abs(theta))
 
-    theta_bin = (theta > threshold)|(theta < - threshold)
+    theta_bin = (theta_norm > threshold)|(theta_norm < - threshold)
+    print("number of edges: {:d}".format(np.sum(theta_bin)))
     G = nx.Graph()
-    G.add_nodes_from(np.arange(theta.shape[0]))
-    for row in range(theta.shape[0]):
-        for col in range(theta.shape[1]):
+    G.add_nodes_from(np.arange(theta_norm.shape[0]))
+    for row in range(theta_norm.shape[0]):
+        for col in range(theta_norm.shape[1]):
             if (theta_bin[row, col] != 0) & (row != col):
-                if theta[row, col] > 0:
-                    G.add_edge(row, col, color = 'blue', weight = np.abs(theta[row, col]))
+                if theta_norm[row, col] > 0:
+                    G.add_edge(row, col, color = 'blue', weight = 5 * np.abs(theta_norm[row, col]))
+                else:
+                    G.add_edge(row, col, color = 'red', weight = 5 * np.abs(theta_norm[row, col]))
 
-    print(G.edges)
+    # print(G.edges)
     # node will be integer correspond to the row/column index
     # G = nx.from_numpy_array(theta_bin)
     pos = nx.circular_layout(G)
-    fig = plt.figure(figsize = (10, 7))
-    ax = fig.add_subplot()
     colors = [G[u][v]['color'] for u,v in G.edges]
     weights = [G[u][v]['weight'] for u,v in G.edges]
-    nx.draw(G, pos = pos, ax = ax, edge_color=colors, width=weights, with_labels = True)
+    nx.draw(G, pos = pos, ax = ax, edge_color=colors, width=weights, with_labels = False)
+    return ax
 
-time2 = 500
-time1 = 200
-fig = plt.figure(figsize = (10, 7))
-ax = fig.add_subplot()
-ax.hist(thetas_inf[time1, :, :].reshape(-1), bins = 50)
-threshold = 1
-draw_graph(thetas_inf[time1, :, :], threshold = threshold)
-ax.set_title("graph at time " + str(time1))
-fig = plt.figure(figsize = (10, 7))
-ax = fig.add_subplot()
-ax.hist(thetas_inf[time2, :, :].reshape(-1), bins = 50)
-draw_graph(thetas_inf[time2, :, :], threshold = threshold)
-ax.set_title("graph at time " + str(time2))
-draw_graph(thetas_inf[time2, :, :] - thetas_inf[time1, :, :], threshold = threshold)
-ax.set_title("graph differences between " + str(time2) + " and " + str(time1))
+t1 = 300
+t2 = 320
+theta_gt1 = thetas_gt[t1,:,:]
+theta_gt2 = thetas_gt[t2,:,:]
+theta_inf1 = thetas_inf[t1,:,:]
+theta_inf2 = thetas_inf[t2,:,:]
+
+thetas_gt_diff = theta_gt2 - theta_gt1
+thetas_inf_diff = theta_inf2 - theta_inf1
+
+threshold = 0.0
+threshold_norm = threshold * np.max(np.abs(thetas_gt_diff))
+thetas_gt_diff_bin = np.where((thetas_gt_diff > threshold_norm), 1, thetas_gt_diff)
+thetas_gt_diff_bin = np.where(thetas_gt_diff_bin < - threshold_norm, -1, thetas_gt_diff_bin)
+thetas_gt_diff_bin = np.where((thetas_gt_diff_bin < threshold_norm) & (thetas_gt_diff_bin > - threshold_norm), 0, thetas_gt_diff_bin)
+indeg = np.sum(thetas_gt_diff_bin, axis = 0)
+idx = np.argsort(indeg)
+thetas_gt_diff = thetas_gt_diff[idx,:][:,idx]
+thetas_inf_diff = thetas_inf_diff[idx,:][:,idx]
 
 
-time2 = 500
-time1 = 200
-fig = plt.figure(figsize = (10, 7))
-ax = fig.add_subplot()
-ax.hist(thetas_gt[time1, :, :].reshape(-1), bins = 50)
-threshold = 1
-draw_graph(thetas_gt[time1, :, :], threshold = threshold)
-ax.set_title("graph at time " + str(time1))
-fig = plt.figure(figsize = (10, 7))
-ax = fig.add_subplot()
-ax.hist(thetas_gt[time2, :, :].reshape(-1), bins = 50)
-draw_graph(thetas_gt[time2, :, :], threshold = threshold)
-ax.set_title("graph at time " + str(time2))
-draw_graph(thetas_gt[time2, :, :] - thetas_gt[time1, :, :], threshold = threshold)
-ax.set_title("graph differences between " + str(time2) + " and " + str(time1))
-# %%
+fig = plt.figure(figsize = (15, 7))
+axes = fig.subplots(nrows = 1, ncols = 2)
+ax = draw_graph(thetas_gt_diff * (thetas_gt_diff != 0), threshold = threshold, ax = axes[0])
+ax.set_title("changing edges between time {:.2f} and {:.2f} \n(ground truth)".format(sim_time[t1], sim_time[t2]))
+# ax = draw_graph(thetas_inf_diff * (thetas_gt_diff != 0), threshold = threshold, ax = axes[1])
+ax = draw_graph(thetas_inf_diff * (thetas_gt_diff != 0), threshold = threshold, ax = axes[1])
+ax.set_title("changing edges between time {:.2f} and {:.2f} \n(CeSpGRN)".format(sim_time[t1], sim_time[t2]))
+fig.savefig("../results_GGM/change_graphs.png", bbox_inches = "tight")
 
+# t1 = 101
+# t2 = 121
+
+# theta_gt1 = thetas_gt[t1,:,:]
+# theta_gt2 = thetas_gt[t2,:,:]
+# theta_inf1 = thetas_inf[t1,:,:]
+# theta_inf2 = thetas_inf[t2,:,:]
+
+# thetas_inf_diff = theta_inf2 - theta_inf1
+# thetas_gt_diff = theta_gt2 - theta_gt1
+
+# fig = plt.figure(figsize = (10, 7))
+# ax = fig.add_subplot()
+# ax.hist(theta_gt1.reshape(-1), bins = 50)
+
+# threshold = 0.0
+# fig = plt.figure(figsize = (20, 7))
+# axes = fig.subplots(nrows = 1, ncols = 2)
+# ax = draw_graph(theta_gt1 * (thetas_inf_diff != 0), threshold = threshold, ax = axes[0])
+# ax.set_title("ground truth graph at time " + str(sim_time[t1]))
+# ax = draw_graph(theta_inf1 * (thetas_inf_diff != 0), threshold = threshold, ax = axes[1])
+# ax.set_title("inferred graph at time " + str(sim_time[t1]))
+# fig.savefig("../results_GGM/graph1.png", bbox_inches = "tight")
+
+# fig = plt.figure(figsize = (10, 7))
+# ax = fig.add_subplot()
+# ax.hist(theta_gt2.reshape(-1), bins = 50)
+
+# fig = plt.figure(figsize = (20, 7))
+# axes = fig.subplots(nrows = 1, ncols = 2)
+# ax = draw_graph(theta_gt2 * (thetas_inf_diff != 0), threshold = threshold, ax = axes[0])
+# ax.set_title("ground truth graph at time " + str(sim_time[t2]))
+# ax = draw_graph(theta_inf2 * (thetas_inf_diff != 0), threshold = threshold, ax = axes[1])
+# ax.set_title("inferred graph at time " + str(sim_time[t2]))
+# fig.savefig("../results_GGM/graph2.png", bbox_inches = "tight")
+
+# fig = plt.figure(figsize = (10, 7))
+# ax = fig.add_subplot()
+# ax.hist(theta_gt2.reshape(-1) - theta_gt1.reshape(-1), bins = 50)
+
+
+
+
+
+
+# In[]
 '''
-# In[]
-# -------------------------------------------------------------------------------------------
-# 
-# Compare between models (measure edges), including all hyper-parameter settings
-# 
-# -------------------------------------------------------------------------------------------
-ntimes = 1000
+from sklearn.decomposition import PCA
+plt.rcParams["font.size"] = 20
 
-score_all = pd.DataFrame(columns = ["interval", "ngenes", "nmse","kendall-tau", "pearson", "spearman", "cosine similarity", "time", "model", "bandwidth", "truncate_param", "lambda"])
-score_all_diff = pd.DataFrame(columns = ["interval", "ngenes", "nmse","kendall-tau", "pearson", "spearman", "cosine similarity", "time", "model", "bandwidth", "truncate_param", "lambda"])
+interval = 5
+ngenes = 50
+seed = 2
+bandwidth = 10
+lamb = 0.01
+truncate_param = 30
+data = str(bandwidth) + "_" + str(lamb) + "_" + str(truncate_param)
+result_dir = "../results_GGM/bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "_" + str(seed) + "_sergio/"
 
+X = np.load(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "_" + str(seed) + "_sergio/expr.npy")
+sim_time = np.load(path + "ntimes_" + str(ntimes) + "_interval_" + str(interval) + "_ngenes_" + str(ngenes) + "_" + str(seed) + "_sergio/sim_time.npy")
+sim_time = sim_time/np.max(sim_time)
+thetas = np.load(file = result_dir + "thetas_" + data + "_kt.npy")
 
-for interval in [5, 25]:
-    for (ngenes, ntfs) in [(50, 20), (200,20)]:
-        for seed in range(3):
-            result_dir = result_path + "bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "_" + str(seed) + "_sergio/"
+pca_op = PCA()
+X_pca = pca_op.fit_transform(X)
+theta_pca = pca_op.fit_transform(thetas.reshape(ntimes, -1))
 
-            score = pd.read_csv(result_dir + "score.csv", index_col = 0)            
-            # score = score[(score["model"] == "GENIE3")|(score["model"] == "GENIE3-Dyn")|(score["model"] == "SCODE")|(score["model"] == "SCODE-Dyn")|(score["model"] == "CeSpGRN")|(score["model"] == "CSN")]
-            score_all = pd.concat([score_all, score], axis = 0)
-
-
-fig, ax = plt.subplots( figsize=(12.0, 5.0) , nrows=1, ncols=2) 
-boxplot1 = sns.boxplot(data = score_all, x = "model", y = "pearson", ax = ax[0])
-boxplot2 = sns.boxplot(data = score_all, x = "model", y = "spearman", ax = ax[1])
-
-# ax[0].set_ylim([-1 , 1])
-# ax[1].set_ylim([-1 , 1])
-ax[0].set_xticklabels(boxplot1.get_xticklabels(), rotation = 45)
-ax[1].set_xticklabels(boxplot2.get_xticklabels(), rotation = 45)
+fig = plt.figure(figsize = (10, 7))
+ax = fig.add_subplot()
+pic = ax.scatter(X_pca[:, 0], X_pca[:, 1], c = sim_time, s = 5)
+fig.colorbar(pic)
+ax.set_xlabel("PCA1")
+ax.set_ylabel("PCA2")
 
 
-fig.set_facecolor('w')
-fig.suptitle("score of edge detection")
-plt.tight_layout()
-fig.savefig(result_path + "compare_models.png", bbox_inches = "tight") 
-
-
-# In[]
-# -------------------------------------------------------------------------------------------
-# 
-# Compare between models (measure changing edges), including all hyper-parameter settings
-# 
-# -------------------------------------------------------------------------------------------
-ntimes = 1000
-
-for interval in [5, 25]:
-    score_all_diff = pd.DataFrame(columns = ["interval", "ngenes", "nmse","kendall-tau", "pearson", "spearman", "cosine similarity", "time", "model", "bandwidth", "truncate_param", "lambda"])
-    for (ngenes, ntfs) in [(50, 20), (200, 20)]:
-        for seed in range(3):
-            result_dir = "../results_GGM/bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "_" + str(seed) + "_sergio/"
-            score_diff = pd.read_csv(result_dir + "score_diff.csv", index_col = 0)       
-            # score_diff = score_diff[(score_diff["model"] == "GENIE3-Dyn")|(score_diff["model"] == "SCODE-Dyn")|(score_diff["model"] == "CeSpGRN")|(score_diff["model"] == "CSN")]
-            score_all_diff = pd.concat([score_all_diff, score_diff], axis = 0)
-
-    score_all_diff.loc[score_all_diff["model"] != "CSN", "AUPRC Ratio (signed)"] = (score_all_diff.loc[score_all_diff["model"] != "CSN", "AUPRC Ratio (pos)"].values + score_all_diff.loc[score_all_diff["model"] != "CSN", "AUPRC Ratio (neg)"].values)/2
-    score_all_diff.loc[score_all_diff["model"] == "CSN", "AUPRC Ratio (signed)"] = score_all_diff.loc[score_all_diff["model"] == "CSN", "AUPRC Ratio (abs)"].values
-    score_all_diff.loc[score_all_diff["model"] != "CSN", "Early Precision Ratio (signed)"] = (score_all_diff.loc[score_all_diff["model"] != "CSN", "Early Precision Ratio (pos)"].values + score_all_diff.loc[score_all_diff["model"] != "CSN", "Early Precision Ratio (neg)"].values)/2
-    score_all_diff.loc[score_all_diff["model"] == "CSN", "Early Precision Ratio (signed)"] = score_all_diff.loc[score_all_diff["model"] == "CSN", "Early Precision Ratio (abs)"].values
-    score_all_diff.loc[score_all_diff["model"] != "CSN", "AUPRC (signed)"] = (score_all_diff.loc[score_all_diff["model"] != "CSN", "AUPRC (pos)"].values + score_all_diff.loc[score_all_diff["model"] != "CSN", "AUPRC (neg)"].values)/2
-    score_all_diff.loc[score_all_diff["model"] == "CSN", "AUPRC (signed)"] = score_all_diff.loc[score_all_diff["model"] == "CSN", "AUPRC (abs)"].values
-    score_all_diff.loc[score_all_diff["model"] != "CSN", "Early Precision (signed)"] = (score_all_diff.loc[score_all_diff["model"] != "CSN", "Early Precision (pos)"].values + score_all_diff.loc[score_all_diff["model"] != "CSN", "Early Precision (neg)"].values)/2
-    score_all_diff.loc[score_all_diff["model"] == "CSN", "Early Precision (signed)"] = score_all_diff.loc[score_all_diff["model"] == "CSN", "Early Precision (abs)"].values
-
-
-    fig, ax = plt.subplots( figsize=(12.0, 10.0) , nrows=2, ncols=2) 
-    boxplot1 = sns.boxplot(data = score_all_diff, x = "model", y = "Early Precision Ratio (abs)", ax = ax[0,0])
-    boxplot2 = sns.boxplot(data = score_all_diff, x = "model", y = "AUPRC Ratio (abs)", ax = ax[0,1])
-    boxplot3 = sns.boxplot(data = score_all_diff, x = "model", y = "pearson", ax = ax[1,0])
-    boxplot4 = sns.boxplot(data = score_all_diff, x = "model", y = "spearman", ax = ax[1,1])
-    add_median_labels(boxplot3.axes)
-    add_median_labels(boxplot4.axes)
-    # ax[0].set_ylim([-1 , 1])
-    # ax[1].set_ylim([-1 , 1])
-    ax[0,0].set_xticklabels(boxplot1.get_xticklabels(), rotation = 45)
-    ax[0,1].set_xticklabels(boxplot2.get_xticklabels(), rotation = 45)
-    ax[1,0].set_xticklabels(boxplot3.get_xticklabels(), rotation = 45)
-    ax[1,1].set_xticklabels(boxplot4.get_xticklabels(), rotation = 45)
-    ax[0,0].set_yscale('log')
-    ax[0,1].set_yscale('log')
-
-    fig.set_facecolor('w')
-    fig.suptitle("score of changing edges detection, change interval: " + str(interval), fontsize = 25)
-    plt.tight_layout()
-    fig.savefig(result_path + "compare_models_diff_" + str(interval) + ".png", bbox_inches = "tight") 
-
-# In[]
-# -------------------------------------------------------------------------------------------
-# 
-# Compare between models (measure changing edges), including selected hyper-parameter settings
-# 
-# -------------------------------------------------------------------------------------------
-ntimes = 1000
-
-for interval in [5, 25]:
-    score_all_diff = pd.DataFrame(columns = ["interval", "ngenes", "nmse","kendall-tau", "pearson", "spearman", "cosine similarity", "time", "model", "bandwidth", "truncate_param", "lambda"])
-    for (ngenes, ntfs) in [(50, 20), (200, 20)]:
-        for seed in range(3):
-            result_dir = "../results_GGM/bifur_" + str(ntimes) + "_" + str(interval) + "_" + str(ngenes) + "_" + str(seed) + "_sergio/"
-            score_diff = pd.read_csv(result_dir + "score_diff.csv", index_col = 0)          
-            score_diff_other = score_diff[(score_diff["model"] == "GENIE3")|(score_diff["model"] == "GENIE3-Dyn")|(score_diff["model"] == "SCODE")|(score_diff["model"] == "SCODE-Dyn")|(score_diff["model"] == "CSN")]            
-            score_diff_CeSpGRN = score_diff[(score_diff["bandwidth"] == 10)&(score_diff["truncate_param"] == 15)&(score_diff["lambda"] == 0.01)&(score_diff["model"] == "CeSpGRN")]
-            score_all_diff = pd.concat([score_all_diff, score_diff_other, score_diff_CeSpGRN], axis = 0)
-            
-
-    score_all_diff.loc[score_all_diff["model"] != "CSN", "AUPRC Ratio (signed)"] = (score_all_diff.loc[score_all_diff["model"] != "CSN", "AUPRC Ratio (pos)"].values + score_all_diff.loc[score_all_diff["model"] != "CSN", "AUPRC Ratio (neg)"].values)/2
-    score_all_diff.loc[score_all_diff["model"] == "CSN", "AUPRC Ratio (signed)"] = score_all_diff.loc[score_all_diff["model"] == "CSN", "AUPRC Ratio (abs)"].values
-    score_all_diff.loc[score_all_diff["model"] != "CSN", "Early Precision Ratio (signed)"] = (score_all_diff.loc[score_all_diff["model"] != "CSN", "Early Precision Ratio (pos)"].values + score_all_diff.loc[score_all_diff["model"] != "CSN", "Early Precision Ratio (neg)"].values)/2
-    score_all_diff.loc[score_all_diff["model"] == "CSN", "Early Precision Ratio (signed)"] = score_all_diff.loc[score_all_diff["model"] == "CSN", "Early Precision Ratio (abs)"].values
-
-
-    fig, ax = plt.subplots( figsize=(12.0, 10.0) , nrows=2, ncols=2) 
-    boxplot1 = sns.boxplot(data = score_all_diff, x = "model", y = "Early Precision Ratio (abs)", ax = ax[0,0])
-    boxplot2 = sns.boxplot(data = score_all_diff, x = "model", y = "AUPRC Ratio (abs)", ax = ax[0,1])
-    boxplot3 = sns.boxplot(data = score_all_diff, x = "model", y = "pearson", ax = ax[1,0])
-    boxplot4 = sns.boxplot(data = score_all_diff, x = "model", y = "spearman", ax = ax[1,1])
-    add_median_labels(boxplot3.axes)
-    add_median_labels(boxplot4.axes)
-    # ax[0].set_ylim([-1 , 1])
-    # ax[1].set_ylim([-1 , 1])
-    ax[0,0].set_xticklabels(boxplot1.get_xticklabels(), rotation = 45)
-    ax[0,1].set_xticklabels(boxplot2.get_xticklabels(), rotation = 45)
-    ax[1,0].set_xticklabels(boxplot3.get_xticklabels(), rotation = 45)
-    ax[1,1].set_xticklabels(boxplot4.get_xticklabels(), rotation = 45)
-    ax[0,0].set_yscale('log')
-    ax[0,1].set_yscale('log')
-
-    fig.set_facecolor('w')
-    fig.suptitle("score of changing edges detection, change interval: " + str(interval), fontsize = 25)
-    plt.tight_layout()
-    fig.savefig(result_path + "compare_models_diff_" + str(interval) + "_selected.png", bbox_inches = "tight") 
-
+fig = plt.figure(figsize = (10, 7))
+ax = fig.add_subplot()
+pic = ax.scatter(theta_pca[:, 0], theta_pca[:, 1], c = sim_time, s = 5)
+fig.colorbar(pic)
+ax.set_xlabel("PCA1")
+ax.set_ylabel("PCA2")
 
 '''

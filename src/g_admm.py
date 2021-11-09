@@ -132,10 +132,10 @@ def est_cov(X, K_trun, weighted_kt = True):
         Flag, min_eig = isPSD(empir_cov[t,:,:])
         # if not find the closest positive definite matrix
         if not Flag:
-            print("inferred empirical convariance matrix is not positive definite at the time point " + str(t) + ", min eig: " + str(min_eig))
+            # print("inferred empirical convariance matrix is not positive definite at the time point " + str(t) + ", min eig: " + str(min_eig))
             empir_cov[t,:,:] = find_clostest_PSD(empir_cov[t,:,:])
             Flag, min_eig = isPSD(empir_cov[t,:,:])
-            print("After correction, the minimum eigenvalue: " + str(min_eig))
+            # print("After correction, the minimum eigenvalue: " + str(min_eig))
             assert Flag
 
     # empir_cov = empir_cov + empir_cov.permute((0,2,1)) - torch.stack([torch.diag(torch.diag(x)) for x in empir_cov])
