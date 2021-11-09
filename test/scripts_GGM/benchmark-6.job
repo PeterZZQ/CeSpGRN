@@ -1,0 +1,21 @@
+#!/bin/bash
+#SBATCH -J benchmark-6
+#SBATCH -N 1
+#SBATCH -p EM
+#SBATCH --ntasks-per-node=24
+#SBATCH -t 5:00:00
+#SBATCH -o benchmark-6.out 
+#SBATCH -e benchmark-6.err
+#SBATCH --mail-user=zzhang834@gatech.edu
+#SBATCH --mail-type=ALL
+
+
+module load anaconda3
+conda activate myenv
+
+cd /ocean/projects/cis210014p/ziqi/DynGRN/test/scripts_GGM
+
+interval=0
+ngene=1
+seed=2
+python benchmark.py ${interval} ${ngene} ${seed}

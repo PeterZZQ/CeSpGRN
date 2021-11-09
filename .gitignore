@@ -8,3 +8,5 @@ test/scripts_GGM_bifurcate
 SCODE
 CSN
 data
+simulator/boolODE
+simulator/linearODE
