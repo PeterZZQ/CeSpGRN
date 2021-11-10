@@ -36,7 +36,7 @@ statsmodels >= 0.12.2
 
 ## Usage
 * Load in the count matrix as a numpy `ndarray`, the matrix should be of the shape `(ncells, ngenes)`. e.g.
-  ```
+  ```python
   import sys, os
   sys.path.append('./src/')
   import numpy as np 
@@ -49,7 +49,7 @@ statsmodels >= 0.12.2
   counts = np.load("counts.npy")
   ```
 * Set the hyper-parameter including: bandwidth, neighborhoodsize, and lambda. e.g.
-  ```
+  ```python
   # smaller bandwidth means that GRN of cells are more heterogeneous.
   bandwidth = 1
   # number of neighbor being considered when calculating the covariance matrix.
@@ -58,7 +58,7 @@ statsmodels >= 0.12.2
   lamb = 0.1
   ```
 * Calculate the kernel function, and covariance matrix for each cell, e.g.
-  ```
+  ```python
   # calculate PCA of count matrix
   from sklearn.decompose import PCA
   pca_op = PCA(n_components = 10)
@@ -71,7 +71,7 @@ statsmodels >= 0.12.2
   empir_cov = CeSpGRN.est_cov(X = counts, K_trun = K_trun, weighted_kt = True)
   ```
 * Estimating cell-specific GRN, e.g.
-  ```
+  ```python
   # estimate cell-specific GRNs, thetas of the shape (ncells, ngenes, ngenes)
   cespgrn = CeSpGRN.G_admm_minibatch(X=counts[:, None, :], K=K, pre_cov=empir_cov, batchsize = 120)
   thetas = cespgrn.train(max_iters=max_iters, n_intervals=100, lamb=lamb)
