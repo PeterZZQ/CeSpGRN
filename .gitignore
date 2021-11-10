@@ -5,6 +5,9 @@ test/results_*
 test/scripts_scMultiSim
 test/scripts_GGM_bifur_v2
 test/scripts_GGM_bifurcate
+test/scripts_THP-1/test_THP-1.pbs
+test/scripts_THP-1/test_THP-1.py 
+test/scripts_THP-1/test_THP-1.job
 SCODE
 CSN
 data/continuousODE
