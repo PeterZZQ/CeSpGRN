@@ -2,9 +2,7 @@ import statsmodels.api as sm
 import statsmodels
 from scipy import stats
 import numpy as np
-import anndata
 import matplotlib.pyplot as plt
-import scanpy as sc
 
 def GAM_pt(pse_t, expr, smooth = 'BSplines', df = 5, degree = 3, family = sm.families.NegativeBinomial()):
     """\
