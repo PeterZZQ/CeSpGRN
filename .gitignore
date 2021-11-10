@@ -14,3 +14,4 @@ data/continuousODE
 data/GGM_bifurcate
 simulator/boolODE
 simulator/linearODE
+**/.DS_Store
