@@ -1,12 +1,13 @@
 src/__pycache__
+src/keller.py 
+src/g_glad.py
 test/results_*
 test/scripts_scMultiSim
-test/scripts_softODE1/*.pbs
-test/scripts_softODE1/*.err
 test/scripts_GGM_bifur_v2
 test/scripts_GGM_bifurcate
 SCODE
 CSN
-data
+data/continuousODE
+data/GGM_bifurcate
 simulator/boolODE
 simulator/linearODE

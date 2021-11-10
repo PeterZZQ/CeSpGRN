@@ -239,10 +239,10 @@ sns.boxplot(data = scores, x = "bandwidth", y = "density ratio", hue = "truncate
 plt.tight_layout()
 
 
-# In[] The best hyper-parameter bandwidth = 0.1, truncate 30, lamb = 0.01
+# In[] The best hyper-parameter bandwidth = 0.1, truncate 30, lamb = 0.1/0.01
 bandwidth = 0.1
 truncate_param = 30
-lamb = 0.01
+lamb = 0.1
 
 score_cespgrn = scores.loc[(scores["bandwidth"] == bandwidth)&(scores["truncate_param"] == truncate_param)&(scores["lambda"] == lamb), ["density ratio", "AUPRC Ratio (pos)", "AUPRC Ratio (neg)", "AUPRC Ratio (signed)", "Early Precision Ratio (pos)", "Early Precision Ratio (neg)", "Early Precision Ratio (signed)", "AUPRC (pos)", "AUPRC (neg)", "AUPRC (signed)", "Early Precision (pos)", "Early Precision (neg)", "Early Precision (signed)"]]
 score_genie = scores.loc[(scores["model"] == "GENIE3"), ["density ratio","AUPRC Ratio (pos)", "AUPRC Ratio (neg)", "AUPRC Ratio (signed)", "Early Precision Ratio (pos)", "Early Precision Ratio (neg)", "Early Precision Ratio (signed)", "AUPRC (pos)", "AUPRC (neg)", "AUPRC (signed)", "Early Precision (pos)", "Early Precision (neg)", "Early Precision (signed)"]]

@@ -13,3 +13,6 @@ Inferring cell specific GRN using single-cell gene expression data
   * `soft_boolODE`: simulator for the softODE data
 * `data` stores the generated data (available upon requests)
 
+
+## Usage
+See `demo.py`.
