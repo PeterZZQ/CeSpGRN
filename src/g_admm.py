@@ -91,7 +91,7 @@ def weighted_kendall_tau(xs, ys, ws = None):
     w_mat = mx[:, None] * my[:, None] * mx[None, :] * my[None, :] * ws[:, None] * ws[None, :]
     # make sure don't sum up diagonal value, where i == j
     w_mat.fill_diagonal_(0)
-    kt = torch.sum(signed_diffx * signed_diffy * w_mat)/torch.sum(w_mat)
+    kt = torch.sum(signed_diffx * signed_diffy * w_mat)/(torch.sum(w_mat) + 1e-12)
     return kt
     
 def est_cov(X, K_trun, weighted_kt = True):

@@ -248,7 +248,7 @@ def summarize_scores(setting):
     traj = setting["traj"]
 
     print("ntimes: " + str(ntimes) + ", interval: " + str(interval) + ", ngenes: " + str(ngenes) + ", seed: " + str(seed) + ", initial graph: sergio\n")
-    result_dir = "../results_softODE/" + traj + "_ngenes_" + str(ngenes) + "_ncell_" + str(ntimes) + "_seed_" + str(seed) + "/"
+    result_dir = "../results_softODE_hyperparameter2/" + traj + "_ngenes_" + str(ngenes) + "_ncell_" + str(ntimes) + "_seed_" + str(seed) + "/"
     data_dir = path + traj + "_ngenes_" + str(ngenes) + "_ncell_" + str(ntimes) + "_seed_" + str(seed) + "/"
     
     # X = np.load(data_dir + "expr.npy")

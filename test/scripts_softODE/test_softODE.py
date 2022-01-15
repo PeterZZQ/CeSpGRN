@@ -176,13 +176,13 @@ for kt in [True]:
     for traj in trajs:
         for (ngenes, ntfs) in [(20, 5)]:
             for seed in seeds:
-                result_dir = "../results_softODE_hyperparameter/" + str(traj) + "_ngenes_" + str(ngenes) + "_ncell_" + str(ntimes) + "_seed_" + str(seed) + "/"
+                result_dir = "../results_softODE_hyperparameter2/" + str(traj) + "_ngenes_" + str(ngenes) + "_ncell_" + str(ntimes) + "_seed_" + str(seed) + "/"
                 
                 if not os.path.exists(result_dir):
                     os.makedirs(result_dir)
                 
                 data_dir = path + str(traj) +  "_ngenes_" + str(ngenes) + "_ncell_" + str(ntimes) + "_seed_" + str(seed) + "/"
-                X = np.load(data_dir + "true_count.npy")
+                X = np.load(data_dir + "obs_count.npy")
                 sim_time = np.load(data_dir + "pseudotime.npy")
 
                 # # check distribution

@@ -194,12 +194,36 @@ setting = {
 }
 scores = scores.append(calc_scores_static(setting), ignore_index = True)
 
+# add CSN and SCODE
+thetas_csn = np.load("../results_THP-1/theta_CSN.npy")
+thetas_csn = np.sum(thetas_csn, axis = 0)
+setting = {
+    "theta_inf": thetas_csn,
+    "theta_gt": thetas_gt,
+    "model": "CSN",
+    "bandwidth": 0,
+    "truncate_param": 0,
+    "lamb": 0
+}
+scores = scores.append(calc_scores_static(setting), ignore_index = True)
+
+thetas_scode = np.load("../results_THP-1/theta_scode.npy")
+setting = {
+    "theta_inf": thetas_scode[0],
+    "theta_gt": thetas_gt,
+    "model": "SCODE",
+    "bandwidth": 0,
+    "truncate_param": 0,
+    "lamb": 0
+}
+scores = scores.append(calc_scores_static(setting), ignore_index = True)
+
 scores["AUPRC Ratio (signed)"] = (scores["AUPRC Ratio (pos)"].values + scores["AUPRC Ratio (neg)"].values)/2
 scores["Early Precision Ratio (signed)"] = (scores["Early Precision Ratio (pos)"].values + scores["Early Precision Ratio (neg)"].values)/2
 scores["AUPRC (signed)"] = (scores["AUPRC (pos)"].values + scores["AUPRC (neg)"].values)/2
 scores["Early Precision (signed)"] = (scores["Early Precision (pos)"].values + scores["Early Precision (neg)"].values)/2
 
-scores.to_csv(result_path + "scores.csv")  
+# scores.to_csv(result_path + "scores.csv")  
 
 
 # In[] check the influence of lambda, lambda = 0.001, 0.002 and 0.005, 0.01 have similar performance. 
