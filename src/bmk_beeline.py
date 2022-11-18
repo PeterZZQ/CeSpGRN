@@ -5,14 +5,27 @@ from sklearn.metrics import precision_recall_curve, roc_curve, auc
 from itertools import product, permutations, combinations, combinations_with_replacement
 
 from sklearn.metrics import precision_recall_curve, PrecisionRecallDisplay,roc_curve,auc,RocCurveDisplay, average_precision_score, roc_auc_score
+import warnings
 
-def kendalltau(G_inf, G_true):
+def kendalltau(G_inf, G_true, sparse = False):
     """\
     Description:
     ------------
         Pearson Correlation
     """
     import scipy.stats as stats
+    # if sparse:
+    #     G_inf_vector = G_inf.reshape(-1)
+    #     G_true_vector = G_true.reshape(-1)
+    #     num_inf_edges = np.sum(G_inf_vector != 0)
+    #     num_true_edges = np.sum(G_true_vector != 0)
+    #     k = np.min(num_inf_edges, num_true_edges)
+    #     edges_inf = np.argsort(G_inf_vector)[:-(k+1):-1]
+    #     edges_true = np.where(G_true_vector!=0)[0]
+    #     edges = np.array([x for x in set(edges_inf).union(set(edges_true))])
+    #     return stats.kendalltau(G_inf_vector[edges], G_true_vector[edges])
+
+    # else:
     return stats.kendalltau(G_inf.reshape(-1), G_true.reshape(-1))
     
 def NMSE(G_inf, G_true):
@@ -31,7 +44,7 @@ def PS(G_inf, G_true):
     """
     return int(np.all(np.sign(G_inf)==np.sign(G_true)))
 
-def pearson(G_inf, G_true):
+def pearson(G_inf, G_true, sparse = False):
     """\
     Description:
     ------------
@@ -40,7 +53,7 @@ def pearson(G_inf, G_true):
     import scipy.stats as stats
     return stats.pearsonr(G_inf.reshape(-1), G_true.reshape(-1))
 
-def spearman(G_inf, G_true):
+def spearman(G_inf, G_true, sparse = False):
     """\
     Description:
     ------------
@@ -49,15 +62,17 @@ def spearman(G_inf, G_true):
     import scipy.stats as stats
     return stats.spearmanr(G_inf.reshape(-1), G_true.reshape(-1))
 
-def cossim(G_inf, G_true):
+def cossim(G_inf, G_true, sparse = False):
     """\
     Description:
     ------------
         Cosine similarity
     """
-    G_inf_norm = np.sqrt((G_inf.reshape(-1) ** 2).sum())
-    G_true_norm = np.sqrt((G_true.reshape(-1) ** 2).sum())
-    return np.sum(G_inf.reshape(-1) * G_true.reshape(-1))/G_inf_norm/G_true_norm
+    G_inf_vector = G_inf.reshape(-1)
+    G_true_vector = G_true.reshape(-1)
+    G_inf_norm = np.sqrt((G_inf_vector ** 2).sum())
+    G_true_norm = np.sqrt((G_true_vector ** 2).sum())
+    return np.sum(G_inf_vector * G_true_vector)/G_inf_norm/G_true_norm
 
 def compute_auc_signed(G_inf, G_true):
     # assert np.allclose(G_inf, G_inf.T, atol = 1e-7)
@@ -115,7 +130,10 @@ def _compute_auc(estm_adj, gt_adj):
     if np.max(estm_adj) == 0:
         return 0, 0, 0, 0, 0, 0, 0
     else:
-        fpr, tpr, thresholds = roc_curve(y_true=gt_adj.reshape(-1,), y_score=estm_adj.reshape(-1,), pos_label=1)
+        # show warning if no positive values in y_true
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            fpr, tpr, thresholds = roc_curve(y_true=gt_adj.reshape(-1,), y_score=estm_adj.reshape(-1,), pos_label=1)
         
         if len(set(gt_adj.reshape(-1,))) == 1:
             prec, recall = np.array([0., 1.]), np.array([1., 0.])

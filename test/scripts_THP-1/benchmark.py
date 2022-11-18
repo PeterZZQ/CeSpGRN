@@ -268,6 +268,7 @@ bandwidth = 0.1
 truncate_param = 30
 lamb = 0.1
 
+pt = pd.read_csv(result_path + "de_edges/pt_slingshot_0.1_0.1_30.csv", header = None)
 score_cespgrn = scores.loc[(scores["bandwidth"] == bandwidth)&(scores["truncate_param"] == truncate_param)&(scores["lambda"] == lamb), ["density ratio", "AUPRC Ratio (pos)", "AUPRC Ratio (neg)", "AUPRC Ratio (signed)", "Early Precision Ratio (pos)", "Early Precision Ratio (neg)", "Early Precision Ratio (signed)", "AUPRC (pos)", "AUPRC (neg)", "AUPRC (signed)", "Early Precision (pos)", "Early Precision (neg)", "Early Precision (signed)"]]
 score_genie = scores.loc[(scores["model"] == "GENIE3"), ["density ratio","AUPRC Ratio (pos)", "AUPRC Ratio (neg)", "AUPRC Ratio (signed)", "Early Precision Ratio (pos)", "Early Precision Ratio (neg)", "Early Precision Ratio (signed)", "AUPRC (pos)", "AUPRC (neg)", "AUPRC (signed)", "Early Precision (pos)", "Early Precision (neg)", "Early Precision (signed)"]]
 
@@ -290,6 +291,7 @@ ax.set_xlabel("PCA1")
 ax.set_ylabel("PCA2")
 ax.legend(bbox_to_anchor=(1.01, 1), loc='upper left', frameon=False, markerscale = 3)
 ax.set_title("bandwidth: " + str(bandwidth) + ", truncate_param: " + str(truncate_param) + ", lamb: " + str(lamb))
+ax.savefig()
 
 thetas_pca = pd.read_csv(result_path + "de_edges/thetas_pca_0.1_0.1_30.csv", header = None).values
 

@@ -142,7 +142,7 @@ scores = pd.DataFrame(columns = ["model", "bandwidth", "truncate_param", "lambda
         "AUPRC random (neg)", "AUPRC random (abs)", "Early Precision random (pos)", "Early Precision random (neg)","Early Precision random (abs)","AUPRC Ratio (pos)", \
             "AUPRC Ratio (neg)", "AUPRC Ratio (abs)", "Early Precision Ratio (pos)", "Early Precision Ratio (neg)", "Early Precision Ratio (abs)"])
 
-thetas_gt = pd.read_csv(path + "GRN_small.csv", index_col = 0).values
+thetas_gt = pd.read_csv(path + "GRN.csv", index_col = 0).values
 
 
 for bandwidth in bandwidths:

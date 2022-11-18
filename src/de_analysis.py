@@ -122,9 +122,6 @@ def de_analy(X, pseudo_order, p_val_t = 0.05, verbose = False, distri = "neg-bin
                 # if p_val <= p_val_t:
                 de_genes[reconst_i].append({"gene": gene, "regression": gene_pred, "null": gene_null,"p_val": p_val})
         
-        # sort according to the p_val
-        de_genes[reconst_i] = sorted(de_genes[reconst_i], key=lambda x: x["p_val"],reverse=False)
-
         if fdr_correct:
             pvals = [x["p_val"] for x in de_genes[reconst_i]]
             is_de, pvals = statsmodels.stats.multitest.fdrcorrection(pvals, alpha=p_val_t, method='indep', is_sorted=True)
@@ -135,6 +132,9 @@ def de_analy(X, pseudo_order, p_val_t = 0.05, verbose = False, distri = "neg-bin
             
             # remove the non-de genes
             de_genes[reconst_i] = [x for i,x in enumerate(de_genes[reconst_i]) if is_de[i] == True]
+
+    # sort according to the p_val
+    de_genes[reconst_i] = sorted(de_genes[reconst_i], key=lambda x: x["p_val"],reverse=False)
 
     return de_genes
 

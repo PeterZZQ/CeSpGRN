@@ -176,7 +176,7 @@ for kt in [True]:
     for traj in trajs:
         for (ngenes, ntfs) in [(20, 5)]:
             for seed in seeds:
-                result_dir = "../results_softODE_hyperparameter2/" + str(traj) + "_ngenes_" + str(ngenes) + "_ncell_" + str(ntimes) + "_seed_" + str(seed) + "/"
+                result_dir = "../results_softODE_invprec/" + str(traj) + "_ngenes_" + str(ngenes) + "_ncell_" + str(ntimes) + "_seed_" + str(seed) + "/"
                 
                 if not os.path.exists(result_dir):
                     os.makedirs(result_dir)
@@ -193,10 +193,10 @@ for kt in [True]:
                 # ax = fig.add_subplot()
                 # _ = ax.hist(np.log1p(X.reshape(-1)), bins = 20)
 
-                # libsize = np.median(np.sum(X, axis = 1))
-                # X = X / np.sum(X, axis = 1)[:,None] * libsize
-                # # the distribution of the original count is log-normal distribution, conduct log transform
-                # X = np.log1p(X)
+                libsize = np.median(np.sum(X, axis = 1))
+                X = X / np.sum(X, axis = 1)[:,None] * libsize
+                # the distribution of the original count is log-normal distribution, conduct log transform
+                X = np.log1p(X)
 
                 pca_op = PCA(n_components = 20)
                 umap_op = UMAP(n_components = 2, min_dist = 0.8)
@@ -244,7 +244,7 @@ for kt in [True]:
 
                         # run the model
                         for lamb in [0.001]:
-                            for beta in [0.01, 0.1, 1, 10, 100]:
+                            for beta in [0.0]:
                                 start_time = time.time() 
                                 # test model without TF
                                 thetas = np.zeros((ntimes * nsamples,ngenes,ngenes))
@@ -254,10 +254,15 @@ for kt in [True]:
                                 rho = 1.7
                                 gadmm_batch = g_admm.G_admm_minibatch(X=X[:, None, :], K=K, pre_cov=empir_cov, batchsize = 100, TF = np.arange(5))
                                 thetas = gadmm_batch.train(max_iters=max_iters, n_intervals=100, alpha=alpha, lamb=lamb, rho=rho, theta_init_offset=0.1, beta = beta)
+
+                                # NOTE: transform the precision into the conditional independence matrix
+                                Gs = g_admm.construct_weighted_G(thetas, ncpus = 2)
+
                                 if kt:
-                                    np.save(file = result_dir + "thetas_" + str(bandwidth) + "_" + str(lamb) + "_" + str(truncate_param) + "_"+ str(beta) +"_kt.npy", arr = thetas) 
+                                    np.save(file = result_dir + "thetas_" + str(bandwidth) + "_" + str(lamb) + "_" + str(truncate_param) + "_"+ str(beta) +".npy", arr = thetas) 
+                                    np.save(file = result_dir + "thetas_" + str(bandwidth) + "_" + str(lamb) + "_" + str(truncate_param) + "_"+ str(beta) +"_cond.npy", arr = Gs) 
                                 else:
-                                    np.save(file = result_dir + "thetas_" + str(bandwidth) + "_" + str(lamb) + "_" + str(truncate_param) + "_" + str(beta) + ".npy", arr = thetas) 
+                                    np.save(file = result_dir + "thetas_" + str(bandwidth) + "_" + str(lamb) + "_" + str(truncate_param) + "_" + str(beta) + ".npy", arr = Gs) 
                                 
                                 print("time calculating thetas: {:.2f} sec".format(time.time() - start_time))
                                 del thetas

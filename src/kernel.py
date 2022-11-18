@@ -43,7 +43,7 @@ def calc_kernel_neigh(X, k = 5, bandwidth = 1, truncate = False, truncate_param 
 
     print("final number of nearest neighbor (make connected): " + str(k))
     # return a matrix of shortest path distances between nodes. Inf if no distances between nodes (should be no Inf, because the graph is connected)
-    D = nx.floyd_warshall_numpy(G)
+    D = np.array(nx.floyd_warshall_numpy(G))
     assert np.max(D) < np.inf
     # scale the distance to between 0 and 1, similar to time-series kernel, values are still too large
     D = D/np.max(D)

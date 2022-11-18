@@ -64,15 +64,16 @@ ax = fig.add_subplot()
 _ = ax.hist(np.log1p(counts.reshape(-1)), bins = 20)
 
 libsize = np.median(np.sum(counts, axis = 1))
-counts = counts / np.sum(counts, axis = 1)[:,None] * libsize
+counts_norm = counts / np.sum(counts, axis = 1)[:,None] * libsize
 # the distribution of the original count is log-normal distribution, conduct log transform
-counts = np.log1p(counts)
+counts_norm = np.log1p(counts_norm)
+counts = counts_norm
 
 pca_op = PCA(n_components = 20)
 umap_op = UMAP(n_components = 2, min_dist = 0.8, random_state = 0)
 
-X_pca = pca_op.fit_transform(counts)
-X_umap = umap_op.fit_transform(counts)
+X_pca = pca_op.fit_transform(counts_norm)
+X_umap = umap_op.fit_transform(counts_norm)
 
 fig = plt.figure(figsize  = (10,7))
 ax = fig.add_subplot()
@@ -96,20 +97,39 @@ ax.set_ylabel("UMAP2")
 ax.legend(bbox_to_anchor=(1.01, 1), loc='upper left', frameon=False)
 fig.savefig(result_dir + "X_umap.png", bbox_inches = "tight")
 
-# X = torch.FloatTensor(counts).to(device)
+# check the time evolution of the un-preprocessed gene expression data
+exprs = counts.T[:5,:] 
+fig = plt.figure(figsize = (15,10))
+ax = fig.add_subplot()
+for gene_expr in exprs:
+    ax.scatter(np.arange(gene_expr.shape[0]), gene_expr)
+    ax.set_yscale("log")
+ax.set_title("Gene expression")
+
+# check the time evolution of the un-preprocessed gene expression data
+# log transform and normalize or not, doesn't affect the result too much
+exprs = counts_norm.T[:5,:] 
+fig = plt.figure(figsize = (15,10))
+ax = fig.add_subplot()
+for gene_expr in exprs:
+    ax.scatter(np.arange(gene_expr.shape[0]), gene_expr)
+    ax.set_yscale("log")
+ax.set_title("Gene expression")
 
 # In[2] ADMM
 # hyper-parameter
 bandwidths = [0.01, 0.1, 0.2, 0.5, 1, 10]
 truncate_params = [5, 15, 30]
 lambs = [0.001, 0.002, 0.005, 0.01, 0.05, 0.1]
+lambs = [0.1]
 assert len(sys.argv) == 3
 
-for bandwidth in [bandwidths[eval(sys.argv[1])]]:
-    for truncate_param in [truncate_params[eval(sys.argv[2])]]:
+# for bandwidth in [bandwidths[eval(sys.argv[1])]]:
+#     for truncate_param in [truncate_params[eval(sys.argv[2])]]:
+for bandwidth in [bandwidths[1]]:
+    for truncate_param in [truncate_params[2]]:
         # calculate empirical covariance matrix
         start_time = time.time()
-        empir_cov = torch.zeros(ncells, ngenes, ngenes)
         # calculate the kernel function
         K, K_trun = kernel.calc_kernel_neigh(X_pca, k = 5, bandwidth = bandwidth, truncate = True, truncate_param = truncate_param)
 
@@ -146,13 +166,14 @@ for bandwidth in [bandwidths[eval(sys.argv[1])]]:
         empir_cov = g_admm.est_cov(X = counts, K_trun = K_trun, weighted_kt = True)
 
         for lamb in lambs:
-            alpha = 2
-            rho = 1.7
-            max_iters = 1000
+            for beta in [0]:
+                alpha = 2
+                rho = 1.7
+                max_iters = 1000
 
-            if exists(result_dir + "thetas_" + str(bandwidth) + "_" + str(lamb) + "_" + str(truncate_param) + "_kt.npy"):
-                continue 
-            else:
+                # if exists(result_dir + "thetas_" + str(bandwidth) + "_" + str(lamb) + "_" + str(truncate_param) + "_kt.npy"):
+                #     continue 
+                # else:
                 start_time = time.time() 
                 # test model without TF
                 thetas = np.zeros((ncells, ngenes, ngenes))

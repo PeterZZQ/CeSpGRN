@@ -6,8 +6,13 @@ from torch_sqrtm import MatrixSquareRoot
 
 from torch.optim import Adam
 import time
+import warnings
+
+from multiprocessing import Pool, cpu_count
+import matplotlib.pyplot as plt
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+warnings.filterwarnings("ignore")
 
 torch_sqrtm = MatrixSquareRoot.apply
 
@@ -75,7 +80,7 @@ def weighted_kendall_tau(xs, ys, ws = None):
     """
     n = xs.shape[0]
     if ws is None:
-        ws = torch.ones(n)#.to(device)
+        ws = torch.ones(n)
     assert ys.shape[0] == n
     assert ws.shape[0] == n
     kt = 0
@@ -92,19 +97,19 @@ def weighted_kendall_tau(xs, ys, ws = None):
     # make sure don't sum up diagonal value, where i == j
     w_mat.fill_diagonal_(0)
     kt = torch.sum(signed_diffx * signed_diffy * w_mat)/(torch.sum(w_mat) + 1e-12)
+    del w_mat
     return kt
     
 def est_cov(X, K_trun, weighted_kt = True):
-    start_time = time.time()
-    X = torch.FloatTensor(X)#.to(device)
+    X = torch.FloatTensor(X)
     ntimes = X.shape[0]
     ngenes = X.shape[1]
 
-    empir_cov = torch.zeros(ntimes, ngenes, ngenes)#.to(device)
+    empir_cov = torch.zeros(ntimes, ngenes, ngenes)
 
     # building weighted covariance matrix, output is empir_cov of the shape (ntimes, ngenes, ngenes)
     for t in range(ntimes):
-        weight = torch.FloatTensor(K_trun[t, :])#.to(device)
+        weight = torch.FloatTensor(K_trun[t, :])
         if weighted_kt:
             weight = (weight > 0)
         # assert torch.sum(weight > 0) == 15
@@ -138,13 +143,74 @@ def est_cov(X, K_trun, weighted_kt = True):
             # print("After correction, the minimum eigenvalue: " + str(min_eig))
             assert Flag
 
-    # empir_cov = empir_cov + empir_cov.permute((0,2,1)) - torch.stack([torch.diag(torch.diag(x)) for x in empir_cov])
-    print("time calculating the kernel function: {:.2f} sec".format(time.time() - start_time))
+    return empir_cov
+
+
+def _est_cov(X, K_trun, weighted_kt, t1, t2):
+    print(t1)
+    X = torch.FloatTensor(X)
+    ntimes = X.shape[0]
+    ngenes = X.shape[1]
+    empir_cov = torch.zeros(t2-t1, ngenes, ngenes)
+
+    for t_idx, t in enumerate(np.arange(t1, t2)):
+        print(t)
+        weight = torch.FloatTensor(K_trun[t, :])
+        if weighted_kt:
+            weight = (weight > 0)
+
+        for i in range(ngenes):
+            for j in range(i, ngenes):
+                if weighted_kt:
+                    kt = weighted_kendall_tau(X[(weight > 0), i].squeeze(), X[(weight > 0), j].squeeze(), weight[weight > 0])
+                    if i != j:
+                        empir_cov[t_idx, i, j] = torch.sin(np.pi/2 * kt)
+                    else:
+                        empir_cov[t_idx, i, j] = 1
+                        
+                else:
+                    kt = weighted_kendall_tau(X[(weight > 0), i].squeeze(), X[(weight > 0), j].squeeze(), weight[weight > 0])
+                    if i != j:
+                        empir_cov[t_idx, i, j] = torch.sin(np.pi/2 * kt) 
+                        assert empir_cov[t_idx, i, j] < 1
+                    else:
+                        empir_cov[t_idx, i, j] = 1
+    
+        empir_cov[t_idx,:,:] = empir_cov[t_idx,:,:] + empir_cov[t_idx,:,:].T - torch.diag(torch.diag(empir_cov[t_idx,:,:]))
+        # check positive definite
+        Flag, min_eig = isPSD(empir_cov[t_idx,:,:])
+        # if not find the closest positive definite matrix
+        if not Flag:
+            empir_cov[t_idx,:,:] = find_clostest_PSD(empir_cov[t_idx,:,:])
+            # Flag, min_eig = isPSD(empir_cov[t_idx,:,:])
+            # assert Flag
+
+    return empir_cov
+
+def est_cov_para(X, K_trun, weighted_kt = True, ncpus = 1):
+    ntimes = X.shape[0]
+    ngenes = X.shape[1]
+
+    # building weighted covariance matrix, output is empir_cov of the shape (ntimes, ngenes, ngenes)
+    settings = []
+    start_time = np.arange(0, ntimes, ntimes//ncpus)
+    end_time = np.append(start_time[1:], ntimes)
+
+    for i, t in enumerate(start_time):
+        settings.append((X.copy(), K_trun.copy(), weighted_kt, t, end_time[i]))
+    print("calculating covariance matrices")
+    # parallele
+    pool = Pool(ncpus)
+    empir_cov = pool.starmap(_est_cov, [setting for setting in settings])
+    pool.close()
+    pool.join()    
+    empir_cov = np.concatenate(empir_cov, axis = 0)
+
     return empir_cov
 
 
 class G_admm_minibatch():
-    def __init__(self, X, K, TF = None, seed = 0, pre_cov = None, batchsize = None):
+    def __init__(self, X, K, TF = None, seed = 0, pre_cov = None, batchsize = None, device = device):
         super(G_admm_minibatch, self).__init__()
         # set random seed
         if seed is not None:
@@ -153,6 +219,7 @@ class G_admm_minibatch():
         # shape (ntimes, nsamples, ngenes)
         self.X = torch.FloatTensor(X)
         self.ntimes, self.nsamples, self.ngenes = self.X.shape
+        self.device = device
         
         # calculate batchsize
         if batchsize is None:
@@ -161,6 +228,8 @@ class G_admm_minibatch():
             self.batchsize = batchsize
         # calculate empirical covariance matrix
         if pre_cov is None:
+            if X is None:
+                raise ValueError('either X or pre_cov must be provided')
             # shape (ntimes, nsamples, ngenes)
             self.epir_mean = self.X.mean(dim = 1, keepdim = True)
             X = self.X - self.epir_mean
@@ -191,6 +260,8 @@ class G_admm_minibatch():
             # mark probable interactions
             self.mask[TF, :] = 1
             self.mask[:, TF] = 1
+            # remove the interactions between TFs
+            self.mask[np.ix_(TF, TF)] = 0
             # element-wise reverse
             self.mask = 1 - self.mask
             self.mask = self.mask.expand(self.ntimes, self.ngenes, self.ngenes) 
@@ -228,33 +299,38 @@ class G_admm_minibatch():
             start_idx = batch * self.batchsize
             if batch < n_batches - 1:
                 end_idx = (batch + 1) * self.batchsize
-                w_empir_cov = self.w_empir_cov[start_idx:end_idx, :, :].to(device)
+                w_empir_cov = self.w_empir_cov[start_idx:end_idx, :, :].to(self.device)
                 if self.mask.shape[0] == self.ntimes:
-                    mask = self.mask[start_idx:end_idx, :, :].to(device)
+                    mask = self.mask[start_idx:end_idx, :, :].to(self.device)
                 else:
-                    mask = self.mask.to(device)
+                    mask = self.mask.to(self.device)
             else:
-                w_empir_cov = self.w_empir_cov[start_idx:, :, :].to(device)
+                w_empir_cov = self.w_empir_cov[start_idx:, :, :].to(self.device)
                 if self.mask.shape[0] == self.ntimes:
-                    mask = self.mask[start_idx:, :, :].to(device)
+                    mask = self.mask[start_idx:, :, :].to(self.device)
                 else:
-                    mask = self.mask.to(device)
+                    mask = self.mask.to(self.device)
             # initialize mini-batch, Z of the shape (batch_size, ngenes, ngenes)
             Z = torch.diag_embed(1/(torch.diagonal(w_empir_cov, offset=0, dim1=-2, dim2=-1) + theta_init_offset))
             # make Z positive definite matrix
             ll = torch.cholesky(Z)
             Z = torch.matmul(ll, ll.transpose(-1, -2))
-            U = torch.zeros(Z.shape).to(device)
-            I = torch.eye(self.ngenes).expand(Z.shape).to(device)
+            U = torch.zeros(Z.shape).to(self.device)
+            I = torch.eye(self.ngenes).expand(Z.shape).to(self.device)
 
             it = 0
+            its = []
+            losses = []
+            losses1 = []
+            losses2 = []
+            losses3 = []
             # hyper-parameter for batches
             if rho is None:
                 updating_rho = True
                 # rho of the shape (ntimes, 1, 1)
-                b_rho = torch.ones((Z.shape[0], 1, 1)).to(device) * 1.7
+                b_rho = torch.ones((Z.shape[0], 1, 1)).to(self.device) * 1.7
             else:
-                b_rho = torch.FloatTensor([rho] * Z.shape[0])[:, None, None].to(device)
+                b_rho = torch.FloatTensor([rho] * Z.shape[0])[:, None, None].to(self.device)
                 updating_rho = False
             b_alpha = alpha 
             b_beta = beta
@@ -266,7 +342,7 @@ class G_admm_minibatch():
                 Z_pre = Z.detach().clone()
                 # over-relaxation
                 thetas = b_alpha * thetas + (1 - b_alpha) * Z_pre            
-                Z = torch.sign(thetas + U) * torch.max((b_rho * (thetas + U).abs() - b_lamb)/(b_rho + b_beta * mask), torch.Tensor([0]).to(device))
+                Z = torch.sign(thetas + U) * torch.max((b_rho * (thetas + U).abs() - b_lamb)/(b_rho + b_beta * mask), torch.Tensor([0]).to(self.device))
 
                 # Dual
                 U = U + thetas - Z
@@ -298,7 +374,18 @@ class G_admm_minibatch():
                     # simplify min of all duality gap
                     duality_gap = b_rho.squeeze() * torch.stack([torch.trace(mat) for mat in torch.bmm(U.permute(0,2,1), Z - thetas)])
                     duality_gap = duality_gap.abs()
-                    print("n_iter: {}, duality gap: {:.4e}, primal residual: {:.4e}, dual residual: {:4e}".format(it+1, duality_gap.max().item(), primal_residual.max().item(), dual_residual.max().item()))
+
+                    # loss function
+                    loss1 = self.neg_lkl_loss(Z, w_empir_cov).sum()
+                    loss2 = Z.abs().sum()
+                    loss3 = (mask * Z).pow(2).sum()
+                    loss = loss1 + b_lamb * loss2 + b_beta * loss3
+                    losses.append(loss.item())
+                    losses1.append(loss1.item())
+                    losses2.append(loss2.item())
+                    losses3.append(loss3.item())
+                    its.append(it)
+                    print("n_iter: {}, duality gap: {:.4e}, primal residual: {:.4e}, dual residual: {:4e}, loss1: {:4e}, loss2: {:4e}, loss3: {:.4e}".format(it+1, duality_gap.max().item(), primal_residual.max().item(), dual_residual.max().item(), loss1.item(), loss2.item(), loss3.item()))
                     
                     # if duality_gap < 1e-8:
                     #     break
@@ -311,7 +398,17 @@ class G_admm_minibatch():
             loss1 = self.neg_lkl_loss(Z, w_empir_cov).sum()
             loss2 = Z.abs().sum()
             loss3 = (mask * Z).pow(2).sum()
-            print("Batch loss: loss1: {:.5f}, loss2: {:.5f}, loss3: {:.5f}".format(loss1.item(), loss2.item(), loss3.item()))  
+            print("Batch loss: loss1: {:.5f}, loss2: {:.5f}, loss3: {:.5f}".format(loss1.item(), loss2.item(), loss3.item()))
+
+            # # plot loss curves
+            # fig = plt.figure(figsize = (15,5))  
+            # ax = fig.subplots(nrows = 1, ncols = 4)
+            # ax[0].plot(its, losses)
+            # ax[1].plot(its, losses1)
+            # ax[2].plot(its, losses2)
+            # ax[3].plot(its, losses3)
+            # plt.tight_layout()
+
             # store values
             if batch < n_batches - 1:
                 self.thetas[start_idx:end_idx] = Z.detach().cpu().numpy()
@@ -321,7 +418,38 @@ class G_admm_minibatch():
 
             print("Finished running batch {:d}, running time: {:.2f} sec".format(batch, time.time() - start_time))
 
+            # remove target-target if beta > 0
+            if beta > 0:
+                for t, theta in enumerate(self.thetas):
+                    self.thetas[t] = theta * (1 - self.mask[0].detach().cpu().numpy())
+                for t, theta in enumerate(self.thetas):
+                    assert np.sum(theta * self.mask[0].detach().cpu().numpy()) == 0            
+
         return self.thetas
+
+
+def _construct_one_G(theta):
+    ngenes = theta.shape[0]
+    G = np.zeros_like(theta)
+    for i in range(ngenes - 1):
+        for j in range(i+1, ngenes):
+            # inverse transform the precision matrix back to conditional covariance matrix, element 0,1 is the conditional covariance
+            G[i, j] = np.linalg.pinv(theta[np.ix_([i,j], [i,j])])[0,1]
+            G[j, i] = G[i, j]
+    return G[None,:,:]
+
+def construct_weighted_G(thetas, ncpus = 8):
+    print("Construct conditional covariance matrix...")
+    ntimes = thetas.shape[0]
+    ngenes = thetas.shape[1]
+    pool = Pool(ncpus)
+
+    Gs = pool.map(_construct_one_G, [theta for theta in thetas])
+    pool.close()
+    pool.join()    
+    Gs = np.concatenate(Gs, axis = 0)
+    print("Done.")
+    return Gs
 
 
 '''
