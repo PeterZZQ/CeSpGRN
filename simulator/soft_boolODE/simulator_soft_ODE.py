@@ -397,7 +397,7 @@ def soft_boolODE(G, xt, argdict):
     """\
     Description:
     -------------
-        Generate gene expression based on Hill activation function. Only consider activator with "or" condition
+        Generate gene expression based on Hill activation function. Do not consider the joint effect when multiple tf bind
         
     Parameter:
     -------------

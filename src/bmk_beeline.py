@@ -34,7 +34,11 @@ def NMSE(G_inf, G_true):
     ------------
         Normalized Mean Square Error, in GLAD paper, used for two real value matrices
     """
-    return ((G_inf - G_true) ** 2).sum()/(G_true ** 2).sum()
+    # return ((G_inf - G_true) ** 2).sum()/(G_true ** 2).sum()
+    G_inf_norm = np.sign(G_inf) * (np.abs(G_inf)/np.max(np.abs(G_inf)))
+    G_true_norm = np.sign(G_true) * (np.abs(G_true)/np.max(np.abs(G_true)))
+    return ((G_inf_norm - G_true_norm) ** 2).sum()
+
 
 def PS(G_inf, G_true):
     """\
@@ -83,7 +87,8 @@ def compute_auc_signed(G_inf, G_true):
     estm_pos[np.where(estm_pos < 0)] = 0
     # binarize
     gt_pos = (gt_pos > 1e-6).astype(int)
-    estm_pos = (estm_pos - np.min(estm_pos))/(np.max(estm_pos) - np.min(estm_pos) + 1e-12)
+    # estm_pos = (estm_pos - np.min(estm_pos))/(np.max(estm_pos) - np.min(estm_pos) + 1e-12)
+    estm_pos = estm_pos/(np.max(estm_pos) + 1e-12)
     _, _, _, _, AUPRC_pos, AUROC_pos, _ = _compute_auc(estm_pos, gt_pos)
 
     gt_neg = G_true.copy()
@@ -93,7 +98,8 @@ def compute_auc_signed(G_inf, G_true):
     # binarize
     gt_neg = (gt_neg < -1e-6).astype(int)
     estm_neg = - estm_neg
-    estm_neg = (estm_neg - np.min(estm_neg))/(np.max(estm_neg) - np.min(estm_neg) + 1e-12)
+    # estm_neg = (estm_neg - np.min(estm_neg))/(np.max(estm_neg) - np.min(estm_neg) + 1e-12)
+    estm_neg = estm_neg/(np.max(estm_neg) + 1e-12)
     _, _, _, _, AUPRC_neg, AUROC_neg, _ = _compute_auc(estm_neg, gt_neg)
 
     return AUPRC_pos, AUPRC_neg
@@ -104,7 +110,8 @@ def compute_auc_abs(G_inf, G_true):
     G_inf_abs = np.abs(G_inf)
     G_true_abs = np.abs(G_true)
     G_true_abs = (G_true_abs > 1e-6).astype(int)
-    G_inf_abs = (G_inf_abs - np.min(G_inf_abs))/(np.max(G_inf_abs) - np.min(G_inf_abs) + 1e-12)
+    # G_inf_abs = (G_inf_abs - np.min(G_inf_abs))/(np.max(G_inf_abs) - np.min(G_inf_abs) + 1e-12)
+    G_inf_abs = G_inf_abs/np.max(G_inf_abs)
     _, _, _, _, AUPRC, AUROC, _ = _compute_auc(G_inf_abs, G_true_abs)
     return AUPRC
 
@@ -483,7 +490,6 @@ def compute_eprec_signed(G_inf, G_true):
     estm_pos[np.where(estm_pos < 0)] = 0
     # binarize
     gt_pos = (gt_pos > 1e-6).astype(int)
-    estm_pos = (estm_pos - np.min(estm_pos))/(np.max(estm_pos) - np.min(estm_pos) + 1e-12)
     Eprec_pos, Erec_pos = compute_earlyprec(estm_pos, gt_pos)
 
     gt_neg = G_true.copy()
@@ -493,7 +499,6 @@ def compute_eprec_signed(G_inf, G_true):
     # binarize
     gt_neg = (gt_neg < -1e-6).astype(int)
     estm_neg = - estm_neg
-    estm_neg = (estm_neg - np.min(estm_neg))/(np.max(estm_neg) - np.min(estm_neg) + 1e-12)
     Eprec_neg, Erec_neg = compute_earlyprec(estm_neg, gt_neg)
 
     return Eprec_pos, Eprec_neg
@@ -504,6 +509,5 @@ def compute_eprec_abs(G_inf, G_true):
     G_inf_abs = np.abs(G_inf)
     G_true_abs = np.abs(G_true)
     G_true_abs = (G_true_abs > 1e-6).astype(int)
-    G_inf_abs = (G_inf_abs - np.min(G_inf_abs))/(np.max(G_inf_abs) - np.min(G_inf_abs) + 1e-12)
     Eprec, Erec = compute_earlyprec(G_inf_abs, G_true_abs)
     return Eprec

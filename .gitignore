@@ -16,4 +16,5 @@ simulator/boolODE
 simulator/linearODE
 **/*.err
 **/*.out
+**/_*
 test/scripts_mESC/slingshot_script.R

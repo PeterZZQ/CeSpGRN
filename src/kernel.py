@@ -2,6 +2,55 @@ import numpy as np
 from scipy.spatial.distance import pdist, squareform
 import networkx as nx
 
+
+def calc_kernel_neigh_fast(X, k = 100, bandwidth = 10):
+    """\
+    Description:
+    -------------
+        Caculate the similarity kernel using gene expression data
+    Parameter:
+    -------------
+        X: gene expression data
+        k: the number of nearest neighbor
+        bandwidth: the bandwidth of the gaussian kernel function
+    Return:
+    --------------
+        K_trun: the truncated weighted kernel function
+    """
+    # calculate pairwise distance
+    D = squareform(pdist(X))
+    for k in range(k, D.shape[0]):
+        # calculate the knn graph from pairwise distance
+        knn_index = np.argpartition(D, kth = k - 1, axis=1)[:, (k-1)]
+        # find the value of the k-th distance
+        kth_dist = np.take_along_axis(D, knn_index[:,None], axis = 1)
+        # construct KNN graph
+        knn = (D <= kth_dist)
+        # make the graph symmetric
+        knn = ((knn + knn.T) > 0).astype(np.int)
+        # knn = knn * knn.T
+        # construct nextworkx graph from weighted knn graph, should make sure the G is connected
+        G = nx.from_numpy_array(D * knn)
+        # make sure that G is undirected
+        assert ~nx.is_directed(G)
+        # break while loop if connected
+        if nx.is_connected(G):
+            break
+        else:
+            k += 1
+        print("number of nearest neighbor: " + str(k))
+    D = D * (knn > 0)
+    assert np.max(D) < np.inf
+    # scale the distance to between 0 and 1, similar to time-series kernel, values are still too large
+    D = D/np.max(D)
+    # calculate the bandwidth used in Gaussian kernel function
+    mdis = 0.5 * bandwidth * np.median(D[D > 0])
+    print(mdis)    
+    # transform the distances into similarity kernel value, better remove the identity, which is too large
+    K = np.exp(-(D ** 2)/mdis) # + np.identity(D.shape[0])
+    K_trun = K * ((D > 0) + np.identity(D.shape[0]))
+    return K_trun
+
 def calc_kernel_neigh(X, k = 5, bandwidth = 1, truncate = False, truncate_param = 30):
     """\
     Description:
@@ -12,7 +61,7 @@ def calc_kernel_neigh(X, k = 5, bandwidth = 1, truncate = False, truncate_param 
         X: gene expression data
         k: the number of nearest neighbor
         bandwidth: the bandwidth of gaussian kernel function
-        truncate: truncate out small values in Gaussian kernel function or not
+        truncate_param: number of neighbors to be included for the truncate parameter
     Return:
     ------------
         K: the weighted kernel function, the sum of each row is normalized to 1
@@ -72,9 +121,9 @@ def calc_kernel(X, k = 5, bandwidth = 1, truncate = False, truncate_param = 1):
     Parameter:
     ------------
         X: gene expression data
-        k: the number of nearest neighbor
+        k: the number of nearest neighbor to start search
         bandwidth: the bandwidth of gaussian kernel function
-        truncate: truncate out small values in Gaussian kernel function or not
+        truncate_param: truncate out small values in Gaussian kernel function or not
     Return:
     ------------
         K: the weighted kernel function, the sum of each row is normalized to 1
@@ -105,11 +154,11 @@ def calc_kernel(X, k = 5, bandwidth = 1, truncate = False, truncate_param = 1):
 
     print("final number of nearest neighbor (make connected): " + str(k))
     # return a matrix of shortest path distances between nodes. Inf if no distances between nodes (should be no Inf, because the graph is connected)
-    D = nx.floyd_warshall_numpy(G)
+    D = np.array(nx.floyd_warshall_numpy(G))
     assert np.max(D) < np.inf
     # scale the distance to between 0 and 1, similar to time-series kernel, values are still too large
     D = D/np.max(D)
-    # calculate the bandwidth used in Gaussian kernel function
+    # calculate the bandwidth used in Gaussian kernel function, 2sigma^2
     mdis = 0.5 * bandwidth * np.median(D)    
     # transform the distances into similarity kernel value, better remove the identity, which is too large
     K = np.exp(-(D ** 2)/mdis) # + np.identity(D.shape[0])
@@ -117,6 +166,7 @@ def calc_kernel(X, k = 5, bandwidth = 1, truncate = False, truncate_param = 1):
     if truncate == True:
         print(mdis)
         print(np.sqrt(mdis))
+        # cutoff depend on the sigma
         cutoff = np.sqrt(mdis) * truncate_param
         mask = (D < cutoff).astype(np.int)
         K_trun = K * mask
