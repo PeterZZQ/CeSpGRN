@@ -111,7 +111,7 @@ def compute_auc_abs(G_inf, G_true):
     G_true_abs = np.abs(G_true)
     G_true_abs = (G_true_abs > 1e-6).astype(int)
     # G_inf_abs = (G_inf_abs - np.min(G_inf_abs))/(np.max(G_inf_abs) - np.min(G_inf_abs) + 1e-12)
-    G_inf_abs = G_inf_abs/np.max(G_inf_abs)
+    G_inf_abs = G_inf_abs/(np.max(G_inf_abs) + 1e-6)
     _, _, _, _, AUPRC, AUROC, _ = _compute_auc(G_inf_abs, G_true_abs)
     return AUPRC
 
@@ -133,8 +133,7 @@ def _compute_auc(estm_adj, gt_adj):
         tpr: true positive rate
         AUPRC, AUROC
     """
-    
-    if np.max(estm_adj) == 0:
+    if np.max(estm_adj) < 1e-6:
         return 0, 0, 0, 0, 0, 0, 0
     else:
         # show warning if no positive values in y_true
@@ -384,14 +383,14 @@ def compute_earlyprec(estm_adj, gt_adj, directed = False, TFEdges = False):
         rows, cols = np.where(gt_adj != 0)
 
         trueEdgesDF = pd.DataFrame(columns = ["Gene1", "Gene2", "EdgeWeight"])
-        trueEdgesDF.Gene1 = np.array([str(x) for x in rows], dtype = np.object)
-        trueEdgesDF.Gene2 = np.array([str(y) for y in cols], dtype = np.object)
+        trueEdgesDF.Gene1 = np.array([str(x) for x in rows], dtype = object)
+        trueEdgesDF.Gene2 = np.array([str(y) for y in cols], dtype = object)
         trueEdgesDF.EdgeWeight = 1
 
         rows, cols = np.where(estm_norm_adj != 0)
         predEdgeDF = pd.DataFrame(columns = ["Gene1", "Gene2", "EdgeWeight"])
-        predEdgeDF.Gene1 = np.array([str(x) for x in rows], dtype = np.object)
-        predEdgeDF.Gene2 = np.array([str(y) for y in cols], dtype = np.object)
+        predEdgeDF.Gene1 = np.array([str(x) for x in rows], dtype = object)
+        predEdgeDF.Gene2 = np.array([str(y) for y in cols], dtype = object)
         predEdgeDF.EdgeWeight = np.array([estm_norm_adj[i,j] for i,j in zip(rows,cols)])
 
         # order according to ranks

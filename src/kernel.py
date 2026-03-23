@@ -27,7 +27,7 @@ def calc_kernel_neigh_fast(X, k = 100, bandwidth = 10):
         # construct KNN graph
         knn = (D <= kth_dist)
         # make the graph symmetric
-        knn = ((knn + knn.T) > 0).astype(np.int)
+        knn = ((knn + knn.T) > 0).astype(int)
         # knn = knn * knn.T
         # construct nextworkx graph from weighted knn graph, should make sure the G is connected
         G = nx.from_numpy_array(D * knn)
@@ -77,7 +77,7 @@ def calc_kernel_neigh(X, k = 5, bandwidth = 1, truncate = False, truncate_param 
         # construct KNN graph
         knn = (D <= kth_dist)
         # make the graph symmetric
-        knn = ((knn + knn.T) > 0).astype(np.int)
+        knn = ((knn + knn.T) > 0).astype(int)
         # knn = knn * knn.T
         # construct nextworkx graph from weighted knn graph, should make sure the G is connected
         G = nx.from_numpy_array(D * knn)
@@ -105,7 +105,7 @@ def calc_kernel_neigh(X, k = 5, bandwidth = 1, truncate = False, truncate_param 
         # trancate with the number of neighbors
         knn_index = np.argpartition(- K, kth = truncate_param - 1, axis=1)[:, (truncate_param-1)]
         kth_dist = np.take_along_axis(K, knn_index[:,None], axis = 1)
-        mask = (K >= kth_dist).astype(np.int)
+        mask = (K >= kth_dist).astype(int)
         K_trun = K * mask
     else:
         K_trun = None
@@ -139,7 +139,7 @@ def calc_kernel(X, k = 5, bandwidth = 1, truncate = False, truncate_param = 1):
         # construct KNN graph
         knn = (D <= kth_dist)
         # make the graph symmetric
-        knn = ((knn + knn.T) > 0).astype(np.int)
+        knn = ((knn + knn.T) > 0).astype(int)
         # knn = knn * knn.T
         # construct nextworkx graph from weighted knn graph, should make sure the G is connected
         G = nx.from_numpy_array(D * knn)
@@ -168,7 +168,7 @@ def calc_kernel(X, k = 5, bandwidth = 1, truncate = False, truncate_param = 1):
         print(np.sqrt(mdis))
         # cutoff depend on the sigma
         cutoff = np.sqrt(mdis) * truncate_param
-        mask = (D < cutoff).astype(np.int)
+        mask = (D < cutoff).astype(int)
         K_trun = K * mask
     else:
         K_trun = None
@@ -204,7 +204,7 @@ def kernel_band(bandwidth, ntimes, truncate=False):
     # if truncate the function
     if truncate == True:
         cutoff = mdis * 1.5
-        mask = (squareform(D) < cutoff).astype(np.int)
+        mask = (squareform(D) < cutoff).astype(int)
         K_trun = K * mask
     return K/np.sum(K, axis=1)[:, None], K_trun/np.sum(K_trun, axis = 1)[:, None]
 
@@ -269,7 +269,7 @@ def calc_diffu_kernel(X, t = 10, k = 10, n_eign = None, bandwidth = 1, truncate 
     # if truncate the function
     if truncate == True:
         cutoff = mdis * 1.5
-        mask = (M < cutoff).astype(np.int)
+        mask = (M < cutoff).astype(int)
         K_trun = K * mask
     else:
         K_trun = None
@@ -318,7 +318,7 @@ def calc_diffu_kernel2(X, k = 10, bandwidth = 1, truncate = False):
     # if truncate the function
     if truncate == True:
         cutoff = mdis * 1.5
-        mask = (M < cutoff).astype(np.int)
+        mask = (M < cutoff).astype(int)
         K_trun = K * mask
     else:
         K_trun = None

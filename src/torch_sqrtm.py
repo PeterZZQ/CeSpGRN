@@ -13,7 +13,7 @@ class MatrixSquareRoot(Function):
     @staticmethod
     def forward(ctx, input):
         #m = input.numpy().astype(np.float_)
-        m = input.detach().cpu().numpy().astype(np.float_)
+        m = input.detach().cpu().numpy().astype(np.float64)
         sqrtm = torch.from_numpy(scipy.linalg.sqrtm(m).real)#.type_as(input)
         ctx.save_for_backward(sqrtm) # save in cpu
         sqrtm = sqrtm.type_as(input)
@@ -26,9 +26,9 @@ class MatrixSquareRoot(Function):
             #sqrtm, = ctx.saved_variables
             sqrtm, = ctx.saved_tensors
             #sqrtm = sqrtm.data.numpy().astype(np.float_)
-            sqrtm = sqrtm.data.numpy().astype(np.float_)
+            sqrtm = sqrtm.data.numpy().astype(np.float64)
             #gm = grad_output.data.numpy().astype(np.float_)
-            gm = grad_output.data.cpu().numpy().astype(np.float_)
+            gm = grad_output.data.cpu().numpy().astype(np.float64)
 #            gm = np.eye(grad_output.shape[-1])
             grad_sqrtm = scipy.linalg.solve_sylvester(sqrtm, sqrtm, gm)
 
@@ -59,7 +59,7 @@ def single_main():
 
     #sqrtm_scipy = np.zeros_like(A)
     print('err: ', pd_mat)
-    sqrtm_scipy = scipy.linalg.sqrtm(pd_mat.detach().numpy().astype(np.float_))
+    sqrtm_scipy = scipy.linalg.sqrtm(pd_mat.detach().numpy().astype(np.float64))
 #    for i in range(n):
 #        sqrtm_scipy[i] = sqrtm(pd_mat[i].detach().numpy())
     sqrtm_torch = sqrtm(pd_mat)
