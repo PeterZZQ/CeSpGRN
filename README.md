@@ -4,7 +4,7 @@
 
 Developed by Ziqi Zhang, Jongseok Han
 
-**Preprint:** available soon
+**Preprint:** [CeSpGRN: Inferring cell-specific gene regulatory networks from single cell multi-omics and spatial data](https://www.biorxiv.org/content/10.1101/2022.03.03.482887v3.full)
 
 ## Description
 CeSpGRN is a package that is able to infer cell specific GRN using single-cell gene expression data
